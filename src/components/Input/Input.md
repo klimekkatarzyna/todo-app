@@ -9,7 +9,7 @@ const Wrapper = styled.div`
 `;
 
 <Wrapper>
-    <Input isIcon={true} type={InputType.dark} placeholder={'name'}></Input>
+    <Input isIcon={true} type={InputType.primary} placeholder={'name'}></Input>
 </Wrapper>
 ```
 
@@ -23,6 +23,6 @@ const Wrapper = styled.div`
     background-color: ${COLOURS.grey};
 `;
 <Wrapper>
-    <Input isIcon={true} type={InputType.light} placeholder={'name'}></Input>
+    <Input isIcon={true} type={InputType.secondary} placeholder={'name'}></Input>
 </Wrapper>
 ```

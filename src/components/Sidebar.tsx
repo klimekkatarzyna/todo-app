@@ -1,13 +1,12 @@
 import React, { FC } from "react";
 import styled from 'styled-components';
 import { COLOURS } from "../constants";
-import { CreateListElement } from "../CreateListElement";
-import { Input } from "./Input/Input";
+import { CreateListItem } from "./CreateListItem";
 import { MainList } from "./MainList/MainList";
 
 const Wrapper = styled.div`
     display: flex;
-    background-color: ${COLOURS.darkGrey};
+    background-color: ${COLOURS.lightGrey};
     flex-direction: column;
     height: 100%;
     padding: 1rem 0;
@@ -22,10 +21,11 @@ export const Sidebar: FC<ISidebar> = () => {
     return (
         <Wrapper>
             {/*TODO: search*/}
+            {'<'}
             <MainList />
             {/*TODO: list od added lists or groups*/}
             {/*TODO: input to add lists or groups */}
-            <CreateListElement />
+            <CreateListItem />
         </Wrapper>
     )
 }

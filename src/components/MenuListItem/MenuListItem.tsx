@@ -2,18 +2,15 @@ import React, { FC } from "react";
 import { Share } from '@styled-icons/feather/Share';
 import { List } from '@styled-icons/feather/List';
 import styled from 'styled-components';
-import { COLOURS } from "../../constants";
+import { COLOURS, IconWrapper } from "../../constants";
 
-const Wrapper = styled.div<{ color: string | undefined }>`
+const Wrapper = styled.div`
     display: flex;
     align-items: center;
     padding: 0.3rem 1rem;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     cursor: pointer;
     > svg {
-        width: 1.2rem;
-        height: 1.2rem;
-        color: ${props => props.color || `${COLOURS.blue}`};
         margin-right: 0.5rem;
     }
 `;
@@ -24,22 +21,22 @@ const TasksNumber = styled.div`
 `;
 
 const Name = styled.div`
-    color: ${COLOURS.white};
+    color: ${COLOURS.fontColor};
 `;
 
 interface IMenuListIte  {
     name: string;
     isShared?: boolean;
     tasksNumber?: number;
-    icon?: unknown;
+    icon?: React.ReactNode;
     colorType?: string | undefined;
 }
 
 export const MenuListItem: FC<IMenuListIte > = ({ icon, name, isShared = false, tasksNumber, colorType  }) => {
     // TODO: handle themes 
     return (
-        <Wrapper color={colorType}>
-            {icon || <List />}
+        <Wrapper>
+            <IconWrapper color={colorType || COLOURS.blue}>{icon || <List />}</IconWrapper>
             <Name>{name}</Name>
             {isShared && <Share />}
             {tasksNumber && <TasksNumber>{tasksNumber}</TasksNumber>}

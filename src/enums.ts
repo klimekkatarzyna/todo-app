@@ -1,4 +1,4 @@
 export enum InputType {
-    dark = 'dark',
-    light = 'light'
+    primary = 'primary',
+    secondary = 'secondary'
 }
