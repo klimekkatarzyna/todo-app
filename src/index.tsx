@@ -4,13 +4,13 @@ import { createGlobalStyle } from 'styled-components';
 import App from './App';
 
 const GlobalStyle = createGlobalStyle`
-    body {
+    html, body {
         margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-            'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-            sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+        font-size: 1rem;
+        height: 100%;
     }
 
     code {
