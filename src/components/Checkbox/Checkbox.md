@@ -2,16 +2,12 @@ Checkbox
 ```js
 import { COLOURS } from '../../constants';
 
-<Checkbox round={true} color={COLOURS.blue} disabled={false} name={'asdf'}>
-    {'aaa'}
-</Checkbox>
+<Checkbox round={true} color={'blue'} disabled={false} name={'asdf'} />
 ```
 
 Checkbox checked
 ```js
 import { COLOURS } from '../../constants';
 
-<Checkbox round={true} color={COLOURS.blue} disabled={false} name={'asdf'} checked>
-    {'aaa'}
-</Checkbox>
+<Checkbox round={true} color={'blue'} disabled={false} name={'asdf'} checked />
 ```

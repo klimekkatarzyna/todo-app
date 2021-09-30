@@ -1,6 +1,5 @@
 import React, { FC } from "react";
 import styled from 'styled-components';
-import { COLOURS } from "../constants";
 import bg from '../assets/default.jpeg';
 
 const Wrapper = styled.div`

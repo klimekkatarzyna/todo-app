@@ -1,4 +1,0 @@
-Created item
-```js
-<CreatedItem>
-```

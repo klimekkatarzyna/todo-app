@@ -2,11 +2,18 @@ import React, { FC } from 'react';
 import styled, { css } from 'styled-components';
 import { COLOURS } from '../../constants';
 
-const TooltipWrapper = styled.div<{ position: 'top' | 'bottom' }>`
-    max-width: 100px;
+const TooltipWrapper = styled.div<{ position: 'top' | 'bottom', display: boolean }>`
+    //max-width: 100px;
     position: relative;
     justify-content: center;
-    display: flex;
+    display: none;
+    position: absolute;
+    font-size: 0.8rem;
+
+    ${props => props.display && css`
+        display: flex;
+        top: -45px;
+    `};
 
     &:after {
         content: '';
@@ -43,12 +50,13 @@ const TooltipBody = styled.div`
 interface ITooltip {
     children: React.ReactNode;
     position: 'top' | 'bottom';
+    display: boolean;
 }
 
-const Tooltip: FC<ITooltip> = ({ children, position }) => {
+const Tooltip: FC<ITooltip> = ({ children, position, display }) => {
     // TODO: position of all tooltip
     return (
-        <TooltipWrapper position={position}>
+        <TooltipWrapper position={position} display={display}>
             <TooltipBody>
                 {children}
             </TooltipBody>

@@ -77,10 +77,10 @@ const CheckboxWrapper = styled.div<CheckboxWrapperProps>`
             content: "";
             position: absolute;
             display: none;
-            left: 4px;
-            top: 1px;
-            width: 5px;
-            height: 10px;
+            left: 6px;
+            top: 2px;
+            width: 2px;
+            height: 7px;
             border: solid ${COLOURS.white};
             border-width: 0 2px 2px 0;
             transform: rotate(45deg);
@@ -110,10 +110,11 @@ interface CheckboxProps {
 }
 
 const Checkbox: FC<CheckboxProps> = ({ round, color, disabled, name, checked, onChange, id, key, children }) => {
+    // TODO: formik implementation
     return (
         <CheckboxWrapper round={round} color={color || 'blue'} disabled={disabled}>
             <label>
-                <input type="checkbox" name={name || 'abcd'} checked={!!checked} onChange={onChange} id={id} key={key} disabled={disabled} />
+                <input type="checkbox" name={name} checked={!!checked} onChange={onChange} id={id} key={key} disabled={disabled} />
                 <span />
                 {children && <Label>{children}</Label>}
             </label>

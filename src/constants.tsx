@@ -1,8 +1,9 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const COLOURS = {
     darkGrey: '#383636',
+    darkerGrey: '#767678',
     grey: '#505050',
     lightGrey: '#f4f4f4',
     blue: '#8ea0ff',
@@ -13,10 +14,20 @@ export const COLOURS = {
     fontColor: '#34373d'
 }
 
-export const IconWrapper = styled.div<{ color: string, children: React.ReactNode }>`
+interface IIconWrapper {
+    color: string;
+    children: React.ReactNode;
+    isChecked?: boolean;
+}
+
+export const IconWrapper = styled.div<IIconWrapper>`
     > svg {
         width: 1.2rem;
         height: 1.2rem;
         color: ${props => props.color ? props.color : `${COLOURS.fontColor}`};
+        ${props => props.isChecked && css`
+            fill: ${props.color};
+            stroke: ${props.color};
+        `};
     }
 `;
