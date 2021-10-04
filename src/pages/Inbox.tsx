@@ -2,12 +2,12 @@ import React from 'react';
 import { Board } from '../components/Board';
 import Toolbar from '../components/Toolbar';
 
-const Planned = () => {
+const Inbox = () => {
     return (
         <Board>
-            <Toolbar name={'Zaplanowane'} colorType={'blue'} />
+            <Toolbar name={'Zadania'} colorType={'red'} />
         </Board>
     );
 };
 
-export default Planned;
+export default Inbox;

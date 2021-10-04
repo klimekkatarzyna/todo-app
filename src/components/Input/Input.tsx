@@ -51,10 +51,8 @@ export const Input: FC<IInput> = ({ isIcon = true, placeholder = '', type }) => 
 
     return (
         <Wrapper type={type} inputFocused={inputFocused}>
-            {(isIcon && inputFocused) ? (
-                <IconWrapper color={iconColor}><Circle/></IconWrapper>
-            ) : (
-                <IconWrapper color={iconColor}><Plus /></IconWrapper>
+            {isIcon && (
+                <IconWrapper color={iconColor}>{inputFocused ? <Circle/> : <Plus />}</IconWrapper>
             )}
             <InputStyled
                 type={type}

@@ -29,7 +29,7 @@ export const MainList: FC<IMainList> = () => {
         tasksNumber: undefined,
         icon: <Sun />,
         color: COLOURS.fontColor,
-        url: 'myday'
+        url: 'my_day'
     }, {
         type: IListItemType.IMPORTANT,
         name: 'Wazne',

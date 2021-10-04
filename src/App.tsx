@@ -11,6 +11,8 @@ import MyDay from './pages/MyDay';
 import Important from './pages/Important';
 import Planned from './pages/Planned';
 import { Sidebar } from './components/Sidebar';
+import Inbox from './pages/Inbox';
+import Assigned from './pages/Assigned';
 
 const Wrapper = styled.div`
     display: flex;
@@ -56,7 +58,7 @@ const App: FC = (props) => {
                         <Route exact path="/">
                             <MyDay />
                         </Route>
-                        <Route exact path="/myday">
+                        <Route exact path="/my_day">
                             <MyDay />
                         </Route>
                         <Route path="/important">
@@ -64,6 +66,12 @@ const App: FC = (props) => {
                         </Route>
                         <Route path="/planned">
                             <Planned />
+                        </Route>
+                        <Route path="/assigned_to_me">
+                            <Assigned />
+                        </Route>
+                        <Route path="/inbox">
+                            <Inbox />
                         </Route>
                     </Switch>
                 </Router>

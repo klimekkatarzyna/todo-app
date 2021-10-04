@@ -6,7 +6,7 @@ const Important: FC = () => {
 
     return (
         <Board>
-            <Toolbar name={'Wazne'} />
+            <Toolbar name={'Wazne'} colorType={'blue'} />
         </Board>
     );
 }

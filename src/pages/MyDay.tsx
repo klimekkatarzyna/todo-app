@@ -2,7 +2,6 @@ import React, { FC, useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { Board } from '../components/Board';
 import Toolbar from '../components/Toolbar';
-import { SideMenuType } from '../enums';
 
 const Body = styled.div`
     flex: 1;
@@ -15,7 +14,7 @@ const MyDay: FC = () => {
 
     return (
         <Board>
-            <Toolbar name={'Mój dzień'} viewType={SideMenuType.myDay} />
+            <Toolbar name={'Mój dzień'} colorType={'grey'} />
             <Body>
 
             </Body>
