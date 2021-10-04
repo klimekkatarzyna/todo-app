@@ -6853,6 +6853,13 @@ history@^4.9.0:
     tiny-warning "^1.0.0"
     value-equal "^1.0.1"
 
+history@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/history/-/history-5.0.1.tgz#de35025ed08bce0db62364b47ebbf9d97b5eb06a"
+  integrity sha512-5qC/tFUKfVci5kzgRxZxN5Mf1CV8NmJx9ByaPX0YTLx5Vz3Svh7NYp6eA4CpDq4iA9D0C1t8BNIfvQIrUI3mVw==
+  dependencies:
+    "@babel/runtime" "^7.7.6"
+
 hmac-drbg@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/hmac-drbg/-/hmac-drbg-1.0.1.tgz#d2745701025a6c775a6c545793ed502fc0c649a1"
@@ -11791,6 +11798,14 @@ react-styleguidist@^11.1.7:
     unist-util-visit "^2.0.0"
     webpack-dev-server "^3.11.0"
     webpack-merge "^4.2.2"
+
+react-universal-component@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/react-universal-component/-/react-universal-component-4.5.0.tgz#8722db134e0297bca879321df9d76ce0b2d830b4"
+  integrity sha512-dBUC6afvSAQhDcE4oh1eTmfU29W0O2eZhcGXnfGUTulXkU8ejuWqlJWXXrSMx5iV1H6LNgj2NJMj3BtBMfBNhA==
+  dependencies:
+    hoist-non-react-statics "^3.3.0"
+    prop-types "^15.7.2"
 
 react@^17.0.2:
   version "17.0.2"

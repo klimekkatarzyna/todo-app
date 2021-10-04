@@ -1,8 +1,10 @@
 import React, { FC } from "react";
+import { Link } from "react-router-dom";
 import { Share } from '@styled-icons/feather/Share';
 import { List } from '@styled-icons/feather/List';
 import styled from 'styled-components';
 import { COLOURS, IconWrapper } from "../../constants";
+import { IListItem } from "../../interfaces";
 
 const Wrapper = styled.div`
     display: flex;
@@ -24,22 +26,21 @@ const Name = styled.div`
     color: ${COLOURS.fontColor};
 `;
 
-interface IMenuListIte  {
-    name: string;
+interface IMenuListItem  {
+    listItem: IListItem;
     isShared?: boolean;
-    tasksNumber?: number;
-    icon?: React.ReactNode;
-    colorType?: string | undefined;
 }
 
-export const MenuListItem: FC<IMenuListIte > = ({ icon, name, isShared = false, tasksNumber, colorType  }) => {
+export const MenuListItem: FC<IMenuListItem > = ({ isShared = false, listItem }) => {
     // TODO: handle themes 
     return (
         <Wrapper>
-            <IconWrapper color={colorType || COLOURS.blue}>{icon || <List />}</IconWrapper>
-            <Name>{name}</Name>
+            <IconWrapper color={listItem?.color || COLOURS.blue}>{listItem.icon || <List />}</IconWrapper>
+            <Name>
+                <Link to={listItem?.url || ''}>{listItem?.name}</Link>
+            </Name>
             {isShared && <Share />}
-            {tasksNumber && <TasksNumber>{tasksNumber}</TasksNumber>}
+            {listItem?.tasksNumber && <TasksNumber>{listItem?.tasksNumber}</TasksNumber>}
         </Wrapper>
     )
 }

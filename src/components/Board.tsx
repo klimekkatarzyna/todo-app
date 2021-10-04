@@ -3,34 +3,20 @@ import styled from 'styled-components';
 import bg from '../assets/default.jpeg';
 
 const Wrapper = styled.div`
-    display: flex;
-    padding: 1rem 0;
-    width: 100%;
-    height: 100%;
+    padding: 2rem;
     position: relative;
+    flex: 1 1 0px;
+    display: flex;
+    flex-direction: column;
 `;
-
-const Background = styled.div`
-    background: url('${bg}');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 100vh;
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: 0;
-`;
-
 interface IBoard {
-
+    children: React.ReactNode;
 }
 
-export const Board: FC<IBoard> = () => {
+export const Board: FC<IBoard> = ({ children }) => {
     return (
         <Wrapper>
-            <Background />
+            {children}
         </Wrapper>
     )
 }

@@ -101,7 +101,6 @@ const Label = styled.div`
 interface CheckboxProps {
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
     checked?: boolean;
-    name?: string;
     id?: string;
     key?: string;
     round?: boolean;
@@ -109,12 +108,12 @@ interface CheckboxProps {
     disabled?: boolean;
 }
 
-const Checkbox: FC<CheckboxProps> = ({ round, color, disabled, name, checked, onChange, id, key, children }) => {
+const Checkbox: FC<CheckboxProps> = ({ round, color, disabled, checked, onChange, id, key, children }) => {
     // TODO: formik implementation
     return (
         <CheckboxWrapper round={round} color={color || 'blue'} disabled={disabled}>
             <label>
-                <input type="checkbox" name={name} checked={!!checked} onChange={onChange} id={id} key={key} disabled={disabled} />
+                <input type="checkbox" checked={!!checked} onChange={onChange} id={id} key={key} disabled={disabled} />
                 <span />
                 {children && <Label>{children}</Label>}
             </label>

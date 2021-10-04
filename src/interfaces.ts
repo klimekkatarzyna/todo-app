@@ -1,4 +1,5 @@
 import { ReactElement } from 'react';
+import { ContextualMenuOpion } from './enums';
 
 export interface IListItem {
     type: IListItemType;
@@ -6,6 +7,7 @@ export interface IListItem {
     tasksNumber: number | undefined;
     icon: ReactElement;
     color: string;
+    url?: string;
 }
 
 export enum IListItemType {
@@ -14,4 +16,10 @@ export enum IListItemType {
     PLANED = 'PLANED',
     ASSIGNED = 'ASSIGNED',
     TASKS = 'TASKS',
+}
+
+export interface IContextualMenuList {
+    icon: ReactElement;
+    name: string;
+    type: ContextualMenuOpion;
 }

@@ -28,37 +28,42 @@ export const MainList: FC<IMainList> = () => {
         name: 'Mój dzien',
         tasksNumber: undefined,
         icon: <Sun />,
-        color: COLOURS.fontColor
+        color: COLOURS.fontColor,
+        url: 'myday'
     }, {
         type: IListItemType.IMPORTANT,
         name: 'Wazne',
         tasksNumber: undefined,
         icon: <Star />,
-        color: COLOURS.fontColor
+        color: COLOURS.fontColor,
+        url: '/important'
     },  {
         type: IListItemType.PLANED,
         name: 'Zaplanowane',
         tasksNumber: undefined,
         icon: <Calendar />,
-        color: COLOURS.fontColor
+        color: COLOURS.fontColor,
+        url: '/planned'
     },  {
         type: IListItemType.ASSIGNED,
         name: 'Przydzielone dla Ciebie',
         tasksNumber: undefined,
         icon: <User />,
-        color: COLOURS.green
+        color: COLOURS.green,
+        url: '/assigned_to_me'
     },  {
         type: IListItemType.TASKS,
         name: 'Zadania',
         tasksNumber: undefined,
         icon: <Home />,
-        color: COLOURS.red
+        color: COLOURS.red,
+        url: '/inbox'
     }];
 
     return (
         <Wrapper>
             {mainList.map((listItem: IListItem) => (
-                <MenuListItem name={listItem.name} icon={listItem.icon} tasksNumber={listItem.tasksNumber} colorType={listItem.color} />
+                <MenuListItem listItem={listItem} />
             ))}
             <Border />
         </Wrapper>

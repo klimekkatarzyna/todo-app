@@ -1,27 +1,35 @@
 Item with number
 ```js
-import styled from 'styled-components';
+import { Sun } from '@styled-icons/feather/Sun';
 import { COLOURS } from "../../constants";
+import { IListItem, IListItemType } from '../../interfaces';
 
-const Wrapper = styled.div`
-    background-color: ${COLOURS.grey};
-`;
-<Wrapper>
-    <MenuListItem name={'Do ogarnięcia'} tasksNumber={3} />
- </Wrapper>
+const mainList = [{
+    type: IListItemType.MY_DAY,
+    name: 'Mój dzien',
+    tasksNumber: undefined,
+    icon: <Sun />,
+    color: COLOURS.fontColor,
+    url: 'myday'
+}];
+
+<MenuListItem listItem={mainList} />
 ```
 
 Item with custom icon and color
 ```js
 import { COLOURS } from "../../constants";
-import styled from 'styled-components';
 import { Sun } from '@styled-icons/feather/Sun';
+import { IListItem, IListItemType } from '../../interfaces';
 
-const Wrapper = styled.div`
-    background-color: ${COLOURS.grey};
-`;
+const mainList = [{
+    type: IListItemType.MY_DAY,
+    name: 'Mój dzien',
+    tasksNumber: 3,
+    icon: <Sun />,
+    color: COLOURS.fontColor,
+    url: 'myday'
+}];
 
-<Wrapper>
-    <MenuListItem name={'Do ogarnięcia'} icon={<Sun />} colorType={COLOURS.yellow}/>
-</Wrapper>
+<MenuListItem listItem={mainList} />
 ```

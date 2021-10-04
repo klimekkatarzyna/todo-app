@@ -11,6 +11,8 @@ const Wrapper = styled.div`
     height: 100%;
     padding: 1rem 0;
     min-width: 250px;
+    width: 50px;
+    transition: width 180ms ease;
 `;
 
 interface ISidebar {

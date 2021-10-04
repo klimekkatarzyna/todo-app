@@ -1,27 +1,15 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { createGlobalStyle } from 'styled-components';
+import { render } from 'react-dom';
+import { Router } from 'react-router-dom';
 import App from './App';
+import history from './history';
+import { History } from 'history';
 
-const GlobalStyle = createGlobalStyle`
-    html, body {
-        margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        font-size: 1rem;
-        height: 100%;
-    }
-
-    code {
-        font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-    }
-`
-
-ReactDOM.render(
+render(
     <React.StrictMode>
-        <GlobalStyle />
-        <App />
+        <Router history={history as History}>
+            <App />
+        </Router>
     </React.StrictMode>,
     document.getElementById('root')
 );

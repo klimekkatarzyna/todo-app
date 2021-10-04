@@ -1,5 +1,15 @@
 import React from "react";
 import styled, { css } from "styled-components";
+import { Sun } from '@styled-icons/feather/Sun';
+import { Star } from '@styled-icons/feather/Star';
+import { Plus } from '@styled-icons/feather/Plus';
+import { CheckCircle } from '@styled-icons/feather/CheckCircle';
+import { Copy } from '@styled-icons/feather/Copy';
+import { FileMinus } from '@styled-icons/feather/FileMinus';
+import { Trash2 } from '@styled-icons/feather/Trash2';
+import { IContextualMenuList } from "./interfaces";
+import { Calendar } from '@styled-icons/feather/Calendar';
+import { ContextualMenuOpion } from "./enums";
 
 export const COLOURS = {
     darkGrey: '#383636',
@@ -31,3 +41,41 @@ export const IconWrapper = styled.div<IIconWrapper>`
         `};
     }
 `;
+
+export const contextualMenuFirstOpion: IContextualMenuList[] = [{
+   icon: <Sun />,
+   name: "Dodaj do widoku 'Mój dzień'",
+   type: ContextualMenuOpion.add_new_task
+}, {
+    icon: <Star />,
+    name: "Oznacz jako wazne",
+    type: ContextualMenuOpion.mark_as_done
+ }, {
+    icon: <CheckCircle />,
+    name: "Oznacz jako wykonane",
+    type: ContextualMenuOpion.move_task
+ }, {
+    icon: <Calendar />,
+    name: "Termin wykonania: dzisiaj",
+    type: ContextualMenuOpion.date_today
+ }, {
+    icon: <Calendar />,
+    name: "Termin wykonania: jutro",
+    type: ContextualMenuOpion.date_tomorrow
+ }, {
+    icon: <Plus />,
+    name: "Utwórz nową listę z tego zadania",
+    type: ContextualMenuOpion.move_task
+ }, {
+    icon: <FileMinus />,
+    name: "Przenieś zadanie do...",
+    type: ContextualMenuOpion.move_task
+ }, {
+    icon: <Copy />,
+    name: "Kopiuj zadanie do...",
+    type: ContextualMenuOpion.copy_task
+ }, {
+    icon: <Trash2 />,
+    name: "Usuń zadanie",
+    type: ContextualMenuOpion.remove_task
+ }]
