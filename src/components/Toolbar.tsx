@@ -1,8 +1,9 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
 import { COLOURS } from "../constants";
+import { AppColorType } from '../enums';
 
-const ToolbarStyled = styled.div<{ colorType: 'grey' | 'blue' | 'red' | 'green' }>`
+const ToolbarStyled = styled.div<{ colorType: AppColorType }>`
     display: flex;
     margin-bottom: 2rem;
     white-space: nowrap;
@@ -12,15 +13,15 @@ const ToolbarStyled = styled.div<{ colorType: 'grey' | 'blue' | 'red' | 'green' 
     font-weight: 600;
     padding: 0.5rem;
     color: ${props => 
-        props.colorType === 'grey' && COLOURS.fontColor || 
-        props.colorType === 'blue' && COLOURS.blue ||
-        props.colorType === 'red' && COLOURS.red ||
-        props.colorType === 'green' && COLOURS.green};
+        (props.colorType === 'grey' && COLOURS.fontColor) || 
+        (props.colorType === 'blue' && COLOURS.blue) ||
+        (props.colorType === 'red' && COLOURS.red) ||
+        (props.colorType === 'green' && COLOURS.green)};
 `;
 
 interface IToolbar {
     name: string;
-    colorType?: 'grey' | 'blue' | 'red' | 'green';
+    colorType?: AppColorType;
 }
 
 const Toolbar: FC<IToolbar> = ({ name, colorType = 'grey' }) => {

@@ -24,3 +24,17 @@ export interface IContextualMenuList {
     type: ContextualMenuOpion;
 }
 
+export interface IAuthData {
+    auth: boolean;
+    body: IUserData;
+    message: string;
+    status: number;
+    token: string;
+}
+
+export interface IUserData {
+    username: string;
+    email: string;
+    id: string;
+    createdAt: string;
+}

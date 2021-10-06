@@ -6,15 +6,9 @@ const User = require('./models/user');
 const List = require('./models/list');
 const auth = require('./middleware/auth');
 
-router.get('/test', (req, res) => {
-    res.json({
-        dupa: 'hello world'
-    });
-});
-
 router.post('/register', async (req, res) => {
     const hashedPassword = bcrypt.hashSync(req.body.password, 8);
-
+    console.log(req.body.email);
     User.find({ email: req.body.email }, (err, docs) => {
         if (!(docs || []).length) {
             const user = new User({
@@ -24,7 +18,7 @@ router.post('/register', async (req, res) => {
                 id: req.body._id,
                 createdAt: Date.now()
             });
-
+            console.log('?????');
             user.save()
             .then(() => {
                 const token = jwt.sign({

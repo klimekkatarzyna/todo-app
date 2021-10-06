@@ -1,10 +1,11 @@
 import React, { FC } from 'react';
 import styled, { css } from 'styled-components';
 import { COLOURS } from '../../constants';
+import { AppColorType } from '../../enums';
 
 interface CheckboxWrapperProps {
     round?: boolean;
-    color?: 'blue' | 'gray' | 'red';
+    color?: AppColorType;
     disabled?: boolean;
 }
 
@@ -37,7 +38,7 @@ const CheckboxWrapper = styled.div<CheckboxWrapperProps>`
             ${props => props.color === 'red' && css`
                 background-color: ${COLOURS.red};
             `}
-            ${props => props.color === 'gray' && css`
+            ${props => props.color === 'grey' && css`
                 background-color: ${COLOURS.grey};
             `}
         }
@@ -63,7 +64,7 @@ const CheckboxWrapper = styled.div<CheckboxWrapperProps>`
             border: 1px solid ${COLOURS.red};
         `}
 
-        ${props => props.color === 'gray' && css`
+        ${props => props.color === 'grey' && css`
             border: 1px solid ${COLOURS.grey};
         `}
 
@@ -104,7 +105,7 @@ interface CheckboxProps {
     id?: string;
     key?: string;
     round?: boolean;
-    color?: 'blue' | 'gray' | 'red';
+    color?: AppColorType;
     disabled?: boolean;
 }
 

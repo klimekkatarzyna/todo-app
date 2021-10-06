@@ -4,15 +4,23 @@ import { createGlobalStyle } from 'styled-components';
 import {
     BrowserRouter as Router,
     Switch,
-    Route,
-    Link
+    Route
   } from "react-router-dom";
+  import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
+import { AuthProvider } from './AuthProvider';
 import MyDay from './pages/MyDay';
 import Important from './pages/Important';
 import Planned from './pages/Planned';
 import { Sidebar } from './components/Sidebar';
 import Inbox from './pages/Inbox';
 import Assigned from './pages/Assigned';
+// import Routers from './routes';
+import PrivateRoute from './PrivateRoute';
+import Login from './pages/Login';
+import Register from './pages/Register';
+
+const queryClient = new QueryClient();
 
 const Wrapper = styled.div`
     display: flex;
@@ -48,35 +56,46 @@ const GlobalStyle = createGlobalStyle`
 
 const App: FC = (props) => {
     return (
-        <>
-            <GlobalStyle />
-            <Wrapper>
-                <Router>
-                    <Sidebar />
+        <QueryClientProvider client={queryClient}>
+            <AuthProvider>
+                <ReactQueryDevtools initialIsOpen />
+                <GlobalStyle />
+                <Wrapper>
+                    <Router>
+                        {localStorage.getItem('token') && ( //TODO: it should be user 
+                            <Sidebar />
+                        )} 
 
-                    <Switch>
-                        <Route exact path="/">
-                            <MyDay />
-                        </Route>
-                        <Route exact path="/my_day">
-                            <MyDay />
-                        </Route>
-                        <Route path="/important">
-                            <Important />
-                        </Route>
-                        <Route path="/planned">
-                            <Planned />
-                        </Route>
-                        <Route path="/assigned_to_me">
-                            <Assigned />
-                        </Route>
-                        <Route path="/inbox">
-                            <Inbox />
-                        </Route>
-                    </Switch>
-                </Router>
-            </Wrapper>
-        </>
+                        <Switch>
+                            <Route exact path="/register">
+                                <Register />
+                            </Route>
+                            <Route exact path="/login">
+                                <Login />
+                            </Route>
+                            <PrivateRoute exact path="/">
+                                <MyDay />
+                            </PrivateRoute>
+                            <PrivateRoute exact path="/my_day">
+                                <MyDay />
+                            </PrivateRoute>
+                            <PrivateRoute path="/important">
+                                <Important />
+                            </PrivateRoute>
+                            <PrivateRoute path="/planned">
+                                <Planned />
+                            </PrivateRoute>
+                            <PrivateRoute path="/assigned_to_me">
+                                <Assigned />
+                            </PrivateRoute>
+                            <PrivateRoute path="/inbox">
+                                <Inbox />
+                            </PrivateRoute>
+                        </Switch>
+                    </Router>
+                </Wrapper>
+            </AuthProvider>
+        </QueryClientProvider>
     );
 }
 

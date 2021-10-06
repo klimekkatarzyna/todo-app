@@ -21,3 +21,5 @@ export enum SideMenuType {
     assigned = 'assigned',
     inbox = 'inbox'
 }
+
+export type AppColorType = 'grey' | 'blue' | 'red' | 'green';

@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import { Board } from '../components/Board';
 import Toolbar from '../components/Toolbar';
