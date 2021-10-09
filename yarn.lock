@@ -2148,6 +2148,13 @@
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.5.tgz#1001cc5e6a3704b83c236027e77f2f58ea010f40"
   integrity sha512-Klz949h02Gz2uZCMGwDUSDS1YBlTdDDgbWHi+81l29tQALUtvz4rAYi5uoVhE5Lagoq6DeqAUlbrHvW/mXDgdQ==
 
+"@types/mongoose@^5.11.97":
+  version "5.11.97"
+  resolved "https://registry.yarnpkg.com/@types/mongoose/-/mongoose-5.11.97.tgz#80b0357f3de6807eb597262f52e49c3e13ee14d8"
+  integrity sha512-cqwOVYT3qXyLiGw7ueU2kX9noE8DPGRY6z8eUxudhXY8NZ7DMKYAxyZkLSevGfhCX3dO/AoX5/SO9lAzfjon0Q==
+  dependencies:
+    mongoose "*"
+
 "@types/node@*":
   version "16.10.1"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.10.1.tgz#f3647623199ca920960006b3dccf633ea905f243"
@@ -9711,6 +9718,21 @@ mongodb@4.1.2:
     mongodb-connection-string-url "^2.0.0"
   optionalDependencies:
     saslprep "^1.0.3"
+
+mongoose@*:
+  version "6.0.10"
+  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-6.0.10.tgz#c22ac914afccf648778edfe11954f4aa0425a105"
+  integrity sha512-p/wiEDUXoQuyb/xQx8QW/YGN92ZsojJ5E/DDgMCUU0WOGxc5uhcWoZ7ijLu6Ssjq8UkwVSv+jzkYp4Wbr+NqBg==
+  dependencies:
+    bson "^4.2.2"
+    kareem "2.3.2"
+    mongodb "4.1.2"
+    mpath "0.8.4"
+    mquery "4.0.0"
+    ms "2.1.2"
+    regexp-clone "1.0.0"
+    sift "13.5.2"
+    sliced "1.0.1"
 
 mongoose@^6.0.9:
   version "6.0.9"

@@ -11,7 +11,6 @@ const Body = styled.div`
 `;
 
 const MyDay: FC = () => {
-
     return (
         <Board>
             <Toolbar name={'Mój dzień'} colorType={'grey'} />

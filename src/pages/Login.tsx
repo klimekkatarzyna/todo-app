@@ -1,7 +1,31 @@
-import React, { FC, useCallback } from 'react';
+import React, { FC, useCallback, useContext } from 'react';
 import { Formik, Form, Field, FormikProps } from 'formik';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
+import { AuthContext } from '../AuthProvider';
+import styled from 'styled-components';
+import { COLOURS } from '../constants';
+import Button from '../components/Button/Button';
+
+const LoginWrapper = styled.div`
+    background-color: ${COLOURS.lightGrey};
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
+const Content = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: ${COLOURS.white};
+    padding: 2rem;
+
+    h2, a {
+        color: ${COLOURS.blue};
+    }
+`;
 
 const InitialValues = {
     email: undefined,
@@ -20,6 +44,7 @@ const Login: FC = () => {
     // const [errorMessage, setErrorMessage] = useState('');
     // const [showPassword, setShowPassowrd] = useState(false);
     // const dispatch = useDispatch();
+    const { login } = useContext(AuthContext);
     
     const onSubmit = useCallback((values: any, { setSubmitting }) => { //  TODO: type
         // dispatch<LoginUser>(loginUser(values)).then(response => {
@@ -30,13 +55,15 @@ const Login: FC = () => {
         //         history.push('/')
         //     }
         // })
+        login(values.email, values.password);
     }, []);
 
     // const handledSetPassword = () => setShowPassowrd(!showPassword);
 
     return (
-        <div>
-            <h2>Logowanie do aplikacji TODOJanusz</h2>
+        <LoginWrapper>
+            <Content>
+            <h2>Zaloguj się</h2>
             <p>Nie masz masz konta?
                 {' '}
                 <Link to='/register'>
@@ -57,6 +84,7 @@ const Login: FC = () => {
                             name='email'
                             type='text' 
                             placeholder='Email'
+                            autoFocus={true}
                             // component={FormikInput}
                             required />
                         <div>
@@ -72,13 +100,14 @@ const Login: FC = () => {
                                 <EyeOff onClick={handledSetPassword} />
                             )} */}
                         </div>
-                        <button type='submit'>
+                        <Button primary type='submit' margin>
                             Zaloguj
-                        </button>
+                        </Button>
                     </Form>
                 )}
             />
-        </div>
+            </Content>
+        </LoginWrapper>
     );
 }
 

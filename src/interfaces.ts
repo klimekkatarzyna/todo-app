@@ -24,6 +24,7 @@ export interface IContextualMenuList {
     type: ContextualMenuOpion;
 }
 
+// auth
 export interface IAuthData {
     auth: boolean;
     body: IUserData;
@@ -37,4 +38,11 @@ export interface IUserData {
     email: string;
     id: string;
     createdAt: string;
+}
+
+export enum IResponseStatus {
+    error = "error",
+    idle = "idle",
+    loading = "loading",
+    success = "success"
 }

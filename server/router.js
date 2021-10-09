@@ -8,7 +8,7 @@ const auth = require('./middleware/auth');
 
 router.post('/register', async (req, res) => {
     const hashedPassword = bcrypt.hashSync(req.body.password, 8);
-    console.log(req.body.email);
+
     User.find({ email: req.body.email }, (err, docs) => {
         if (!(docs || []).length) {
             const user = new User({
@@ -18,7 +18,7 @@ router.post('/register', async (req, res) => {
                 id: req.body._id,
                 createdAt: Date.now()
             });
-            console.log('?????');
+            
             user.save()
             .then(() => {
                 const token = jwt.sign({
@@ -61,58 +61,51 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', (req, res) => {
     const hashedPassword = bcrypt.hashSync(req.body.password, 8);
- // przy kazdym logowaniu czy rejestracji powinien byc na nowo token przekazywany, we checkSession przekazywany  aktualnym tokemie
- console.log('1', req.body.email)   
     User.find({ email: req.body.email }, (err, docs) => {
-        console.log('2', docs)
         if ((docs || []).length) {
-            console.log('3', docs)
+            const data = docs?.[0];
+
             const token = jwt.sign({
                 data: 'tooken',
-                userId: docs[0]._id
-            }, ':7HK2ATab_', { expiresIn: '1h' });
+                userId: data._id
+            }, ':7HK2ATab_', { expiresIn: '3h' });
             
             res.json({
                 token,
                 auth: true, 
                 body: {
-                    _id: docs._id,
-                    username: docs.username,
-                    email: docs.email,
-                    password: docs.password,
-                    createdAt: docs.createdAt
+                    _id: data._id,
+                    username: data.username,
+                    email: data.email,
+                    password: hashedPassword,
+                    createdAt: data.createdAt
                 },
-                errorMessage: `registered user with email ${req.body.email}`,
-                status: 200
+                message: `login user with email ${req.body.email}`
             });
-
-            res.send(`email: ${docs.email} password: ${docs.password}`);
 
         } else {
             res.status(500).json({
                 success: false,
                 errorMessage: `invalid credentials`,
-                err,
-                status: 500
+                err
             })
         } 
     });
 });
 
-router.get('/me', auth, async(req, res) => {
+router.get('/me', auth, async (req, res) => {
     const authHeader = req.headers.authorization;
-    const token = authHeader.split(' ')[1];n
+    const token = authHeader.split(' ')[1];
+
     if (token) {
-        jwt.verify(JSON.parse(token), ':7HK2ATab_', async (err, data) => {
+        jwt.verify(token, ':7HK2ATab_', async (err, data) => {
 
-            const user = await User.find({});
-
+            const user = await User.find({ _id: data.userId});
             if (err) {
                 res.status(403).json({
                     success: false,
                     errorMessage: 'unsuccesful log in',
-                    err,
-                    status: 403
+                    err
                 })
             } else {
                 res.json({

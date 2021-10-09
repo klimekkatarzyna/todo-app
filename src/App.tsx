@@ -1,36 +1,11 @@
 import React, { FC } from 'react';
-import styled from 'styled-components';
 import { createGlobalStyle } from 'styled-components';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route
-  } from "react-router-dom";
-  import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { AuthProvider } from './AuthProvider';
-import MyDay from './pages/MyDay';
-import Important from './pages/Important';
-import Planned from './pages/Planned';
-import { Sidebar } from './components/Sidebar';
-import Inbox from './pages/Inbox';
-import Assigned from './pages/Assigned';
-// import Routers from './routes';
-import PrivateRoute from './PrivateRoute';
-import Login from './pages/Login';
-import Register from './pages/Register';
+import BrowserRouter from './Router';
 
 const queryClient = new QueryClient();
-
-const Wrapper = styled.div`
-    display: flex;
-    flex: 1 1 0px;
-    will-change: width;
-    box-sizing: border-box;
-    overflow: hidden;
-    position: relative;
-`;
-  
 
 const GlobalStyle = createGlobalStyle`
     html, body {
@@ -54,46 +29,14 @@ const GlobalStyle = createGlobalStyle`
     }
 `;
 
-const App: FC = (props) => {
+const App: FC = () => {
     return (
         <QueryClientProvider client={queryClient}>
             <AuthProvider>
                 <ReactQueryDevtools initialIsOpen />
                 <GlobalStyle />
-                <Wrapper>
-                    <Router>
-                        {localStorage.getItem('token') && ( //TODO: it should be user 
-                            <Sidebar />
-                        )} 
 
-                        <Switch>
-                            <Route exact path="/register">
-                                <Register />
-                            </Route>
-                            <Route exact path="/login">
-                                <Login />
-                            </Route>
-                            <PrivateRoute exact path="/">
-                                <MyDay />
-                            </PrivateRoute>
-                            <PrivateRoute exact path="/my_day">
-                                <MyDay />
-                            </PrivateRoute>
-                            <PrivateRoute path="/important">
-                                <Important />
-                            </PrivateRoute>
-                            <PrivateRoute path="/planned">
-                                <Planned />
-                            </PrivateRoute>
-                            <PrivateRoute path="/assigned_to_me">
-                                <Assigned />
-                            </PrivateRoute>
-                            <PrivateRoute path="/inbox">
-                                <Inbox />
-                            </PrivateRoute>
-                        </Switch>
-                    </Router>
-                </Wrapper>
+                <BrowserRouter />
             </AuthProvider>
         </QueryClientProvider>
     );
