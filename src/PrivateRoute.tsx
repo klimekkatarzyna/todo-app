@@ -1,8 +1,5 @@
 import { FC } from "react";
-import {
-  Route,
-  Redirect
-} from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 
 interface IPrivateRoute {
 	path: string;
@@ -10,23 +7,23 @@ interface IPrivateRoute {
 }
 
 const PrivateRoute: FC<IPrivateRoute> = ({ children, ...rest }) => {
-    return (
+  const token = localStorage.getItem('token');
+
+  return (
       <Route
-        {...rest}
-        render={({ location }) =>
-        localStorage.getItem('token') ? (
-            children
-          ) : (
-            <Redirect
-              to={{
-                pathname: "/login",
-                state: { from: location }
-              }}
-            />
-          )
-        }
-      />
-    );
-  }
+          {...rest}
+			render={({ location }) =>
+			token ? (
+              children
+            ) : (
+				<Redirect to={{
+					pathname: "/login",
+					state: { from: location }
+				}} />
+            )
+          }
+     	/>
+  	);
+}
 
 export default PrivateRoute;

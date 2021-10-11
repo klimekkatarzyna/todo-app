@@ -9,88 +9,83 @@ const auth = require('./middleware/auth');
 router.post('/register', async (req, res) => {
     const hashedPassword = bcrypt.hashSync(req.body.password, 8);
 
-    User.find({ email: req.body.email }, (err, docs) => {
-        if (!(docs || []).length) {
-            const user = new User({
-                username: req.body.username,
-                email: req.body.email,
-                password: hashedPassword,
-                id: req.body._id,
-                createdAt: Date.now()
-            });
-            
-            user.save()
-            .then(() => {
-                const token = jwt.sign({
-                    data: 'tooken',
-                    userId: user._id,
-                }, ':7HK2ATab_', { expiresIn: '1h' });
+    const user = await User.findOne({ email: req.body.email });
 
-                res.json({ 
-                    auth: true, 
-                    token,
-                    body: {
-                        username: user.username,
-                        email: user.email,
-                        id: user._id,
-                        createdAt: user.createdAt
-                    },
-                    message: `registered user with email ${req.body.email}`,
-                    status: 200
-                });
-
-                res.send(user);
-            })
-            .catch((err) => {
-                res.status(500).json({
-                    success: false,
-                    errorMessage: `registration failed`,
-                    err,
-                    status: 500
-                })
-            });
-        } else {
-            res.status(400).json({
-                success: false,
-                errorMessage: `user already registered`,
-                status: 400
-            });
-        }
-    });
-});
-
-router.post('/login', (req, res) => {
-    const hashedPassword = bcrypt.hashSync(req.body.password, 8);
-    User.find({ email: req.body.email }, (err, docs) => {
-        if ((docs || []).length) {
-            const data = docs?.[0];
-
+    if (!(Object.keys(user || []).length)) {
+        const user = new User({
+            username: req.body.username,
+            email: req.body.email,
+            password: hashedPassword,
+            id: req.body._id,
+            createdAt: Date.now()
+        });
+        
+        user.save()
+        .then(() => {
             const token = jwt.sign({
                 data: 'tooken',
-                userId: data._id
-            }, ':7HK2ATab_', { expiresIn: '3h' });
-            
-            res.json({
-                token,
-                auth: true, 
-                body: {
-                    _id: data._id,
-                    username: data.username,
-                    email: data.email,
-                    password: hashedPassword,
-                    createdAt: data.createdAt
-                },
-                message: `login user with email ${req.body.email}`
-            });
+                userId: user._id,
+            }, ':7HK2ATab_', { expiresIn: '24h' });
 
-        } else {
+            res.json({ 
+                auth: true, 
+                token,
+                body: {
+                    username: user.username,
+                    email: user.email,
+                    id: user._id,
+                    createdAt: user.createdAt
+                },
+                message: `registered user with email ${req.body.email}`,
+                status: 200
+            });
+        })
+        .catch((err) => {
             res.status(500).json({
                 success: false,
-                errorMessage: `invalid credentials`,
+                errorMessage: `registration failed`,
                 err
             })
-        } 
-    });
+        });
+    } else {
+        res.status(400).json({
+            success: false,
+            errorMessage: `user already registered`
+        });
+    }
+});
+
+router.post('/login', async (req, res) => {
+    const hashedPassword = bcrypt.hashSync(req.body.password, 8);
+    
+    try {
+        const user = await User.findOne({ email: req.body.email });
+
+        const token = jwt.sign({
+            data: 'tooken',
+            userId: user._id
+        }, ':7HK2ATab_', { expiresIn: '24h' });
+        
+        res.json({
+            token,
+            auth: true, 
+            body: {
+                _id: user._id,
+                username: user.username,
+                email: user.email,
+                password: hashedPassword,
+                createdAt: user.createdAt
+            },
+            message: `login user with email ${req.body.email}`
+        });
+
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            errorMessage: `invalid credentials`,
+            err
+        })
+    }
 });
 
 router.get('/me', auth, async (req, res) => {
@@ -100,34 +95,43 @@ router.get('/me', auth, async (req, res) => {
     if (token) {
         jwt.verify(token, ':7HK2ATab_', async (err, data) => {
 
-            const user = await User.find({ _id: data.userId});
-            if (err) {
+            const user = await User.findById(data.userId);
+            if (user) {
+                res.status(200).json({
+                    auth: true,
+                    message: 'Successful log in',
+                    body: {
+                        _id: user._id,
+                        username: user.username,
+                        email: user.email,
+                        createdAt: user.createdAt
+                    },
+                    token
+                });
+            } else {
                 res.status(403).json({
                     success: false,
                     errorMessage: 'unsuccesful log in',
                     err
                 })
-            } else {
-                res.json({
-                    auth: true,
-                    message: 'Successful log in',
-                    body: {
-                        _id: user[0]._id,
-                        username: user[0].username,
-                        email: user[0].email,
-                        createdAt: user[0].createdAt
-                    }
-                });
             }
         })
     }
 });
 
-router.post('/logout', (req, res) => {
-    res.json({
-        auth: false,
-        status: 200
-    });;
+router.post('/logout', async (req, res) => {
+    try {
+        res.status(200).json({ 
+            auth: false, 
+            token: undefined,
+            body: {},
+            message: 'User logout'
+        });
+    } catch {
+        res.status(500).json({ 
+            message: 'something went wrong'
+        });
+    }
 });
 
 router.post('/createList', async (req, res) => {

@@ -1,11 +1,11 @@
-import React, { FC, useCallback, useContext } from 'react';
+import { FC, useCallback, useContext } from 'react';
 import { Formik, Form, Field, FormikProps } from 'formik';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
-import { AuthContext } from '../AuthProvider';
 import styled from 'styled-components';
 import { COLOURS } from '../constants';
 import Button from '../components/Button/Button';
+import { AuthContext } from '../AuthProvider';
 
 const LoginWrapper = styled.div`
     background-color: ${COLOURS.lightGrey};

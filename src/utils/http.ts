@@ -10,8 +10,7 @@ export const http = (url: string, method: HttpMethod, body: any) => {
                 'Content-Type': 'application/json; charset=utf-8',
                 'X-Authorization': `Bearer ${authorization}`
             },
-            ...body
-            //...(body ? { body: JSON.stringify(body) } : {})
+            ...body,
         })
         .then((response: Response) => {
             if (response.status === 401 && authorization) {

@@ -1,9 +1,5 @@
-import React, { useContext, useEffect } from 'react';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route
-  } from "react-router-dom";
+import { useEffect } from 'react';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useMutation } from 'react-query';
 import styled from 'styled-components';
 import MyDay from './pages/MyDay';
@@ -15,9 +11,10 @@ import Assigned from './pages/Assigned';
 import PrivateRoute from './PrivateRoute';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import { AuthContext } from './AuthProvider';
 import useAuthorization from './hooks/useAuthorization';
 import Header from './components/Header';
+import NotFound from './pages/NotFound';
+import useProviderAuth from './hooks/useProviderAuth';
 
 const Wrapper = styled.div`
     display: flex;
@@ -31,56 +28,66 @@ const Content= styled.div`
 `;
   
 const BrowserRouter = () => {
-    const { checkSession } = useAuthorization();
-    const { mutate: mutateCheckSession, data, isLoading, error, status } = useMutation(checkSession);
-    const { setAuthData, isUserAutorized, userData } = useContext(AuthContext);
+    const { checkSession, authData } = useAuthorization();
+    const { mutate: mutateCheckSession } = useMutation(checkSession);
+    const { isUserAutorized } = useProviderAuth();
+    
     const token = localStorage.getItem('token');
 
     useEffect(() => {
         token && mutateCheckSession(token as string);
     }, [token]);
 
-    useEffect(() => {
-        setAuthData(data);
-    }, [setAuthData, data]);
-
-    //console.log('isUserAutorized', error, status);
+    console.log('isUserAutorized', isUserAutorized, authData)
 
     return (
         <Wrapper>
             <Router>
-                {isUserAutorized &&
-                    <Header userName={userData.username} />
+                {authData.auth &&
+                    <Header userName={''} />
                 }
                 <Content>
-                    {isUserAutorized &&
+                    {authData.auth &&
                         <Sidebar />
                     }
                     <Switch>
-                        <Route exact path="/register">
-                            <Register />
-                        </Route>
-                        <Route exact path="/login">
-                            <Login />
-                        </Route>
-                        <PrivateRoute exact path="/">
-                            <MyDay />
-                        </PrivateRoute>
-                        <PrivateRoute exact path="/my_day">
-                            <MyDay />
-                        </PrivateRoute>
-                        <PrivateRoute path="/important">
-                            <Important />
-                        </PrivateRoute>
-                        <PrivateRoute path="/planned">
-                            <Planned />
-                        </PrivateRoute>
-                        <PrivateRoute path="/assigned_to_me">
-                            <Assigned />
-                        </PrivateRoute>
-                        <PrivateRoute path="/inbox">
-                            <Inbox />
-                        </PrivateRoute>
+                        {!authData.auth ? (
+                            <>
+                            <Route path="/register">
+                                <Register />
+                            </Route>
+                            <Route path="/login">
+                                <Login />
+                            </Route>
+                            {/* <Route render={(routeProps) => {
+                                return (
+                                    <NotFound />
+                                );
+                            }} /> */}
+                            </>
+                        ) : (
+                            <>
+                            <PrivateRoute exact path="/">
+                                <MyDay />
+                            </PrivateRoute>
+                            <PrivateRoute exact path="/my_day">
+                                <MyDay />
+                            </PrivateRoute>
+                            <PrivateRoute path="/important">
+                                <Important />
+                            </PrivateRoute>
+                            <PrivateRoute path="/planned">
+                                <Planned />
+                            </PrivateRoute>
+                            <PrivateRoute path="/assigned_to_me">
+                                <Assigned />
+                            </PrivateRoute>
+                            <PrivateRoute path="/inbox">
+                                <Inbox />
+                            </PrivateRoute>
+                            
+                            </>
+                        )}
                     </Switch>
                 </Content>
             </Router>

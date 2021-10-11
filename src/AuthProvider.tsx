@@ -1,22 +1,15 @@
-import React, { createContext, FC, useCallback, useMemo, useState } from 'react';
+import React, { createContext, FC, useCallback, useMemo } from 'react';
 import { useMutation } from 'react-query';
 import useAuthorization from './hooks/useAuthorization';
-import { IAuthData, IResponseStatus, IUserData } from './interfaces';
+import { IAuthData, IResponseStatus } from './interfaces';
+import { HttpResponse } from './utils/http';
 
 interface AuthContextType {
-    // We defined the user type in `index.d.ts`, but it's
-    // a simple object with email, name and password.
-    // user?: User;
-    // loading: boolean;
-    // error?: any;
-    //login: (email: string, password: string) => void;
     signUp: (username: string, email: string, password: string) => void;
-    token: string;
-    isUserAutorized: boolean;
-    setAuthData: React.Dispatch<React.SetStateAction<IAuthData>>;
     login: (email: string, password: string) => void;
-    userData: IUserData;
-    // logout: () => void;
+    logout: () => void;
+    authData: HttpResponse<IAuthData>;
+    isUserAutorized: boolean | undefined;
 }
   
 export const AuthContext = createContext<AuthContextType>({} as AuthContextType);
@@ -26,41 +19,41 @@ interface IAuthProvider {
 }
 
 export const AuthProvider: FC<IAuthProvider> = ({ children }) => {
-    const [authData, setAuthData] = useState<IAuthData>({} as IAuthData);
-
-    const { authenticateUser, loginUser, checkSession } = useAuthorization();
+    const { authenticateUser, loginUser, checkSession, logoutUser, authData } = useAuthorization();
     const { isLoading, mutate: signUpMutate, data, error, status } = useMutation(authenticateUser);
     const { isLoading: LoginIsLoading, mutate: loginMutate, data: loginData, status: LoginStatus } = useMutation(loginUser);
-    const { mutate: checkSessionMutate } = useMutation(checkSession);
+    const { mutate: checkSessionMutate, data: checkData, status: chechStatus } = useMutation(checkSession);
+
+    const token = localStorage.getItem('token');
 
     const signUp = useCallback((username: string, email: string, password: string) => {
         signUpMutate({ username: username, email: email, password: password });
 
         if (!data?.auth && status !== IResponseStatus.success) return;
-        setAuthData(data);
-
-        //checkSessionMutate(localStorage.getItem('token') as string);
+        checkSessionMutate(localStorage.getItem('token') as string);
         //error TODO: handle error
     }, [data, signUpMutate, status]);
 
     const login = useCallback((email: string, password: string) => {
         loginMutate({ email: email, password: password });
 
-        if (!loginData?.auth && LoginStatus !== IResponseStatus.success) return;
-        setAuthData(loginData);
         //error TODO: handle error
-    }, [data, loginMutate, status]);
+    }, [data, loginMutate, status, loginData]);
+
+    const logout = useCallback(() => {
+        logoutUser(token as string);
+    }, []);
 
     const memoedValue = useMemo(() => ({
         isLoading,
         signUp,
+        authData,
         isUserAutorized: authData?.auth,
-        userData: authData?.body,
-        token: authData?.token,
-        setAuthData,
-        login
+        login,
+        logout
     }), [signUp, isLoading, authData]);
 
+    console.log('authData ========: ', authData);
 
     return (
         <AuthContext.Provider value={memoedValue}>

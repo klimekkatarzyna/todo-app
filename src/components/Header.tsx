@@ -1,7 +1,8 @@
-import React, { FC, useContext } from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
 import { COLOURS } from '../constants';
+import useProviderAuth from '../hooks/useProviderAuth';
 
 const HraderWrapper = styled.div`
     padding: 0.5rem;
@@ -24,10 +25,13 @@ interface IHeader {
 }
 
 const Header: FC<IHeader> = ({ userName }) => {
+    const { logout } = useProviderAuth();
+
     return (
         <HraderWrapper>
             <Link to='/my_day'>{'To Do'}</Link>
             <Name>{userName}</Name>
+            <button onClick={logout}>Logout user</button>
         </HraderWrapper>
     );
 };
