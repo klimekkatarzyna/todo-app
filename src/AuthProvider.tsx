@@ -2,7 +2,7 @@ import React, { FC, useCallback } from 'react';
 import { useMutation } from 'react-query';
 import { AuthContext } from './AuthContext';
 import useAuthorization from './hooks/useAuthorization';
-import { IAuthData, IResponseStatus } from './interfaces';
+import { IResponseStatus, IUserData } from './interfaces';
 import { HttpResponse } from './utils/http';
 
 interface IAuthProvider {
@@ -33,7 +33,7 @@ export const AuthProvider: FC<IAuthProvider> = ({ children }) => {
 
     const logout = useCallback(() => {
         logoutUser(token as string);
-        setAuthData({} as HttpResponse<IAuthData>);
+        setAuthData({} as HttpResponse<IUserData>);
     }, [authData]);
 
     return (

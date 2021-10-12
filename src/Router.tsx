@@ -43,7 +43,7 @@ const BrowserRouter = () => {
             ) : (
             <Router>
                 {authData?.auth &&
-                    <Header userName={authData?.body?.body?.username || ''} />
+                    <Header userName={authData?.body?.username || ''} />
                 }
                 <Content>
                     {authData?.auth &&

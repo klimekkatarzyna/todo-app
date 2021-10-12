@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { IAuthData } from './interfaces';
+import { IUserData } from './interfaces';
 import { HttpResponse } from './utils/http';
 
 export interface AuthContextType {
@@ -7,7 +7,7 @@ export interface AuthContextType {
     login: (email: string, password: string) => void;
     logout: (token: string) => void;
     checkSession: (token: string) => Promise<unknown>;
-    authData: HttpResponse<IAuthData>;
+    authData: HttpResponse<IUserData>;
     LoginIsLoading: boolean;
 }
 

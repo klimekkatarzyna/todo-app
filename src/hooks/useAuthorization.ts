@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useMutation } from 'react-query';
 import { useHistory } from 'react-router-dom';
-import { IAuthData } from '../interfaces';
+import { IUserData } from '../interfaces';
 import * as api from '../services';
 import { http, HttpResponse } from '../utils/http';
 
@@ -18,7 +18,7 @@ interface ILoginUser {
 
 const useAuthorization = () => {
     const history = useHistory();
-    const [authData, setAuthData] = useState<HttpResponse<IAuthData>>({} as HttpResponse<IAuthData>);
+    const [authData, setAuthData] = useState<HttpResponse<IUserData>>({} as HttpResponse<IUserData>);
 
     const checkSession = (token: string) => {
         const tokenValue = JSON.parse(token);
@@ -90,7 +90,7 @@ const useAuthorization = () => {
             }
         }).then((response) => {
             localStorage.removeItem('token');
-            setAuthData({} as HttpResponse<IAuthData>);
+            setAuthData({} as HttpResponse<IUserData>);
             history.push('/login');
 
             return response;
