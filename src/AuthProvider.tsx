@@ -1,28 +1,19 @@
-import React, { createContext, FC, useCallback, useMemo } from 'react';
+import React, { FC, useCallback } from 'react';
 import { useMutation } from 'react-query';
+import { AuthContext } from './AuthContext';
 import useAuthorization from './hooks/useAuthorization';
 import { IAuthData, IResponseStatus } from './interfaces';
 import { HttpResponse } from './utils/http';
-
-interface AuthContextType {
-    signUp: (username: string, email: string, password: string) => void;
-    login: (email: string, password: string) => void;
-    logout: () => void;
-    authData: HttpResponse<IAuthData>;
-    isUserAutorized: boolean | undefined;
-}
-  
-export const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 interface IAuthProvider {
     children: React.ReactNode;
 }
 
 export const AuthProvider: FC<IAuthProvider> = ({ children }) => {
-    const { authenticateUser, loginUser, checkSession, logoutUser, authData } = useAuthorization();
-    const { isLoading, mutate: signUpMutate, data, error, status } = useMutation(authenticateUser);
-    const { isLoading: LoginIsLoading, mutate: loginMutate, data: loginData, status: LoginStatus } = useMutation(loginUser);
-    const { mutate: checkSessionMutate, data: checkData, status: chechStatus } = useMutation(checkSession);
+    const { authenticateUser, loginUser, checkSession, logoutUser, authData, setAuthData } = useAuthorization();
+    const { mutate: signUpMutate, data, status } = useMutation(authenticateUser);
+    const { isLoading: LoginIsLoading, mutate: loginMutate, data: loginData } = useMutation(loginUser);
+    const { mutate: checkSessionMutate } = useMutation(checkSession);
 
     const token = localStorage.getItem('token');
 
@@ -42,21 +33,11 @@ export const AuthProvider: FC<IAuthProvider> = ({ children }) => {
 
     const logout = useCallback(() => {
         logoutUser(token as string);
-    }, []);
-
-    const memoedValue = useMemo(() => ({
-        isLoading,
-        signUp,
-        authData,
-        isUserAutorized: authData?.auth,
-        login,
-        logout
-    }), [signUp, isLoading, authData]);
-
-    console.log('authData ========: ', authData);
+        setAuthData({} as HttpResponse<IAuthData>);
+    }, [authData]);
 
     return (
-        <AuthContext.Provider value={memoedValue}>
+        <AuthContext.Provider value={{ signUp, login, logout, checkSession, authData, LoginIsLoading}}>
             {children}
         </AuthContext.Provider>
     );

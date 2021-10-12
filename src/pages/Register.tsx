@@ -2,9 +2,7 @@ import { FC, useCallback, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Formik, Form, Field, FormikProps } from 'formik';
 import * as Yup from 'yup';
-import { AuthContext } from '../AuthProvider';
-// import { useMutation } from 'react-query';
-// import useAuthorization from '../hooks/useAuthorization';
+import { AuthContext } from '../AuthContext';
 
 interface RegisterForm {
     username: string;

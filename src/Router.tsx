@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useMutation } from 'react-query';
 import styled from 'styled-components';
@@ -11,10 +11,9 @@ import Assigned from './pages/Assigned';
 import PrivateRoute from './PrivateRoute';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import useAuthorization from './hooks/useAuthorization';
 import Header from './components/Header';
 import NotFound from './pages/NotFound';
-import useProviderAuth from './hooks/useProviderAuth';
+import { AuthContext, AuthContextType } from './AuthContext';
 
 const Wrapper = styled.div`
     display: flex;
@@ -28,30 +27,30 @@ const Content= styled.div`
 `;
   
 const BrowserRouter = () => {
-    const { checkSession, authData } = useAuthorization();
-    const { mutate: mutateCheckSession } = useMutation(checkSession);
-    const { isUserAutorized } = useProviderAuth();
+    const { checkSession, authData, LoginIsLoading } = useContext<AuthContextType>(AuthContext);
+    const { mutate: mutateCheckSession, isLoading: checkSessionIsLoading } = useMutation(checkSession);
     
     const token = localStorage.getItem('token');
 
     useEffect(() => {
-        token && mutateCheckSession(token as string);
-    }, [token]);
-
-    console.log('isUserAutorized', isUserAutorized, authData)
+        token && mutateCheckSession(token);
+    }, []);
 
     return (
         <Wrapper>
+            {(LoginIsLoading || checkSessionIsLoading) ? (
+                <div>{'loading...'}</div>
+            ) : (
             <Router>
-                {authData.auth &&
-                    <Header userName={''} />
+                {authData?.auth &&
+                    <Header userName={authData?.body?.body?.username || ''} />
                 }
                 <Content>
-                    {authData.auth &&
+                    {authData?.auth &&
                         <Sidebar />
                     }
                     <Switch>
-                        {!authData.auth ? (
+                        {!authData?.auth ? (
                             <>
                             <Route path="/register">
                                 <Register />
@@ -91,6 +90,7 @@ const BrowserRouter = () => {
                     </Switch>
                 </Content>
             </Router>
+            )}
         </Wrapper>
     );
 };

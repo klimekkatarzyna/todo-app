@@ -29,9 +29,9 @@ const useAuthorization = () => {
             }
         }).then((response) => {
             localStorage.setItem('token', JSON.stringify(response?.token));
+
             setAuthData(response);
             response?.auth ? history.push('/my_day') : history.push('/login');
-            response.status === 500 && history.push('/login');
 
             return response;
         }).catch(error => {
@@ -89,9 +89,8 @@ const useAuthorization = () => {
                 'authorization': `Bearer ${tokenValue}`
             }
         }).then((response) => {
-            setAuthData(response);
             localStorage.removeItem('token');
-            
+            setAuthData({} as HttpResponse<IAuthData>);
             history.push('/login');
 
             return response;
@@ -106,8 +105,8 @@ const useAuthorization = () => {
         checkSession,
         loginUser,
         logoutUser,
-        authData,
-        userData: authData
+        setAuthData,
+        authData
     }
 };
 

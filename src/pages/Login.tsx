@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 import styled from 'styled-components';
 import { COLOURS } from '../constants';
 import Button from '../components/Button/Button';
-import { AuthContext } from '../AuthProvider';
+import { AuthContext } from '../AuthContext';
 
 const LoginWrapper = styled.div`
     background-color: ${COLOURS.lightGrey};
