@@ -11,7 +11,7 @@ import { IContextualMenuList } from "./interfaces";
 import { Calendar } from '@styled-icons/feather/Calendar';
 import { ContextualMenuOpion } from "./enums";
 
-export const COLOURS = {
+export const COLOURS: any = {
     darkGrey: '#383636',
     darkerGrey: '#767678',
     grey: '#505050',
@@ -35,7 +35,7 @@ export const IconWrapper = styled.div<IIconWrapper>`
     > svg {
         width: 1.2rem;
         height: 1.2rem;
-        color: ${props => props.color ? props.color : `${COLOURS.fontColor}`};
+        color: ${props => props.color ? `${COLOURS[props.color]}` : `${COLOURS.fontColor}`};
         ${props => props.isChecked && css`
             fill: ${props.color};
             stroke: ${props.color};

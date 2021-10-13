@@ -33,7 +33,7 @@ const App: FC = () => {
     return (
         <QueryClientProvider client={queryClient}>
             <AuthProvider>
-                <ReactQueryDevtools initialIsOpen />
+                {/* <ReactQueryDevtools initialIsOpen /> */}
                 <GlobalStyle />
 
                 <BrowserRouter />

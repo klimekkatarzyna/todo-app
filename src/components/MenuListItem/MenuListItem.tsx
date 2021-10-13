@@ -6,12 +6,17 @@ import styled from 'styled-components';
 import { COLOURS, IconWrapper } from "../../constants";
 import { IListItem } from "../../interfaces";
 
-const Wrapper = styled.div`
+const LinkStyled = styled(Link)`
     display: flex;
     align-items: center;
-    padding: 0.3rem 1rem;
+    padding: 0.5rem 1rem;
     font-size: 0.9rem;
     cursor: pointer;
+    text-decoration: none;
+    &:hover {
+        background-color: ${COLOURS.white};
+    }
+
     > svg {
         margin-right: 0.5rem;
     }
@@ -24,6 +29,7 @@ const TasksNumber = styled.div`
 
 const Name = styled.div`
     color: ${COLOURS.fontColor};
+    margin-left: 0.5rem;
 `;
 
 interface IMenuListItem  {
@@ -34,13 +40,11 @@ interface IMenuListItem  {
 export const MenuListItem: FC<IMenuListItem > = ({ isShared = false, listItem }) => {
     // TODO: handle themes 
     return (
-        <Wrapper>
-            <IconWrapper color={listItem?.color || COLOURS.blue}>{listItem.icon || <List />}</IconWrapper>
-            <Name>
-                <Link to={listItem?.url || ''}>{listItem?.name}</Link>
-            </Name>
+        <LinkStyled to={listItem?.url || ''}>
+            <IconWrapper color={listItem?.themeColor || COLOURS.blue}>{listItem.icon || <List />}</IconWrapper>
+            <Name>{listItem?.title}</Name>
             {isShared && <Share />}
             {listItem?.tasksNumber && <TasksNumber>{listItem?.tasksNumber}</TasksNumber>}
-        </Wrapper>
+        </LinkStyled>
     )
 }

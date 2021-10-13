@@ -136,48 +136,55 @@ router.post('/logout', async (req, res) => {
 
 router.post('/createList', async (req, res) => {
     List.find({ id: req.body._id }, (err, docs) => {
-        if (!(docs || []).length) {
-            const list = new List({
-                title: req.body.title,
-                email: req.body.email,
-                id: req.body._id,
-                createdAt: Date.now()
-            });
-            
-            list.save()
-            .then(() => {
-                    const token = jwt.sign({
-                        data: 'tooken',
-                        userId: user._id,
-                    }, ':7HK2ATab_', { expiresIn: '1h' });
 
-                    res.json({ 
-                        auth: true, 
-                        token,
-                        body: {
-                            title: list.title,
-                            email: list.email,
-                            id: list._id,
-                            createdAt: list.createdAt
-                        },
-                        message: `created list successfully`,
-                        status: 200
-                    });
-                })
-                .catch((err) => {
-                    res.status(500).json({
-                        success: false,
-                        errorMessage: `something went wrong`,
-                        err,
-                        status: 500
-                    })
-                });
-        } else {
-            res.status(400).json({
-                success: false,
-                errorMessage: `wtf?`,
-                status: 400
+        const list = new List({
+            title: req.body.title,
+            themeColor: 'blue',
+            taskNumber: undefined,
+            createdAt: Date.now()
+        });
+        
+        list.save()
+        .then(() => {
+            res.json({
+                body: {
+                    id: list._id,
+                    title: list.title,
+                    themeColor: list.themeColor,
+                    taskNumber: list.taskNumber,
+                    createdAt: list.createdAt
+                },
+                message: `created list successfully`,
+                status: 200
             });
+        })
+        .catch((err) => {
+            res.status(500).json({
+                success: false,
+                errorMessage: `something went wrong`,
+                err,
+                status: 500
+            })
+        });
+    });
+});
+
+router.get('/getLists', async (req, res) => {
+    List.find((err, docs) => {
+        try {
+            res.json({
+                body: {
+                    lists: docs
+                },
+                status: 200
+            });
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                errorMessage: `something went wrong`,
+                err,
+                status: 500
+            })
         }
     });
 });

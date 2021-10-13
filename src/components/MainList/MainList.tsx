@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import styled from 'styled-components';
 import { MenuListItem } from "../MenuListItem/MenuListItem";
 import { IListItem, IListItemType } from '../../interfaces';
@@ -7,7 +7,6 @@ import { Star } from '@styled-icons/feather/Star';
 import { Calendar } from '@styled-icons/feather/Calendar';
 import { User } from '@styled-icons/feather/User';
 import { Home } from '@styled-icons/feather/Home';
-import { COLOURS } from "../../constants";
 import { Border } from "../../common/Border";
 
 const Wrapper = styled.div`
@@ -25,38 +24,38 @@ export const MainList: FC<IMainList> = () => {
     // TODO: endpomt to update tasksNumber
     const mainList: IListItem[] = [{
         type: IListItemType.MY_DAY,
-        name: 'Mój dzien',
+        title: 'Mój dzien',
         tasksNumber: undefined,
         icon: <Sun />,
-        color: COLOURS.fontColor,
-        url: 'my_day'
+        themeColor: 'grey',
+        url: '/'
     }, {
         type: IListItemType.IMPORTANT,
-        name: 'Wazne',
+        title: 'Wazne',
         tasksNumber: undefined,
         icon: <Star />,
-        color: COLOURS.fontColor,
+        themeColor: 'grey',
         url: '/important'
     },  {
         type: IListItemType.PLANED,
-        name: 'Zaplanowane',
+        title: 'Zaplanowane',
         tasksNumber: undefined,
         icon: <Calendar />,
-        color: COLOURS.fontColor,
+        themeColor: 'grey',
         url: '/planned'
     },  {
         type: IListItemType.ASSIGNED,
-        name: 'Przydzielone dla Ciebie',
+        title: 'Przydzielone dla Ciebie',
         tasksNumber: undefined,
         icon: <User />,
-        color: COLOURS.green,
+        themeColor: 'green',
         url: '/assigned_to_me'
     },  {
         type: IListItemType.TASKS,
-        name: 'Zadania',
+        title: 'Zadania',
         tasksNumber: undefined,
         icon: <Home />,
-        color: COLOURS.red,
+        themeColor: 'red',
         url: '/inbox'
     }];
 

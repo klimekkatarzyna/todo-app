@@ -1,24 +1,18 @@
 const mongoose = require('mongoose');
 
 const ListSchema = new mongoose.Schema({
-    _id: {
-        type: String,
-        required: true
-    },
     title: {
         type: String,
         required: true
     },
-    users: [{
-        clientId: {
-            type: String,
-            required: true
-        },
-        email: {
-            type: String,
-            required: true
-        },
-    }],
+    taskNumber: {
+        type: Number,
+        //required: true
+    },
+    themeColor: {
+        type: String,
+        //required: true
+    },
     createdAt: {
         type: Date,
         default: Date.now()

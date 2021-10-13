@@ -2,12 +2,13 @@ import { ReactElement } from 'react';
 import { ContextualMenuOpion } from './enums';
 
 export interface IListItem {
-    type: IListItemType;
-    name: string;
+    type?: IListItemType;
+    title: string;
     tasksNumber: number | undefined;
     icon: ReactElement;
-    color: string;
+    themeColor: string;
     url?: string;
+    createdAt?: string;
 }
 
 export enum IListItemType {
@@ -45,4 +46,11 @@ export enum IResponseStatus {
     idle = "idle",
     loading = "loading",
     success = "success"
+}
+
+export interface IListResponse {
+    body: {
+        lists: IListItem[];
+    };
+    status: number;
 }

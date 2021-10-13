@@ -50,14 +50,24 @@ const BrowserRouter = () => {
                         <Sidebar />
                     }
                     <Switch>
-                        {!authData?.auth ? (
+                        {authData?.auth ? (
                             <>
-                            <Route path="/register">
-                                <Register />
-                            </Route>
-                            <Route path="/login">
-                                <Login />
-                            </Route>
+                                <PrivateRoute exact path="/">
+                                    <MyDay />
+                                </PrivateRoute>
+                                <PrivateRoute exact path="/important">
+                                    <Important />
+                                </PrivateRoute>
+                                <PrivateRoute exact path="/planned">
+                                    <Planned />
+                                </PrivateRoute>
+                                <PrivateRoute exact path="/assigned_to_me">
+                                    <Assigned />
+                                </PrivateRoute>
+                                <PrivateRoute exact path="/inbox">
+                                    <Inbox />
+                                </PrivateRoute>
+
                             {/* <Route render={(routeProps) => {
                                 return (
                                     <NotFound />
@@ -66,25 +76,12 @@ const BrowserRouter = () => {
                             </>
                         ) : (
                             <>
-                            <PrivateRoute exact path="/">
-                                <MyDay />
-                            </PrivateRoute>
-                            <PrivateRoute exact path="/my_day">
-                                <MyDay />
-                            </PrivateRoute>
-                            <PrivateRoute path="/important">
-                                <Important />
-                            </PrivateRoute>
-                            <PrivateRoute path="/planned">
-                                <Planned />
-                            </PrivateRoute>
-                            <PrivateRoute path="/assigned_to_me">
-                                <Assigned />
-                            </PrivateRoute>
-                            <PrivateRoute path="/inbox">
-                                <Inbox />
-                            </PrivateRoute>
-                            
+                                <Route path="/register">
+                                    <Register />
+                                </Route>
+                                <Route path="/login">
+                                    <Login />
+                                </Route>
                             </>
                         )}
                     </Switch>

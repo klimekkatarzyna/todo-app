@@ -5,6 +5,7 @@ import { COLOURS } from '../../constants';
 interface IButtonProps {
     primary?: boolean;
     secondary?: boolean;
+    outline?: boolean;
     disabled?: boolean;
     margin?: boolean;
 }
@@ -12,7 +13,6 @@ interface IButtonProps {
 const ButtonStyled = styled.button<IButtonProps>`
     padding: 0.5rem;
     border-radius: 0.3rem;
-    min-width: 200px;
     border: none;
     cursor: pointer;
     color:  ${COLOURS.white};
@@ -26,6 +26,11 @@ const ButtonStyled = styled.button<IButtonProps>`
         background-color: ${COLOURS.red};
     `};
 
+    ${props => props.outline && css`
+        background: none;
+        border: 1px solid;
+    `};
+
     ${props => props.disabled && css`
         &:disabled {
             background-color: ${COLOURS.lightBlue};
@@ -36,17 +41,26 @@ const ButtonStyled = styled.button<IButtonProps>`
 
 interface IButton {
     children: React.ReactNode;
-    type: 'button' | 'submit' | 'reset';
+    type?: 'button' | 'submit' | 'reset';
     primary?: boolean;
     secondary?: boolean;
+    outline? : boolean;
     disabled?: boolean;
     margin?: boolean;
+    onClick?: () => void;
 }
 
-const Button: FC<IButton> = ({ primary, children, type = 'submit', secondary, disabled, margin }) => {
+const Button: FC<IButton> = ({ primary, children, type = 'submit', secondary, outline, disabled, margin, onClick }) => {
     return (
-        <ButtonStyled primary={primary} secondary={secondary} type={type} disabled={disabled} margin={margin}>
-            {children}
+        <ButtonStyled
+            primary={primary}
+            secondary={secondary}
+            outline={outline}
+            type={type}
+            disabled={disabled}
+            margin={margin}
+            onClick={onClick}>
+                {children}
         </ButtonStyled>
     );
 };

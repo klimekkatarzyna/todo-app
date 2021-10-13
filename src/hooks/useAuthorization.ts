@@ -31,7 +31,7 @@ const useAuthorization = () => {
             localStorage.setItem('token', JSON.stringify(response?.token));
 
             setAuthData(response);
-            response?.auth ? history.push('/my_day') : history.push('/login');
+            response?.auth ? history.push('/') : history.push('/login');
 
             return response;
         }).catch(error => {
@@ -52,7 +52,7 @@ const useAuthorization = () => {
             if (!response?.auth) return;
             setAuthData(response);
             localStorage.setItem('token', JSON.stringify(response?.token));
-            response?.auth && history.push('/my_day');
+            response?.auth && history.push('/');
 
             return response;
         }).catch(error => {
