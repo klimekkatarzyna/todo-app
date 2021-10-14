@@ -143,10 +143,15 @@ router.post('/createList', async (req, res) => {
             taskNumber: undefined,
             createdAt: Date.now()
         });
+
+        const token = jwt.sign({
+            data: 'tooken',
+        }, ':7HK2ATab_', { expiresIn: '24h' });
         
         list.save()
         .then(() => {
             res.json({
+                token,
                 body: {
                     id: list._id,
                     title: list.title,

@@ -6,7 +6,7 @@ import { InputType } from '../../enums';
 import FormikInput from '../../formik/Input';
 import { Input } from '../Input/Input';
 import useCreateList from './useCreateList';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { IListResponse } from '../../interfaces';
 
 const Wrapper = styled.div`
@@ -25,11 +25,15 @@ interface ISidebar {
 }
 
 const CreateList: FC<ISidebar> = () => {
+    const query = useQueryClient();
     const { createList } = useCreateList();
-    const { mutate: mutateCreateList } = useMutation(createList);
+    const { mutate: mutateCreateList } = useMutation(createList, {
+        onSuccess: () => {
+            query.invalidateQueries(['lists'])
+        }
+    });
 
     const onSubmit = useCallback((values, { setSubmitting }) => {
-        console.log(values);
         mutateCreateList(values.title);
     }, []);
 

@@ -1,5 +1,5 @@
-import React, { FC, useCallback } from 'react';
-import { useMutation } from 'react-query';
+import React, { FC, SetStateAction, useCallback, useEffect, useState } from 'react';
+import { useMutation, useQuery } from 'react-query';
 import { AuthContext } from './AuthContext';
 import useAuthorization from './hooks/useAuthorization';
 import { IResponseStatus, IUserData } from './interfaces';
@@ -10,34 +10,51 @@ interface IAuthProvider {
 }
 
 export const AuthProvider: FC<IAuthProvider> = ({ children }) => {
-    const { authenticateUser, loginUser, checkSession, logoutUser, authData, setAuthData } = useAuthorization();
-    const { mutate: signUpMutate, data, status } = useMutation(authenticateUser);
-    const { isLoading: LoginIsLoading, mutate: loginMutate, data: loginData } = useMutation(loginUser);
-    const { mutate: checkSessionMutate } = useMutation(checkSession);
+    const [authData, setAuthData] = useState<HttpResponse<IUserData>>({} as HttpResponse<IUserData>);
 
-    const token = localStorage.getItem('token');
+    const { authenticateUserRequest, loginRequest, checkSession, logoutRequest } = useAuthorization();
+    const { mutate: signUpMutate, data, status } = useMutation(authenticateUserRequest, {
+        onSuccess: (data) => {
+            setAuthData(data)
+        }
+    });
+    const { isLoading: LoginIsLoading, mutate: loginMutate, data: loginData } = useMutation(loginRequest, {
+        onSuccess: (data) => {
+            setAuthData(data)
+        }
+    });
+    const { isLoading: LogoutIsLoading, mutate: logoutMutate, data: loginoutData } = useMutation(logoutRequest, {
+        onSuccess: (data) => {
+           setAuthData(data)
+        }
+    });
 
-    const signUp = useCallback((username: string, email: string, password: string) => {
-        signUpMutate({ username: username, email: email, password: password });
+    const signUp = useCallback(async (username: string, email: string, password: string) => {
+        try {
+            await signUpMutate({ username: username, email: email, password: password });
+        } catch {
+            //error TODO: handle error
+        }
+    }, []);
 
-        if (!data?.auth && status !== IResponseStatus.success) return;
-        checkSessionMutate(localStorage.getItem('token') as string);
-        //error TODO: handle error
-    }, [data, signUpMutate, status]);
+    const login = useCallback(async (email: string, password: string) => {
+        try {
+            await loginMutate({ email: email, password: password });
+        } catch {
+            //error TODO: handle error
+        }
+    }, []);
 
-    const login = useCallback((email: string, password: string) => {
-        loginMutate({ email: email, password: password });
-
-        //error TODO: handle error
-    }, [data, loginMutate, status, loginData]);
-
-    const logout = useCallback(() => {
-        logoutUser(token as string);
-        setAuthData({} as HttpResponse<IUserData>);
-    }, [authData]);
-
+    const logout = useCallback(async () => {
+        try {
+            await logoutMutate();
+        } catch {
+            //error TODO: handle error
+        }
+    }, []);
+    
     return (
-        <AuthContext.Provider value={{ signUp, login, logout, checkSession, authData, LoginIsLoading}}>
+        <AuthContext.Provider value={{ signUp, login, logout, checkSession, authData, LoginIsLoading, setAuthData, loginoutData}}>
             {children}
         </AuthContext.Provider>
     );

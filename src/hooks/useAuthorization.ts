@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useMutation } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { useHistory } from 'react-router-dom';
 import { IUserData } from '../interfaces';
 import * as api from '../services';
@@ -21,16 +21,15 @@ const useAuthorization = () => {
     const [authData, setAuthData] = useState<HttpResponse<IUserData>>({} as HttpResponse<IUserData>);
 
     const checkSession = (token: string) => {
-        const tokenValue = JSON.parse(token);
+        const tokenValue = JSON.parse(token as string);
         return http(api.me, 'GET', {
             headers: {
                 'Content-type': 'application/json',
                 'authorization': `Bearer ${tokenValue}`
             }
         }).then((response) => {
+            if (!response?.auth) return;
             localStorage.setItem('token', JSON.stringify(response?.token));
-
-            setAuthData(response);
             response?.auth ? history.push('/') : history.push('/login');
 
             return response;
@@ -40,9 +39,7 @@ const useAuthorization = () => {
         })
     }
 
-    const { mutate: checkSessionMutate } = useMutation(checkSession);
-
-    const authenticateUser = ({ username, email, password }: IAuthenticateUser) => {
+    const authenticateUserRequest = ({ username, email, password }: IAuthenticateUser) => {
         return http(api.register, 'POST', {
             body: JSON.stringify({ username, email, password }),
             headers: {
@@ -50,7 +47,6 @@ const useAuthorization = () => {
             }
         }).then((response) => {
             if (!response?.auth) return;
-            setAuthData(response);
             localStorage.setItem('token', JSON.stringify(response?.token));
             response?.auth && history.push('/');
 
@@ -61,7 +57,7 @@ const useAuthorization = () => {
         })
     }
 
-    const loginUser = ({ email, password }: ILoginUser) => {
+    const loginRequest = ({ email, password }: ILoginUser) => {
         return http(api.login, 'POST', {
             body: JSON.stringify({ email, password }),
             headers: {
@@ -69,9 +65,8 @@ const useAuthorization = () => {
             }
         }).then((response) => {
             if (!response?.auth) return;
-            setAuthData(response);
             localStorage.setItem('token', JSON.stringify(response?.token));
-            response?.auth && checkSessionMutate(localStorage.getItem('token') as string);
+            response?.auth && history.push('/');
 
             return response;
         }).catch(error => {
@@ -80,8 +75,29 @@ const useAuthorization = () => {
         })
     }
 
-    const logoutUser = (token: string) => {
-        const tokenValue = JSON.parse(token);
+    // const loginRequest = async ({ email, password }: ILoginUser) => {
+    //     try {
+    //         const response = await http(api.login, 'POST', {
+    //             body: JSON.stringify({ email, password }),
+    //             headers: {
+    //                 'Content-type': 'application/json',
+    //             }
+    //         });
+    //         console.log(response);
+    //         if (response?.isSuccess && response?.auth) {
+    //             setAuthData(response);
+    //             localStorage.setItem('token', JSON.stringify(response?.token));
+    
+    //             return response;
+    //         } 
+    //     } catch (error) {
+    //         throw new Error
+    //     }
+    // }
+
+    const logoutRequest = () => {
+        const token = localStorage.getItem('token');
+        const tokenValue = JSON.parse(token as string);
         
         return http(api.logout, 'POST', {
             headers: {
@@ -90,7 +106,6 @@ const useAuthorization = () => {
             }
         }).then((response) => {
             localStorage.removeItem('token');
-            setAuthData({} as HttpResponse<IUserData>);
             history.push('/login');
 
             return response;
@@ -101,10 +116,10 @@ const useAuthorization = () => {
     }
 
     return {
-        authenticateUser,
+        authenticateUserRequest,
         checkSession,
-        loginUser,
-        logoutUser,
+        loginRequest,
+        logoutRequest,
         setAuthData,
         authData
     }

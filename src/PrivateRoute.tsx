@@ -9,7 +9,8 @@ interface IPrivateRoute {
 
 const PrivateRoute: FC<IPrivateRoute> = ({ children, ...rest }) => {
 	const { authData } = useContext<AuthContextType>(AuthContext);
-
+	const token = localStorage.getItem('token');
+	console.log('PrivateRoute >>>>>', token, authData);
 	return (
 		<Route {...rest} render={({ location }) =>
 			authData?.auth ? (

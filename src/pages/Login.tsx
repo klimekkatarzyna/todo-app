@@ -43,10 +43,10 @@ const SignupSchema = Yup.object().shape({
 const Login: FC = () => {
     // const [errorMessage, setErrorMessage] = useState('');
     // const [showPassword, setShowPassowrd] = useState(false);
-    // const dispatch = useDispatch();
+
     const { login } = useContext(AuthContext);
     
-    const onSubmit = useCallback((values: any, { setSubmitting }) => { //  TODO: type
+    const onSubmit = useCallback(async (values: any, { setSubmitting }) => { //  TODO: type
         // dispatch<LoginUser>(loginUser(values)).then(response => {
         //     if (resError(response?.status)) {
         //         setErrorMessage(response?.errorMessage)
@@ -55,7 +55,11 @@ const Login: FC = () => {
         //         history.push('/')
         //     }
         // })
-        login(values.email, values.password);
+        try {
+            await login(values.email, values.password);
+        } catch {
+            
+        }
     }, []);
 
     // const handledSetPassword = () => setShowPassowrd(!showPassword);

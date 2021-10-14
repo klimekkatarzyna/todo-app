@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { useMutation } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import styled from 'styled-components';
 import MyDay from './pages/MyDay';
 import Important from './pages/Important';
@@ -14,6 +14,8 @@ import Register from './pages/Register';
 import Header from './components/Header';
 import NotFound from './pages/NotFound';
 import { AuthContext, AuthContextType } from './AuthContext';
+import { HttpResponse } from './utils/http';
+import { IUserData } from './interfaces';
 
 const Wrapper = styled.div`
     display: flex;
@@ -27,14 +29,18 @@ const Content= styled.div`
 `;
   
 const BrowserRouter = () => {
-    const { checkSession, authData, LoginIsLoading } = useContext<AuthContextType>(AuthContext);
-    const { mutate: mutateCheckSession, isLoading: checkSessionIsLoading } = useMutation(checkSession);
-    
+    const { checkSession, authData, LoginIsLoading, setAuthData, loginoutData } = useContext<AuthContextType>(AuthContext);
     const token = localStorage.getItem('token');
+    const { isLoading: checkSessionIsLoading, data } = useQuery('checkSession', async () => {
+        const response = await checkSession(token as string);
+        return response;
+    });
 
     useEffect(() => {
-        token && mutateCheckSession(token);
-    }, []);
+        if (data) {
+            setAuthData(data as React.SetStateAction<HttpResponse<IUserData>>);
+        }
+    }, [data]);
 
     return (
         <Wrapper>

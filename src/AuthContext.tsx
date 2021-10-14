@@ -1,4 +1,4 @@
-import { createContext } from 'react';
+import { createContext, Dispatch, SetStateAction } from 'react';
 import { IUserData } from './interfaces';
 import { HttpResponse } from './utils/http';
 
@@ -7,8 +7,10 @@ export interface AuthContextType {
     login: (email: string, password: string) => void;
     logout: (token: string) => void;
     checkSession: (token: string) => Promise<unknown>;
-    authData: HttpResponse<IUserData>;
+    authData: HttpResponse<IUserData> | undefined;
     LoginIsLoading: boolean;
+    setAuthData: React.Dispatch<React.SetStateAction<HttpResponse<IUserData>>>;
+    loginoutData: HttpResponse<IUserData>;
 }
 
 // better do it in separate file because the values return by the context will be use in few files

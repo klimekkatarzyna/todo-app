@@ -1,10 +1,12 @@
-import React, { FC, useContext } from 'react';
+import React, { FC, useCallback, useContext } from 'react';
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
 import { COLOURS } from '../constants';
 import { AuthContext } from '../AuthContext';
 import { returnsFirstChar, splitChar } from '../utils/utilsFunctions';
 import Button from './Button/Button';
+import { HttpResponse } from '../utils/http';
+import { IUserData } from '../interfaces';
 
 const HraderWrapper = styled.div`
     padding: 0.5rem 1rem;
@@ -37,15 +39,25 @@ interface IHeader {
 }
 
 const Header: FC<IHeader> = ({ userName }) => {
-    const { logout, authData } = useContext(AuthContext);
+    const { logout, setAuthData, loginoutData } = useContext(AuthContext);
     const [ firstChar, secChar ] = splitChar(userName);
+
+    const logoutUser = useCallback(async () => {
+        try {
+            localStorage.removeItem('token');
+            setAuthData({} as React.SetStateAction<HttpResponse<IUserData>>);
+            await logout('');
+        } catch {
+            
+        }
+    }, []);
 
     return (
         <HraderWrapper>
             <Link to='/'>{'To Do'}</Link>
             <DropdownWrapper>
             <Name>{returnsFirstChar(firstChar)} {returnsFirstChar(secChar)}</Name>
-            <Button outline onClick={() => logout(authData?.token as string)}>Logout</Button>
+            <Button outline onClick={logoutUser}>Logout</Button>
             </DropdownWrapper>
         </HraderWrapper>
     );

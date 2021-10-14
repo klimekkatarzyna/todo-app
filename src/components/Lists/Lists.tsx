@@ -13,7 +13,7 @@ const Wrapper = styled.div`
 
 const Lists: FC = () => {
     const { getLists } = useCreateList();
-    const { isLoading, data } = useQuery<IListResponse>('lists', getLists);
+    const { isLoading, data } = useQuery<IListResponse>('lists', getLists); // TODO: cache it
 
     return (
         <Wrapper>
