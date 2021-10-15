@@ -2,8 +2,8 @@ import React, { FC } from "react";
 import styled from 'styled-components';
 import { COLOURS } from "../constants";
 import CreateGroup from "./CreateGroup";
-import CreateList from "./CreateList/CreateList";
-import Lists from "./Lists/Lists";
+import CreateList from "./List/CreateList/CreateList";
+import Lists from "./List/Lists/Lists";
 import { MainList } from "./MainList/MainList";
 
 const Wrapper = styled.div`

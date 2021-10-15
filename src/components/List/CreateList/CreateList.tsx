@@ -1,13 +1,13 @@
 import React, { FC, useCallback, useEffect } from 'react';
 import { Field, Form, Formik } from 'formik';
 import styled from 'styled-components';
-import { COLOURS } from '../../constants';
-import { InputType } from '../../enums';
-import FormikInput from '../../formik/Input';
-import { Input } from '../Input/Input';
-import useCreateList from './useCreateList';
+import { COLOURS } from '../../../constants';
+import { InputType } from '../../../enums';
+import FormikInput from '../../../formik/Input';
+import { Input } from '../../Input/Input';
+import useList from '../useList';
 import { useMutation, useQueryClient } from 'react-query';
-import { IListResponse } from '../../interfaces';
+import { IListResponse } from '../../../interfaces';
 
 const Wrapper = styled.div`
     display: flex;
@@ -26,15 +26,19 @@ interface ISidebar {
 
 const CreateList: FC<ISidebar> = () => {
     const query = useQueryClient();
-    const { createList } = useCreateList();
+    const { createList } = useList();
     const { mutate: mutateCreateList } = useMutation(createList, {
         onSuccess: () => {
             query.invalidateQueries(['lists'])
         }
     });
 
-    const onSubmit = useCallback((values, { setSubmitting }) => {
-        mutateCreateList(values.title);
+    const onSubmit = useCallback(async (values, { setSubmitting }) => {
+        try {
+            await mutateCreateList(values.title);
+        } catch {
+            //TODO: handle error & show notificayion
+        }
     }, []);
 
     return (

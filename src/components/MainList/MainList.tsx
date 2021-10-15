@@ -7,12 +7,11 @@ import { Star } from '@styled-icons/feather/Star';
 import { Calendar } from '@styled-icons/feather/Calendar';
 import { User } from '@styled-icons/feather/User';
 import { Home } from '@styled-icons/feather/Home';
-import { Border } from "../../common/Border";
 
 const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
-
+    margin-bottom: 2rem;
 `;
 
 interface IMainList {
@@ -64,7 +63,6 @@ export const MainList: FC<IMainList> = () => {
             {mainList.map((listItem: IListItem) => (
                 <MenuListItem listItem={listItem} />
             ))}
-            <Border />
         </Wrapper>
     )
 }

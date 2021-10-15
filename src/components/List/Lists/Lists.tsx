@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import { useQuery } from 'react-query';
 import styled from 'styled-components';
-import { IListItem, IListResponse } from '../../interfaces';
-import useCreateList from '../CreateList/useCreateList';
-import { MenuListItem } from '../MenuListItem/MenuListItem';
+import { IListItem, IListResponse } from '../../../interfaces';
+import useList from '../useList';
+import { MenuListItem } from '../../MenuListItem/MenuListItem';
 
 const Wrapper = styled.div`
     display: flex;
@@ -12,7 +12,7 @@ const Wrapper = styled.div`
 `;
 
 const Lists: FC = () => {
-    const { getLists } = useCreateList();
+    const { getLists } = useList();
     const { isLoading, data } = useQuery<IListResponse>('lists', getLists); // TODO: cache it
 
     return (

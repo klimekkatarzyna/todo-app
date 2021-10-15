@@ -15,20 +15,24 @@ const ButtonStyled = styled.button<IButtonProps>`
     border-radius: 0.3rem;
     border: none;
     cursor: pointer;
-    color:  ${COLOURS.white};
+    color: ${COLOURS.fontColor};
     margin-top: ${props => props.primary && '1rem'};
+    margin-left: 0.5rem;
     
     ${props => props.primary && css`
         background-color: ${COLOURS.blue};
+        color:  ${COLOURS.white};
     `};
 
     ${props => props.secondary && css`
         background-color: ${COLOURS.red};
+        color:  ${COLOURS.white};
     `};
 
     ${props => props.outline && css`
         background: none;
         border: 1px solid;
+        color:  ${COLOURS.white};
     `};
 
     ${props => props.disabled && css`

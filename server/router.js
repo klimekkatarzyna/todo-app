@@ -194,4 +194,24 @@ router.get('/getLists', async (req, res) => {
     });
 });
 
+router.delete('/removeList', async (req, res) => {
+    List.deleteOne({ _id: req.body.listId }, (err, docs) => {
+        try {
+            res.json({
+                body: {
+                    lists: docs
+                },
+                status: 200
+            });
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                errorMessage: `something went wrong`,
+                err,
+                status: 500
+            })
+        }
+    })
+});
+
 module.exports = router;

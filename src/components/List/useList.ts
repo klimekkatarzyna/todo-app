@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { http } from '../../utils/http';
 import * as api from '../../services';
 
-const useCreateList = () => {
+const useList = () => {
 
     const createList = useCallback((title: string) => {
         return http(api.createList, 'POST', {
@@ -31,10 +31,25 @@ const useCreateList = () => {
         })
     }, []);
 
+    const deleteList = useCallback((listId: string) => {
+        return http(api.removeList, 'DELETE', {
+            body: JSON.stringify({ listId }),
+            headers: {
+                'Content-type': 'application/json',
+            }
+        }).then((response) => {
+            return response;
+        }).catch(error => {
+            console.error(error);
+            return error;
+        })
+    }, []);
+
     return {
         createList,
-        getLists
+        getLists,
+        deleteList
     }
 };
 
-export default useCreateList;
+export default useList;

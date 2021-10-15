@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
-import { COLOURS } from '../../constants';
-import Checkbox from '../Checkbox/Checkbox';
-import ImportanceButton from '../ImportanceButton/ImportanceButton';
+import { COLOURS } from '../../../constants';
+import Checkbox from '../../Checkbox/Checkbox';
+import ImportanceButton from '../../ImportanceButton/ImportanceButton';
 
 const ListItemWrapper = styled.div`
     display: flex;

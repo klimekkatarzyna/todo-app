@@ -7,11 +7,9 @@ const ListSchema = new mongoose.Schema({
     },
     taskNumber: {
         type: Number,
-        //required: true
     },
     themeColor: {
         type: String,
-        //required: true
     },
     createdAt: {
         type: Date,
