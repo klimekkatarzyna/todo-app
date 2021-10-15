@@ -79,4 +79,26 @@ export const contextualMenuFirstOpion: IContextualMenuList[] = [{
     icon: <Trash2 />,
     name: "Usuń zadanie",
     type: ContextualMenuOpion.remove_task
+ }];
+
+ export const contextualMenuSecountOpion: IContextualMenuList[] = [{
+    icon: <Calendar />,
+    name: "Opcje udostępniania",
+    type: ContextualMenuOpion.sharing_options
+ }, {
+    icon: <Plus />,
+    name: "Przenieś listę do... >",
+    type: ContextualMenuOpion.move_list_to
+ }, {
+    icon: <FileMinus />,
+    name: "Duplikuj listę",
+    type: ContextualMenuOpion.duplicate_list
+ }, {
+    icon: <Copy />,
+    name: "Wydrukuj listę",
+    type: ContextualMenuOpion.print_list
+ }, {
+    icon: <Trash2 />,
+    name: "Usuń listę",
+    type: ContextualMenuOpion.remove_list
  }]

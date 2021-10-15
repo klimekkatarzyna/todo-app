@@ -14,16 +14,16 @@ interface IImportanceButton {
 }
 
 const ImportanceButton: FC<IImportanceButton> = ({ isChecked }) => {
-    const { itemVisible, onMouseEnter, onMouseLeave } = useMouseHandling();
+    const { isFocused, onBlur, onFocus } = useMouseHandling();
 
     return (
         <ImportanceButtonWrapper>
-            {itemVisible && <Tooltip position={'bottom'} display={itemVisible}>{'Oznacz zadanie jako wazne'}</Tooltip>}
+            {isFocused && <Tooltip position={'bottom'} display={isFocused}>{'Oznacz zadanie jako wazne'}</Tooltip>}
             <IconWrapper
                 color={COLOURS.blue}
                 isChecked={isChecked}
-                onMouseEnter={onMouseEnter}
-                onMouseLeave={onMouseLeave}>
+                onFocus={onFocus}
+                onBlur={onBlur}>
                 <Star />
             </IconWrapper>
         </ImportanceButtonWrapper>

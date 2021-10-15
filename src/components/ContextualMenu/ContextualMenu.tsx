@@ -1,46 +1,33 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
-import { COLOURS, IconWrapper } from '../../constants';
+import { COLOURS } from '../../constants';
 import { IContextualMenuList } from '../../interfaces';
+import ContextualMenuItem from './ContextualMenuItem';
+import { ContextMenu } from 'react-contextmenu';
 
-const ContextualMenuWrapper = styled.div`
+const ContextualMenuWrapper = styled(ContextMenu)`
     background-color: ${COLOURS.white};
     display: flex;
     flex-direction: column;
     color: ${COLOURS.fontColor};
     box-shadow: 1px 1px 12px 0px #cacaca;
     max-width: 280px;
-`;
-
-const Item = styled.div`
-    display: inline-flex;
-    align-items: center;
-    padding: 0.5rem;
-    cursor: pointer;
-    &:hover {
-        background-color: ${COLOURS.lightGrey};
-    }
-    > span {
-        margin-left: 1rem;
-    }
-    &:last-child {
-        border-top: 1px solid  ${COLOURS.lightGrey};
-        color: ${COLOURS.red};
-    }
+    position: absolute;
+    top: 20px;
+    right: -50px;
+    z-index: 1;
 `;
 
 interface IContextualMenu {
     contextualMenuList: IContextualMenuList[];
+    listElementId: string;
 }
 
-const ContextualMenu: FC<IContextualMenu> = ({ contextualMenuList }) => {
+const ContextualMenu: FC<IContextualMenu> = ({ contextualMenuList, listElementId }) => {
     return (
-        <ContextualMenuWrapper>
+        <ContextualMenuWrapper id={listElementId}>
             {contextualMenuList.map((listItem) => 
-                <Item> {/* TODO: Item sa new component ! */}
-                    <IconWrapper color={COLOURS.fontColor}>{listItem.icon}</IconWrapper>
-                    <span>{listItem.name}</span>
-                </Item>
+                <ContextualMenuItem listItem={listItem} listElementId={listElementId} />
             )}
         </ContextualMenuWrapper>
     );

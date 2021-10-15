@@ -7,7 +7,7 @@ export interface IListItem {
     tasksNumber: number | undefined;
     icon: ReactElement;
     themeColor: string;
-    url?: string;
+    _id?: string;
     createdAt?: string;
 }
 

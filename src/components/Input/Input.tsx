@@ -4,6 +4,7 @@ import { COLOURS, IconWrapper } from "../../constants";
 import { InputType } from "../../enums";
 import { Plus } from '@styled-icons/feather/Plus';
 import { Circle } from '@styled-icons/feather/Circle';
+import useFocusingHandling from "../../hooks/useMouseHandling";
 
 const Wrapper = styled.div<{ type: InputType, inputFocused: boolean }>`
     display: flex;
@@ -35,31 +36,24 @@ interface IInput {
 }
 
 export const Input: FC<IInput> = ({ isIcon = true, placeholder = '', type }) => {
-    const [inputFocused, setInputFocused] = useState<boolean>(false);
-    const iconColor: string = useMemo(() => (type === InputType.primary && !inputFocused) ? COLOURS.blue : COLOURS.fontColor, [type, inputFocused]);
+    const { onFocus, onBlur, isFocused } = useFocusingHandling();
+    const iconColor: string = useMemo(() => (type === InputType.primary && !isFocused) ? COLOURS.blue : COLOURS.fontColor, [type, isFocused]);
 
     // TODO: formik input
     // TODO: handle mouse click events: left, rigth click
     // TODO: handle enter key
-    const onFocus = useCallback(() => {
-        setInputFocused(true);
-    }, []);
-
-    const onBlur = useCallback(() => {
-        setInputFocused(false);
-    }, []);
 
     return (
-        <Wrapper type={type} inputFocused={inputFocused}>
+        <Wrapper type={type} inputFocused={isFocused}>
             {isIcon && (
-                <IconWrapper color={iconColor}>{inputFocused ? <Circle/> : <Plus />}</IconWrapper>
+                <IconWrapper color={iconColor}>{isFocused ? <Circle/> : <Plus />}</IconWrapper>
             )}
             <InputStyled
                 type={type}
                 placeholder={placeholder}
                 onFocus={onFocus}
                 onBlur={onBlur}
-                inputFocused={inputFocused} />
+                inputFocused={isFocused} />
         </Wrapper>
     )
 }

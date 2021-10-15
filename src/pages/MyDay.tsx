@@ -16,7 +16,6 @@ const MyDay: FC = () => {
         <Board>
             <Toolbar name={'Mój dzień'} colorType={'grey'} />
             <Body>
-
             </Body>
         </Board>
     );

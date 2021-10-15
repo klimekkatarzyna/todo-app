@@ -1,21 +1,21 @@
 import { useCallback, useState } from 'react';
 
-const useMouseHandling = () => {
-    const [itemVisible, setItemVisible] = useState(false);
+const useFocusingHandling = () => {
+    const [isFocused, setFocused] = useState<boolean>(false);
 
-    const onMouseEnter = useCallback(() => {
-        setItemVisible(true);
+    const onFocus = useCallback(() => {
+        setFocused(true);
     }, []);
 
-    const onMouseLeave = useCallback(() => {
-        setItemVisible(false);
+    const onBlur = useCallback(() => {
+        setFocused(false);
     }, []);
 
     return {
-        itemVisible,
-        onMouseEnter,
-        onMouseLeave
+        isFocused,
+        onFocus,
+        onBlur
     }
 };
 
-export default useMouseHandling;
+export default useFocusingHandling;

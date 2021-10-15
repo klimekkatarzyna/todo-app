@@ -1,24 +1,29 @@
-import React, { FC } from "react";
+import React, { FC, RefObject, useCallback, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Share } from '@styled-icons/feather/Share';
 import { List } from '@styled-icons/feather/List';
 import styled from 'styled-components';
-import { COLOURS, IconWrapper } from "../../constants";
+import { COLOURS, contextualMenuSecountOpion, IconWrapper } from "../../constants";
 import { IListItem } from "../../interfaces";
+import ContextualMenu from "../ContextualMenu/ContextualMenu";
+import { ContextMenuTrigger } from 'react-contextmenu';
 
 const LinkStyled = styled(Link)`
-    display: flex;
-    align-items: center;
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-    cursor: pointer;
     text-decoration: none;
-    &:hover {
-        background-color: ${COLOURS.white};
-    }
-
-    > svg {
-        margin-right: 0.5rem;
+    > div {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+        cursor: pointer;
+        position: relative;
+        &:hover {
+            background-color: ${COLOURS.white};
+        }
+    
+        > svg {
+            margin-right: 0.5rem;
+        }
     }
 `;
 
@@ -38,13 +43,18 @@ interface IMenuListItem  {
 }
 
 export const MenuListItem: FC<IMenuListItem > = ({ isShared = false, listItem }) => {
-    // TODO: handle themes 
+ 
+    // TODO: handle themes
+
     return (
-        <LinkStyled to={listItem?.url || ''}>
-            <IconWrapper color={listItem?.themeColor || COLOURS.blue}>{listItem.icon || <List />}</IconWrapper>
-            <Name>{listItem?.title}</Name>
-            {isShared && <Share />}
-            {listItem?.tasksNumber && <TasksNumber>{listItem?.tasksNumber}</TasksNumber>}
+        <LinkStyled to={listItem?._id || ''}>
+            <ContextMenuTrigger id={listItem?._id || ''}>
+                <IconWrapper color={listItem?.themeColor || COLOURS.blue}>{listItem.icon || <List />}</IconWrapper>
+                <Name>{listItem?.title}</Name>
+                {isShared && <Share />}
+                {listItem?.tasksNumber && <TasksNumber>{listItem?.tasksNumber}</TasksNumber>}
+            </ContextMenuTrigger>
+            <ContextualMenu contextualMenuList={contextualMenuSecountOpion} listElementId={listItem?._id || ''} />
         </LinkStyled>
     )
 }

@@ -28,35 +28,35 @@ export const MainList: FC<IMainList> = () => {
         tasksNumber: undefined,
         icon: <Sun />,
         themeColor: 'grey',
-        url: '/'
+        _id: '/'
     }, {
         type: IListItemType.IMPORTANT,
         title: 'Wazne',
         tasksNumber: undefined,
         icon: <Star />,
         themeColor: 'grey',
-        url: '/important'
+        _id: '/important'
     },  {
         type: IListItemType.PLANED,
         title: 'Zaplanowane',
         tasksNumber: undefined,
         icon: <Calendar />,
         themeColor: 'grey',
-        url: '/planned'
+        _id: '/planned'
     },  {
         type: IListItemType.ASSIGNED,
         title: 'Przydzielone dla Ciebie',
         tasksNumber: undefined,
         icon: <User />,
         themeColor: 'green',
-        url: '/assigned_to_me'
+        _id: '/assigned_to_me'
     },  {
         type: IListItemType.TASKS,
         title: 'Zadania',
         tasksNumber: undefined,
         icon: <Home />,
         themeColor: 'red',
-        url: '/inbox'
+        _id: '/inbox'
     }];
 
     return (
