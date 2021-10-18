@@ -35,6 +35,7 @@ const TasksNumber = styled.div`
 const Name = styled.div`
     color: ${COLOURS.fontColor};
     margin-left: 0.5rem;
+    overflow-wrap: anywhere;
 `;
 
 interface IMenuListItem  {

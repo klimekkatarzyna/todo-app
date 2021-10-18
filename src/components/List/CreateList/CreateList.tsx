@@ -30,12 +30,20 @@ const CreateList: FC<ISidebar> = () => {
     });
 
     const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-        setListName(event.target?.value);
+        const clearStr = event.target?.value?.trim();
+        setListName(clearStr);
     }, []);
 
-    const onSubmit = useCallback(async () => {
+    const handleResertInput = useCallback(() => {
+        setListName('');
+    }, []);
+
+    const onSubmit = useCallback(async (event) => {
+        event.preventDefault();
         try {
             await mutateCreateList(listName);
+            handleResertInput();
+            //TODO: redirect on created list 
         } catch {
             //TODO: handle error & show notificayion
         }
@@ -45,8 +53,9 @@ const CreateList: FC<ISidebar> = () => {
         <Wrapper>
             <form onSubmit={onSubmit}>
                 <Input
+                    name='newList'
                     isIcon
-                    type={InputType.primary}
+                    colorType={InputType.primary}
                     placeholder={'Nowa lista'}
                     value={listName as string}
                     onChange={handleChange} />

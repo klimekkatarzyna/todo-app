@@ -110,7 +110,6 @@ interface CheckboxProps {
 }
 
 const Checkbox: FC<CheckboxProps> = ({ round, color, disabled, checked, onChange, id, key, children }) => {
-    // TODO: formik implementation
     return (
         <CheckboxWrapper round={round} color={color || 'blue'} disabled={disabled}>
             <label>

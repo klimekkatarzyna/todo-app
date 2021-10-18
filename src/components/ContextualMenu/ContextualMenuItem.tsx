@@ -53,8 +53,8 @@ const ContextualMenuItem: FC<IContextualMenuItem> = ({ listItem, listElementId }
             if (data.type === ContextualMenuOpion.remove_list) {
                 onOpeneModal();
                 //setSelectedMenuItemType(true);
+                await mutateRemoveList(data.listElementId);
             }
-            await mutateRemoveList(data.listElementId);
         } catch {
             //TODO: handle error & show notificayion
         }

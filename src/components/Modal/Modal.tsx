@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 import { COLOURS } from '../../constants';
 import Button from '../Button/Button';
@@ -54,7 +54,7 @@ interface IModal {
 }
 
 const Modal: FC<IModal> = ({ title, subtitle }) => {
-    const { isModalVisible, onCloseModal } = useShowModal();
+    const { onCloseModal } = useShowModal();
 
     return (
         <ModalBackground>

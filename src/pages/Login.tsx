@@ -1,11 +1,13 @@
-import { FC, useCallback, useContext } from 'react';
-import { Formik, Form, Field, FormikProps } from 'formik';
+import { FC, useCallback, useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
-import * as Yup from 'yup';
 import styled from 'styled-components';
-import { COLOURS } from '../constants';
+import { COLOURS, IconWrapper } from '../constants';
 import Button from '../components/Button/Button';
 import { AuthContext } from '../AuthContext';
+import { InputType } from '../enums';
+import { Input } from '../components/Input/Input';
+import { Eye } from '@styled-icons/feather/Eye';
+import { EyeOff } from '@styled-icons/feather/EyeOff';
 
 const LoginWrapper = styled.div`
     background-color: ${COLOURS.lightGrey};
@@ -27,26 +29,36 @@ const Content = styled.div`
     }
 `;
 
-const InitialValues = {
-    email: undefined,
-    password: undefined
-}
-
-const SignupSchema = Yup.object().shape({
-    email: Yup.string()
-        .required('wymagane'),
-    password: Yup.string()
-        .required('wymagane')
-        .matches(/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9\d!@#\$%\^&\*.]+)$/, 'password should contain big letter, digit and special character')
-});
+const InputWrapper = styled.div`
+    display: flex;
+    align-items: center;
+`;
 
 const Login: FC = () => {
+    const [loginData, setLoginData] = useState({
+        email: '',
+        password: ''
+    });
+    const [showPassword, setShowPassowrd] = useState(false);
     // const [errorMessage, setErrorMessage] = useState('');
-    // const [showPassword, setShowPassowrd] = useState(false);
 
     const { login } = useContext(AuthContext);
+
+    const handleChange = useCallback((event) => {
+        const { name, value } = event.target;
+
+        console.log(name, value);
+
+        setLoginData({
+            ...loginData,
+            [name]: value
+        })
+    }, []);
+
+    const handledSetPassword = () => setShowPassowrd(!showPassword);
     
-    const onSubmit = useCallback(async (values: any, { setSubmitting }) => { //  TODO: type
+    const onSubmit = useCallback(async (event) => { //  TODO: type
+        event.preventDefault();
         // dispatch<LoginUser>(loginUser(values)).then(response => {
         //     if (resError(response?.status)) {
         //         setErrorMessage(response?.errorMessage)
@@ -56,13 +68,11 @@ const Login: FC = () => {
         //     }
         // })
         try {
-            await login(values.email, values.password);
+            await login(loginData.email, loginData.password);
         } catch {
             
         }
-    }, []);
-
-    // const handledSetPassword = () => setShowPassowrd(!showPassword);
+    }, [loginData]);
 
     return (
         <LoginWrapper>
@@ -78,38 +88,34 @@ const Login: FC = () => {
 
             {/* {errorMessage && (<span>{errorMessage}</span>)} */}
 
-            <Formik
-                initialValues={InitialValues}
-                validationSchema={SignupSchema}
-                onSubmit={(values: typeof InitialValues, { setSubmitting }) => onSubmit(values, { setSubmitting })}
-                render={({ isSubmitting, errors }: FormikProps<typeof InitialValues>) => (
-                    <Form>
-                        <Field
-                            name='email'
-                            type='text' 
-                            placeholder='Email'
-                            autoFocus={true}
-                            // component={FormikInput}
-                            required />
-                        <div>
-                            <Field
-                                name='password'
-                                // type={!showPassword ? 'password' : 'text'}
-                                placeholder='Password'
-                                // component={FormikInput}
-                                required />
-                            {/* {!showPassword ? (
-                                <Eye onClick={handledSetPassword} />
-                            ) : (
-                                <EyeOff onClick={handledSetPassword} />
-                            )} */}
-                        </div>
-                        <Button primary type='submit' margin>
-                            Zaloguj
-                        </Button>
-                    </Form>
-                )}
-            />
+            <form onSubmit={onSubmit}>
+                <Input
+                    name='email'
+                    colorType={InputType.primary}
+                    placeholder={'Email'}
+                    value={loginData.email}
+                    autoFocus
+                    onChange={handleChange} />
+
+                <InputWrapper>
+                    <Input
+                        name='password'
+                        colorType={InputType.primary}
+                        type={!showPassword ? 'password' : 'text'}
+                        placeholder={'Password'}
+                        value={loginData.password}
+                        onChange={handleChange} />
+                    {!showPassword ? (
+                        <IconWrapper color={'grey'}><Eye onClick={handledSetPassword} /></IconWrapper>
+                    ) : (
+                        <IconWrapper color={'grey'}><EyeOff onClick={handledSetPassword} /></IconWrapper>
+                    )}
+                </InputWrapper>
+
+                <Button primary type='submit' margin>
+                    Zaloguj
+                </Button>
+            </form>
             </Content>
         </LoginWrapper>
     );
