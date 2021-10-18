@@ -138,7 +138,7 @@ router.post('/logout', async (req, res) => {
 router.post('/createList', async (req, res) => {
     List.find({ id: req.body._id }, (err, docs) => {
 
-        const list = await new List({
+        const list = new List({
             title: req.body.title,
             themeColor: 'blue',
             taskNumber: undefined,
@@ -178,7 +178,7 @@ router.post('/createList', async (req, res) => {
 router.get('/getLists', async (req, res) => {
     List.find((err, docs) => {
         try {
-            await res.json({
+            res.json({
                 body: {
                     lists: docs
                 },
@@ -198,7 +198,7 @@ router.get('/getLists', async (req, res) => {
 router.get('/getList/:id', async (req, res) => {
     List.find({ _id: req.params.id }, (err, docs) => {
         try {
-            await res.json({
+            res.json({
                 body: docs,
                 status: 200
             });
@@ -216,7 +216,7 @@ router.get('/getList/:id', async (req, res) => {
 router.delete('/removeList', async (req, res) => {
     List.deleteOne({ _id: req.body.listId }, (err, docs) => {
         try {
-            await res.json({
+            res.json({
                 body: {
                     lists: docs
                 },
@@ -234,9 +234,9 @@ router.delete('/removeList', async (req, res) => {
 });
 
 router.post('/createMainList', async (req, res) => {
-    MainList.find({ data: req.body.data }, (err, docs) => {
-
+    MainList.find((err, docs) => {
         const data = new MainList(req.body.data);
+        console.log(docs, data)
 
         const token = jwt.sign({
             data: 'tooken',
@@ -265,7 +265,7 @@ router.post('/createMainList', async (req, res) => {
 router.get('/getMainList', async (req, res) => {
     MainList.find((err, docs) => {
         try {
-            await res.json({
+            res.json({
                 body: {
                     mainLists: docs
                 },

@@ -39,7 +39,7 @@ const ContextualMenuItem: FC<IContextualMenuItem> = ({ listItem, listElementId }
     const query = useQueryClient();
     const { deleteList } = useList();
     const [selectedMenuItemType, setSelectedMenuItemType] = useState<boolean>(false);
-    const { isModalVisible, onOpeneModal } = useShowModal(selectedMenuItemType);
+    const { isModalVisible, onOpeneModal } = useShowModal();
 
     const { mutate: mutateRemoveList } = useMutation(deleteList, {
         onSuccess: () => {

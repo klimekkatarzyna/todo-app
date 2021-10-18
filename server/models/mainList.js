@@ -14,7 +14,7 @@ const MainListSchema = new mongoose.Schema({
     },
     icon: {
         type: String,
-        required: true
+        // required: true
     },
     themeColor: {
         type: String,

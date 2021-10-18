@@ -39,7 +39,7 @@ interface IHeader {
 }
 
 const Header: FC<IHeader> = ({ userName }) => {
-    const { logout, setAuthData, loginoutData } = useContext(AuthContext);
+    const { logout, setAuthData } = useContext(AuthContext);
     const [ firstChar, secChar ] = splitChar(userName);
 
     const logoutUser = useCallback(async () => {
@@ -48,7 +48,7 @@ const Header: FC<IHeader> = ({ userName }) => {
             setAuthData({} as React.SetStateAction<HttpResponse<IUserData>>);
             await logout('');
         } catch {
-            
+            // TODO: handle error
         }
     }, []);
 

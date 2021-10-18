@@ -1,23 +1,17 @@
-import React, { FC, useCallback, useEffect } from 'react';
-import { Field, Form, Formik } from 'formik';
+import React, { FC, useCallback, useState } from 'react';
 import styled from 'styled-components';
-import { COLOURS } from '../../../constants';
 import { InputType } from '../../../enums';
-import FormikInput from '../../../formik/Input';
 import { Input } from '../../Input/Input';
 import useList from '../useList';
 import { useMutation, useQueryClient } from 'react-query';
-import { IListResponse } from '../../../interfaces';
+import { COLOURS } from '../../../constants';
 
 const Wrapper = styled.div`
     display: flex;
-    border-right: 1px solid ${COLOURS.lightGrey};
     flex-direction: column;
-    height: 100%;
-    padding: 1rem 0;
-    min-width: 250px;
-    width: 50px;
     transition: width 180ms ease;
+    background-color: ${COLOURS.lightGrey};
+    width: 210px;
 `;
 
 interface ISidebar {
@@ -25,44 +19,38 @@ interface ISidebar {
 }
 
 const CreateList: FC<ISidebar> = () => {
+    const [listName, setListName] = useState<string>('');
     const query = useQueryClient();
     const { createList } = useList();
+
     const { mutate: mutateCreateList } = useMutation(createList, {
         onSuccess: () => {
             query.invalidateQueries(['lists'])
         }
     });
 
-    const onSubmit = useCallback(async (values, { setSubmitting }) => {
+    const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        setListName(event.target?.value);
+    }, []);
+
+    const onSubmit = useCallback(async () => {
         try {
-            await mutateCreateList(values.title);
+            await mutateCreateList(listName);
         } catch {
             //TODO: handle error & show notificayion
         }
-    }, []);
+    }, [listName]);
 
     return (
         <Wrapper>
-            {/* TODO: */}
-            <Formik
-                initialValues={{ title: ''}}
-                // validationSchema={SignupSchema}
-                onSubmit={(values, { setSubmitting }) => onSubmit(values, { setSubmitting })}
-                render={({ isSubmitting, errors }) => (
-                    <Form>
-                        <Field
-                            name='title'
-                            type='text' 
-                            placeholder='Nowa lista'
-                            //component={FormikInput}
-                            required
-                            isIcon
-                            inputType={InputType.primary} />
-                        <button type='submit'>{'create'}</button>
-                    </Form>
-                )}
-            />
-            {/* <Input isIcon type={InputType.primary} placeholder={'Nowa lista'} /> */}
+            <form onSubmit={onSubmit}>
+                <Input
+                    isIcon
+                    type={InputType.primary}
+                    placeholder={'Nowa lista'}
+                    value={listName as string}
+                    onChange={handleChange} />
+            </form>
         </Wrapper>
     );
 };

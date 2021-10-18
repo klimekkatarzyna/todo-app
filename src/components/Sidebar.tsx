@@ -18,6 +18,13 @@ const Wrapper = styled.div`
     transition: width 180ms ease;
 `;
 
+const InputsWrapper = styled.div`
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    border-top: 1px solid ${COLOURS.darkerGrey};
+`;
+
 interface ISidebar {
 
 }
@@ -32,8 +39,10 @@ export const Sidebar: FC<ISidebar> = () => {
             <Lists />
             {/*TODO: list od added lists or groups*/}
             {/*TODO: input to add lists or groups */}
-            <CreateList />
-            <CreateGroup />
+            <InputsWrapper>
+                <CreateList />
+                <CreateGroup />
+            </InputsWrapper>
         </Wrapper>
     )
 }

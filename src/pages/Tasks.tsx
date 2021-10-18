@@ -12,11 +12,15 @@ interface IUseParams {
 const Tasks = () => {
     const { listId } = useParams<IUseParams>();
     const { getListById } = useList(listId);
-    const { data } = useQuery(['getListById', listId], getListById);
+    const { data, isLoading } = useQuery(['getListById', listId], getListById);
 
     return (
         <Board>
-            <Toolbar name={data?.title || ''} colorType={data?.themeColor} />
+            {isLoading ? (
+                <span>{'loading...'}</span>
+            ) : (
+                <Toolbar name={data?.title || ''} colorType={data?.themeColor} />
+            )}
             
             <Body>
             </Body>

@@ -1,37 +1,9 @@
 import React, { useCallback } from 'react';
-import { http, HttpResponse } from '../../utils/http';
+import { http } from '../../utils/http';
 import * as api from '../../services';
-import { mainListData } from '../../constants';
-import { IListItem } from '../../interfaces';
+
 
 const useList = (listId?: string) => {
-    const createMainList = useCallback(() => {
-        return http(api.mainList, 'POST', {
-            body: JSON.stringify(mainListData),
-            headers: {
-                'Content-type': 'application/json',
-            }
-        }).then((response) => {
-            return response;
-        }).catch(error => {
-            console.error(error);
-            return error;
-        })
-    }, []);
-
-    const getMainList = useCallback(() => {
-        return http(api.getMainList, 'GET', {
-            headers: {
-                'Content-type': 'application/json',
-            }
-        }).then((response) => {
-            return response;
-        }).catch(error => {
-            console.error(error);
-            return error;
-        })
-    }, []);
-
     const createList = useCallback((title: string) => {
         return http(api.createList, 'POST', {
             body: JSON.stringify({ title  }),
@@ -91,8 +63,6 @@ const useList = (listId?: string) => {
         createList,
         getLists,
         deleteList,
-        createMainList,
-        getMainList,
         getListById
     }
 };

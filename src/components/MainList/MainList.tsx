@@ -1,10 +1,10 @@
-import { FC, useCallback } from "react";
+import { FC } from "react";
 import styled from 'styled-components';
 import { MenuListItem } from "../MenuListItem/MenuListItem";
-import { IListItem, IListItemType } from '../../interfaces';
+import { IListItem } from '../../interfaces';
 import { mainListData } from "../../constants";
-import { useMutation, useQuery } from "react-query";
-import useList from "../List/useList";
+import { useQuery } from "react-query";
+import useMainList from "./useMainList";
 
 
 const Wrapper = styled.div`
@@ -21,12 +21,13 @@ export const MainList: FC<IMainList> = () => {
     // TODO: renurns from API
     // TODO: endpomt to update tasksNumber
 
-    // const { createMainList, getMainList } = useList();
+    // const { createMainList, getMainList } = useMainList();
     // const { data } = useQuery('createMainList', createMainList);
+    // console.log(data);
     
     return (
         <Wrapper>
-            {mainListData.map((listItem: IListItem) => (
+            {mainListData.map((listItem) => (
                 <MenuListItem listItem={listItem} />
             ))}
         </Wrapper>

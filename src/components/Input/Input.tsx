@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useMemo, useState } from "react";
+import React, { FC, useMemo } from "react";
 import styled from 'styled-components';
 import { COLOURS, IconWrapper } from "../../constants";
 import { InputType } from "../../enums";
@@ -13,8 +13,14 @@ const Wrapper = styled.div<{ type: InputType, inputFocused: boolean }>`
     padding: 0 0.7rem;
     background-color: ${props => (props.type === InputType.primary) ? `inherit` : `${COLOURS.white}`};
     cursor: pointer;
+    border-right: 1px solid ${COLOURS.lightGrey};
     &:hover {
         background-color: ${COLOURS.white};
+    }
+
+    > button {
+        border: none;
+        background-color: inherit;
     }
 `;
 
@@ -29,28 +35,30 @@ const InputStyled = styled.input<{ inputFocused: boolean }>`
     }
 `;
 
-interface IInput {
+interface IInput<T = string | number> {
+    value: T;
     isIcon: boolean;
     type: InputType;
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     placeholder?: string;
 }
 
-export const Input: FC<IInput> = ({ isIcon = true, placeholder = '', type }) => {
+export const Input: FC<IInput> = ({ value, isIcon = true, placeholder = '', type , onChange}) => {
     const { onFocus, onBlur, isFocused } = useFocusingHandling();
     const iconColor: string = useMemo(() => (type === InputType.primary && !isFocused) ? COLOURS.blue : COLOURS.fontColor, [type, isFocused]);
-
-    // TODO: formik input
-    // TODO: handle mouse click events: left, rigth click
-    // TODO: handle enter key
 
     return (
         <Wrapper type={type} inputFocused={isFocused}>
             {isIcon && (
-                <IconWrapper color={iconColor}>{isFocused ? <Circle/> : <Plus />}</IconWrapper>
+                <button type='submit'>
+                    <IconWrapper color={iconColor}>{isFocused ? <Circle/> : <Plus />}</IconWrapper>
+                </button>
             )}
             <InputStyled
+                value={value}
                 type={type}
                 placeholder={placeholder}
+                onChange={onChange}
                 onFocus={onFocus}
                 onBlur={onBlur}
                 inputFocused={isFocused} />
