@@ -1,4 +1,4 @@
-import React, { FC, useCallback } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { COLOURS, IconWrapper } from '../../constants';
 import { IContextualMenuList } from '../../interfaces';
@@ -6,6 +6,8 @@ import { MenuItem } from 'react-contextmenu';
 import useList from '../List/useList';
 import { useMutation, useQueryClient } from 'react-query';
 import Modal from '../Modal/Modal';
+import useShowModal from '../../hooks/useShowModal';
+import { ContextualMenuOpion } from '../../enums';
 
 const Item = styled(MenuItem)`
     display: inline-flex;
@@ -36,6 +38,8 @@ interface IItem extends IContextualMenuList {
 const ContextualMenuItem: FC<IContextualMenuItem> = ({ listItem, listElementId }) => {
     const query = useQueryClient();
     const { deleteList } = useList();
+    const [selectedMenuItemType, setSelectedMenuItemType] = useState<boolean>(false);
+    const { isModalVisible, onOpeneModal } = useShowModal(selectedMenuItemType);
 
     const { mutate: mutateRemoveList } = useMutation(deleteList, {
         onSuccess: () => {
@@ -45,18 +49,29 @@ const ContextualMenuItem: FC<IContextualMenuItem> = ({ listItem, listElementId }
 
     const handleClick = useCallback(async (e: any, data: IItem ) => {
         try {
-            console.log(data.listElementId, data.name);
+            // console.log(data.type === ContextualMenuOpion.remove_list, data.listElementId, data.name);
+            if (data.type === ContextualMenuOpion.remove_list) {
+                onOpeneModal();
+                //setSelectedMenuItemType(true);
+            }
             await mutateRemoveList(data.listElementId);
         } catch {
             //TODO: handle error & show notificayion
         }
     }, []);
 
+
+    // useEffect(() => {
+    //     onOpeneModal();
+    // }, [selectedMenuItemType])
+
     return (
         <Item data={{ ...listItem, listElementId}} onClick={handleClick}>
             <IconWrapper color={COLOURS.fontColor}>{listItem.icon}</IconWrapper>
             <span>{listItem.name}</span>
-            <Modal title={'Lista zostanie trwale usunieta.'} subtitle={'Tej akcji nie można cofnąć'} />
+            {/* {isModalVisible &&
+                <Modal title={'Lista zostanie trwale usunieta.'} subtitle={'Tej akcji nie można cofnąć'} />
+            } */}
         </Item>
     );
 };

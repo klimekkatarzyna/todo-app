@@ -1,10 +1,10 @@
-import React, { FC, RefObject, useCallback, useRef, useState } from "react";
+import React, { FC } from "react";
 import { Link } from "react-router-dom";
 import { Share } from '@styled-icons/feather/Share';
 import { List } from '@styled-icons/feather/List';
 import styled from 'styled-components';
 import { COLOURS, contextualMenuSecountOpion, IconWrapper } from "../../constants";
-import { IListItem } from "../../interfaces";
+import { IListItem, IListItemType } from "../../interfaces";
 import ContextualMenu from "../ContextualMenu/ContextualMenu";
 import { ContextMenuTrigger } from 'react-contextmenu';
 
@@ -40,14 +40,13 @@ const Name = styled.div`
 interface IMenuListItem  {
     listItem: IListItem;
     isShared?: boolean;
+    type?: IListItemType;
 }
 
-export const MenuListItem: FC<IMenuListItem > = ({ isShared = false, listItem }) => {
- 
+export const MenuListItem: FC<IMenuListItem > = ({ isShared = false, listItem, type }) => {
     // TODO: handle themes
-
     return (
-        <LinkStyled to={listItem?._id || ''}>
+        <LinkStyled to={type === IListItemType.TASK ? `/tasks/${listItem?._id}` : `${listItem?._id}`}>
             <ContextMenuTrigger id={listItem?._id || ''}>
                 <IconWrapper color={listItem?.themeColor || COLOURS.blue}>{listItem.icon || <List />}</IconWrapper>
                 <Name>{listItem?.title}</Name>

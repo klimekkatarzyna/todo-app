@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import styled from 'styled-components';
 import { COLOURS } from '../../constants';
 import Button from '../Button/Button';
+import useShowModal from '../../hooks/useShowModal';
 
 const ModalBackground = styled.div`
     width: 100%;
@@ -53,14 +54,16 @@ interface IModal {
 }
 
 const Modal: FC<IModal> = ({ title, subtitle }) => {
+    const { isModalVisible, onCloseModal } = useShowModal();
+
     return (
         <ModalBackground>
             <ModalContent>
                 <Title>{title}</Title>
                 <Subtitle>{subtitle}</Subtitle>
                 <ButtonsWrapper>
-                    <Button>{'Anuluj'}</Button>
-                    <Button secondary>{'Usuwanie'}</Button>
+                    <Button onClick={onCloseModal}>{'Anuluj'}</Button>
+                    <Button secondary onClick={onCloseModal}>{'Usuwanie'}</Button>
                 </ButtonsWrapper>
             </ModalContent>
         </ModalBackground>

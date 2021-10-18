@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useQuery } from 'react-query';
 import styled from 'styled-components';
-import { IListItem, IListResponse } from '../../../interfaces';
+import { IListItem, IListItemType, IListResponse } from '../../../interfaces';
 import useList from '../useList';
 import { MenuListItem } from '../../MenuListItem/MenuListItem';
 
@@ -19,7 +19,7 @@ const Lists: FC = () => {
         <Wrapper>
             {isLoading && <span>{'loading...'}</span>}
             {data?.body?.lists?.map((item: IListItem) => (
-                <MenuListItem listItem={item} />
+                <MenuListItem listItem={item} type={IListItemType.TASK} />
             ))}
         </Wrapper>
     );

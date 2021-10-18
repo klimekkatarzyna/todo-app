@@ -12,6 +12,7 @@ import PrivateRoute from './PrivateRoute';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Header from './components/Header';
+import Tasks from './pages/Tasks';
 import NotFound from './pages/NotFound';
 import { AuthContext, AuthContextType } from './AuthContext';
 import { HttpResponse } from './utils/http';
@@ -72,6 +73,9 @@ const BrowserRouter = () => {
                                 </PrivateRoute>
                                 <PrivateRoute exact path="/inbox">
                                     <Inbox />
+                                </PrivateRoute>
+                                <PrivateRoute exact path="/tasks/:listId">
+                                    <Tasks />
                                 </PrivateRoute>
 
                             {/* <Route render={(routeProps) => {

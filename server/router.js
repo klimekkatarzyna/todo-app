@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs');
 const User = require('./models/user');
 const List = require('./models/list');
 const auth = require('./middleware/auth');
+const MainList = require('./models/mainList');
 
 router.post('/register', async (req, res) => {
     const hashedPassword = bcrypt.hashSync(req.body.password, 8);
@@ -137,7 +138,7 @@ router.post('/logout', async (req, res) => {
 router.post('/createList', async (req, res) => {
     List.find({ id: req.body._id }, (err, docs) => {
 
-        const list = new List({
+        const list = await new List({
             title: req.body.title,
             themeColor: 'blue',
             taskNumber: undefined,
@@ -177,7 +178,7 @@ router.post('/createList', async (req, res) => {
 router.get('/getLists', async (req, res) => {
     List.find((err, docs) => {
         try {
-            res.json({
+            await res.json({
                 body: {
                     lists: docs
                 },
@@ -194,10 +195,28 @@ router.get('/getLists', async (req, res) => {
     });
 });
 
+router.get('/getList/:id', async (req, res) => {
+    List.find({ _id: req.params.id }, (err, docs) => {
+        try {
+            await res.json({
+                body: docs,
+                status: 200
+            });
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                errorMessage: `something went wrong`,
+                err,
+                status: 500
+            })
+        }
+    });
+});
+
 router.delete('/removeList', async (req, res) => {
     List.deleteOne({ _id: req.body.listId }, (err, docs) => {
         try {
-            res.json({
+            await res.json({
                 body: {
                     lists: docs
                 },
@@ -212,6 +231,55 @@ router.delete('/removeList', async (req, res) => {
             })
         }
     })
+});
+
+router.post('/createMainList', async (req, res) => {
+    MainList.find({ data: req.body.data }, (err, docs) => {
+
+        const data = new MainList(req.body.data);
+
+        const token = jwt.sign({
+            data: 'tooken',
+        }, ':7HK2ATab_', { expiresIn: '24h' });
+        
+        data.save()
+        .then(() => {
+            res.json({
+                token,
+                body: data,
+                message: `created list successfully`,
+                status: 200
+            });
+        })
+        .catch((err) => {
+            res.status(500).json({
+                success: false,
+                errorMessage: `something went wrong`,
+                err,
+                status: 500
+            })
+        });
+    });
+});
+
+router.get('/getMainList', async (req, res) => {
+    MainList.find((err, docs) => {
+        try {
+            await res.json({
+                body: {
+                    mainLists: docs
+                },
+                status: 200
+            });
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                errorMessage: `something went wrong`,
+                err,
+                status: 500
+            })
+        }
+    });
 });
 
 module.exports = router;

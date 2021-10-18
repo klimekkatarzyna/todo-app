@@ -17,6 +17,7 @@ export enum IListItemType {
     PLANED = 'PLANED',
     ASSIGNED = 'ASSIGNED',
     TASKS = 'TASKS',
+    TASK = 'TASK'
 }
 
 export interface IContextualMenuList {

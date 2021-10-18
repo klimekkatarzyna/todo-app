@@ -1,15 +1,17 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import { Sun } from '@styled-icons/feather/Sun';
-import { Star } from '@styled-icons/feather/Star';
 import { Plus } from '@styled-icons/feather/Plus';
 import { CheckCircle } from '@styled-icons/feather/CheckCircle';
 import { Copy } from '@styled-icons/feather/Copy';
 import { FileMinus } from '@styled-icons/feather/FileMinus';
 import { Trash2 } from '@styled-icons/feather/Trash2';
-import { IContextualMenuList } from "./interfaces";
-import { Calendar } from '@styled-icons/feather/Calendar';
+import { IContextualMenuList, IListItem, IListItemType } from "./interfaces";
 import { ContextualMenuOpion } from "./enums";
+import { Sun } from '@styled-icons/feather/Sun';
+import { Star } from '@styled-icons/feather/Star';
+import { Calendar } from '@styled-icons/feather/Calendar';
+import { User } from '@styled-icons/feather/User';
+import { Home } from '@styled-icons/feather/Home';
 
 export const COLOURS: any = {
     darkGrey: '#383636',
@@ -41,6 +43,13 @@ export const IconWrapper = styled.div<IIconWrapper>`
             stroke: ${props.color};
         `};
     }
+`;
+
+export const Body = styled.div`
+    flex: 1;
+    background: linear-gradient(180deg, white, white 52px, #e5e5e5 52px, #e5e5e5 52px);
+    background-size: 100% 53px;
+    box-shadow: inset 0 1px 0 0 #e5e5e5;
 `;
 
 export const contextualMenuFirstOpion: IContextualMenuList[] = [{
@@ -102,3 +111,40 @@ export const contextualMenuFirstOpion: IContextualMenuList[] = [{
     name: "Usuń listę",
     type: ContextualMenuOpion.remove_list
  }]
+
+ export const mainListData: IListItem[] = [{
+   type: IListItemType.MY_DAY,
+   title: 'Mój dzien',
+   tasksNumber: undefined,
+   icon: <Sun />,
+   themeColor: 'grey',
+   _id: '/'
+}, {
+   type: IListItemType.IMPORTANT,
+   title: 'Wazne',
+   tasksNumber: undefined,
+   icon: <Star />,
+   themeColor: 'grey',
+   _id: '/important'
+},  {
+   type: IListItemType.PLANED,
+   title: 'Zaplanowane',
+   tasksNumber: undefined,
+   icon: <Calendar />,
+   themeColor: 'grey',
+   _id: '/planned'
+},  {
+   type: IListItemType.ASSIGNED,
+   title: 'Przydzielone dla Ciebie',
+   tasksNumber: undefined,
+   icon: <User />,
+   themeColor: 'green',
+   _id: '/assigned_to_me'
+},  {
+   type: IListItemType.TASKS,
+   title: 'Zadania',
+   tasksNumber: undefined,
+   icon: <Home />,
+   themeColor: 'red',
+   _id: '/inbox'
+}];
