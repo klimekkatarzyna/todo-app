@@ -1,42 +1,41 @@
-import { FC, useCallback, useContext } from 'react';
+import { FC, useCallback, useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Formik, Form, Field, FormikProps } from 'formik';
 import * as Yup from 'yup';
 import { AuthContext } from '../AuthContext';
+import { Input } from '../components/Input/Input';
+import { InputType } from '../enums';
+import Button from '../components/Button/Button';
+import { Content, FormWrapper, IconWrapperStyled, InputWrapper } from './Login';
+import { Eye } from '@styled-icons/feather/Eye';
+import { EyeOff } from '@styled-icons/feather/EyeOff';
 
 interface RegisterForm {
-    username: string;
+    userName: string;
     email: string;
     password: string;
 }
 
-const SignupSchema = Yup.object().shape({
-    username: Yup.string()
-        .min(2, 'Too Short!')
-        .required('wymagane'),
-    email: Yup.string()
-        .required('wymagane'),
-    password: Yup.string()
-        .required('wymagane')
-        .matches(/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9\d!@#\$%\^&\*.]+)$/, 'password should contain big letter, digit and special character')
-});
-
-const InitialValues = {
-    username: '',
-    email: '',
-    password: ''
-};
-
 const Register: FC = () => {
+    const [loginData, setLoginData] = useState<RegisterForm>({
+        userName: '',
+        email: '',
+        password: ''
+    });
+    const [showPassword, setShowPassowrd] = useState<boolean>(false);
     const { signUp } = useContext(AuthContext);
-    // const [showPassword, setShowPassowrd] = useState(false);
-    // const [password, setPassword] = useState(false);
-    // const [errorMessage, setErrorMessage] = useState('');
 
-    // const { authenticateUser } = useAuthorization();
-    // const { mutate } = useMutation(authenticateUser)
+    const handleChange = useCallback((event) => {
+        const { name, value } = event.target;
 
-    const onSubmit = useCallback((values: RegisterForm, { setSubmitting }) => {
+        setLoginData({
+            ...loginData,
+            [name]: value
+        })
+    }, [loginData]);
+
+    const handledSetPassword = () => setShowPassowrd(!showPassword);
+
+    const onSubmit = useCallback(() => {
         // dispatch<RegisterUser>(authenticateUser(values.username, values.email, values.password)).then(response => {
         //     setPassword(true);
         //     setSubmitting(false);
@@ -49,66 +48,64 @@ const Register: FC = () => {
         // })
 
         try {
-            signUp(values.username, values.email, values.password);
+            signUp(loginData.userName, loginData.email, loginData.password);
         } catch (error) {
             console.log(error);
         }
-
-    }, []);
+    }, [loginData]);
 
     // const handledSetPassword = () => setShowPassowrd(!showPassword);
     
     return (
-        <div>
-            <h2>Rejestrowanie do aplikacji TODOJanusz</h2>
-            <p>Masz konto?
-                {' '}
-                <Link to='/login'>
-                    Zaloguj się
-                </Link>
-            </p>
-            {/* <p>Uzyj konta Google lub Facebook aby się zalogować</p> */}
+        <FormWrapper>
+            <Content>
+                <h2>Rejestrowanie</h2>
+                <p>Masz konto?
+                    {' '}
+                    <Link to='/login'>
+                        Zaloguj się
+                    </Link>
+                </p>
+                {/* <p>Uzyj konta Google lub Facebook aby się zalogować</p> */}
 
-            {/* {errorMessage && (<span>{errorMessage}</span>)} */}
+                {/* {errorMessage && (<span>{errorMessage}</span>)} */}
 
-            <Formik
-                initialValues={InitialValues}
-                validationSchema={SignupSchema}
-                onSubmit={(values: RegisterForm, { setSubmitting }) => onSubmit(values, { setSubmitting })}
-                render={({ isSubmitting, errors, touched }: FormikProps<RegisterForm>) => (
-                    <Form>
-                        <Field
-                            name='username'
-                            type='text' 
-                            placeholder='User name'
-                            // component={FormikInput}
-                            required />
-                        <Field
-                            name='email'
-                            type='text' 
-                            placeholder='Email'
-                            // component={FormikInput}
-                            required />
-                        <div>
-                            <Field
-                                name='password'
-                                // type={!showPassword ? 'password' : 'text'}
-                                placeholder='Password'
-                                // component={FormikInput}
-                                required />
-                            {/* {!showPassword ? (
-                                <Eye onClick={handledSetPassword} />
-                            ) : (
-                                <EyeOff onClick={handledSetPassword} />
-                            )} */}
-                        </div>
-                        <button type='submit'>
-                            Utwórz konto
-                        </button>
-                    </Form>
-                )}
-            />
-        </div>
+                <form onSubmit={onSubmit}>
+                    <Input
+                        name='userName'
+                        colorType={InputType.primary}
+                        placeholder={'User name'}
+                        value={loginData.userName}
+                        autoFocus
+                        onChange={handleChange} />
+                    <Input
+                        name='email'
+                        colorType={InputType.primary}
+                        placeholder={'Email'}
+                        value={loginData.email}
+                        onChange={handleChange} />
+
+                    <InputWrapper>
+                        <Input
+                            name='password'
+                            colorType={InputType.primary}
+                            type={!showPassword ? 'password' : 'text'}
+                            placeholder={'Password'}
+                            value={loginData.password}
+                            onChange={handleChange} />
+                        {!showPassword ? (
+                            <IconWrapperStyled color={'grey'}><Eye onClick={handledSetPassword} /></IconWrapperStyled>
+                        ) : (
+                            <IconWrapperStyled color={'grey'}><EyeOff onClick={handledSetPassword} /></IconWrapperStyled>
+                        )}
+                    </InputWrapper>
+
+                    <Button primary type='submit' margin>
+                        Uwrórz konto
+                    </Button>
+                </form>
+            </Content>
+        </FormWrapper>
     );
 };
 

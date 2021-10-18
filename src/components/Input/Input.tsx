@@ -14,6 +14,7 @@ const Wrapper = styled.div<{ type: InputType, inputFocused: boolean, isIcon: boo
     background-color: ${props => (props.type === InputType.primary) ? `inherit` : `${COLOURS.white}`};
     cursor: pointer;
     border-right: 1px solid ${COLOURS.lightGrey};
+    width: 100%;
 
     ${props => !props.isIcon && css`
         border-bottom: 1px solid ${COLOURS.darkerGrey};
@@ -32,6 +33,7 @@ const Wrapper = styled.div<{ type: InputType, inputFocused: boolean, isIcon: boo
 `;
 
 const InputStyled = styled.input<{ inputFocused: boolean, colorType: InputType }>`
+    width: 100%;
     padding: 0.8rem;
     border: none;
     color: ${props => props.colorType === InputType.primary ? `${COLOURS.blue}`: `${COLOURS.white}`};

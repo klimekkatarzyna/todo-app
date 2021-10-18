@@ -18,7 +18,7 @@ export const AuthProvider: FC<IAuthProvider> = ({ children }) => {
             setAuthData(data)
         }
     });
-    const { isLoading: LoginIsLoading, mutate: loginMutate, data: loginData } = useMutation(loginRequest, {
+    const { isLoading: LoginIsLoading, mutate: loginMutate, isError, data: LoginData, status: LoginStatus } = useMutation(loginRequest, {
         onSuccess: (data) => {
             setAuthData(data)
         }
@@ -52,6 +52,8 @@ export const AuthProvider: FC<IAuthProvider> = ({ children }) => {
             //error TODO: handle error
         }
     }, []);
+    
+   console.log('???', LoginIsLoading, isError, LoginData, LoginStatus);
     
     return (
         <AuthContext.Provider value={{ signUp, login, logout, checkSession, authData, LoginIsLoading, setAuthData, loginoutData}}>

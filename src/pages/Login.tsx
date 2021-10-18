@@ -9,37 +9,52 @@ import { Input } from '../components/Input/Input';
 import { Eye } from '@styled-icons/feather/Eye';
 import { EyeOff } from '@styled-icons/feather/EyeOff';
 
-const LoginWrapper = styled.div`
+export const FormWrapper = styled.div`
     background-color: ${COLOURS.lightGrey};
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+    form {
+        width: 100%;
+    }
 `;
 
-const Content = styled.div`
+export const IconWrapperStyled = styled(IconWrapper)`
+    position: absolute;
+    right: 10px;
+`;
+
+export const Content = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: ${COLOURS.white};
     padding: 2rem;
+    min-width: 300px;
 
     h2, a {
         color: ${COLOURS.blue};
     }
 `;
 
-const InputWrapper = styled.div`
+export const InputWrapper = styled.div`
     display: flex;
     align-items: center;
+    position: relative;
 `;
 
+interface LoginForm {
+    email: string;
+    password: string;
+}
+
 const Login: FC = () => {
-    const [loginData, setLoginData] = useState({
+    const [loginData, setLoginData] = useState<LoginForm>({
         email: '',
         password: ''
     });
-    const [showPassword, setShowPassowrd] = useState(false);
+    const [showPassword, setShowPassowrd] = useState<boolean>(false);
     // const [errorMessage, setErrorMessage] = useState('');
 
     const { login } = useContext(AuthContext);
@@ -47,13 +62,11 @@ const Login: FC = () => {
     const handleChange = useCallback((event) => {
         const { name, value } = event.target;
 
-        console.log(name, value);
-
         setLoginData({
             ...loginData,
             [name]: value
         })
-    }, []);
+    }, [loginData]);
 
     const handledSetPassword = () => setShowPassowrd(!showPassword);
     
@@ -75,7 +88,7 @@ const Login: FC = () => {
     }, [loginData]);
 
     return (
-        <LoginWrapper>
+        <FormWrapper>
             <Content>
             <h2>Zaloguj się</h2>
             <p>Nie masz masz konta?
@@ -106,9 +119,9 @@ const Login: FC = () => {
                         value={loginData.password}
                         onChange={handleChange} />
                     {!showPassword ? (
-                        <IconWrapper color={'grey'}><Eye onClick={handledSetPassword} /></IconWrapper>
+                        <IconWrapperStyled color={'grey'}><Eye onClick={handledSetPassword} /></IconWrapperStyled>
                     ) : (
-                        <IconWrapper color={'grey'}><EyeOff onClick={handledSetPassword} /></IconWrapper>
+                        <IconWrapperStyled color={'grey'}><EyeOff onClick={handledSetPassword} /></IconWrapperStyled>
                     )}
                 </InputWrapper>
 
@@ -117,7 +130,7 @@ const Login: FC = () => {
                 </Button>
             </form>
             </Content>
-        </LoginWrapper>
+        </FormWrapper>
     );
 }
 
