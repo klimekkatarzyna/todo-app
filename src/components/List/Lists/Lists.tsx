@@ -1,7 +1,6 @@
 import { FC } from 'react';
-import { useQuery } from 'react-query';
 import styled from 'styled-components';
-import { IListItem, IListItemType, IListResponse } from '../../../interfaces';
+import { IListItem, IListItemType } from '../../../interfaces';
 import useList from '../useList';
 import { MenuListItem } from '../../MenuListItem/MenuListItem';
 
@@ -12,13 +11,12 @@ const Wrapper = styled.div`
 `;
 
 const Lists: FC = () => {
-    const { getLists } = useList();
-    const { isLoading, data } = useQuery<IListResponse>('lists', getLists); // TODO: cache it
+    const { getListsLoading, getListsQuery } = useList();
 
     return (
         <Wrapper>
-            {isLoading && <span>{'loading...'}</span>}
-            {data?.body?.lists?.map((item: IListItem) => (
+            {getListsLoading && <span>{'loading...'}</span>}
+            {getListsQuery?.body?.lists?.map((item: IListItem) => (
                 <MenuListItem listItem={item} type={IListItemType.TASK} />
             ))}
         </Wrapper>

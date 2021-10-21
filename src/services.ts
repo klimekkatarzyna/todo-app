@@ -20,3 +20,7 @@ export const getListById = 'http://localhost:3000/api/getList';
 export const createList = 'http://localhost:3000/api/createList';
 export const editList = 'http://localhost:3000/api/editList';
 export const removeList = 'http://localhost:3000/api/removeList';
+
+// task
+export const createTask = 'http://localhost:3000/api/createTask';
+export const getTasks = 'http://localhost:3000/api/getTasks';

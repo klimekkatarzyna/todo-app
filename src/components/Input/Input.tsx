@@ -6,7 +6,14 @@ import { Plus } from '@styled-icons/feather/Plus';
 import { Circle } from '@styled-icons/feather/Circle';
 import useFocusingHandling from "../../hooks/useMouseHandling";
 
-const Wrapper = styled.div<{ type: InputType, inputFocused: boolean, isIcon: boolean }>`
+interface IWrapper {
+    type: InputType;
+    inputFocused: boolean;
+    isIcon: boolean;
+    isTaskInput?: boolean;
+}
+
+const Wrapper = styled.div<IWrapper>`
     display: flex;
     align-items: center;
     border-radius: 0.3rem;
@@ -22,9 +29,12 @@ const Wrapper = styled.div<{ type: InputType, inputFocused: boolean, isIcon: boo
         border-radius: inherit;
         padding: 0;
     `};
-    &:hover {
-        background-color: ${COLOURS.white};
-    }
+
+    ${props => (props.isTaskInput && props.inputFocused) && css`
+        border-bottom: 1px solid ${COLOURS.blue};
+        border-radius: inherit;
+        border-right: none;
+    `};
 
     > button {
         border: none;
@@ -32,15 +42,15 @@ const Wrapper = styled.div<{ type: InputType, inputFocused: boolean, isIcon: boo
     }
 `;
 
-const InputStyled = styled.input<{ inputFocused: boolean, colorType: InputType }>`
+const InputStyled = styled.input<{ inputFocused: boolean, colorType: InputType, isTaskInput?: boolean }>`
     width: 100%;
-    padding: 0.8rem;
+    padding: ${props => !props.isTaskInput ? '0.8rem': '1.2rem'};
     border: none;
     color: ${props => props.colorType === InputType.primary ? `${COLOURS.blue}`: `${COLOURS.white}`};
     outline: none;
     background-color: ${props => props.colorType === InputType.primary ? `inherit` : `${COLOURS.grey}`};
     ::placeholder {
-        color: ${props => (props.colorType === InputType.primary && !props.inputFocused) ? `${COLOURS.blue}`: `${COLOURS.fontColor}`};
+        color: ${props => (props.colorType === InputType.primary && !props.inputFocused) ? `${COLOURS.blue}`: `${COLOURS.darkerGrey}`};
     }
 `;
 
@@ -53,14 +63,15 @@ interface IInput<T = string | number> {
     colorType: InputType;
     type?: 'text' | 'password';
     autoFocus?: boolean;
+    isTaskInput?: boolean;
 }
 
-export const Input: FC<IInput> = ({ name, value, isIcon = false, placeholder = '', colorType, type = 'test', onChange, autoFocus }) => {
+export const Input: FC<IInput> = ({ name, value, isIcon = false, placeholder = '', colorType, type = 'test', onChange, autoFocus, isTaskInput }) => {
     const { onFocus, onBlur, isFocused } = useFocusingHandling();
     const iconColor: string = useMemo(() => (colorType === InputType.primary && !isFocused) ? COLOURS.blue : COLOURS.fontColor, [type, isFocused]);
 
     return (
-        <Wrapper type={colorType} inputFocused={isFocused} isIcon={isIcon}>
+        <Wrapper type={colorType} inputFocused={isFocused} isIcon={isIcon} isTaskInput={isTaskInput}>
             {isIcon && (
                 <button type='submit'>
                     <IconWrapper color={iconColor}>{isFocused ? <Circle/> : <Plus />}</IconWrapper>
@@ -76,7 +87,8 @@ export const Input: FC<IInput> = ({ name, value, isIcon = false, placeholder = '
                 onChange={onChange}
                 onFocus={onFocus}
                 onBlur={onBlur}
-                inputFocused={isFocused} />
+                inputFocused={isFocused}
+                isTaskInput={isTaskInput} />
         </Wrapper>
     )
 }

@@ -1,6 +1,5 @@
 import { FC, useCallback, useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
-import * as Yup from 'yup';
 import { AuthContext } from '../AuthContext';
 import { Input } from '../components/Input/Input';
 import { InputType } from '../enums';
@@ -8,6 +7,7 @@ import Button from '../components/Button/Button';
 import { Content, FormWrapper, IconWrapperStyled, InputWrapper } from './Login';
 import { Eye } from '@styled-icons/feather/Eye';
 import { EyeOff } from '@styled-icons/feather/EyeOff';
+import { removesWhitespaceFromString } from '../utils/utilsFunctions';
 
 interface RegisterForm {
     userName: string;
@@ -24,12 +24,13 @@ const Register: FC = () => {
     const [showPassword, setShowPassowrd] = useState<boolean>(false);
     const { signUp } = useContext(AuthContext);
 
-    const handleChange = useCallback((event) => {
+    const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
+        const clearStr = removesWhitespaceFromString(value);
 
         setLoginData({
             ...loginData,
-            [name]: value
+            [name]: clearStr
         })
     }, [loginData]);
 

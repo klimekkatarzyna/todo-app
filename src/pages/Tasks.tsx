@@ -1,28 +1,23 @@
-import { useQuery } from 'react-query';
-import { useParams } from 'react-router';
 import { Board } from '../components/Board';
 import useList from '../components/List/useList';
+import CreateTask from '../components/Tasks/Tasks';
 import Toolbar from '../components/Toolbar';
 import { Body } from '../constants';
 
-interface IUseParams {
-    listId: string;
-}
-
 const Tasks = () => {
-    const { listId } = useParams<IUseParams>();
-    const { getListById } = useList(listId);
-    const { data, isLoading } = useQuery(['getListById', listId], getListById);
+    const { getListByIdData, getListByIdLoading } = useList();
 
     return (
         <Board>
-            {isLoading ? (
+            {getListByIdLoading ? (
                 <span>{'loading...'}</span>
             ) : (
-                <Toolbar name={data?.title || ''} colorType={data?.themeColor} />
+                <Toolbar name={getListByIdData?.title || ''} colorType={getListByIdData?.themeColor} />
             )}
             
             <Body>
+                <CreateTask />
+                {/* TODO: list of created tasks and realized tasks */}
             </Body>
         </Board>
     );

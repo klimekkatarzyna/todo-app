@@ -55,3 +55,23 @@ export interface IListResponse {
     };
     status: number;
 }
+
+export interface IUseParams {
+    listId: string;
+}
+
+export interface ITasksResponse {
+    body: {
+        tasks: ITask[];
+    };
+    status: number;
+}
+
+export interface ITask {
+    createdAt: string;
+    importance: string;
+    parentFolderId: string;
+    groupName: string;
+    title: string;
+    _id: string;
+}

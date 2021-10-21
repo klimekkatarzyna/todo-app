@@ -4,7 +4,7 @@ import { COLOURS, IconWrapper } from '../../constants';
 import { IContextualMenuList } from '../../interfaces';
 import { MenuItem } from 'react-contextmenu';
 import useList from '../List/useList';
-import { useMutation, useQueryClient } from 'react-query';
+import { useQueryClient } from 'react-query';
 import Modal from '../Modal/Modal';
 import useShowModal from '../../hooks/useShowModal';
 import { ContextualMenuOpion } from '../../enums';
@@ -37,15 +37,9 @@ interface IItem extends IContextualMenuList {
 
 const ContextualMenuItem: FC<IContextualMenuItem> = ({ listItem, listElementId }) => {
     const query = useQueryClient();
-    const { deleteList } = useList();
+    const { mutateRemoveList } = useList();
     const [selectedMenuItemType, setSelectedMenuItemType] = useState<boolean>(false);
     const { isModalVisible, onOpeneModal } = useShowModal();
-
-    const { mutate: mutateRemoveList } = useMutation(deleteList, {
-        onSuccess: () => {
-            query.invalidateQueries(['lists'])
-        }
-    });
 
     const handleClick = useCallback(async (e: any, data: IItem ) => {
         try {
@@ -54,6 +48,8 @@ const ContextualMenuItem: FC<IContextualMenuItem> = ({ listItem, listElementId }
                 onOpeneModal();
                 //setSelectedMenuItemType(true);
                 await mutateRemoveList(data.listElementId);
+
+                // TODO: handle switch to last item of list of lists and display content
             }
         } catch {
             //TODO: handle error & show notificayion

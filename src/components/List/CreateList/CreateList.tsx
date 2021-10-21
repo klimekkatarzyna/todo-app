@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { InputType } from '../../../enums';
 import { Input } from '../../Input/Input';
 import useList from '../useList';
-import { useMutation, useQueryClient } from 'react-query';
 import { COLOURS } from '../../../constants';
+import { removesWhitespaceFromString } from '../../../utils/utilsFunctions';
 
 const Wrapper = styled.div`
     display: flex;
@@ -20,17 +20,10 @@ interface ISidebar {
 
 const CreateList: FC<ISidebar> = () => {
     const [listName, setListName] = useState<string>('');
-    const query = useQueryClient();
-    const { createList } = useList();
-
-    const { mutate: mutateCreateList } = useMutation(createList, {
-        onSuccess: () => {
-            query.invalidateQueries(['lists'])
-        }
-    });
+    const { mutateCreateList } = useList();
 
     const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-        const clearStr = event.target?.value?.trim();
+        const clearStr = removesWhitespaceFromString(event.target?.value);
         setListName(clearStr);
     }, []);
 

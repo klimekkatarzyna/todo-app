@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import styled from 'styled-components';
 import { COLOURS } from "../constants";
 import { AppColorType } from '../enums';
-import { day, dayName, month } from '../utils/date';
+import { getDay, getDayName, getMonth } from '../utils/date';
 
 const Wrapper = styled.div`
     display: flex;
@@ -39,12 +39,14 @@ interface IToolbar {
 }
 
 const Toolbar: FC<IToolbar> = ({ name, colorType = 'grey', isDateVisible }) => {
+    const date = new Date();
+
     return (
         <Wrapper>
             <ToolbarStyled colorType={colorType}>
                 {name}
             </ToolbarStyled>
-            <DateToday>{isDateVisible && `${dayName}, ${day} ${month}`}</DateToday>
+            <DateToday>{isDateVisible && `${getDayName(date)}, ${getDay(date)} ${getMonth(date)}`}</DateToday>
         </Wrapper>
     );
 };

@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const router = require('./server/router');
+const lists = require('./server/lists');
+const tasks = require('./server/tasks');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 
@@ -34,5 +36,7 @@ app.listen(PORT, () => {
 });
 
 app.use('/api', router);
+app.use('/api', lists);
+app.use('/api', tasks);
 
 /* */

@@ -8,6 +8,7 @@ import { InputType } from '../enums';
 import { Input } from '../components/Input/Input';
 import { Eye } from '@styled-icons/feather/Eye';
 import { EyeOff } from '@styled-icons/feather/EyeOff';
+import { removesWhitespaceFromString } from '../utils/utilsFunctions';
 
 export const FormWrapper = styled.div`
     background-color: ${COLOURS.lightGrey};
@@ -59,12 +60,13 @@ const Login: FC = () => {
 
     const { login } = useContext(AuthContext);
 
-    const handleChange = useCallback((event) => {
+    const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
+        const clearStr = removesWhitespaceFromString(value);
 
         setLoginData({
             ...loginData,
-            [name]: value
+            [name]: clearStr
         })
     }, [loginData]);
 

@@ -5,8 +5,12 @@ const TaskSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    selected: {
-        type: Boolean,
+    parentFolderId: {
+        type: String,
+        required: true
+    },
+    importance: {
+        type: String,
         required: true
     },
     createdAt: {

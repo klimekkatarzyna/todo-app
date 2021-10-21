@@ -17,6 +17,8 @@ const useMainList = () => {
         })
     }, []);
 
+    // TODO: mutateCreateMainList
+
     const getMainList = useCallback(() => {
         return http(api.getMainList, 'GET', {
             headers: {
@@ -29,6 +31,8 @@ const useMainList = () => {
             return error;
         })
     }, []);
+
+    // TODO: mutateGetMainList
     
     return {
         createMainList,
