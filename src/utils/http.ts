@@ -1,4 +1,4 @@
-export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
+export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
 export const http = (url: string, method: HttpMethod, body: any) => {
     return new Promise<HttpResponse>((resolve, reject) => {

@@ -4,7 +4,7 @@ import { InputType } from '../../../enums';
 import { Input } from '../../Input/Input';
 import useList from '../useList';
 import { COLOURS } from '../../../constants';
-import { removesWhitespaceFromString } from '../../../utils/utilsFunctions';
+import { handleResertInput, removesWhitespaceFromString } from '../../../utils/utilsFunctions';
 
 const Wrapper = styled.div`
     display: flex;
@@ -27,15 +27,11 @@ const CreateList: FC<ISidebar> = () => {
         setListName(clearStr);
     }, []);
 
-    const handleResertInput = useCallback(() => {
-        setListName('');
-    }, []);
-
     const onSubmit = useCallback(async (event) => {
         event.preventDefault();
         try {
             await mutateCreateList(listName);
-            handleResertInput();
+            handleResertInput(setListName);
             //TODO: redirect on created list 
         } catch {
             //TODO: handle error & show notificayion

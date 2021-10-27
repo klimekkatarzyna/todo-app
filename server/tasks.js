@@ -5,12 +5,15 @@ const Task = require('./models/task');
 
 router.post('/createTask', async (req, res) => {
     Task.find({ id: req.body._id }, (err, docs) => {
+        console.log(req.body.themeColor);
 
         const task = new Task({
             title: req.body.title,
             parentFolderId: req.body.parentFolderId,
             importance:  req.body.importance,
-            createdAt: Date.now()
+            themeColor: req.body.themeColor,
+            createdAt: Date.now(),
+            taskStatus: req.body.taskStatus
         });
 
         const token = jwt.sign({
@@ -26,7 +29,9 @@ router.post('/createTask', async (req, res) => {
                     title: task.title,
                     parentFolderId: task.parentFolderId,
                     importance: task.importance,
-                    createdAt: task.createdAt
+                    themeColor: task.themeColor,
+                    createdAt: task.createdAt,
+                    taskStatus: task.taskStatus
                 },
                 message: `created task successfully`,
                 status: 200
@@ -53,6 +58,25 @@ router.get('/getTasks/:listId', async (req, res) => {
                 status: 200
             });
         } catch (error) {
+            res.status(500).json({
+                success: false,
+                errorMessage: `something went wrong`,
+                err,
+                status: 500
+            })
+        }
+    });
+});
+
+router.patch('/changeTaskStatusToComplete/:taskId', async (req, res) => {
+    Task.updateOne({ _id: req.params.taskId }, { $set: { taskStatus: req.body.taskStatus } }, (err, docs) => {
+        try {
+            res.json({
+                message: `status changed successfully`,
+                status: 200
+            });
+        } catch (err) {
+            console.log(err);
             res.status(500).json({
                 success: false,
                 errorMessage: `something went wrong`,

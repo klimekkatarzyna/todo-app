@@ -24,3 +24,4 @@ export const removeList = 'http://localhost:3000/api/removeList';
 // task
 export const createTask = 'http://localhost:3000/api/createTask';
 export const getTasks = 'http://localhost:3000/api/getTasks';
+export const changeTaskStatusToComplete = 'http://localhost:3000/api/changeTaskStatusToComplete';

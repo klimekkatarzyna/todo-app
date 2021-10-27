@@ -1,7 +1,7 @@
-import React, { FC } from 'react';
+import React, { FC, useCallback } from 'react';
 import styled from 'styled-components';
 import { COLOURS } from '../../../constants';
-import { ITask } from '../../../interfaces';
+import { ITask, ITaskStatus } from '../../../interfaces';
 import { getDay, getDayName, getMonth, parseUTCtoDate } from '../../../utils/date';
 import Checkbox from '../../Checkbox/Checkbox';
 import ImportanceButton from '../../ImportanceButton/ImportanceButton';
@@ -46,16 +46,19 @@ const TaskItemInfo = styled.span`
 
 interface ITaskItem {
     task: ITask;
-    // taskName: string;
-    // groupName: string;
-    // isChecked: boolean;
-    // taskItemInfo?: string;
+    onChange: (taskId: string) => void;
 }
 
-const TaskItem: FC<ITaskItem> = ({ task }) => {
+const TaskItem: FC<ITaskItem> = ({ task, onChange }) => {
+
+    const onHandleChange = useCallback(() => {
+        onChange(task._id)
+    }, [task]);
+
+
     return (
         <TaskItemWrapper>
-            <Checkbox round={true} color={'blue'} />
+            <Checkbox round={true} checked={task.taskStatus === ITaskStatus.complete} color={task.themeColor} onChange={onHandleChange} />
             <Names>
                 <TaskName>{task?.title}</TaskName>
                 <div>

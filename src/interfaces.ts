@@ -1,5 +1,6 @@
 import { ReactElement } from 'react';
-import { ContextualMenuOpion } from './enums';
+import { AppColorType, ContextualMenuOpion } from './enums';
+import { HttpResponse } from './utils/http';
 
 export interface IListItem {
     type?: IListItemType;
@@ -60,11 +61,10 @@ export interface IUseParams {
     listId: string;
 }
 
-export interface ITasksResponse {
+export interface ITasksResponse extends HttpResponse {
     body: {
         tasks: ITask[];
-    };
-    status: number;
+    }
 }
 
 export interface ITask {
@@ -73,5 +73,17 @@ export interface ITask {
     parentFolderId: string;
     groupName: string;
     title: string;
+    themeColor: AppColorType;
     _id: string;
+    taskStatus: ITaskStatus;
+}
+
+export enum ITaskStatus {
+    inComplete = 'inComplete',
+    complete = 'complete'
+}
+
+export interface IChangeTaskStatusToCompleteProps {
+    taskId: string;
+    taskStatus: ITaskStatus;
 }
