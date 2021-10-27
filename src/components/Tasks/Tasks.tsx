@@ -15,7 +15,7 @@ interface IUseParams {
 const CreateTask = () => {
     const history = useHistory(); 
     const { listId } = useParams<IUseParams>();
-    const { mutateCreateTask, getTasksOfCurrentListQuery, getTasksOfCurrentListLoading, mutateChangeTaskStatusToComplete } = useTask();
+    const { mutateCreateTask, getTasksOfCurrentListQuery, getTasksOfCurrentListLoading, mutateChangeTaskStatus } = useTask();
    
    useEffect(() => {
         history.listen(() => setTaskName('')) 
@@ -39,8 +39,13 @@ const CreateTask = () => {
     }, [taskName, listId]);
 
     const onMarkTaskAsCompleted = useCallback((taskId: string) => {
-        mutateChangeTaskStatusToComplete({ taskId: taskId, taskStatus: ITaskStatus.complete });
+        mutateChangeTaskStatus({ taskId: taskId, taskStatus: ITaskStatus.complete });
     }, []);
+
+    const onMarkTaskAsInCompleted = useCallback((taskId: string) => {
+        mutateChangeTaskStatus({ taskId: taskId, taskStatus: ITaskStatus.inComplete });
+    }, []);
+    
 
     const inComletedTasks = useMemo(() => getTasksOfCurrentListQuery?.body.tasks?.filter(task => task.taskStatus === ITaskStatus.inComplete), [getTasksOfCurrentListQuery]);
     const comletedTasks = useMemo(() => getTasksOfCurrentListQuery?.body.tasks?.filter(task => task.taskStatus === ITaskStatus.complete), [getTasksOfCurrentListQuery]);
@@ -68,7 +73,7 @@ const CreateTask = () => {
                         <TaskItem task={task} onChange={onMarkTaskAsCompleted} />
                     )}
                     {!!comletedTasks?.length && (
-                        <ComplitedTasks comletedTasks={comletedTasks} />
+                        <ComplitedTasks comletedTasks={comletedTasks} onMarkTaskAsInCompleted={onMarkTaskAsInCompleted} />
                     )}
                 </>
             )}

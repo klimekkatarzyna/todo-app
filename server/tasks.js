@@ -68,11 +68,11 @@ router.get('/getTasks/:listId', async (req, res) => {
     });
 });
 
-router.patch('/changeTaskStatusToComplete/:taskId', async (req, res) => {
+router.patch('/changeTaskStatus/:taskId', async (req, res) => {
     Task.updateOne({ _id: req.params.taskId }, { $set: { taskStatus: req.body.taskStatus } }, (err, docs) => {
         try {
             res.json({
-                message: `status changed successfully`,
+                message: `status changed successfully to ${req.body.taskStatus}`,
                 status: 200
             });
         } catch (err) {

@@ -61,8 +61,8 @@ const useTask = () => {
 
     const { data: getTasksOfCurrentListQuery, isLoading: getTasksOfCurrentListLoading } = useQuery<ITasksResponse>(['tasksOfCurrentList', listId], getTasksOfCurrentList);
 
-    const changeTaskStatusToComplete = ({ taskId, taskStatus }: IChangeTaskStatusToCompleteProps): Promise<HttpResponse<ITask>> => {
-        return http(`${api.changeTaskStatusToComplete}/${taskId}`, 'PATCH', {
+    const changeTaskStatus = ({ taskId, taskStatus }: IChangeTaskStatusToCompleteProps): Promise<HttpResponse<ITask>> => {
+        return http(`${api.changeTaskStatus}/${taskId}`, 'PATCH', {
             body: JSON.stringify({ taskStatus }),
             headers: {
                 'Content-type': 'application/json',
@@ -75,7 +75,7 @@ const useTask = () => {
         })
     };
 
-    const { mutate: mutateChangeTaskStatusToComplete } = useMutation(changeTaskStatusToComplete, {
+    const { mutate: mutateChangeTaskStatus } = useMutation(changeTaskStatus, {
         onSuccess: () => {
             query.invalidateQueries(['tasksOfCurrentList'])
         }
@@ -85,7 +85,7 @@ const useTask = () => {
         mutateCreateTask,
         getTasksOfCurrentListLoading,
         getTasksOfCurrentListQuery,
-        mutateChangeTaskStatusToComplete
+        mutateChangeTaskStatus
     }
 };
 

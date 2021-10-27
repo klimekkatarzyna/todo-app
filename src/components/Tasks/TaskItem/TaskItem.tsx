@@ -39,8 +39,8 @@ const GroupName = styled.span`
     margin-right: 1rem;
 `;
 
-const TaskItemInfo = styled.span`
-    color: ${COLOURS.red};
+const TaskItemInfo = styled.span<{ color: string }>`
+    color: ${props => props.color ? `${COLOURS[props.color]}` : `${COLOURS.fontColor}`};
     font-size: 0.8rem;
 `;
 
@@ -63,7 +63,7 @@ const TaskItem: FC<ITaskItem> = ({ task, onChange }) => {
                 <TaskName>{task?.title}</TaskName>
                 <div>
                     {task?.groupName && <GroupName>{task?.groupName}</GroupName>}
-                    {task?.createdAt && <TaskItemInfo>{`${getDayName(parseUTCtoDate(task?.createdAt))}, ${getDay(parseUTCtoDate(task?.createdAt))} ${getMonth(parseUTCtoDate(task?.createdAt))}`}</TaskItemInfo>}
+                    {task?.createdAt && <TaskItemInfo color={task.themeColor}>{`${getDayName(parseUTCtoDate(task?.createdAt))}, ${getDay(parseUTCtoDate(task?.createdAt))} ${getMonth(parseUTCtoDate(task?.createdAt))}`}</TaskItemInfo>}
                 </div>
             </Names>
             <ImportanceButton isChecked={false} />

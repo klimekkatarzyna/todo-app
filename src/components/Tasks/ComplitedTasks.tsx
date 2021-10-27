@@ -6,10 +6,6 @@ import { ArrowRight } from '@styled-icons/feather/ArrowRight';
 import { ArrowDown } from '@styled-icons/feather/ArrowDown';
 import { COLOURS, IconWrapper } from '../../constants';
 
-interface IComplitedTasks {
-    comletedTasks: ITask[] | undefined;
-}
-
 const CompletedTasksWrapper = styled.div`
     > button {
         border: none;
@@ -42,16 +38,17 @@ const Accordion = styled.div`
 
 `;
 
-const ComplitedTasks = ({ comletedTasks }: IComplitedTasks) => {
+interface IComplitedTasks {
+    comletedTasks: ITask[] | undefined;
+    onMarkTaskAsInCompleted: (taskId: string) => void;
+}
+
+const ComplitedTasks = ({ comletedTasks, onMarkTaskAsInCompleted }: IComplitedTasks) => {
     const [isActive, setIsActive] = useState<boolean>(false);
 
     const onToogle = useCallback(() => {
         setIsActive(!isActive);
     }, [isActive]);
-
-    const onMarkTaskAsInCompleted = useCallback((taskId: string) => {
-       
-    }, []);
 
     return (
         <CompletedTasksWrapper>
