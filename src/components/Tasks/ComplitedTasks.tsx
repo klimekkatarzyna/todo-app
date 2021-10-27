@@ -21,10 +21,7 @@ const CompletedTasksWrapper = styled.div`
         font-weight: 600;
         font-size: 1rem;
         margin: 0;
-    }
-
-    svg {
-        margin-right: 1rem;
+        margin-left: 1rem;
     }
 `;
 
@@ -54,7 +51,7 @@ const ComplitedTasks = ({ comletedTasks, onMarkTaskAsInCompleted }: IComplitedTa
         <CompletedTasksWrapper>
             <button onClick={onToogle}>
                 <IconWrapper color='grey'>{isActive ? <ArrowDown /> : <ArrowRight />}</IconWrapper>
-                <h3>{'Wykomane'}</h3>
+                <h3>{'Wykonane'}</h3>
                 <TasksNumber>{comletedTasks?.length}</TasksNumber>
             </button>
             <Accordion>

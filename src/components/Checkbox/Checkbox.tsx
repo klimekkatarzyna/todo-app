@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import styled, { css } from 'styled-components';
 import { COLOURS } from '../../constants';
 import { AppColorType } from '../../enums';
+import Tooltip from '../Tooltip/Tooltip';
 
 interface CheckboxWrapperProps {
     round?: boolean;
@@ -107,17 +108,20 @@ interface CheckboxProps {
     round?: boolean;
     color?: AppColorType;
     disabled?: boolean;
+    tooltipText?: string;
 }
 
-const Checkbox: FC<CheckboxProps> = ({ round, color, disabled, checked, onChange, id, key, children }) => {
+const Checkbox: FC<CheckboxProps> = ({ round, color, disabled, checked, onChange, id, key, children, tooltipText }) => {
     return (
-        <CheckboxWrapper round={round} color={color || 'blue'} disabled={disabled}>
-            <label>
-                <input type="checkbox" checked={!!checked} onChange={onChange} id={id} key={key} disabled={disabled} />
-                <span />
-                {children && <Label>{children}</Label>}
-            </label>
-        </CheckboxWrapper>
+        <Tooltip position={'bottom'} text={tooltipText}>
+            <CheckboxWrapper round={round} color={color || 'blue'} disabled={disabled}>
+                <label>
+                    <input type="checkbox" checked={!!checked} onChange={onChange} id={id} key={key} disabled={disabled} />
+                    <span />
+                    {children && <Label>{children}</Label>}
+                </label>
+            </CheckboxWrapper>
+        </Tooltip>
     );
 };
 

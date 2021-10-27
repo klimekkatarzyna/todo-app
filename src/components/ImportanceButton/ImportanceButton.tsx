@@ -18,7 +18,7 @@ const ImportanceButton: FC<IImportanceButton> = ({ isChecked }) => {
 
     return (
         <ImportanceButtonWrapper>
-            {isFocused && <Tooltip position={'bottom'} display={isFocused}>{'Oznacz zadanie jako wazne'}</Tooltip>}
+            {isFocused && <Tooltip position={'bottom'}>{'Oznacz zadanie jako wazne'}</Tooltip>}
             <IconWrapper
                 color={COLOURS.blue}
                 isChecked={isChecked}

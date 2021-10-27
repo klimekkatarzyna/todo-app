@@ -1,4 +1,4 @@
-import React, { FC, useCallback } from 'react';
+import React, { FC, useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 import { COLOURS } from '../../../constants';
 import { ITask, ITaskStatus } from '../../../interfaces';
@@ -50,15 +50,19 @@ interface ITaskItem {
 }
 
 const TaskItem: FC<ITaskItem> = ({ task, onChange }) => {
-
+    const tooltipText = useMemo(() => task.taskStatus === ITaskStatus.complete ? 'oznacz jako niewykonane' : 'oznacz jako wykonane', [task]);
     const onHandleChange = useCallback(() => {
         onChange(task._id)
     }, [task]);
 
-
     return (
         <TaskItemWrapper>
-            <Checkbox round={true} checked={task.taskStatus === ITaskStatus.complete} color={task.themeColor} onChange={onHandleChange} />
+            <Checkbox
+                round
+                checked={task.taskStatus === ITaskStatus.complete}
+                color={task.themeColor}
+                onChange={onHandleChange}
+                tooltipText={tooltipText} />
             <Names>
                 <TaskName>{task?.title}</TaskName>
                 <div>
