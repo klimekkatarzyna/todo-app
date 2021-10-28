@@ -16,6 +16,8 @@ const Wrapper = styled.div`
     min-width: 250px;
     width: 50px;
     transition: width 180ms ease;
+    height: 618px;
+    overflow-y: scroll;
 `;
 
 const InputsWrapper = styled.div`

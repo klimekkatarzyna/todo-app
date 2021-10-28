@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { IListItem, IListItemType } from '../../../interfaces';
 import useList from '../useList';
 import { MenuListItem } from '../../MenuListItem/MenuListItem';
+import Loader from '../../Loader/Loader';
 
 const Wrapper = styled.div`
     display: flex;
@@ -15,7 +16,7 @@ const Lists: FC = () => {
 
     return (
         <Wrapper>
-            {getListsLoading && <span>{'loading...'}</span>}
+            {getListsLoading && <Loader />}
             {getListsQuery?.body?.lists?.map((item: IListItem) => (
                 <MenuListItem listItem={item} type={IListItemType.TASK} />
             ))}

@@ -1,42 +1,20 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useHistory, useParams } from 'react-router';
-import { InputType } from '../../enums';
+import React, { useCallback, useMemo } from 'react';
+import styled from 'styled-components';
 import { ITask, ITaskStatus } from '../../interfaces';
-import { handleResertInput, removesWhitespaceFromString } from '../../utils/utilsFunctions';
-import { Input } from '../Input/Input';
+import Loader from '../Loader/Loader';
 import ComplitedTasks from './ComplitedTasks';
 import TaskItem from './TaskItem/TaskItem';
 import useTask from './useTask';
 
-interface IUseParams {
-    listId: string;
-}
+const TasksListContainer = styled.div`
+    height: 550px;
+    overflow-y: scroll;
+    flex: 1;
+    box-shadow: inset 0 1px 0 0 #e5e5e5;
+`;
 
-const CreateTask = () => {
-    const history = useHistory(); 
-    const { listId } = useParams<IUseParams>();
-    const { mutateCreateTask, getTasksOfCurrentListQuery, getTasksOfCurrentListLoading, mutateChangeTaskStatus } = useTask();
-   
-   useEffect(() => {
-        history.listen(() => setTaskName('')) 
-   }, [history]);
-
-    const [taskName, setTaskName] = useState<string>('');
-
-    const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-        const clearStr = removesWhitespaceFromString(event.target.value); 
-        setTaskName(clearStr);
-    }, []);
-    
-    const onSubmit = useCallback(async (e) => {
-        e.preventDefault();
-        try {
-            mutateCreateTask({ title: taskName, parentFolderId: listId, themeColor: 'blue' });
-            handleResertInput(setTaskName);
-        } catch {
-            // TODO: handle error
-        }
-    }, [taskName, listId]);
+const TasksList = () => {
+    const { getTasksOfCurrentListQuery, getTasksOfCurrentListLoading, mutateChangeTaskStatus } = useTask();
 
     const onMarkTaskAsCompleted = useCallback((taskId: string) => {
         mutateChangeTaskStatus({ taskId: taskId, taskStatus: ITaskStatus.complete });
@@ -51,22 +29,9 @@ const CreateTask = () => {
     const comletedTasks = useMemo(() => getTasksOfCurrentListQuery?.body.tasks?.filter(task => task.taskStatus === ITaskStatus.complete), [getTasksOfCurrentListQuery]);
 
     return (
-        <div>
-            <form onSubmit={onSubmit}>
-                <Input
-                    isIcon
-                    name='taskName'
-                    colorType={InputType.primary}
-                    isTaskInput
-                    placeholder={'Dodaj zadanie'}
-                    value={taskName}
-                    autoFocus
-                    onChange={handleChange}
-                />
-            </form>
-
+        <TasksListContainer>
             {getTasksOfCurrentListLoading ? (
-                <span>{'loaging...'}</span>
+                <Loader />
             ) : (
                 <>
                     {inComletedTasks?.map((task: ITask) => 
@@ -77,8 +42,8 @@ const CreateTask = () => {
                     )}
                 </>
             )}
-        </div>
+        </TasksListContainer>
     );
 };
 
-export default CreateTask;
+export default TasksList;

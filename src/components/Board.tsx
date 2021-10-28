@@ -1,12 +1,15 @@
 import React, { FC } from "react";
 import styled from 'styled-components';
+import TaskSidebarDetails from "./Tasks/TaskSidebarDetailsContainer";
 
 const Wrapper = styled.div`
-    padding: 2rem;
     position: relative;
-    flex: 1 1 0px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    width: 100%;
+    > div {
+        margin: 0.5rem;
+    }
 `;
 interface IBoard {
     children: React.ReactNode;
@@ -16,6 +19,7 @@ export const Board: FC<IBoard> = ({ children }) => {
     return (
         <Wrapper>
             {children}
+            <TaskSidebarDetails />
         </Wrapper>
     )
 }

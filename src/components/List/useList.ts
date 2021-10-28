@@ -11,7 +11,7 @@ const useList = () => {
 
     const createList = useCallback((title: string) => {
         return http(api.createList, 'POST', {
-            body: JSON.stringify({ title  }),
+            body: JSON.stringify({ title, taskNumber: 0  }),
             headers: {
                 'Content-type': 'application/json',
             }
@@ -23,7 +23,7 @@ const useList = () => {
         })
     }, []);
 
-    const { mutate: mutateCreateList } = useMutation(createList, {
+    const { mutate: mutateCreateList, isLoading: mutateCreateListLoading } = useMutation(createList, {
         onSuccess: () => {
             query.invalidateQueries(['lists'])
         }
@@ -82,6 +82,7 @@ const useList = () => {
 
     return {
         mutateCreateList,
+        mutateCreateListLoading,
         getListsLoading,
         getListsQuery,
         getListByIdData,

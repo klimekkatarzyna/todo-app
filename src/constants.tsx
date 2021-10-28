@@ -19,7 +19,7 @@ export const COLOURS: any = {
     grey: '#505050',
     lightGrey: '#f4f4f4',
     blue: '#0078D7',
-    lightBlue: '#7ebcec',
+    lightBlue: '#f4f6ff',
     white: '#ffffff',
     red: '#c23732',
     green: '#5ca52d',
@@ -46,10 +46,10 @@ export const IconWrapper = styled.div<IIconWrapper>`
 `;
 
 export const Body = styled.div`
-    flex: 1;
-    background: linear-gradient(180deg, white, white 52px, #e5e5e5 52px, #e5e5e5 52px);
-    background-size: 100% 53px;
-    box-shadow: inset 0 1px 0 0 #e5e5e5;
+   flex: 1;
+   /* background: linear-gradient(180deg, white, white 52px, #e5e5e5 52px, #e5e5e5 52px);
+   background-size: 100% 53px;
+   box-shadow: inset 0 1px 0 0 #e5e5e5; */
 `;
 
 export const contextualMenuFirstOpion: IContextualMenuList[] = [{
