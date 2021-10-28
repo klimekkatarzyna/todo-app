@@ -1,9 +1,8 @@
 import React, { FC } from 'react';
+import styled from 'styled-components';
 import { Star } from '@styled-icons/feather/Star';
 import { COLOURS, IconWrapper } from '../../constants';
 import Tooltip from '../Tooltip/Tooltip';
-import styled from 'styled-components';
-import useMouseHandling from '../../hooks/useMouseHandling';
 
 const ImportanceButtonWrapper = styled.div`
     position: relative;
@@ -14,18 +13,15 @@ interface IImportanceButton {
 }
 
 const ImportanceButton: FC<IImportanceButton> = ({ isChecked }) => {
-    const { isFocused, onBlur, onFocus } = useMouseHandling();
-
     return (
         <ImportanceButtonWrapper>
-            {isFocused && <Tooltip position={'bottom'}>{'Oznacz zadanie jako wazne'}</Tooltip>}
-            <IconWrapper
-                color={COLOURS.blue}
-                isChecked={isChecked}
-                onFocus={onFocus}
-                onBlur={onBlur}>
-                <Star />
-            </IconWrapper>
+            <Tooltip position={'right'} text={'Oznacz zadanie jako wazne'}>
+                <IconWrapper
+                    color={COLOURS.blue}
+                    isChecked={isChecked}>
+                    <Star />
+                </IconWrapper>
+            </Tooltip>
         </ImportanceButtonWrapper>
     );
 };

@@ -21,6 +21,7 @@ const Wrapper = styled.div<IWrapper>`
     background-color: ${props => (props.type === InputType.primary) ? `inherit` : `${COLOURS.white}`};
     cursor: pointer;
     border-right: 1px solid ${COLOURS.lightGrey};
+    border-top: 1px solid ${COLOURS.white};
     width: 100%;
 
     ${props => !props.isIcon && css`

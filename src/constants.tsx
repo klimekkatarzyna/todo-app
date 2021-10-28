@@ -15,7 +15,7 @@ import { Home } from '@styled-icons/feather/Home';
 
 export const COLOURS: any = {
     darkGrey: '#383636',
-    darkerGrey: '#cecece',
+    darkerGrey: '#767678',
     grey: '#505050',
     lightGrey: '#f4f4f4',
     blue: '#0078D7',

@@ -10,8 +10,8 @@ router.post('/createList', async (req, res) => {
         const list = new List({
             title: req.body.title,
             themeColor: 'blue',
-            taskNumber: undefined,
-            createdAt: Date.now()
+            createdAt: Date.now(),
+            taskNumber: req.body.taskNumber
         });
 
         const token = jwt.sign({
@@ -27,7 +27,8 @@ router.post('/createList', async (req, res) => {
                     title: list.title,
                     themeColor: list.themeColor,
                     taskNumber: list.taskNumber,
-                    createdAt: list.createdAt
+                    createdAt: list.createdAt,
+                    taskNumber: list.taskNumber
                 },
                 message: `created list successfully`,
                 status: 200

@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useMemo } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { COLOURS } from '../../../constants';
 import { ITask, ITaskStatus } from '../../../interfaces';
 import { getDay, getDayName, getMonth, parseUTCtoDate } from '../../../utils/date';
@@ -28,8 +28,12 @@ const Names = styled.button`
     outline: none;
 `;
 
-const TaskName = styled.div`
+const TaskName = styled.div<{ isCompleted: boolean; }>`
     color: ${COLOURS.fontColor};
+    ${props => props.isCompleted && css`
+        text-decoration: line-through;
+        color: ${COLOURS.darkerGrey};
+    `};
 `;
 
 const GroupName = styled.span`
@@ -47,9 +51,10 @@ const TaskItemInfo = styled.span<{ color: string }>`
 interface ITaskItem {
     task: ITask;
     onChange: (taskId: string) => void;
+    isCompleted?: boolean;
 }
 
-const TaskItem: FC<ITaskItem> = ({ task, onChange }) => {
+const TaskItem: FC<ITaskItem> = ({ task, onChange, isCompleted = false }) => {
     const tooltipText = useMemo(() => task.taskStatus === ITaskStatus.complete ? 'oznacz jako niewykonane' : 'oznacz jako wykonane', [task]);
     const onHandleChange = useCallback(() => {
         onChange(task._id)
@@ -64,7 +69,7 @@ const TaskItem: FC<ITaskItem> = ({ task, onChange }) => {
                 onChange={onHandleChange}
                 tooltipText={tooltipText} />
             <Names>
-                <TaskName>{task?.title}</TaskName>
+                <TaskName isCompleted={isCompleted}>{task?.title}</TaskName>
                 <div>
                     {task?.groupName && <GroupName>{task?.groupName}</GroupName>}
                     {task?.createdAt && <TaskItemInfo color={task.themeColor}>{`${getDayName(parseUTCtoDate(task?.createdAt))}, ${getDay(parseUTCtoDate(task?.createdAt))} ${getMonth(parseUTCtoDate(task?.createdAt))}`}</TaskItemInfo>}

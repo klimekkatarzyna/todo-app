@@ -113,7 +113,7 @@ interface CheckboxProps {
 
 const Checkbox: FC<CheckboxProps> = ({ round, color, disabled, checked, onChange, id, key, children, tooltipText }) => {
     return (
-        <Tooltip position={'bottom'} text={tooltipText}>
+        <Tooltip position={'left'} text={tooltipText}>
             <CheckboxWrapper round={round} color={color || 'blue'} disabled={disabled}>
                 <label>
                     <input type="checkbox" checked={!!checked} onChange={onChange} id={id} key={key} disabled={disabled} />
