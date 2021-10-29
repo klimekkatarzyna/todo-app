@@ -1,6 +1,6 @@
 import React from 'react';
-import { Board } from '../components/Board';
 import Toolbar from '../components/Toolbar';
+import { Board } from '../components/Board';
 
 const Assigned = () => {
     return (

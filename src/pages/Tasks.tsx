@@ -5,7 +5,6 @@ import Loader from '../components/Loader/Loader';
 import CreateTask from '../components/Tasks/CreateTask';
 import TasksList from '../components/Tasks/Tasks';
 import Toolbar from '../components/Toolbar';
-import { Body } from '../constants';
 
 const TasksPage = styled.div`
     flex: 1;
@@ -23,10 +22,10 @@ const Tasks = () => {
                     <Toolbar name={getListByIdData?.title || ''} colorType={getListByIdData?.themeColor} />
                 )}
                 
-                <Body>
+                <div>
                     <CreateTask />
                     <TasksList />
-                </Body>
+                </div>
             </TasksPage>
         </Board>
     );
