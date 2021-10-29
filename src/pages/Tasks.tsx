@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import { Board } from '../components/Board';
 import useList from '../components/List/useList';
 import Loader from '../components/Loader/Loader';
@@ -6,16 +5,13 @@ import CreateTask from '../components/Tasks/CreateTask';
 import TasksList from '../components/Tasks/Tasks';
 import Toolbar from '../components/Toolbar';
 
-const TasksPage = styled.div`
-    flex: 1;
-`;
 
 const Tasks = () => {
     const { getListByIdData, getListByIdLoading } = useList();
 
     return (
         <Board>
-            <TasksPage>
+            <div>
                 {getListByIdLoading ? (
                     <Loader />
                 ) : (
@@ -26,7 +22,7 @@ const Tasks = () => {
                     <CreateTask />
                     <TasksList />
                 </div>
-            </TasksPage>
+            </div>
         </Board>
     );
 };

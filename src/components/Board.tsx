@@ -14,6 +14,8 @@ const MainContainer = styled.div`
     display: flex;
     flex-direction: column;
     margin: 1rem;
+    height: 660px;
+    overflow-y: scroll;
 `;
 interface IBoard {
     children: React.ReactNode;

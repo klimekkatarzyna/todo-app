@@ -22,7 +22,6 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     flex: 1 1 0px;
-    overflow: hidden;
 `;
 
 const Content= styled.div`

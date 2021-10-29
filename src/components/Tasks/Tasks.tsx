@@ -7,9 +7,6 @@ import TaskItem from './TaskItem/TaskItem';
 import useTask from './useTask';
 
 const TasksListContainer = styled.div`
-    height: 550px;
-    overflow-y: scroll;
-    flex: 1;
     box-shadow: inset 0 1px 0 0 #e5e5e5;
 `;
 
