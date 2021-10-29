@@ -5,7 +5,7 @@ import { HttpResponse } from './utils/http';
 export interface IListItem {
     type?: IListItemType;
     title: string;
-    tasksNumber: number | undefined;
+    taskNumber: number;
     icon: ReactElement;
     themeColor: string;
     _id?: string;

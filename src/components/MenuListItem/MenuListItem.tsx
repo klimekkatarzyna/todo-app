@@ -29,7 +29,7 @@ const LinkStyled = styled(Link)`
 
 const TasksNumber = styled.div`
     margin-left: auto;
-    color: ${COLOURS.lightGrey};
+    color: ${COLOURS.fontColor};
 `;
 
 const Name = styled.div`
@@ -52,7 +52,7 @@ export const MenuListItem: FC<IMenuListItem > = ({ isShared = false, listItem, t
                 <IconWrapper color={listItem?.themeColor || COLOURS.blue}>{listItem.icon || <List />}</IconWrapper>
                 <Name>{listItem?.title}</Name>
                 {isShared && <Share />}
-                {listItem?.tasksNumber && <TasksNumber>{listItem?.tasksNumber}</TasksNumber>}
+                {!!listItem?.taskNumber && <TasksNumber>{listItem?.taskNumber}</TasksNumber>}
             </ContextMenuTrigger>
             <ContextualMenu contextualMenuList={contextualMenuSecountOpion} listElementId={listItem?._id || ''} />
         </LinkStyled>

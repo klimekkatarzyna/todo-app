@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const Task = require('./models/task');
+const List = require('./models/list');
 
 router.post('/createTask', async (req, res) => {
     Task.find({ id: req.body._id }, (err, docs) => {
-        console.log(req.body.themeColor);
 
         const task = new Task({
             title: req.body.title,
@@ -36,6 +36,8 @@ router.post('/createTask', async (req, res) => {
                 message: `created task successfully`,
                 status: 200
             });
+
+            List.findOneAndUpdate({ _id: req.body.parentFolderId }, { $set: { taskNumber: docs.length } }, (err, docs) => {});
         })
         .catch((err) => {
             res.status(500).json({
@@ -57,6 +59,8 @@ router.get('/getTasks/:listId', async (req, res) => {
                 },
                 status: 200
             });
+
+            List.findOneAndUpdate({ _id: req.params.listId }, { $set: { taskNumber: docs.length } }, (err, docs) => {});
         } catch (error) {
             res.status(500).json({
                 success: false,

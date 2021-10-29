@@ -117,35 +117,35 @@ export const contextualMenuFirstOpion: IContextualMenuList[] = [{
  export const mainListData: IListItem[] = [{
    type: IListItemType.MY_DAY,
    title: 'Mój dzien',
-   tasksNumber: undefined,
+   taskNumber: 0,
    icon: <Sun />,
    themeColor: 'grey',
    _id: '/'
 }, {
    type: IListItemType.IMPORTANT,
    title: 'Wazne',
-   tasksNumber: undefined,
+   taskNumber: 0,
    icon: <Star />,
    themeColor: 'grey',
    _id: '/important'
 },  {
    type: IListItemType.PLANED,
    title: 'Zaplanowane',
-   tasksNumber: undefined,
+   taskNumber: 0,
    icon: <Calendar />,
    themeColor: 'grey',
    _id: '/planned'
 },  {
    type: IListItemType.ASSIGNED,
    title: 'Przydzielone dla Ciebie',
-   tasksNumber: undefined,
+   taskNumber: 0,
    icon: <User />,
    themeColor: 'green',
    _id: '/assigned_to_me'
 },  {
    type: IListItemType.TASKS,
    title: 'Zadania',
-   tasksNumber: undefined,
+   taskNumber: 0,
    icon: <Home />,
    themeColor: 'red',
    _id: '/inbox'
