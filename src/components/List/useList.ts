@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { http } from '../../utils/http';
 import * as api from '../../services';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { QueryCache, useMutation, useQuery, useQueryClient } from 'react-query';
 import { IListResponse, IUseParams } from '../../interfaces';
 import { useParams } from 'react-router';
 
@@ -24,9 +24,9 @@ const useList = () => {
     }, []);
 
     const { mutate: mutateCreateList, isLoading: mutateCreateListLoading } = useMutation(createList, {
-        onSuccess: () => {
+        onSuccess: (() => {
             query.invalidateQueries(['lists'])
-        }
+        })
     });
 
     const getLists = useCallback(() => {

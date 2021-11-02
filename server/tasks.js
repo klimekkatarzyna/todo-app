@@ -36,8 +36,6 @@ router.post('/createTask', async (req, res) => {
                 message: `created task successfully`,
                 status: 200
             });
-
-            List.findOneAndUpdate({ _id: req.body.parentFolderId }, { $set: { taskNumber: docs.length } }, (err, docs) => {});
         })
         .catch((err) => {
             res.status(500).json({
