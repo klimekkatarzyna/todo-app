@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { ITask } from '../interfaces';
 
-interface IinitialDnDState {
+export interface IinitialDnDState {
     draggedFrom: number;
     draggedTo: number;
     isDragging: boolean;
@@ -30,7 +30,7 @@ const useDragAndDrop = (list: any, setList: any) => {
             originalOrder: list
         });
         
-        event.dataTransfer.setData("text/html", '');
+        event.dataTransfer.setData('text/html', '');
     }, [list]);
 
 

@@ -9,6 +9,7 @@ import useTask from './useTask';
 
 const TasksListContainer = styled.div`
     box-shadow: inset 0 1px 0 0 #e5e5e5;
+    width: 95%;
 `;
 
 interface IinitialDnDState {
@@ -45,7 +46,7 @@ const TasksList = () => {
         mutateChangeTaskStatus({ taskId: taskId, taskStatus: ITaskStatus.inComplete });
     }, []);
 
-    const { onDragStart, onDragOver, onDragLeave, onDrop } = useDragAndDrop(inCompletedTaskslist, setInCompletedTasksList);
+    const { onDragStart, onDragOver, onDragLeave, onDrop, dragAndDrop } = useDragAndDrop(inCompletedTaskslist, setInCompletedTasksList);
 
     return (
         <TasksListContainer>
@@ -57,6 +58,7 @@ const TasksList = () => {
                         <TaskItem
                             task={task}
                             index={index}
+                            dragAndDrop={dragAndDrop}
                             onDragStart={onDragStart}
                             onDragOver={onDragOver}
                             onDrop={onDrop}
