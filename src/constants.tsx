@@ -23,7 +23,7 @@ export const COLOURS: any = {
     white: '#ffffff',
     red: '#c23732',
     green: '#5ca52d',
-    border: '#6d6d6d',
+    border: '#eaeaea',
     fontColor: '#34373d'
 }
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { ITask, ITaskStatus } from '../../interfaces';
 import TaskItem from './TaskItem/TaskItem';
@@ -13,13 +13,9 @@ const TasksNumber = styled.span`
     color: ${COLOURS.darkerGrey};
 `;
 
-interface IComplitedTasks {
-    onMarkTaskAsInCompleted: (taskId: string) => void;
-}
-
-const ComplitedTasks = ({ onMarkTaskAsInCompleted }: IComplitedTasks) => {
-    const { getTasksOfCurrentListQuery } = useTask();
-    const comletedTasks = useMemo(() =>(getTasksOfCurrentListQuery?.body?.tasks || []).filter(task => task.taskStatus === ITaskStatus.complete), [getTasksOfCurrentListQuery]);
+const ComplitedTasks: FC = () => {
+    const { getTasksOfCurrentListQuery, onMarkTaskAsInCompleted } = useTask();
+    const comletedTasks = useMemo(() => (getTasksOfCurrentListQuery?.body?.tasks || []).filter(task => task.taskStatus === ITaskStatus.complete), [getTasksOfCurrentListQuery]);
     const [completedTaskslist, setComplitedTasksList] = useState<ITask[]>(comletedTasks);
 
     const { onDragStart, onDragOver, onDragLeave, onDrop } = useDragAndDrop(comletedTasks, setComplitedTasksList);

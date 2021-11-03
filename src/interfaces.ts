@@ -59,6 +59,7 @@ export interface IListResponse {
 
 export interface IUseParams {
     listId: string;
+    taskId: string;
 }
 
 export interface ITasksResponse extends HttpResponse {

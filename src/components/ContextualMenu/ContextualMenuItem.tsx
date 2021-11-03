@@ -8,6 +8,7 @@ import { useQueryClient } from 'react-query';
 import Modal from '../Modal/Modal';
 import useShowModal from '../../hooks/useShowModal';
 import { ContextualMenuOpion } from '../../enums';
+import useTask from '../Tasks/useTask';
 
 const Item = styled(MenuItem)`
     display: inline-flex;
@@ -38,6 +39,7 @@ interface IItem extends IContextualMenuList {
 const ContextualMenuItem: FC<IContextualMenuItem> = ({ listItem, listElementId }) => {
     const query = useQueryClient();
     const { mutateRemoveList } = useList();
+    const { mutateRemoveTask } = useTask();
     const [selectedMenuItemType, setSelectedMenuItemType] = useState<boolean>(false);
     const { isModalVisible, onOpeneModal } = useShowModal();
 
@@ -51,6 +53,7 @@ const ContextualMenuItem: FC<IContextualMenuItem> = ({ listItem, listElementId }
 
                 // TODO: handle switch to last item of list of lists and display content
             }
+            data.type === ContextualMenuOpion.remove_task && await mutateRemoveTask(data.listElementId);
         } catch {
             //TODO: handle error & show notificayion
         }

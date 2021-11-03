@@ -22,6 +22,7 @@ interface IBoard {
 }
 
 export const Board: FC<IBoard> = ({ children }) => {
+
     return (
         <Wrapper>
             <MainContainer>

@@ -19,7 +19,7 @@ interface ICreateTaskProps {
 
 const useTask = () => {
     const query = useQueryClient();
-    const { listId } = useParams<IUseParams>();
+    const { listId, taskId } = useParams<IUseParams>();
 
     const createTask = ({ title, parentFolderId, importance, themeColor }: ICreateTaskProps): Promise<HttpResponse<ITask>> => {
         return http(api.createTask, 'POST', {
@@ -68,6 +68,7 @@ const useTask = () => {
                 'Content-type': 'application/json',
             }
         }).then((response) => {
+            console.log('?', taskId, taskStatus, response);
             return response;
         }).catch(error => {
             console.error(error);
@@ -80,12 +81,60 @@ const useTask = () => {
             query.invalidateQueries(['tasksOfCurrentList'])
         }
     });
+
+    const deleteTask = useCallback((taskId: string) => {
+        return http(api.removeTask, 'DELETE', {
+            body: JSON.stringify({ taskId }),
+            headers: {
+                'Content-type': 'application/json',
+            }
+        }).then((response) => {
+            return response;
+        }).catch(error => {
+            console.error(error);
+            return error;
+        })
+    }, []);
+
+    const { mutate: mutateRemoveTask } = useMutation(deleteTask, {
+        onSuccess: () => {
+            query.invalidateQueries(['tasksOfCurrentList'])
+        }
+    });
+
+    const getTask = useCallback((): Promise<ITask> => {
+        return http(`${api.getTask}/${taskId}`, 'GET', {
+            headers: {
+                'Content-type': 'application/json',
+            }
+        }).then((response) => {
+            return response.body[0];
+        }).catch(error => {
+            console.error(error);
+            return error;
+        })
+    }, [taskId]);
+
+    const { data: taskData, isLoading: taskDataLoading } = useQuery(['getTask', taskId], getTask);
+
+    const onMarkTaskAsCompleted = useCallback((taskId: string) => {
+        mutateChangeTaskStatus({ taskId: taskId, taskStatus: ITaskStatus.complete });
+    }, []);
+
+    const onMarkTaskAsInCompleted = useCallback((taskId: string) => {
+        mutateChangeTaskStatus({ taskId: taskId, taskStatus: ITaskStatus.inComplete });
+    }, []);
     
     return {
         mutateCreateTask,
         getTasksOfCurrentListLoading,
         getTasksOfCurrentListQuery,
-        mutateChangeTaskStatus
+        mutateChangeTaskStatus,
+        mutateRemoveTask,
+        taskData,
+        taskDataLoading,
+        onMarkTaskAsCompleted,
+        onMarkTaskAsInCompleted
     }
 };
 

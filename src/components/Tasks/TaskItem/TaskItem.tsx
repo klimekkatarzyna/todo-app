@@ -10,6 +10,7 @@ import Checkbox from '../../Checkbox/Checkbox';
 import ImportanceButton from '../../ImportanceButton/ImportanceButton';
 import { IinitialDnDState } from '../../../hooks/useDragAndDrop';
 import ContextualMenu from '../../ContextualMenu/ContextualMenu';
+import TaskDetails from '../TaskDetails';
 
 const TaskItemWrapper = styled.div`
     display: flex;
@@ -47,39 +48,7 @@ const TaskItemWrapper = styled.div`
     }
 `;
 
-const Names = styled(Link)`
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    margin-left: 1rem;
-    margin-right: auto;
-    border: none;
-    background-color: inherit;
-    outline: none;
-    cursor: pointer;
-    text-decoration: none;
-`;
 
-const TaskName = styled.div<{ isCompleted: boolean; }>`
-    color: ${COLOURS.fontColor};
-    cursor: pointer;
-    ${props => props.isCompleted && css`
-        text-decoration: line-through;
-        color: ${COLOURS.darkerGrey};
-    `};
-`;
-
-const GroupName = styled.span`
-    display: inline-flex;
-    color: ${COLOURS.darkerGrey};
-    font-size: 0.8rem;
-    margin-right: 1rem;
-`;
-
-const TaskItemInfo = styled.span<{ color: string }>`
-    color: ${props => props.color ? `${COLOURS[props.color]}` : `${COLOURS.fontColor}`};
-    font-size: 0.8rem;
-`;
 
 interface ITaskItem {
     task: ITask;
@@ -98,7 +67,6 @@ const TaskItem: FC<ITaskItem> = ({ task, index, onChange, isCompleted = false, d
     const { listId } = useParams<IUseParams>();
 
     const [isSelected, setIsSelected] = useState<boolean>(false);
-    const tooltipText = useMemo(() => task?.taskStatus === ITaskStatus.complete ? 'oznacz jako niewykonane' : 'oznacz jako wykonane', [task]);
     const dragAndDropClass = useMemo(() => dragAndDrop?.draggedTo !== 0 && dragAndDrop?.draggedTo === Number(index) ? 'dropArea' : '', [dragAndDrop]);
 
     const onHandleChange = useCallback(() => {
@@ -124,20 +92,7 @@ const TaskItem: FC<ITaskItem> = ({ task, index, onChange, isCompleted = false, d
                     onDragLeave={onDragLeave}
                     onClick={onSelectElement}
                     className={dragAndDropClass}>
-                        <Checkbox
-                            round 
-                            checked={task?.taskStatus === ITaskStatus.complete}
-                            color={task?.themeColor}
-                            onChange={onHandleChange}
-                            tooltipText={tooltipText} />
-                        <Names to={`${history.location.pathname}/${task?._id}`} draggable>
-                            <TaskName isCompleted={isCompleted}>{task?.title}</TaskName>
-                            <div>
-                                {task?.groupName && <GroupName>{task?.groupName}</GroupName>}
-                                {task?.createdAt && <TaskItemInfo color={task?.themeColor}>{`${getDayName(parseUTCtoDate(task?.createdAt))}, ${getDay(parseUTCtoDate(task?.createdAt))} ${getMonth(parseUTCtoDate(task?.createdAt))}`}</TaskItemInfo>}
-                            </div>
-                        </Names>
-                        <ImportanceButton isChecked={false} />
+                        <TaskDetails taskData={task} onHandleChange={onHandleChange} isCompleted={isCompleted} />
                 </TaskItemWrapper>
             </ContextMenuTrigger>
             <ContextualMenu contextualMenuList={contextualMenuFirstOpion} listElementId={task?._id || ''} />

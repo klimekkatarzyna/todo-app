@@ -89,4 +89,42 @@ router.patch('/changeTaskStatus/:taskId', async (req, res) => {
     });
 });
 
+router.delete('/removeTask', async (req, res) => {
+    Task.deleteOne({ _id: req.body.taskId }, (err, docs) => {
+        try {
+            res.json({
+                body: {
+                    tasks: docs
+                },
+                status: 200
+            });
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                errorMessage: `something went wrong`,
+                err,
+                status: 500
+            })
+        }
+    })
+});
+
+router.get('/getTask/:id', async (req, res) => {
+    Task.find({ _id: req.params.id }, (err, docs) => {
+        try {
+            res.json({
+                body: docs,
+                status: 200
+            });
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                errorMessage: `something went wrong`,
+                err,
+                status: 500
+            })
+        }
+    });
+});
+
 module.exports = router;

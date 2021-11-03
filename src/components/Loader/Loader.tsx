@@ -10,7 +10,7 @@ const Container = styled.div`
     margin: 1rem;
 
     span {
-        border: 0.4rem solid #afafaf;
+        border: 0.4rem solid ${COLOURS.border};
         border-radius: 50%;
         border-top: 0.4rem solid ${COLOURS.blue};
         width: 0.8rem;
