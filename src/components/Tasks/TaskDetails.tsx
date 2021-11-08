@@ -65,7 +65,7 @@ const TaskDetails: FC<ITaskDetailsProps> = ({ taskData, onHandleChange, isComple
                 <TaskName isCompleted={isCompleted}>{taskData?.title}</TaskName>
                 <div>
                     {taskData?.groupName && <GroupName>{taskData?.groupName}</GroupName>}
-                    {taskData?.createdAt && <TaskItemInfo color={taskData?.themeColor}>{`${getDayName(parseUTCtoDate(taskData?.createdAt))}, ${getDay(parseUTCtoDate(taskData?.createdAt))} ${getMonth(parseUTCtoDate(taskData?.createdAt))}`}</TaskItemInfo>}
+                    {/* {taskData?.createdAt && <TaskItemInfo color={taskData?.themeColor}>{`${getDayName(parseUTCtoDate(taskData?.createdAt))}, ${getDay(parseUTCtoDate(taskData?.createdAt))} ${getMonth(parseUTCtoDate(taskData?.createdAt))}`}</TaskItemInfo>} */}
                 </div>
             </Names>
             <ImportanceButton isChecked={false} />

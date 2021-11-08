@@ -7,7 +7,9 @@ import useTask from './useTask';
 
 const TasksListContainer = styled.div`
     box-shadow: inset 0 1px 0 0 #e5e5e5;
-    height: 550px;
+    height: auto;
+    max-height: 550px;
+    overflow: hidden;
     overflow-y: scroll;
 `;
 
@@ -16,14 +18,16 @@ const TasksList: FC = () => {
     
     return (
         <TasksListContainer>
-            {getTasksOfCurrentListLoading ? (
-                <Loader />
-            ) : (
-                <>
-                    <InCompletedTasks />
-                    <ComplitedTasks />
-                </>
-            )}
+            <div>
+                {getTasksOfCurrentListLoading ? (
+                    <Loader />
+                ) : (
+                    <>
+                        <InCompletedTasks />
+                        <ComplitedTasks />
+                    </>
+                )}
+            </div>
         </TasksListContainer>
     );
 };

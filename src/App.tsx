@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { AuthProvider } from './AuthProvider';
 import BrowserRouter from './Router';
+import ShowModalProvider from './ShowModalProvider';
 
 const queryClient = new QueryClient();
 
@@ -33,10 +34,12 @@ const App: FC = () => {
     return (
         <QueryClientProvider client={queryClient}>
             <AuthProvider>
-                {/* <ReactQueryDevtools initialIsOpen /> */}
-                <GlobalStyle />
+                <ShowModalProvider>
+                    {/* <ReactQueryDevtools initialIsOpen /> */}
+                    <GlobalStyle />
 
-                <BrowserRouter />
+                    <BrowserRouter />
+                </ShowModalProvider>
             </AuthProvider>
         </QueryClientProvider>
     );

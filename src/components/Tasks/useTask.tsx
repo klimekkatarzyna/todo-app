@@ -68,7 +68,6 @@ const useTask = () => {
                 'Content-type': 'application/json',
             }
         }).then((response) => {
-            console.log('?', taskId, taskStatus, response);
             return response;
         }).catch(error => {
             console.error(error);
@@ -108,7 +107,7 @@ const useTask = () => {
                 'Content-type': 'application/json',
             }
         }).then((response) => {
-            return response.body[0];
+            return response.body?.[0];
         }).catch(error => {
             console.error(error);
             return error;

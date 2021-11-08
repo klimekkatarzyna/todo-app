@@ -1,16 +1,12 @@
-import React, { FC, useCallback, useMemo, useState } from 'react';
-import styled, { css } from 'styled-components';
-import { Link } from "react-router-dom";
-import { useHistory, useParams } from 'react-router';
+import { FC, useCallback, useContext, useMemo } from 'react';
+import styled from 'styled-components';
 import { ContextMenuTrigger } from 'react-contextmenu';
 import { COLOURS, contextualMenuFirstOpion } from '../../../constants';
-import { ITask, ITaskStatus, IUseParams } from '../../../interfaces';
-import { getDay, getDayName, getMonth, parseUTCtoDate } from '../../../utils/date';
-import Checkbox from '../../Checkbox/Checkbox';
-import ImportanceButton from '../../ImportanceButton/ImportanceButton';
+import { ITask } from '../../../interfaces';
 import { IinitialDnDState } from '../../../hooks/useDragAndDrop';
 import ContextualMenu from '../../ContextualMenu/ContextualMenu';
 import TaskDetails from '../TaskDetails';
+import { ShowElementContext } from '../../../ShowElementContext';
 
 const TaskItemWrapper = styled.div`
     display: flex;
@@ -48,8 +44,6 @@ const TaskItemWrapper = styled.div`
     }
 `;
 
-
-
 interface ITaskItem {
     task: ITask;
     index: number;
@@ -63,21 +57,17 @@ interface ITaskItem {
 }
 
 const TaskItem: FC<ITaskItem> = ({ task, index, onChange, isCompleted = false, dragAndDrop, onDragStart, onDragOver, onDrop, onDragLeave }) => {
-    const history = useHistory(); 
-    const { listId } = useParams<IUseParams>();
+    const { onShowComponent } = useContext(ShowElementContext);
 
-    const [isSelected, setIsSelected] = useState<boolean>(false);
     const dragAndDropClass = useMemo(() => dragAndDrop?.draggedTo !== 0 && dragAndDrop?.draggedTo === Number(index) ? 'dropArea' : '', [dragAndDrop]);
 
     const onHandleChange = useCallback(() => {
-        onChange(task._id)
+        onChange(task._id);
     }, [task]);
 
-    const onSelectElement = useCallback(() => {
-        // setIsSelected(taskId === task._id)
-        // console.log(taskId, task._id);
-        console.log(task._id, task.title);
-    }, [task]);
+    const onSelectTask = useCallback(() => {
+        onShowComponent();
+    }, [onShowComponent]);
 
     return (
         <>
@@ -90,7 +80,7 @@ const TaskItem: FC<ITaskItem> = ({ task, index, onChange, isCompleted = false, d
                     onDragOver={onDragOver as any}
                     onDrop={onDrop}
                     onDragLeave={onDragLeave}
-                    onClick={onSelectElement}
+                    onClick={onSelectTask}
                     className={dragAndDropClass}>
                         <TaskDetails taskData={task} onHandleChange={onHandleChange} isCompleted={isCompleted} />
                 </TaskItemWrapper>

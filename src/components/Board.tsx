@@ -1,6 +1,7 @@
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
 import styled from 'styled-components';
 import { BackgroundLines } from "../constants";
+import { ShowElementContext } from "../ShowElementContext";
 import TaskSidebarDetails from "./Tasks/TaskSidebarDetailsContainer";
 
 const Wrapper = styled.div`
@@ -14,13 +15,13 @@ const MainContainer = styled.div`
     display: flex;
     flex-direction: column;
     margin: 1rem;
-    height: 550px;
 `;
 interface IBoard {
     children: React.ReactNode;
 }
 
 export const Board: FC<IBoard> = ({ children }) => {
+    const { isVisible } = useContext(ShowElementContext);
 
     return (
         <Wrapper>
@@ -28,7 +29,7 @@ export const Board: FC<IBoard> = ({ children }) => {
                 {children}
                 <BackgroundLines />
             </MainContainer>
-            <TaskSidebarDetails />
+           {isVisible &&  <TaskSidebarDetails />}
         </Wrapper>
     )
 }
