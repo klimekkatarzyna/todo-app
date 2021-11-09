@@ -47,9 +47,11 @@ interface ITaskDetailsProps {
     taskData: ITask;
     onHandleChange?: () => void;
     isCompleted?: boolean;
+    isChecked: boolean;
+    onClickImportanceButton: () => void;
 }
 
-const TaskDetails: FC<ITaskDetailsProps> = ({ taskData, onHandleChange, isCompleted = false }) => {
+const TaskDetails: FC<ITaskDetailsProps> = ({ taskData, onHandleChange, isCompleted = false, isChecked = false, onClickImportanceButton }) => {
     const { listId } = useParams<IUseParams>();
     const tooltipText = useMemo(() => taskData?.taskStatus === ITaskStatus.complete ? 'oznacz jako niewykonane' : 'oznacz jako wykonane', [taskData]);
 
@@ -68,7 +70,7 @@ const TaskDetails: FC<ITaskDetailsProps> = ({ taskData, onHandleChange, isComple
                     {/* {taskData?.createdAt && <TaskItemInfo color={taskData?.themeColor}>{`${getDayName(parseUTCtoDate(taskData?.createdAt))}, ${getDay(parseUTCtoDate(taskData?.createdAt))} ${getMonth(parseUTCtoDate(taskData?.createdAt))}`}</TaskItemInfo>} */}
                 </div>
             </Names>
-            <ImportanceButton isChecked={false} />
+            <ImportanceButton isChecked={isChecked} onClick={onClickImportanceButton} />
         </>
     );
 };

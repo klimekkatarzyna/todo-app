@@ -4,11 +4,7 @@ import * as api from '../../services';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useParams } from 'react-router';
 import { IUseParams, ITasksResponse, ITask, ITaskStatus, IChangeTaskStatusToCompleteProps } from '../../interfaces';
-import { AppColorType } from '../../enums';
-
-enum Importance {
-    normal = 'Normal'
-}
+import { AppColorType, Importance } from '../../enums';
 
 interface ICreateTaskProps {
     title: string;

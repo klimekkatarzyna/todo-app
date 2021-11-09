@@ -1,4 +1,4 @@
-import { FC, useCallback, useContext, useMemo } from 'react';
+import { FC, useCallback, useContext, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { ContextMenuTrigger } from 'react-contextmenu';
 import { COLOURS, contextualMenuFirstOpion } from '../../../constants';
@@ -61,6 +61,8 @@ const TaskItem: FC<ITaskItem> = ({ task, index, onChange, isCompleted = false, d
 
     const dragAndDropClass = useMemo(() => dragAndDrop?.draggedTo !== 0 && dragAndDrop?.draggedTo === Number(index) ? 'dropArea' : '', [dragAndDrop]);
 
+    const [isImportanceButtonChecked, setIsImportanceButtonChecked] = useState<boolean>(false); // TODO: to update start status Importance.important === IMPORTANT
+
     const onHandleChange = useCallback(() => {
         onChange(task._id);
     }, [task]);
@@ -68,6 +70,13 @@ const TaskItem: FC<ITaskItem> = ({ task, index, onChange, isCompleted = false, d
     const onSelectTask = useCallback(() => {
         onShowComponent();
     }, [onShowComponent]);
+
+    const onClickImportanceButton = useCallback(() => {
+        console.log(task?._id);
+        setIsImportanceButtonChecked(!isImportanceButtonChecked);
+        // TODO: update field importance from Normal to  Importance.important === IMPORTANT on the list of task
+        // TODO: add task to importance list  
+    }, [isImportanceButtonChecked]);
 
     return (
         <>
@@ -82,7 +91,12 @@ const TaskItem: FC<ITaskItem> = ({ task, index, onChange, isCompleted = false, d
                     onDragLeave={onDragLeave}
                     onClick={onSelectTask}
                     className={dragAndDropClass}>
-                        <TaskDetails taskData={task} onHandleChange={onHandleChange} isCompleted={isCompleted} />
+                        <TaskDetails
+                            taskData={task}
+                            onHandleChange={onHandleChange}
+                            isCompleted={isCompleted}
+                            isChecked={isImportanceButtonChecked}
+                            onClickImportanceButton={onClickImportanceButton} />
                 </TaskItemWrapper>
             </ContextMenuTrigger>
             <ContextualMenu contextualMenuList={contextualMenuFirstOpion} listElementId={task?._id || ''} />

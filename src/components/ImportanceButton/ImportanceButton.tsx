@@ -4,17 +4,25 @@ import { Star } from '@styled-icons/feather/Star';
 import { COLOURS, IconWrapper } from '../../constants';
 import Tooltip from '../Tooltip/Tooltip';
 
-const ImportanceButtonWrapper = styled.div`
+const ImportanceButtonWrapper = styled.button`
     position: relative;
+    border: none;
+    background: inherit;
+
+    input {
+        display: none;
+    }
 `;
 
 interface IImportanceButton {
     isChecked: boolean;
+    onClick: () => void;
 }
 
-const ImportanceButton: FC<IImportanceButton> = ({ isChecked }) => {
+const ImportanceButton: FC<IImportanceButton> = ({ isChecked, onClick }) => {
     return (
-        <ImportanceButtonWrapper>
+        <ImportanceButtonWrapper onClick={onClick}>
+            <input type="checkbox" checked={isChecked} />
             <Tooltip position={'right'} text={'Oznacz zadanie jako wazne'}>
                 <IconWrapper
                     color={COLOURS.blue}

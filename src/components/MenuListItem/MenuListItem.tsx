@@ -57,7 +57,7 @@ export const MenuListItem: FC<IMenuListItem > = ({ isShared = false, listItem })
         listItem.url === '/inbox' && <Home />, [listItem]);
 
     return (
-        <LinkStyled to={listItem?.isMainList ? `/tasks${listItem?.url}` : `${listItem?._id}`}>
+        <LinkStyled to={listItem?.isMainList ? `${listItem?.url}` : `/tasks/${listItem?._id}`}>
             <ContextMenuTrigger id={listItem?._id || ''}>
                 <IconWrapper color={listItem?.themeColor || COLOURS.blue}>{icon || <List />}</IconWrapper>
                 <Name>{listItem?.title}</Name>

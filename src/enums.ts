@@ -28,3 +28,8 @@ export enum SideMenuType {
 }
 
 export type AppColorType = 'grey' | 'blue' | 'red' | 'green';
+
+export enum Importance {
+    normal = 'Normal',
+    important = 'Important'
+}

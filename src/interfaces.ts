@@ -18,8 +18,7 @@ export enum IListItemType {
     IMPORTANT = 'IMPORTANT',
     PLANED = 'PLANED',
     ASSIGNED = 'ASSIGNED',
-    TASKS = 'TASKS',
-    TASK = 'TASK'
+    TASKS = 'TASKS'
 }
 
 export interface IContextualMenuList {
@@ -51,18 +50,16 @@ export enum IResponseStatus {
     success = "success"
 }
 
-export interface IListResponse {
+export interface IListResponse extends HttpResponse {
     body: {
         lists: IListItem[];
     };
-    status: number;
 }
 
-export interface IMainListResponse {
+export interface IMainListResponse extends HttpResponse {
     body: {
         mainLists: IListItem[];
     };
-    status: number;
 }
 
 export interface IUseParams {

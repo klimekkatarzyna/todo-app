@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const router = require('./server/router');
 const lists = require('./server/lists');
 const tasks = require('./server/tasks');
+const mainTasks = require('./server/mainTasks');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 
@@ -38,5 +39,5 @@ app.listen(PORT, () => {
 app.use('/api', router);
 app.use('/api', lists);
 app.use('/api', tasks);
-
+app.use('/api', mainTasks);
 /* */

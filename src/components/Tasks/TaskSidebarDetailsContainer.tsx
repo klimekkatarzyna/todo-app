@@ -92,7 +92,7 @@ const TaskSidebarDetails: FC = () => {
             ) : (
                 <TaskDetailsWrapper>
                     <Container flexRow margin>
-                        <TaskDetails taskData={taskData as ITask} onHandleChange={onHandleChange} />
+                        <TaskDetails taskData={taskData as ITask} onHandleChange={onHandleChange} isChecked={false} onClickImportanceButton={() => {}} />
                     </Container>
 
                     <Container margin>
