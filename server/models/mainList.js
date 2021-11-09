@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
 const MainListSchema = new mongoose.Schema({
-    type: {
-        type: String,
+    isMainList: {
+        type: Boolean,
         required: true
     },
     title: {
@@ -11,12 +11,17 @@ const MainListSchema = new mongoose.Schema({
     },
     taskNumber: {
         type: Number,
+        required: true
     },
     icon: {
         type: String,
-        // required: true
+        required: true
     },
     themeColor: {
+        type: String,
+        required: true
+    },
+    url: {
         type: String,
         required: true
     },

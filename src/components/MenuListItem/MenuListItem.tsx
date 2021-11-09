@@ -1,12 +1,18 @@
-import React, { FC } from "react";
+import { FC, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Share } from '@styled-icons/feather/Share';
 import { List } from '@styled-icons/feather/List';
 import styled from 'styled-components';
 import { COLOURS, contextualMenuSecountOpion, IconWrapper } from "../../constants";
-import { IListItem, IListItemType } from "../../interfaces";
+import { IListItem } from "../../interfaces";
 import ContextualMenu from "../ContextualMenu/ContextualMenu";
 import { ContextMenuTrigger } from 'react-contextmenu';
+
+import { Sun } from '@styled-icons/feather/Sun';
+import { Star } from '@styled-icons/feather/Star';
+import { Calendar } from '@styled-icons/feather/Calendar';
+import { User } from '@styled-icons/feather/User';
+import { Home } from '@styled-icons/feather/Home';
 
 const LinkStyled = styled(Link)`
     text-decoration: none;
@@ -41,15 +47,19 @@ const Name = styled.div`
 interface IMenuListItem  {
     listItem: IListItem;
     isShared?: boolean;
-    type?: IListItemType;
 }
 
-export const MenuListItem: FC<IMenuListItem > = ({ isShared = false, listItem, type }) => {
-    // TODO: handle themes
+export const MenuListItem: FC<IMenuListItem > = ({ isShared = false, listItem }) => {
+    const icon = useMemo(() => listItem.url === '/' && <Sun /> ||
+        listItem.url === '/important' && <Star /> ||
+        listItem.url === '/planned' && <Calendar /> ||
+        listItem.url === '/assigned_to_me' && <User /> ||
+        listItem.url === '/inbox' && <Home />, [listItem]);
+
     return (
-        <LinkStyled to={type === IListItemType.TASK ? `/tasks/${listItem?._id}` : `${listItem?._id}`}>
+        <LinkStyled to={listItem?.isMainList ? `/tasks${listItem?.url}` : `${listItem?._id}`}>
             <ContextMenuTrigger id={listItem?._id || ''}>
-                <IconWrapper color={listItem?.themeColor || COLOURS.blue}>{listItem.icon || <List />}</IconWrapper>
+                <IconWrapper color={listItem?.themeColor || COLOURS.blue}>{icon || <List />}</IconWrapper>
                 <Name>{listItem?.title}</Name>
                 {isShared && <Share />}
                 {!!listItem?.taskNumber && <TasksNumber>{listItem?.taskNumber}</TasksNumber>}

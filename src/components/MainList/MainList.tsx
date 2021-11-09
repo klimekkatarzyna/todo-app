@@ -2,9 +2,8 @@ import { FC } from "react";
 import styled from 'styled-components';
 import { MenuListItem } from "../MenuListItem/MenuListItem";
 import { IListItem } from '../../interfaces';
-import { mainListData } from "../../constants";
-import { useQuery } from "react-query";
 import useMainList from "./useMainList";
+import Loader from "../Loader/Loader";
 
 
 const Wrapper = styled.div`
@@ -18,18 +17,17 @@ interface IMainList {
 }
 
 export const MainList: FC<IMainList> = () => {
-    // TODO: renurns from API
     // TODO: endpomt to update tasksNumber
+    const { mainList, mainListLoading } = useMainList();
 
-    // const { createMainList, getMainList } = useMainList();
-    // const { data } = useQuery('createMainList', createMainList);
-    // console.log(data);
-    
     return (
         <Wrapper>
-            {mainListData.map((listItem) => (
-                <MenuListItem listItem={listItem} />
-            ))}
+            {mainListLoading ? (
+                <Loader />
+            ) : (
+                mainList?.body.mainLists?.map((listItem: IListItem) => (
+                    <MenuListItem listItem={listItem} />
+            )))}
         </Wrapper>
     )
 }

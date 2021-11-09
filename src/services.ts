@@ -11,7 +11,6 @@ export const me = 'http://localhost:3000/api/me';
 export const logout = 'http://localhost:3000/api/logout';
 
 // main list
-export const mainList = 'http://localhost:3000/api/createMainList';
 export const getMainList = 'http://localhost:3000/api/getMainList';
 
 // list

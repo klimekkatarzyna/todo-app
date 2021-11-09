@@ -103,35 +103,6 @@ router.delete('/removeList', async (req, res) => {
     })
 });
 
-router.post('/createMainList', async (req, res) => {
-    MainList.find((err, docs) => {
-        const data = new MainList(req.body.data);
-        console.log(docs, data)
-
-        const token = jwt.sign({
-            data: 'tooken',
-        }, ':7HK2ATab_', { expiresIn: '24h' });
-        
-        data.save()
-        .then(() => {
-            res.json({
-                token,
-                body: data,
-                message: `created list successfully`,
-                status: 200
-            });
-        })
-        .catch((err) => {
-            res.status(500).json({
-                success: false,
-                errorMessage: `something went wrong`,
-                err,
-                status: 500
-            })
-        });
-    });
-});
-
 router.get('/getMainList', async (req, res) => {
     MainList.find((err, docs) => {
         try {

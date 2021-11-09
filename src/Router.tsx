@@ -59,19 +59,19 @@ const BrowserRouter = () => {
                     <Switch>
                         {authData?.auth ? (
                             <>
-                                <PrivateRoute exact path="/">
+                                <PrivateRoute exact path="/tasks/">
                                     <MyDay />
                                 </PrivateRoute>
-                                <PrivateRoute exact path="/important">
+                                <PrivateRoute exact path="/tasks/important">
                                     <Important />
                                 </PrivateRoute>
-                                <PrivateRoute exact path="/planned">
+                                <PrivateRoute exact path="/tasks/planned">
                                     <Planned />
                                 </PrivateRoute>
-                                <PrivateRoute exact path="/assigned_to_me">
+                                <PrivateRoute exact path="/tasks/assigned_to_me">
                                     <Assigned />
                                 </PrivateRoute>
-                                <PrivateRoute exact path="/inbox">
+                                <PrivateRoute exact path="/tasks/inbox">
                                     <Inbox />
                                 </PrivateRoute>
                                 <PrivateRoute exact path="/tasks/:listId">

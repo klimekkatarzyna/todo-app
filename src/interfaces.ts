@@ -3,13 +3,14 @@ import { AppColorType, ContextualMenuOpion } from './enums';
 import { HttpResponse } from './utils/http';
 
 export interface IListItem {
-    type?: IListItemType;
+    isMainList?: boolean;
     title: string;
     taskNumber: number;
     icon: ReactElement;
     themeColor: string;
     _id?: string;
     createdAt?: string;
+    url?: string;
 }
 
 export enum IListItemType {
@@ -53,6 +54,13 @@ export enum IResponseStatus {
 export interface IListResponse {
     body: {
         lists: IListItem[];
+    };
+    status: number;
+}
+
+export interface IMainListResponse {
+    body: {
+        mainLists: IListItem[];
     };
     status: number;
 }

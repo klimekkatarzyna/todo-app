@@ -51,7 +51,7 @@ const useList = () => {
                 'Content-type': 'application/json',
             }
         }).then((response) => {
-            return response.body[0];
+            return response.body?.[0];
         }).catch(error => {
             console.error(error);
             return error;

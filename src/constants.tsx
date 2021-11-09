@@ -112,41 +112,4 @@ export const contextualMenuFirstOpion: IContextualMenuList[] = [{
     icon: <Trash2 />,
     name: "Usuń listę",
     type: ContextualMenuOpion.remove_list
- }]
-
- export const mainListData: IListItem[] = [{
-   type: IListItemType.MY_DAY,
-   title: 'Mój dzien',
-   taskNumber: 0,
-   icon: <Sun />,
-   themeColor: 'grey',
-   _id: '/'
-}, {
-   type: IListItemType.IMPORTANT,
-   title: 'Wazne',
-   taskNumber: 0,
-   icon: <Star />,
-   themeColor: 'grey',
-   _id: '/important'
-},  {
-   type: IListItemType.PLANED,
-   title: 'Zaplanowane',
-   taskNumber: 0,
-   icon: <Calendar />,
-   themeColor: 'grey',
-   _id: '/planned'
-},  {
-   type: IListItemType.ASSIGNED,
-   title: 'Przydzielone dla Ciebie',
-   taskNumber: 0,
-   icon: <User />,
-   themeColor: 'green',
-   _id: '/assigned_to_me'
-},  {
-   type: IListItemType.TASKS,
-   title: 'Zadania',
-   taskNumber: 0,
-   icon: <Home />,
-   themeColor: 'red',
-   _id: '/inbox'
-}];
+ }];
