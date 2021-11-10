@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { AppColorType, ContextualMenuOpion } from './enums';
+import { AppColorType, ContextualMenuOpion, Importance } from './enums';
 import { HttpResponse } from './utils/http';
 
 export interface IListItem {
@@ -92,4 +92,9 @@ export enum ITaskStatus {
 export interface IChangeTaskStatusToCompleteProps {
     taskId: string;
     taskStatus: ITaskStatus;
+}
+
+export interface IChangeTaskImportanceProps {
+    taskId: string;
+    importance: Importance;
 }

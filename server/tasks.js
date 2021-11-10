@@ -127,4 +127,23 @@ router.get('/getTask/:id', async (req, res) => {
     });
 });
 
+router.patch('/changeTaskImportance/:listId/:taskId', async (req, res) => {
+    Task.updateOne({ _id: req.params.taskId, parentFolderId: req.params.listId }, { $set: { importance: req.body.importance } }, (err, docs) => {
+        try {
+            res.json({
+                message: `importance successfully changed to ${req.body.importance}`,
+                status: 200
+            });
+        } catch (err) {
+            console.log(err);
+            res.status(500).json({
+                success: false,
+                errorMessage: `something went wrong`,
+                err,
+                status: 500
+            })
+        }
+    });
+});
+
 module.exports = router;

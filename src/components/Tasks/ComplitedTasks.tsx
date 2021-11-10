@@ -14,7 +14,7 @@ const TasksNumber = styled.span`
 `;
 
 const ComplitedTasks: FC = () => {
-    const { getTasksOfCurrentListQuery, onMarkTaskAsInCompleted } = useTask();
+    const { getTasksOfCurrentListQuery, onMarkTaskAsInCompleted, mutateChangeTaskImportance } = useTask();
     const comletedTasks = useMemo(() => (getTasksOfCurrentListQuery?.body?.tasks || []).filter(task => task.taskStatus === ITaskStatus.complete), [getTasksOfCurrentListQuery]);
     const [completedTaskslist, setComplitedTasksList] = useState<ITask[]>(comletedTasks);
 
@@ -37,7 +37,8 @@ const ComplitedTasks: FC = () => {
                             onDragStart={onDragStart}
                             onDragOver={onDragOver}
                             onDrop={onDrop}
-                            onDragLeave={onDragLeave} />
+                            onDragLeave={onDragLeave}
+                            changeTaskImportance={mutateChangeTaskImportance} />
                     )}
                 </Accordion>
             )}

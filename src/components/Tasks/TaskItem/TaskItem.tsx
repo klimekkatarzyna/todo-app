@@ -1,4 +1,4 @@
-import { FC, useCallback, useContext, useMemo, useState } from 'react';
+import { FC, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { ContextMenuTrigger } from 'react-contextmenu';
 import { COLOURS, contextualMenuFirstOpion } from '../../../constants';
@@ -7,6 +7,7 @@ import { IinitialDnDState } from '../../../hooks/useDragAndDrop';
 import ContextualMenu from '../../ContextualMenu/ContextualMenu';
 import TaskDetails from '../TaskDetails';
 import { ShowElementContext } from '../../../ShowElementContext';
+import { Importance } from '../../../enums';
 
 const TaskItemWrapper = styled.div`
     display: flex;
@@ -54,14 +55,20 @@ interface ITaskItem {
     onDragOver?: (event: any, index: number) => void;
     onDrop?: (event: any) => void;
     onDragLeave?: () => void;
+    changeTaskImportance: any;
 }
 
-const TaskItem: FC<ITaskItem> = ({ task, index, onChange, isCompleted = false, dragAndDrop, onDragStart, onDragOver, onDrop, onDragLeave }) => {
+const TaskItem: FC<ITaskItem> = ({ task, index, onChange, isCompleted = false, dragAndDrop, onDragStart, onDragOver, onDrop, onDragLeave, changeTaskImportance }) => {
     const { onShowComponent } = useContext(ShowElementContext);
 
     const dragAndDropClass = useMemo(() => dragAndDrop?.draggedTo !== 0 && dragAndDrop?.draggedTo === Number(index) ? 'dropArea' : '', [dragAndDrop]);
 
-    const [isImportanceButtonChecked, setIsImportanceButtonChecked] = useState<boolean>(false); // TODO: to update start status Importance.important === IMPORTANT
+    const [isImportanceButtonChecked, setIsImportanceButtonChecked] = useState<boolean>(false);
+    const importanceType: Importance = useMemo(() => !isImportanceButtonChecked ? Importance.high : Importance.normal, [isImportanceButtonChecked]);
+
+    useEffect(() => {
+        setIsImportanceButtonChecked(task.importance === Importance.high ? true : false)
+    }, [task])
 
     const onHandleChange = useCallback(() => {
         onChange(task._id);
@@ -72,9 +79,8 @@ const TaskItem: FC<ITaskItem> = ({ task, index, onChange, isCompleted = false, d
     }, [onShowComponent]);
 
     const onClickImportanceButton = useCallback(() => {
-        console.log(task?._id);
         setIsImportanceButtonChecked(!isImportanceButtonChecked);
-        // TODO: update field importance from Normal to  Importance.important === IMPORTANT on the list of task
+        changeTaskImportance({ taskId: task._id, importance: importanceType });
         // TODO: add task to importance list  
     }, [isImportanceButtonChecked]);
 

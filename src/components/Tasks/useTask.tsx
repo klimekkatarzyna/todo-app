@@ -3,7 +3,7 @@ import { http, HttpResponse } from '../../utils/http';
 import * as api from '../../services';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useParams } from 'react-router';
-import { IUseParams, ITasksResponse, ITask, ITaskStatus, IChangeTaskStatusToCompleteProps } from '../../interfaces';
+import { IUseParams, ITasksResponse, ITask, ITaskStatus, IChangeTaskStatusToCompleteProps, IChangeTaskImportanceProps } from '../../interfaces';
 import { AppColorType, Importance } from '../../enums';
 
 interface ICreateTaskProps {
@@ -119,6 +119,26 @@ const useTask = () => {
     const onMarkTaskAsInCompleted = useCallback((taskId: string) => {
         mutateChangeTaskStatus({ taskId: taskId, taskStatus: ITaskStatus.inComplete });
     }, []);
+
+    const changeTaskImportance = ({ taskId, importance }: IChangeTaskImportanceProps): Promise<HttpResponse<ITask>> => {
+        return http(`${api.changeTaskImportance}/${listId}/${taskId}`, 'PATCH', {
+            body: JSON.stringify({ importance }),
+            headers: {
+                'Content-type': 'application/json',
+            }
+        }).then((response) => {
+            return response;
+        }).catch(error => {
+            console.error(error);
+            return error;
+        })
+    };
+
+    const { mutate: mutateChangeTaskImportance } = useMutation(changeTaskImportance, {
+        onSuccess: () => {
+            query.invalidateQueries(['tasksOfCurrentList'])
+        }
+    });
     
     return {
         mutateCreateTask,
@@ -129,7 +149,8 @@ const useTask = () => {
         taskData,
         taskDataLoading,
         onMarkTaskAsCompleted,
-        onMarkTaskAsInCompleted
+        onMarkTaskAsInCompleted,
+        mutateChangeTaskImportance
     }
 };
 

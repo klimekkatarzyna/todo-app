@@ -5,7 +5,7 @@ import TaskItem from './TaskItem/TaskItem';
 import useTask from './useTask';
 
 const InCompletedTasks = () => {
-    const { getTasksOfCurrentListQuery, onMarkTaskAsCompleted } = useTask();
+    const { getTasksOfCurrentListQuery, onMarkTaskAsCompleted, mutateChangeTaskImportance } = useTask();
     const inComletedTasks = useMemo(() => (getTasksOfCurrentListQuery?.body?.tasks || []).filter(task => task.taskStatus === ITaskStatus.inComplete), [getTasksOfCurrentListQuery]);
     const [inCompletedTaskslist, setInCompletedTasksList] = useState<ITask[]>(inComletedTasks);
     
@@ -27,6 +27,7 @@ const InCompletedTasks = () => {
                     onDrop={onDrop}
                     onDragLeave={onDragLeave}
                     onChange={onMarkTaskAsCompleted}
+                    changeTaskImportance={mutateChangeTaskImportance}
                 />
             )}
         </>
