@@ -1,8 +1,8 @@
-import React from 'react';
+import { FC } from 'react';
 import Toolbar from '../components/Toolbar';
 import { Board } from '../components/Board';
 
-const Assigned = () => {
+const Assigned: FC = () => {
     return (
         <Board>
             <Toolbar name={'Przypisane do mnie'} colorType={'green'} />

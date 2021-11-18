@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { Board } from '../components/Board';
 import Toolbar from '../components/Toolbar';
 

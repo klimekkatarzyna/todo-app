@@ -43,7 +43,7 @@ const ContextualMenuItem: FC<IContextualMenuItem> = ({ listItem, listElementId }
     const [selectedMenuItemType, setSelectedMenuItemType] = useState<boolean>(false);
     const { isModalVisible, onOpeneModal } = useShowModal();
 
-    const handleClick = useCallback(async (e: any, data: IItem ) => {
+    const handleClick = useCallback(async (event: React.ChangeEvent<HTMLInputElement>, data: IItem ): Promise<void> => {
         try {
             // console.log(data.type === ContextualMenuOpion.remove_list, data.listElementId, data.name);
             if (data.type === ContextualMenuOpion.remove_list) {

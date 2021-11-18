@@ -1,6 +1,6 @@
-import React, { useCallback, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import styled from 'styled-components';
-import { COLOURS, IconWrapper } from '../../constants';
+import { IconWrapper } from '../../constants';
 import { ArrowRight } from '@styled-icons/feather/ArrowRight';
 import { ArrowDown } from '@styled-icons/feather/ArrowDown';
 
@@ -26,13 +26,13 @@ const AccordionWrapper = styled.div`
 interface IAccordion {
     title: string;
     children: React.ReactNode;
-    details: unknown;
+    details: React.ReactElement
 }
 
-const Accordion = ({ title, details, children }: IAccordion) => {
+const Accordion: FC<IAccordion> = ({ title, details, children }) => {
     const [isActive, setIsActive] = useState<boolean>(false);
 
-    const onToogle = useCallback(() => {
+    const onToogle = useCallback((): void => {
         setIsActive(!isActive);
     }, [isActive]);
 

@@ -1,7 +1,6 @@
-import React from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 import { COLOURS } from '../../constants';
-
 
 const Container = styled.div`
     display: flex;
@@ -29,7 +28,7 @@ const Container = styled.div`
     }
 `;
 
-const Loader = () => {
+const Loader: FC = () => {
     return (
         <Container>
             <span />

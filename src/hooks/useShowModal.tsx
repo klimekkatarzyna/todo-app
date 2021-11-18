@@ -1,13 +1,13 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 const useShowModal = () => {
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
-    const onOpeneModal = useCallback(() => {
+    const onOpeneModal = useCallback((): void => {
         setIsModalVisible(true);
     }, []);
 
-    const onCloseModal = useCallback(() => {
+    const onCloseModal = useCallback((): void => {
         setIsModalVisible(false);
     }, []);
 

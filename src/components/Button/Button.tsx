@@ -43,9 +43,11 @@ const ButtonStyled = styled.button<IButtonProps>`
     `};
 `;
 
+type ButtonType = 'button' | 'submit' | 'reset';
+
 interface IButton {
     children: React.ReactNode;
-    type?: 'button' | 'submit' | 'reset';
+    type?: ButtonType;
     primary?: boolean;
     secondary?: boolean;
     outline? : boolean;

@@ -6,7 +6,7 @@ const TooltipWrapper = styled.div`
     position: relative;
 `;
 
-const TooltipBody = styled.div<{ position: 'left' | 'right', show: boolean }>`
+const TooltipBody = styled.div<{ position: TooltipPosition, show: boolean }>`
     background-color: ${COLOURS.white};
     padding: 0.7rem;
     border-radius: 0.3rem;
@@ -42,9 +42,11 @@ const Text = styled.span`
     white-space: nowrap;
 `;
 
+type TooltipPosition = 'left' | 'right';
+
 interface ITooltip {
     children: React.ReactNode;
-    position: 'left' | 'right';
+    position: TooltipPosition;
     text?: string;
 }
 

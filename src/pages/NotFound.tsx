@@ -1,6 +1,6 @@
-import React from 'react';
+import { FC } from 'react';
 
-const NotFound = () => {
+const NotFound: FC = () => {
     return (
         <div>
             <p>You took a wrong turn, mate.</p>

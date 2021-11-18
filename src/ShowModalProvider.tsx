@@ -8,11 +8,11 @@ interface IShowElementProvider {
 const ShowComponentProvider: FC<IShowElementProvider> = ({ children }) => {
     const [isVisible, setIsVisible] = useState<boolean>(false);
 
-    const onShowComponent = useCallback(() => {
+    const onShowComponent = useCallback((): void => {
         setIsVisible(true);
     }, []);
 
-    const onHideComponent = useCallback(() => {
+    const onHideComponent = useCallback((): void => {
         setIsVisible(false);
     }, []);
 

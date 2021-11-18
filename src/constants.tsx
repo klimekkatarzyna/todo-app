@@ -5,26 +5,28 @@ import { CheckCircle } from '@styled-icons/feather/CheckCircle';
 import { Copy } from '@styled-icons/feather/Copy';
 import { FileMinus } from '@styled-icons/feather/FileMinus';
 import { Trash2 } from '@styled-icons/feather/Trash2';
-import { IContextualMenuList, IListItem, IListItemType } from "./interfaces";
+import { IContextualMenuList } from "./interfaces";
 import { ContextualMenuOpion } from "./enums";
 import { Sun } from '@styled-icons/feather/Sun';
 import { Star } from '@styled-icons/feather/Star';
 import { Calendar } from '@styled-icons/feather/Calendar';
-import { User } from '@styled-icons/feather/User';
-import { Home } from '@styled-icons/feather/Home';
 
-export const COLOURS: any = {
-    darkGrey: '#383636',
-    darkerGrey: '#767678',
-    grey: '#505050',
-    lightGrey: '#f4f4f4',
-    blue: '#0078D7',
-    lightBlue: '#f4f6ff',
-    white: '#ffffff',
-    red: '#c23732',
-    green: '#5ca52d',
-    border: '#eaeaea',
-    fontColor: '#34373d'
+interface ColoursType { // is the same as Record<string, string>
+   [key: string]: string;
+ }
+
+export const COLOURS: Record<string, string> = {
+   darkGrey: '#383636',
+   darkerGrey: '#767678',
+   grey: '#505050',
+   lightGrey: '#f4f4f4',
+   blue: '#0078D7',
+   lightBlue: '#f4f6ff',
+   white: '#ffffff',
+   red: '#c23732',
+   green: '#5ca52d',
+   border: '#eaeaea',
+   fontColor: '#34373d'
 }
 
 interface IIconWrapper {

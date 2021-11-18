@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useState } from 'react';
 import styled from 'styled-components';
-import { InputType } from '../../../enums';
+import { InputVersion } from '../../../enums';
 import { Input } from '../../Input/Input';
 import useList from '../useList';
 import { COLOURS } from '../../../constants';
@@ -14,12 +14,8 @@ const Wrapper = styled.div`
     width: 210px;
 `;
 
-interface ISidebar {
-
-}
-
-const CreateList: FC<ISidebar> = () => {
-    const [listName, setListName] = useState<string>('');
+const CreateList: FC = () => {
+    const [listName, setListName] = useState<string | undefined>(undefined);
     const { mutateCreateList } = useList();
 
     const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,7 +23,7 @@ const CreateList: FC<ISidebar> = () => {
         setListName(clearStr);
     }, []);
 
-    const onSubmit = useCallback(async (event) => {
+    const onSubmit = useCallback(async (event: React.SyntheticEvent): Promise<void> => {
         event.preventDefault();
         try {
             await mutateCreateList(listName);
@@ -44,7 +40,7 @@ const CreateList: FC<ISidebar> = () => {
                 <Input
                     name='newList'
                     isIcon
-                    colorType={InputType.primary}
+                    colorType={InputVersion.primary}
                     placeholder={'Nowa lista'}
                     value={listName as string}
                     onChange={handleChange} />

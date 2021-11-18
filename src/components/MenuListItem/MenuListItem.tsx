@@ -13,6 +13,7 @@ import { Star } from '@styled-icons/feather/Star';
 import { Calendar } from '@styled-icons/feather/Calendar';
 import { User } from '@styled-icons/feather/User';
 import { Home } from '@styled-icons/feather/Home';
+import { SideMenuType } from "../../enums";
 
 const LinkStyled = styled(Link)`
     text-decoration: none;
@@ -50,11 +51,11 @@ interface IMenuListItem  {
 }
 
 export const MenuListItem: FC<IMenuListItem > = ({ isShared = false, listItem }) => {
-    const icon = useMemo(() => listItem.url === '/' && <Sun /> ||
-        listItem.url === '/important' && <Star /> ||
-        listItem.url === '/planned' && <Calendar /> ||
-        listItem.url === '/assigned_to_me' && <User /> ||
-        listItem.url === '/inbox' && <Home />, [listItem]);
+    const icon = useMemo(() => listItem.url === SideMenuType.myDay && <Sun /> ||
+        listItem.url === SideMenuType.important && <Star /> ||
+        listItem.url === SideMenuType.planned && <Calendar /> ||
+        listItem.url === SideMenuType.assigned && <User /> ||
+        listItem.url === SideMenuType.inbox && <Home />, [listItem]);
 
     return (
         <LinkStyled to={listItem?.isMainList ? `${listItem?.url}` : `/tasks/${listItem?._id}`}>

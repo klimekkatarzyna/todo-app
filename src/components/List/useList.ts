@@ -9,7 +9,7 @@ const useList = () => {
     const query = useQueryClient();
     const { listId } = useParams<IUseParams>();
 
-    const createList = useCallback((title: string) => {
+    const createList = useCallback((title: string | undefined): Promise<any> => {
         return http(api.createList, 'POST', {
             body: JSON.stringify({ title, taskNumber: 0  }),
             headers: {
@@ -29,7 +29,7 @@ const useList = () => {
         })
     });
 
-    const getLists = useCallback(() => {
+    const getLists = useCallback(():  Promise<any> => {
         return http(api.getLists, 'GET', {
             headers: {
                 'Content-type': 'application/json',
@@ -44,7 +44,7 @@ const useList = () => {
 
     const { isLoading: getListsLoading, data: getListsQuery } = useQuery<IListResponse>('lists', getLists); // TODO: cache it
 
-    const getListById = useCallback(() => {
+    const getListById = useCallback((): Promise<any> | undefined => {
         if (!listId) return;
         return http(`${api.getListById}/${listId}`, 'GET', {
             headers: {
@@ -60,7 +60,7 @@ const useList = () => {
 
     const { data: getListByIdData, isLoading: getListByIdLoading } = useQuery(['getListById', listId], getListById);
 
-    const deleteList = useCallback((listId: string) => {
+    const deleteList = useCallback((listId: string): Promise<any> => {
         return http(api.removeList, 'DELETE', {
             body: JSON.stringify({ listId }),
             headers: {

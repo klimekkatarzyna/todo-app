@@ -2,12 +2,14 @@ import { FC, useCallback, useContext, useEffect, useMemo, useState } from 'react
 import styled from 'styled-components';
 import { ContextMenuTrigger } from 'react-contextmenu';
 import { COLOURS, contextualMenuFirstOpion } from '../../../constants';
-import { ITask } from '../../../interfaces';
+import { IChangeTaskImportanceProps, ITask } from '../../../interfaces';
 import { IinitialDnDState } from '../../../hooks/useDragAndDrop';
 import ContextualMenu from '../../ContextualMenu/ContextualMenu';
 import TaskDetails from '../TaskDetails';
 import { ShowElementContext } from '../../../ShowElementContext';
 import { Importance } from '../../../enums';
+import { UseMutateFunction } from 'react-query';
+import { HttpResponse } from '../../../utils/http';
 
 const TaskItemWrapper = styled.div`
     display: flex;
@@ -50,12 +52,12 @@ interface ITaskItem {
     index: number;
     onChange: (taskId: string) => void;
     isCompleted?: boolean;
-    dragAndDrop?: IinitialDnDState;
-    onDragStart?: (event: any, index: number) => void;
-    onDragOver?: (event: any, index: number) => void;
-    onDrop?: (event: any) => void;
+    dragAndDrop?: IinitialDnDState<ITask>;
+    onDragStart?: (event: React.DragEvent<HTMLDivElement>, index: number) => void;
+    onDragOver?: (event:  React.DragEvent<HTMLDivElement>, index: number) => void;
+    onDrop?: (event:  React.DragEvent<HTMLDivElement>) => void;
     onDragLeave?: () => void;
-    changeTaskImportance: any;
+    changeTaskImportance:  UseMutateFunction<HttpResponse<ITask>, unknown, IChangeTaskImportanceProps, unknown>;
 }
 
 const TaskItem: FC<ITaskItem> = ({ task, index, onChange, isCompleted = false, dragAndDrop, onDragStart, onDragOver, onDrop, onDragLeave, changeTaskImportance }) => {
@@ -70,15 +72,15 @@ const TaskItem: FC<ITaskItem> = ({ task, index, onChange, isCompleted = false, d
         setIsImportanceButtonChecked(task.importance === Importance.high ? true : false)
     }, [task])
 
-    const onHandleChange = useCallback(() => {
+    const onHandleChange = useCallback((): void => {
         onChange(task._id);
     }, [task]);
 
-    const onSelectTask = useCallback(() => {
+    const onSelectTask = useCallback((): void => {
         onShowComponent();
     }, [onShowComponent]);
 
-    const onClickImportanceButton = useCallback(() => {
+    const onClickImportanceButton = useCallback((): void => {
         setIsImportanceButtonChecked(!isImportanceButtonChecked);
         changeTaskImportance({ taskId: task._id, importance: importanceType });
         // TODO: add task to importance list  

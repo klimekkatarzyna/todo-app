@@ -1,15 +1,14 @@
 import React, { useCallback, useState } from 'react';
-import { ITask } from '../interfaces';
 
-export interface IinitialDnDState {
+export interface IinitialDnDState<T> {
     draggedFrom: number;
     draggedTo: number;
     isDragging: boolean;
-    originalOrder: ITask[];
-    updatedOrder: ITask[];
+    originalOrder: T[];
+    updatedOrder: T[];
 }
 
-const initialDnDState: IinitialDnDState = {
+const initialDnDState = {
     draggedFrom: 0,
     draggedTo: 0,
     isDragging: false,
@@ -17,11 +16,11 @@ const initialDnDState: IinitialDnDState = {
     updatedOrder: []
 }
 
-const useDragAndDrop = (list: any, setList: any) => {
-    const [dragAndDrop, setDragAndDrop] = useState<IinitialDnDState>(initialDnDState);
+const useDragAndDrop = <T>(list: T[], setList: React.Dispatch<React.SetStateAction<T[]>>) => {
+    const [dragAndDrop, setDragAndDrop] = useState<IinitialDnDState<T>>(initialDnDState);
 
-    const onDragStart = useCallback((event, index: number) => {
-        const initialPosition = Number(event.currentTarget.dataset.position as HTMLElement);
+    const onDragStart = useCallback((event: React.DragEvent<HTMLDivElement>, index: number) => {
+        const initialPosition = Number(event.currentTarget.dataset.position);
 
         setDragAndDrop({
             ...dragAndDrop,
@@ -34,7 +33,7 @@ const useDragAndDrop = (list: any, setList: any) => {
     }, [list]);
 
 
-    const onDragOver = useCallback((event, index) => {
+    const onDragOver = useCallback((event: React.DragEvent<HTMLDivElement>, index: number): void => {
         event.preventDefault();
   
         let newList = dragAndDrop.originalOrder;
@@ -63,7 +62,7 @@ const useDragAndDrop = (list: any, setList: any) => {
         }
     }, [dragAndDrop]);
 
-    const onDrop = useCallback((event) => {
+    const onDrop = useCallback((event: React.DragEvent<HTMLDivElement>): void => {
         setList(dragAndDrop.updatedOrder);
   
         setDragAndDrop({
@@ -74,7 +73,7 @@ const useDragAndDrop = (list: any, setList: any) => {
         });
     }, [dragAndDrop]);
 
-    const onDragLeave = useCallback(() => {
+    const onDragLeave = useCallback((): void => {
         setDragAndDrop({
             ...dragAndDrop,
             draggedTo: 0

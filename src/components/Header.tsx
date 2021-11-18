@@ -42,7 +42,7 @@ const Header: FC<IHeader> = ({ userName }) => {
     const { logout, setAuthData } = useContext(AuthContext);
     const [ firstChar, secChar ] = splitChar(userName);
 
-    const logoutUser = useCallback(async () => {
+    const logoutUser = useCallback(async ():  Promise<void> => {
         try {
             localStorage.removeItem('token');
             setAuthData({} as React.SetStateAction<HttpResponse<IUserData>>);

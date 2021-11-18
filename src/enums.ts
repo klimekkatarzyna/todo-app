@@ -1,4 +1,4 @@
-export enum InputType {
+export enum InputVersion {
     primary = 'primary',
     secondary = 'secondary'
 }
@@ -20,11 +20,11 @@ export enum ContextualMenuOpion {
 }
 
 export enum SideMenuType {
-    myDay = 'myDay',
-    planned = 'planned',
-    important = 'important',
-    assigned = 'assigned',
-    inbox = 'inbox'
+    myDay = '/',
+    planned = '/planned',
+    important = '/important',
+    assigned = '/assigned_to_me',
+    inbox = '/inbox'
 }
 
 export type AppColorType = 'grey' | 'blue' | 'red' | 'green';

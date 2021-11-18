@@ -6,7 +6,7 @@ import Tooltip from '../Tooltip/Tooltip';
 
 interface CheckboxWrapperProps {
     round?: boolean;
-    color?: AppColorType;
+    color?: AppColorType | undefined;
     disabled?: boolean;
 }
 

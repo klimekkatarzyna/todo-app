@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { useMutation, useQuery } from 'react-query';
+import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import MyDay from './pages/MyDay';
 import Important from './pages/Important';
@@ -32,6 +32,7 @@ const Content= styled.div`
 const BrowserRouter = () => {
     const { checkSession, authData, LoginIsLoading, setAuthData, loginoutData } = useContext<AuthContextType>(AuthContext);
     const token = localStorage.getItem('token');
+
     const { isLoading: checkSessionIsLoading, data } = useQuery('checkSession', async () => {
         const response = await checkSession(token as string);
         return response;

@@ -7,7 +7,7 @@ import { IUseParams, ITasksResponse, ITask, ITaskStatus, IChangeTaskStatusToComp
 import { AppColorType, Importance } from '../../enums';
 
 interface ICreateTaskProps {
-    title: string;
+    title: string | undefined;
     parentFolderId: string;
     importance?: Importance;
     themeColor?: AppColorType;
@@ -77,7 +77,7 @@ const useTask = () => {
         }
     });
 
-    const deleteTask = useCallback((taskId: string) => {
+    const deleteTask = useCallback((taskId: string): Promise<any> => {
         return http(api.removeTask, 'DELETE', {
             body: JSON.stringify({ taskId }),
             headers: {
@@ -112,11 +112,11 @@ const useTask = () => {
 
     const { data: taskData, isLoading: taskDataLoading } = useQuery(['getTask', taskId], getTask);
 
-    const onMarkTaskAsCompleted = useCallback((taskId: string) => {
+    const onMarkTaskAsCompleted = useCallback((taskId: string): void => {
         mutateChangeTaskStatus({ taskId: taskId, taskStatus: ITaskStatus.complete });
     }, []);
 
-    const onMarkTaskAsInCompleted = useCallback((taskId: string) => {
+    const onMarkTaskAsInCompleted = useCallback((taskId: string): void => {
         mutateChangeTaskStatus({ taskId: taskId, taskStatus: ITaskStatus.inComplete });
     }, []);
 

@@ -27,11 +27,7 @@ const InputsWrapper = styled.div`
     border-top: 1px solid ${COLOURS.darkerGrey};
 `;
 
-interface ISidebar {
-
-}
-
-export const Sidebar: FC<ISidebar> = () => {
+export const Sidebar: FC = () => {
     return (
         <Wrapper>
             {/*TODO: search*/}

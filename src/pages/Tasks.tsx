@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import { Board } from '../components/Board';
 import useList from '../components/List/useList';
 import Loader from '../components/Loader/Loader';
@@ -6,7 +7,7 @@ import TasksList from '../components/Tasks/Tasks';
 import Toolbar from '../components/Toolbar';
 
 
-const Tasks = () => {
+const Tasks: FC = () => {
     const { getListByIdData, getListByIdLoading } = useList();
 
     return (

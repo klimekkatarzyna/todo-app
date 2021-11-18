@@ -1,14 +1,13 @@
 import { FC, useCallback, useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { COLOURS, IconWrapper } from '../constants';
+import { COLOURS } from '../constants';
 import Button from '../components/Button/Button';
 import { AuthContext } from '../AuthContext';
-import { InputType } from '../enums';
+import { InputVersion } from '../enums';
 import { Input } from '../components/Input/Input';
-import { Eye } from '@styled-icons/feather/Eye';
-import { EyeOff } from '@styled-icons/feather/EyeOff';
 import { removesWhitespaceFromString } from '../utils/utilsFunctions';
+import InputEye from '../components/InputEye';
 
 export const FormWrapper = styled.div`
     background-color: ${COLOURS.lightGrey};
@@ -19,11 +18,6 @@ export const FormWrapper = styled.div`
     form {
         width: 100%;
     }
-`;
-
-export const IconWrapperStyled = styled(IconWrapper)`
-    position: absolute;
-    right: 10px;
 `;
 
 export const Content = styled.div`
@@ -55,12 +49,13 @@ const Login: FC = () => {
         email: '',
         password: ''
     });
-    const [showPassword, setShowPassowrd] = useState<boolean>(false);
-    // const [errorMessage, setErrorMessage] = useState('');
 
+    const [showPassword, setShowPassowrd] = useState<boolean>(false);
+    const handledSetPassword = (): void => setShowPassowrd(!showPassword);
+    
     const { login } = useContext(AuthContext);
 
-    const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>): void => {
         const { name, value } = event.target;
         const clearStr = removesWhitespaceFromString(value);
 
@@ -69,10 +64,8 @@ const Login: FC = () => {
             [name]: clearStr
         })
     }, [loginData]);
-
-    const handledSetPassword = () => setShowPassowrd(!showPassword);
     
-    const onSubmit = useCallback(async (event) => { //  TODO: type
+    const onSubmit = useCallback(async (event: React.SyntheticEvent): Promise<void> => {
         event.preventDefault();
         // dispatch<LoginUser>(loginUser(values)).then(response => {
         //     if (resError(response?.status)) {
@@ -106,7 +99,7 @@ const Login: FC = () => {
             <form onSubmit={onSubmit}>
                 <Input
                     name='email'
-                    colorType={InputType.primary}
+                    colorType={InputVersion.primary}
                     placeholder={'Email'}
                     value={loginData.email}
                     autoFocus
@@ -115,16 +108,12 @@ const Login: FC = () => {
                 <InputWrapper>
                     <Input
                         name='password'
-                        colorType={InputType.primary}
+                        colorType={InputVersion.primary}
                         type={!showPassword ? 'password' : 'text'}
                         placeholder={'Password'}
                         value={loginData.password}
                         onChange={handleChange} />
-                    {!showPassword ? (
-                        <IconWrapperStyled color={'grey'}><Eye onClick={handledSetPassword} /></IconWrapperStyled>
-                    ) : (
-                        <IconWrapperStyled color={'grey'}><EyeOff onClick={handledSetPassword} /></IconWrapperStyled>
-                    )}
+                        <InputEye showPassword={showPassword} handledSetPassword={handledSetPassword} />
                 </InputWrapper>
 
                 <Button primary type='submit' margin>

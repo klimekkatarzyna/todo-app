@@ -72,7 +72,7 @@ const TaskSidebarDetails: FC = () => {
         taskData?.taskStatus === ITaskStatus.complete && onMarkTaskAsInCompleted(taskData._id);
     }, [taskData]);
 
-    const handleClick = useCallback(async () => {
+    const handleClick = useCallback(async (): Promise<void> => {
         try {
             await mutateRemoveTask(taskData?._id || '');
             onClose();
@@ -81,7 +81,7 @@ const TaskSidebarDetails: FC = () => {
         }
     }, []);
 
-    const onClose = useCallback(() => {
+    const onClose = useCallback((): void => {
         onHideComponent();
     }, []);
 

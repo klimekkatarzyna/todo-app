@@ -2,12 +2,11 @@ import { FC, useCallback, useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../AuthContext';
 import { Input } from '../components/Input/Input';
-import { InputType } from '../enums';
+import { InputVersion } from '../enums';
 import Button from '../components/Button/Button';
-import { Content, FormWrapper, IconWrapperStyled, InputWrapper } from './Login';
-import { Eye } from '@styled-icons/feather/Eye';
-import { EyeOff } from '@styled-icons/feather/EyeOff';
+import { Content, FormWrapper, InputWrapper } from './Login';
 import { removesWhitespaceFromString } from '../utils/utilsFunctions';
+import InputEye from '../components/InputEye';
 
 interface RegisterForm {
     userName: string;
@@ -22,6 +21,8 @@ const Register: FC = () => {
         password: ''
     });
     const [showPassword, setShowPassowrd] = useState<boolean>(false);
+    const handledSetPassword = (): void => setShowPassowrd(!showPassword);
+
     const { signUp } = useContext(AuthContext);
 
     const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,9 +35,7 @@ const Register: FC = () => {
         })
     }, [loginData]);
 
-    const handledSetPassword = () => setShowPassowrd(!showPassword);
-
-    const onSubmit = useCallback(() => {
+    const onSubmit = useCallback((): void => {
         // dispatch<RegisterUser>(authenticateUser(values.username, values.email, values.password)).then(response => {
         //     setPassword(true);
         //     setSubmitting(false);
@@ -49,7 +48,7 @@ const Register: FC = () => {
         // })
 
         try {
-            signUp(loginData.userName, loginData.email, loginData.password);
+            signUp(loginData.userName, loginData.email, loginData.password); // TODO: async ?
         } catch (error) {
             console.log(error);
         }
@@ -74,14 +73,14 @@ const Register: FC = () => {
                 <form onSubmit={onSubmit}>
                     <Input
                         name='userName'
-                        colorType={InputType.primary}
+                        colorType={InputVersion.primary}
                         placeholder={'User name'}
                         value={loginData.userName}
                         autoFocus
                         onChange={handleChange} />
                     <Input
                         name='email'
-                        colorType={InputType.primary}
+                        colorType={InputVersion.primary}
                         placeholder={'Email'}
                         value={loginData.email}
                         onChange={handleChange} />
@@ -89,16 +88,12 @@ const Register: FC = () => {
                     <InputWrapper>
                         <Input
                             name='password'
-                            colorType={InputType.primary}
+                            colorType={InputVersion.primary}
                             type={!showPassword ? 'password' : 'text'}
                             placeholder={'Password'}
                             value={loginData.password}
                             onChange={handleChange} />
-                        {!showPassword ? (
-                            <IconWrapperStyled color={'grey'}><Eye onClick={handledSetPassword} /></IconWrapperStyled>
-                        ) : (
-                            <IconWrapperStyled color={'grey'}><EyeOff onClick={handledSetPassword} /></IconWrapperStyled>
-                        )}
+                        <InputEye showPassword={showPassword} handledSetPassword={handledSetPassword} />
                     </InputWrapper>
 
                     <Button primary type='submit' margin>

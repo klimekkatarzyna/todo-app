@@ -5,18 +5,13 @@ import { IListItem } from '../../interfaces';
 import useMainList from "./useMainList";
 import Loader from "../Loader/Loader";
 
-
 const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     margin-bottom: 2rem;
 `;
 
-interface IMainList {
-
-}
-
-export const MainList: FC<IMainList> = () => {
+export const MainList: FC = () => {
     // TODO: endpomt to update tasksNumber
     const { mainList, mainListLoading } = useMainList();
 

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useMutation, useQuery } from 'react-query';
 import { useHistory } from 'react-router-dom';
 import { IUserData } from '../interfaces';
 import * as api from '../services';
@@ -20,7 +19,7 @@ const useAuthorization = () => {
     const history = useHistory();
     const [authData, setAuthData] = useState<HttpResponse<IUserData>>({} as HttpResponse<IUserData>);
 
-    const checkSession = (token: string) => {
+    const checkSession = (token: string): Promise<any> => {
         const tokenValue = JSON.parse(token as string);
         return http(api.me, 'GET', {
             headers: {
@@ -95,7 +94,7 @@ const useAuthorization = () => {
     //     }
     // }
 
-    const logoutRequest = () => {
+    const logoutRequest = (): Promise<any> => {
         const token = localStorage.getItem('token');
         const tokenValue = JSON.parse(token as string);
         
