@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const MainListSchema = new mongoose.Schema({
     isMainList: {
@@ -31,4 +31,4 @@ const MainListSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('mainlist', MainListSchema);
+export default mongoose.model('mainlist', MainListSchema);

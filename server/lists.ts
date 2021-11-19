@@ -1,10 +1,11 @@
-const express = require('express');
-const router = express.Router();
-const jwt = require('jsonwebtoken');
-const List = require('./models/list');
-const MainList = require('./models/mainList');
+import express from 'express';
+import jwt from 'jsonwebtoken';
+import List from './models/list';
+import MainList from './models/mainList';
 
-router.post('/createList', async (req, res) => {
+const lists = express.Router();
+
+lists.post('/createList', async (req, res) => {
     List.find({ id: req.body._id }, (err, docs) => {
 
         const list = new List({
@@ -26,7 +27,6 @@ router.post('/createList', async (req, res) => {
                     id: list._id,
                     title: list.title,
                     themeColor: list.themeColor,
-                    taskNumber: list.taskNumber,
                     createdAt: list.createdAt,
                     taskNumber: list.taskNumber
                 },
@@ -34,7 +34,7 @@ router.post('/createList', async (req, res) => {
                 status: 200
             });
         })
-        .catch((err) => {
+        .catch((err: unknown) => {
             res.status(500).json({
                 success: false,
                 errorMessage: `something went wrong`,
@@ -45,7 +45,7 @@ router.post('/createList', async (req, res) => {
     });
 });
 
-router.get('/getLists', async (req, res) => {
+lists.get('/getLists', async (req, res) => {
     List.find((err, docs) => {
         try {
             res.json({
@@ -65,7 +65,7 @@ router.get('/getLists', async (req, res) => {
     });
 });
 
-router.get('/getList/:id', async (req, res) => {
+lists.get('/getList/:id', async (req, res) => {
     List.find({ _id: req.params.id }, (err, docs) => {
         try {
             res.json({
@@ -83,8 +83,8 @@ router.get('/getList/:id', async (req, res) => {
     });
 });
 
-router.delete('/removeList', async (req, res) => {
-    List.deleteOne({ _id: req.body.listId }, (err, docs) => {
+lists.delete('/removeList', async (req, res) => {
+    List.deleteOne({ _id: req.body.listId }, (err: unknown, docs: unknown) => {
         try {
             res.json({
                 body: {
@@ -103,7 +103,7 @@ router.delete('/removeList', async (req, res) => {
     })
 });
 
-router.get('/getMainList', async (req, res) => {
+lists.get('/getMainList', async (req, res) => {
     MainList.find((err, docs) => {
         try {
             res.json({
@@ -123,4 +123,4 @@ router.get('/getMainList', async (req, res) => {
     });
 });
 
-module.exports = router;
+export default lists;

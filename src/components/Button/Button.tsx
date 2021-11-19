@@ -45,7 +45,7 @@ const ButtonStyled = styled.button<IButtonProps>`
 
 type ButtonType = 'button' | 'submit' | 'reset';
 
-interface IButton {
+interface IButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     children: React.ReactNode;
     type?: ButtonType;
     primary?: boolean;
@@ -56,9 +56,12 @@ interface IButton {
     onClick?: () => void;
 }
 
-const Button: FC<IButton> = ({ primary, children, type = 'submit', secondary, outline, disabled, margin, onClick }) => {
+const Button: FC<IButton> = ({ primary, children, type = 'submit', secondary, outline, disabled, margin, onClick, ...props }) => {
     return (
+        <>
+        <button></button>
         <ButtonStyled
+            {...props}
             primary={primary}
             secondary={secondary}
             outline={outline}
@@ -68,6 +71,7 @@ const Button: FC<IButton> = ({ primary, children, type = 'submit', secondary, ou
             onClick={onClick}>
                 {children}
         </ButtonStyled>
+        </>
     );
 };
 

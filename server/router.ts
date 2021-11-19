@@ -1,11 +1,10 @@
-const express = require('express');
+import express from 'express';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+import User from './models/user';
+import auth from './middleware/auth';
+
 const router = express.Router();
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const User = require('./models/user');
-const List = require('./models/list');
-const auth = require('./middleware/auth');
-const MainList = require('./models/mainList');
 
 router.post('/register', async (req, res) => {
     const hashedPassword = bcrypt.hashSync(req.body.password, 8);
@@ -41,7 +40,7 @@ router.post('/register', async (req, res) => {
                 status: 200
             });
         })
-        .catch((err) => {
+        .catch((err: unknown) => {
             res.status(500).json({
                 success: false,
                 errorMessage: `registration failed`,
@@ -80,7 +79,7 @@ router.post('/login', async (req, res) => {
             message: `login user with email ${req.body.email}`
         });
 
-    } catch (err) {
+    } catch (err: unknown) {
         res.status(500).json({
             success: false,
             errorMessage: `invalid credentials`,
@@ -91,12 +90,12 @@ router.post('/login', async (req, res) => {
 
 router.get('/me', auth, async (req, res) => {
     const authHeader = req.headers.authorization;
-    const token = authHeader.split(' ')[1];
+    const token = authHeader?.split(' ')[1];
 
     if (token) {
         jwt.verify(token, ':7HK2ATab_', async (err, data) => {
 
-            const user = await User.findById(data.userId);
+            const user = await User.findById(data?.userId);
             if (user) {
                 res.status(200).json({
                     auth: true,
@@ -135,4 +134,4 @@ router.post('/logout', async (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;

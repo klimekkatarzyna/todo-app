@@ -1,15 +1,15 @@
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const router = require('./server/router');
-const lists = require('./server/lists');
-const tasks = require('./server/tasks');
-const mainTasks = require('./server/mainTasks');
-const mongoose = require('mongoose');
-const cookieParser = require('cookie-parser');
+import express, { RequestHandler } from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import router from './server/router';
+import lists from './server/lists';
+import tasks from './server/tasks';
+import mainTasks from './server/mainTasks';
+import mongoose from 'mongoose';
+import cookieParser from 'cookie-parser';
 
 // connect to mongoDB server
-mongoose.connect('mongodb+srv://user1:Klimek09@cluster0.hgr10.mongodb.net/User?retryWrites=true&w=majority', { useNewUrlParser: true });
+mongoose.connect('mongodb+srv://user1:Klimek09@cluster0.hgr10.mongodb.net/User?retryWrites=true&w=majority');
 
 /* MAIN SET UP */
 
@@ -26,7 +26,7 @@ app.use(cors({
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use(cookieParser());
+app.use(cookieParser() as RequestHandler);
 
 app.get('/', (req, res) => {
     res.send('API working');

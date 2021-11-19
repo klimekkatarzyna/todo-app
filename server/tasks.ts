@@ -1,10 +1,11 @@
-const express = require('express');
-const router = express.Router();
-const jwt = require('jsonwebtoken');
-const Task = require('./models/task');
-const List = require('./models/list');
+import express from 'express';
+import jwt from 'jsonwebtoken';
+import Task from './models/task';
+import List from './models/list';
 
-router.post('/createTask', async (req, res) => {
+const tasks = express.Router();
+
+tasks.post('/createTask', async (req, res) => {
     Task.find({ id: req.body._id }, (err, docs) => {
 
         const task = new Task({
@@ -37,7 +38,7 @@ router.post('/createTask', async (req, res) => {
                 status: 200
             });
         })
-        .catch((err) => {
+        .catch((err: unknown) => {
             res.status(500).json({
                 success: false,
                 errorMessage: `something went wrong`,
@@ -48,7 +49,7 @@ router.post('/createTask', async (req, res) => {
     });
 });
 
-router.get('/getTasks/:listId', async (req, res) => {
+tasks.get('/getTasks/:listId', async (req, res) => {
     Task.find({ parentFolderId: req.params.listId }, (err, docs) => {
         try {
             res.json({
@@ -58,8 +59,8 @@ router.get('/getTasks/:listId', async (req, res) => {
                 status: 200
             });
 
-            List.findOneAndUpdate({ _id: req.params.listId }, { $set: { taskNumber: docs.length } }, (err, docs) => {});
-        } catch (error) {
+            List.findOneAndUpdate({ _id: req.params.listId }, { $set: { taskNumber: docs.length } }, (err: unknown, docs: unknown) => {});
+        } catch (error: unknown) {
             res.status(500).json({
                 success: false,
                 errorMessage: `something went wrong`,
@@ -70,8 +71,8 @@ router.get('/getTasks/:listId', async (req, res) => {
     });
 });
 
-router.patch('/changeTaskStatus/:taskId', async (req, res) => {
-    Task.updateOne({ _id: req.params.taskId }, { $set: { taskStatus: req.body.taskStatus } }, (err, docs) => {
+tasks.patch('/changeTaskStatus/:taskId', async (req, res) => {
+    Task.updateOne({ _id: req.params.taskId }, { $set: { taskStatus: req.body.taskStatus } }, (err: unknown, docs: unknown) => {
         try {
             res.json({
                 message: `status changed successfully to ${req.body.taskStatus}`,
@@ -89,8 +90,8 @@ router.patch('/changeTaskStatus/:taskId', async (req, res) => {
     });
 });
 
-router.delete('/removeTask', async (req, res) => {
-    Task.deleteOne({ _id: req.body.taskId }, (err, docs) => {
+tasks.delete('/removeTask', async (req, res) => {
+    Task.deleteOne({ _id: req.body.taskId }, (err: unknown, docs: unknown) => {
         try {
             res.json({
                 body: {
@@ -109,8 +110,8 @@ router.delete('/removeTask', async (req, res) => {
     })
 });
 
-router.get('/getTask/:id', async (req, res) => {
-    Task.find({ _id: req.params.id }, (err, docs) => {
+tasks.get('/getTask/:id', async (req, res) => {
+    Task.find({ _id: req.params.id }, (err: unknown, docs: unknown) => {
         try {
             res.json({
                 body: docs,
@@ -127,8 +128,8 @@ router.get('/getTask/:id', async (req, res) => {
     });
 });
 
-router.patch('/changeTaskImportance/:listId/:taskId', async (req, res) => {
-    Task.updateOne({ _id: req.params.taskId, parentFolderId: req.params.listId }, { $set: { importance: req.body.importance } }, (err, docs) => {
+tasks.patch('/changeTaskImportance/:listId/:taskId', async (req, res) => {
+    Task.updateOne({ _id: req.params.taskId, parentFolderId: req.params.listId }, { $set: { importance: req.body.importance } }, (err: unknown, docs: unknown) => {
         try {
             res.json({
                 message: `importance successfully changed to ${req.body.importance}`,
@@ -146,4 +147,4 @@ router.patch('/changeTaskImportance/:listId/:taskId', async (req, res) => {
     });
 });
 
-module.exports = router;
+export default tasks;
