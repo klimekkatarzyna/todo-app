@@ -16,7 +16,7 @@ import Tasks from './pages/Tasks';
 import NotFound from './pages/NotFound';
 import { AuthContext, AuthContextType } from './AuthContext';
 import { HttpResponse } from './utils/http';
-import { IUserData } from './interfaces';
+import { IUserData } from './interfaces/app';
 
 const Wrapper = styled.div`
     display: flex;

@@ -2,7 +2,7 @@ import React, { FC, SetStateAction, useCallback, useEffect, useState } from 'rea
 import { useMutation, useQuery } from 'react-query';
 import { AuthContext } from './AuthContext';
 import useAuthorization from './hooks/useAuthorization';
-import { IResponseStatus, IUserData } from './interfaces';
+import { IResponseStatus, IUserData } from './interfaces/app';
 import { HttpResponse } from './utils/http';
 
 interface IAuthProvider {

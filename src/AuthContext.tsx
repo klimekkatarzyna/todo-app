@@ -1,5 +1,5 @@
-import { createContext, Dispatch, SetStateAction } from 'react';
-import { IUserData } from './interfaces';
+import { createContext } from 'react';
+import { IUserData } from './interfaces/app';
 import { HttpResponse } from './utils/http';
 
 export interface AuthContextType {

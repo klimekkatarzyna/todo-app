@@ -5,7 +5,7 @@ import { CheckCircle } from '@styled-icons/feather/CheckCircle';
 import { Copy } from '@styled-icons/feather/Copy';
 import { FileMinus } from '@styled-icons/feather/FileMinus';
 import { Trash2 } from '@styled-icons/feather/Trash2';
-import { IContextualMenuList } from "./interfaces";
+import { IContextualMenuList } from "./interfaces/list";
 import { ContextualMenuOpion } from "./enums";
 import { Sun } from '@styled-icons/feather/Sun';
 import { Star } from '@styled-icons/feather/Star';

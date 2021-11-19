@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 import { InputVersion } from '../../enums';
-import { IUseParams } from '../../interfaces';
+import { IUseParams } from '../../interfaces/app';
 import { handleResertInput, removesWhitespaceFromString } from '../../utils/utilsFunctions';
 import { Input } from '../Input/Input';
 import useTask from './useTask';

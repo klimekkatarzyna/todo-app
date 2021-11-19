@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { http } from '../../utils/http';
 import * as api from '../../services';
 import { useQuery } from 'react-query';
-import { IMainListResponse } from '../../interfaces';
+import { IMainListResponse } from '../../interfaces/list';
 
 const useMainList = () => {
     const getMainList = useCallback((): Promise<IMainListResponse> => {

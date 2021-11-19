@@ -2,7 +2,8 @@ import { FC, useCallback, useContext, useEffect, useMemo, useState } from 'react
 import styled from 'styled-components';
 import { ContextMenuTrigger } from 'react-contextmenu';
 import { COLOURS, contextualMenuFirstOpion } from '../../../constants';
-import { IChangeTaskImportanceProps, ITask } from '../../../interfaces';
+import { IChangeTaskImportanceProps } from '../../../interfaces/task';
+import { ITask } from '../../../interfaces/task';
 import { IinitialDnDState } from '../../../hooks/useDragAndDrop';
 import ContextualMenu from '../../ContextualMenu/ContextualMenu';
 import TaskDetails from '../TaskDetails';

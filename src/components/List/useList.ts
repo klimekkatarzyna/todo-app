@@ -1,15 +1,16 @@
-import React, { useCallback } from 'react';
-import { http } from '../../utils/http';
+import { useCallback } from 'react';
+import { http, HttpResponse } from '../../utils/http';
 import * as api from '../../services';
-import { QueryCache, useMutation, useQuery, useQueryClient } from 'react-query';
-import { IListResponse, IUseParams } from '../../interfaces';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { IUseParams } from '../../interfaces/app';
+import { IDeleteListResponse, IListItem, IListResponse } from '../../interfaces/list';
 import { useParams } from 'react-router';
 
 const useList = () => {
     const query = useQueryClient();
     const { listId } = useParams<IUseParams>();
 
-    const createList = useCallback((title: string | undefined): Promise<any> => {
+    const createList = useCallback((title: string | undefined): Promise<HttpResponse<IListItem>> => {
         return http(api.createList, 'POST', {
             body: JSON.stringify({ title, taskNumber: 0  }),
             headers: {
@@ -29,7 +30,7 @@ const useList = () => {
         })
     });
 
-    const getLists = useCallback(():  Promise<any> => {
+    const getLists = useCallback(():  Promise<IListResponse> => {
         return http(api.getLists, 'GET', {
             headers: {
                 'Content-type': 'application/json',
@@ -60,7 +61,7 @@ const useList = () => {
 
     const { data: getListByIdData, isLoading: getListByIdLoading } = useQuery(['getListById', listId], getListById);
 
-    const deleteList = useCallback((listId: string): Promise<any> => {
+    const deleteList = useCallback((listId: string): Promise<IDeleteListResponse> => {
         return http(api.removeList, 'DELETE', {
             body: JSON.stringify({ listId }),
             headers: {

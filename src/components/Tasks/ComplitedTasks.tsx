@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
-import { ITask, ITaskStatus } from '../../interfaces';
+import { ITask, ITaskStatus } from '../../interfaces/task';
 import TaskItem from './TaskItem/TaskItem';
 import { COLOURS } from '../../constants';
 import Accordion from '../Accordion/Accordion';

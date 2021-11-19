@@ -6,7 +6,7 @@ import { AuthContext } from '../AuthContext';
 import { returnsFirstChar, splitChar } from '../utils/utilsFunctions';
 import Button from './Button/Button';
 import { HttpResponse } from '../utils/http';
-import { IUserData } from '../interfaces';
+import { IUserData } from '../interfaces/app';
 
 const HraderWrapper = styled.div`
     padding: 0.5rem 1rem;

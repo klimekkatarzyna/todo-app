@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { COLOURS, IconWrapper } from '../../constants';
-import { IContextualMenuList } from '../../interfaces';
+import { IContextualMenuList } from '../../interfaces/list';
 import { MenuItem } from 'react-contextmenu';
 import useList from '../List/useList';
 import { useQueryClient } from 'react-query';

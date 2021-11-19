@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { IUserData } from '../interfaces';
+import { IUserData } from '../interfaces/app';
 import * as api from '../services';
 import { http, HttpResponse } from '../utils/http';
 

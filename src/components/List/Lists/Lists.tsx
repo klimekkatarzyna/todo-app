@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import styled from 'styled-components';
-import { IListItem } from '../../../interfaces';
+import { IListItem } from '../../../interfaces/list';
 import useList from '../useList';
 import { MenuListItem } from '../../MenuListItem/MenuListItem';
 import Loader from '../../Loader/Loader';

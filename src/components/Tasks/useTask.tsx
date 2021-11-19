@@ -3,15 +3,10 @@ import { http, HttpResponse } from '../../utils/http';
 import * as api from '../../services';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useParams } from 'react-router';
-import { IUseParams, ITasksResponse, ITask, ITaskStatus, IChangeTaskStatusToCompleteProps, IChangeTaskImportanceProps } from '../../interfaces';
-import { AppColorType, Importance } from '../../enums';
-
-interface ICreateTaskProps {
-    title: string | undefined;
-    parentFolderId: string;
-    importance?: Importance;
-    themeColor?: AppColorType;
-}
+import { IUseParams } from '../../interfaces/app';
+import { IChangeTaskStatusToCompleteProps, IChangeTaskImportanceProps, ICreateTaskProps } from '../../interfaces/task';
+import { Importance } from '../../enums';
+import { IDeleteTaskResponse, ITask, ITasksResponse, ITaskStatus } from '../../interfaces/task';
 
 const useTask = () => {
     const query = useQueryClient();
@@ -57,7 +52,7 @@ const useTask = () => {
 
     const { data: getTasksOfCurrentListQuery, isLoading: getTasksOfCurrentListLoading } = useQuery<ITasksResponse>(['tasksOfCurrentList', listId], getTasksOfCurrentList);
 
-    const changeTaskStatus = ({ taskId, taskStatus }: IChangeTaskStatusToCompleteProps): Promise<HttpResponse<ITask>> => {
+    const changeTaskStatus = ({ taskId, taskStatus }: IChangeTaskStatusToCompleteProps): Promise<HttpResponse> => {
         return http(`${api.changeTaskStatus}/${taskId}`, 'PATCH', {
             body: JSON.stringify({ taskStatus }),
             headers: {
@@ -77,7 +72,7 @@ const useTask = () => {
         }
     });
 
-    const deleteTask = useCallback((taskId: string): Promise<any> => {
+    const deleteTask = useCallback((taskId: string): Promise<IDeleteTaskResponse> => {
         return http(api.removeTask, 'DELETE', {
             body: JSON.stringify({ taskId }),
             headers: {
@@ -97,7 +92,7 @@ const useTask = () => {
         }
     });
 
-    const getTask = useCallback((): Promise<ITask> => {
+    const getTask = useCallback((): Promise<any> => {
         return http(`${api.getTask}/${taskId}`, 'GET', {
             headers: {
                 'Content-type': 'application/json',
@@ -120,7 +115,7 @@ const useTask = () => {
         mutateChangeTaskStatus({ taskId: taskId, taskStatus: ITaskStatus.inComplete });
     }, []);
 
-    const changeTaskImportance = ({ taskId, importance }: IChangeTaskImportanceProps): Promise<HttpResponse<ITask>> => {
+    const changeTaskImportance = ({ taskId, importance }: IChangeTaskImportanceProps): Promise<HttpResponse> => {
         return http(`${api.changeTaskImportance}/${listId}/${taskId}`, 'PATCH', {
             body: JSON.stringify({ importance }),
             headers: {

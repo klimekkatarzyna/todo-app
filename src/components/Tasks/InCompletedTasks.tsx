@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import useDragAndDrop from '../../hooks/useDragAndDrop';
-import { ITask, ITaskStatus } from '../../interfaces';
+import { ITask, ITaskStatus } from '../../interfaces/task';
 import TaskItem from './TaskItem/TaskItem';
 import useTask from './useTask';
 

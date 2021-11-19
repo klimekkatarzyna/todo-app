@@ -4,7 +4,7 @@ import { Share } from '@styled-icons/feather/Share';
 import { List } from '@styled-icons/feather/List';
 import styled from 'styled-components';
 import { COLOURS, contextualMenuSecountOpion, IconWrapper } from "../../constants";
-import { IListItem } from "../../interfaces";
+import { IListItem } from "../../interfaces/list";
 import ContextualMenu from "../ContextualMenu/ContextualMenu";
 import { ContextMenuTrigger } from 'react-contextmenu';
 
