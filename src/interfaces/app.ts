@@ -9,7 +9,7 @@ export interface IAuthData {
 export interface IUserData {
     username: string;
     email: string;
-    id: string;
+    _id: string;
     createdAt: string;
 }
 

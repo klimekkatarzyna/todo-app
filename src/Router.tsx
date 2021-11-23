@@ -1,6 +1,5 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import MyDay from './pages/MyDay';
 import Important from './pages/Important';
@@ -15,8 +14,7 @@ import Header from './components/Header';
 import Tasks from './pages/Tasks';
 import NotFound from './pages/NotFound';
 import { AuthContext, AuthContextType } from './AuthContext';
-import { HttpResponse } from './utils/http';
-import { IUserData } from './interfaces/app';
+import Loader from './components/Loader/Loader';
 
 const Wrapper = styled.div`
     display: flex;
@@ -30,35 +28,23 @@ const Content= styled.div`
 `;
   
 const BrowserRouter = () => {
-    const { checkSession, authData, LoginIsLoading, setAuthData, loginoutData } = useContext<AuthContextType>(AuthContext);
-    const token = localStorage.getItem('token');
-
-    const { isLoading: checkSessionIsLoading, data } = useQuery('checkSession', async () => {
-        const response = await checkSession(token as string);
-        return response;
-    });
-
-    useEffect(() => {
-        if (data) {
-            setAuthData(data as React.SetStateAction<HttpResponse<IUserData>>);
-        }
-    }, [data]);
+    const { authData, isCheckSessionLoading, sessionChecked } = useContext<AuthContextType>(AuthContext);
 
     return (
         <Wrapper>
-            {(LoginIsLoading || checkSessionIsLoading) ? (
-                <div>{'loading...'}</div>
+            {(isCheckSessionLoading && sessionChecked) ? (
+                <Loader />
             ) : (
             <Router>
-                {authData?.auth &&
-                    <Header userName={authData?.body?.username || ''} />
+                {(authData?._id && sessionChecked )&&
+                    <Header userName={authData?.username || ''} />
                 }
                 <Content>
-                    {authData?.auth &&
+                    {(authData?._id && sessionChecked) &&
                         <Sidebar />
                     }
                     <Switch>
-                        {authData?.auth ? (
+                        {(authData?._id && sessionChecked) ? (
                             <>
                                 <PrivateRoute exact path="/">
                                     <MyDay />

@@ -7,6 +7,7 @@ import Button from '../components/Button/Button';
 import { Content, FormWrapper, InputWrapper } from './Login';
 import { removesWhitespaceFromString } from '../utils/utilsFunctions';
 import InputEye from '../components/InputEye';
+import useAuthorization from '../hooks/useAuthorization';
 
 interface RegisterForm {
     userName: string;
@@ -23,7 +24,7 @@ const Register: FC = () => {
     const [showPassword, setShowPassowrd] = useState<boolean>(false);
     const handledSetPassword = (): void => setShowPassowrd(!showPassword);
 
-    const { signUp } = useContext(AuthContext);
+    const { authenticateUserRequest } = useAuthorization();
 
     const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -48,7 +49,7 @@ const Register: FC = () => {
         // })
 
         try {
-            signUp(loginData.userName, loginData.email, loginData.password); // TODO: async ?
+            authenticateUserRequest({ username: loginData.userName, email: loginData.email, password: loginData.password }); // TODO: async ?
         } catch (error) {
             console.log(error);
         }

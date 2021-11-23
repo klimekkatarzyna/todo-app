@@ -1,12 +1,10 @@
-import React, { FC, useCallback, useContext } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
 import { COLOURS } from '../constants';
-import { AuthContext } from '../AuthContext';
 import { returnsFirstChar, splitChar } from '../utils/utilsFunctions';
 import Button from './Button/Button';
-import { HttpResponse } from '../utils/http';
-import { IUserData } from '../interfaces/app';
+import useAuthorization from '../hooks/useAuthorization';
 
 const HraderWrapper = styled.div`
     padding: 0.5rem 1rem;
@@ -39,18 +37,8 @@ interface IHeader {
 }
 
 const Header: FC<IHeader> = ({ userName }) => {
-    const { logout, setAuthData } = useContext(AuthContext);
+    const { logoutUser } = useAuthorization();
     const [ firstChar, secChar ] = splitChar(userName);
-
-    const logoutUser = useCallback(async ():  Promise<void> => {
-        try {
-            localStorage.removeItem('token');
-            setAuthData({} as React.SetStateAction<HttpResponse<IUserData>>);
-            await logout('');
-        } catch {
-            // TODO: handle error
-        }
-    }, []);
 
     return (
         <HraderWrapper>

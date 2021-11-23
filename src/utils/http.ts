@@ -1,35 +1,20 @@
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
-export const http = (url: string, method: HttpMethod, body: any) => {
-    return new Promise<HttpResponse>((resolve, reject) => {
-        const authorization = JSON.parse(localStorage.getItem('auth') as string);
+export const http = async (url: string, method: HttpMethod, body: any): Promise<any> => {
+    const response = await fetch(url, {
+        method,
+        headers: {
+            'Content-type': 'application/json'
+        },
+        ...body,
+        credentials: 'include' // it's needed to save token in cookie
+    });
 
-        fetch(url, {
-            method,
-            headers: {
-                'Content-Type': 'application/json; charset=utf-8',
-                'X-Authorization': `Bearer ${authorization}`
-            },
-            ...body,
-        })
-        .then((response: Response) => {
-            if (response.status === 401 && authorization) {
-                localStorage.removeItem('auth');
+    if (response.status === 401) {
+        throw Error;
+    }
 
-                return response.json();
-            } else {
-                return response.json();
-            }
-        })
-        .then(json => {
-            console.error({ json });
-            return resolve(json)
-        })
-        .catch(error => {
-            console.error(error);
-            reject(error)
-        });
-    })
+    return await response.json();
 };
 
 export interface HttpResponse<T = any> {

@@ -1,13 +1,14 @@
-import { FC, useCallback, useContext, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { COLOURS } from '../constants';
 import Button from '../components/Button/Button';
-import { AuthContext } from '../AuthContext';
 import { InputVersion } from '../enums';
 import { Input } from '../components/Input/Input';
 import { removesWhitespaceFromString } from '../utils/utilsFunctions';
 import InputEye from '../components/InputEye';
+import { useMutation } from 'react-query';
+import useAuthorization from '../hooks/useAuthorization';
 
 export const FormWrapper = styled.div`
     background-color: ${COLOURS.lightGrey};
@@ -53,7 +54,8 @@ const Login: FC = () => {
     const [showPassword, setShowPassowrd] = useState<boolean>(false);
     const handledSetPassword = (): void => setShowPassowrd(!showPassword);
     
-    const { login } = useContext(AuthContext);
+    const { loginRequest } = useAuthorization();
+    const {  mutateAsync: login } = useMutation(loginRequest);
 
     const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>): void => {
         const { name, value } = event.target;
@@ -67,19 +69,7 @@ const Login: FC = () => {
     
     const onSubmit = useCallback(async (event: React.SyntheticEvent): Promise<void> => {
         event.preventDefault();
-        // dispatch<LoginUser>(loginUser(values)).then(response => {
-        //     if (resError(response?.status)) {
-        //         setErrorMessage(response?.errorMessage)
-        //     } else {
-        //         setErrorMessage('')
-        //         history.push('/')
-        //     }
-        // })
-        try {
-            await login(loginData.email, loginData.password);
-        } catch {
-            
-        }
+        await login({ email: loginData.email, password: loginData.password});
     }, [loginData]);
 
     return (

@@ -1,62 +1,30 @@
-import React, { FC, SetStateAction, useCallback, useEffect, useState } from 'react';
-import { useMutation, useQuery } from 'react-query';
+import React, { FC, useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 import { AuthContext } from './AuthContext';
 import useAuthorization from './hooks/useAuthorization';
-import { IResponseStatus, IUserData } from './interfaces/app';
-import { HttpResponse } from './utils/http';
+import { IUserData } from './interfaces/app';
 
 interface IAuthProvider {
     children: React.ReactNode;
 }
 
 export const AuthProvider: FC<IAuthProvider> = ({ children }) => {
-    const [authData, setAuthData] = useState<HttpResponse<IUserData>>({} as HttpResponse<IUserData>);
+    const [authData, setAuthData] = useState<IUserData | undefined>(undefined);
+    const [sessionChecked, setSessionChecked] = useState<boolean>(false);
 
-    const { authenticateUserRequest, loginRequest, checkSession, logoutRequest } = useAuthorization();
-    const { mutate: signUpMutate, data, status } = useMutation(authenticateUserRequest, {
-        onSuccess: (data) => {
-            setAuthData(data)
-        }
-    });
-    const { isLoading: LoginIsLoading, mutate: loginMutate, isError, data: LoginData, status: LoginStatus } = useMutation(loginRequest, {
-        onSuccess: (data) => {
-            setAuthData(data)
-        }
-    });
-    const { isLoading: LogoutIsLoading, mutate: logoutMutate, data: loginoutData } = useMutation(logoutRequest, {
-        onSuccess: (data) => {
-           setAuthData(data)
-        }
-    });
+    const { checkSession } = useAuthorization();
+    const { isLoading: isCheckSessionLoading } = useQuery('checkSession', checkSession);
 
-    const signUp = useCallback(async (username: string, email: string, password: string) => {
-        try {
-            await signUpMutate({ username: username, email: email, password: password });
-        } catch {
-            //error TODO: handle error
-        }
+    useEffect(() => {
+        (async () => {
+            const response = await checkSession();
+            setAuthData(response?.body?.user);
+            setSessionChecked(true);
+        })();
     }, []);
-
-    const login = useCallback(async (email: string, password: string) => {
-        try {
-            await loginMutate({ email: email, password: password });
-        } catch {
-            //error TODO: handle error
-        }
-    }, []);
-
-    const logout = useCallback(async () => {
-        try {
-            await logoutMutate();
-        } catch {
-            //error TODO: handle error
-        }
-    }, []);
-    
-   console.log('???', LoginIsLoading, isError, LoginData, LoginStatus);
     
     return (
-        <AuthContext.Provider value={{ signUp, login, logout, checkSession, authData, LoginIsLoading, setAuthData, loginoutData}}>
+        <AuthContext.Provider value={{ isCheckSessionLoading, authData, setAuthData, sessionChecked, setSessionChecked}}>
             {children}
         </AuthContext.Provider>
     );

@@ -1,126 +1,95 @@
-import { useState } from 'react';
+import { useCallback, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import { IUserData } from '../interfaces/app';
+import { AuthContext, AuthContextType } from '../AuthContext';
 import * as api from '../services';
-import { http, HttpResponse } from '../utils/http';
+import { http } from '../utils/http';
 
 interface IAuthenticateUser {
-    username: string;
     email: string;
     password: string;
-}
-
-interface ILoginUser {
-    email: string;
-    password: string;
+    username?: string;
 }
 
 const useAuthorization = () => {
     const history = useHistory();
-    const [authData, setAuthData] = useState<HttpResponse<IUserData>>({} as HttpResponse<IUserData>);
+    const { setAuthData } = useContext<AuthContextType>(AuthContext);
 
-    const checkSession = (token: string): Promise<any> => {
-        const tokenValue = JSON.parse(token as string);
-        return http(api.me, 'GET', {
-            headers: {
-                'Content-type': 'application/json',
-                'authorization': `Bearer ${tokenValue}`
-            }
-        }).then((response) => {
-            if (!response?.auth) return;
-            localStorage.setItem('token', JSON.stringify(response?.token));
-            response?.auth ? history.push('/') : history.push('/login');
+    const checkSession = useCallback(async () => {
+        try {
+            const response = await http(api.me, 'GET', {
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            });
+            if (!response.isSuccess) return;
+            response?.isSuccess ? history.push('/') : history.push('/login');
 
             return response;
-        }).catch(error => {
-            console.error(error);
-            return error;
-        })
-    }
+        } catch (err) {
+            console.error(err);
+        }
+    }, []);
 
-    const authenticateUserRequest = ({ username, email, password }: IAuthenticateUser) => {
-        return http(api.register, 'POST', {
-            body: JSON.stringify({ username, email, password }),
-            headers: {
-                'Content-type': 'application/json'
-            }
-        }).then((response) => {
-            if (!response?.auth) return;
-            localStorage.setItem('token', JSON.stringify(response?.token));
-            response?.auth && history.push('/');
+    const authenticateUserRequest = useCallback(async ({ username, email, password }: IAuthenticateUser) => {
+        try {
+            const response = await http(api.register, 'POST', {
+                body: JSON.stringify({ username, email, password }),
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            });
 
-            return response;
-        }).catch(error => {
-            console.error(error);
-            return error;
-        })
-    }
-
-    const loginRequest = ({ email, password }: ILoginUser) => {
-        return http(api.login, 'POST', {
-            body: JSON.stringify({ email, password }),
-            headers: {
-                'Content-type': 'application/json',
-            }
-        }).then((response) => {
-            if (!response?.auth) return;
-            localStorage.setItem('token', JSON.stringify(response?.token));
-            response?.auth && history.push('/');
+            if (!response?.isSuccess) return;
+            response?.isSuccess && history.push('/');
 
             return response;
-        }).catch(error => {
-            console.error(error);
-            return error;
-        })
-    }
+            
+        } catch (err) {
+            console.error(err);
+            return err;
+        }
+    }, []);
 
-    // const loginRequest = async ({ email, password }: ILoginUser) => {
-    //     try {
-    //         const response = await http(api.login, 'POST', {
-    //             body: JSON.stringify({ email, password }),
-    //             headers: {
-    //                 'Content-type': 'application/json',
-    //             }
-    //         });
-    //         console.log(response);
-    //         if (response?.isSuccess && response?.auth) {
-    //             setAuthData(response);
-    //             localStorage.setItem('token', JSON.stringify(response?.token));
-    
-    //             return response;
-    //         } 
-    //     } catch (error) {
-    //         throw new Error
-    //     }
-    // }
+    const loginRequest = useCallback(async ({ email, password }: IAuthenticateUser) => {
+        try {
+            const response = await http(api.login, 'POST', {
+                body: JSON.stringify({ email, password }),
+                headers: {
+                    'Content-type': 'application/json',
+                }
+            });
 
-    const logoutRequest = (): Promise<any> => {
-        const token = localStorage.getItem('token');
-        const tokenValue = JSON.parse(token as string);
-        
-        return http(api.logout, 'POST', {
-            headers: {
-                'Content-type': 'application/json',
-                'authorization': `Bearer ${tokenValue}`
+            if (response.isSuccess && response.body._id) {
+                history.push('/');
+                setAuthData(response.body);
             }
-        }).then((response) => {
-            localStorage.removeItem('token');
+
+            return response;
+            
+        } catch (error) {
+            console.error(error);
+        }
+    }, []);
+
+    const logoutUser = useCallback(async () => {
+        try {
+            await http(api.logout, 'POST', {
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            });
+            setAuthData(undefined);
             history.push('/login');
-
-            return response;
-        }).catch(error => {
-            console.error(error);
-            return error;
-        })
-    }
+        } catch (error) {
+            console.error(error)
+        }
+    }, []);
 
     return {
         authenticateUserRequest,
         checkSession,
         loginRequest,
-        logoutRequest,
-        setAuthData,
-        authData
+        logoutUser
     }
 };
 
