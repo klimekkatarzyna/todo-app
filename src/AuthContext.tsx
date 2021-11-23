@@ -4,10 +4,9 @@ import { IUserData } from './interfaces/app';
 export interface AuthContextType {
     isCheckSessionLoading: boolean;
     authData: IUserData | undefined;
-    setAuthData: any; // TODO: add types
+    setAuthData: React.Dispatch<React.SetStateAction<IUserData | undefined>>;
     sessionChecked: boolean;
-    setSessionChecked: any; // TODO: add types
-    // loginoutData: HttpResponse<IUserData>;
+    setSessionChecked: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 // better do it in separate file because the values return by the context will be use in few files

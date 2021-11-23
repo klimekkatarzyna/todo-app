@@ -1,5 +1,3 @@
-const date = new Date();
-
 export const parseUTCtoDate = (date: string) => new Date(date);
 
 export const getDay = (date: Date) => date.getDate();

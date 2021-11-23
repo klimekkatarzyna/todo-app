@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import styled, { css } from 'styled-components';
 import { COLOURS } from '../../constants';
+import Loader from '../Loader/Loader';
 
 interface IButtonProps {
     primary?: boolean;
@@ -18,6 +19,9 @@ const ButtonStyled = styled.button<IButtonProps>`
     color: ${COLOURS.fontColor};
     margin-top: ${props => props.primary && '1rem'};
     margin-left: 0.5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     
     ${props => props.primary && css`
         background-color: ${COLOURS.blue};
@@ -41,6 +45,18 @@ const ButtonStyled = styled.button<IButtonProps>`
             cursor: not-allowed;
         }
     `};
+
+    > div {
+        margin: 0 0.4rem;
+        span {
+            border: 0.3rem
+            solid #eaeaea;
+            border-radius: 50%;
+            width: 0.4rem;
+            height: 0.4rem;
+            border-top: 0.3 solid #b5b5b5;
+        }
+    }
 `;
 
 type ButtonType = 'button' | 'submit' | 'reset';
@@ -54,9 +70,10 @@ interface IButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     disabled?: boolean;
     margin?: boolean;
     onClick?: () => void;
+    isLoading?: boolean;
 }
 
-const Button: FC<IButton> = ({ primary, children, type = 'submit', secondary, outline, disabled, margin, onClick, ...props }) => {
+const Button: FC<IButton> = ({ primary, children, type = 'submit', secondary, outline, disabled, margin, onClick, isLoading, ...props }) => {
     return (
         <>
         <button></button>
@@ -70,6 +87,7 @@ const Button: FC<IButton> = ({ primary, children, type = 'submit', secondary, ou
             margin={margin}
             onClick={onClick}>
                 {children}
+                {isLoading && <Loader />}
         </ButtonStyled>
         </>
     );

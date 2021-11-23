@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { FC, useContext } from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import styled from 'styled-components';
 import MyDay from './pages/MyDay';
@@ -27,7 +27,7 @@ const Content= styled.div`
     flex: 1 1 0px;
 `;
   
-const BrowserRouter = () => {
+const BrowserRouter: FC = () => {
     const { authData, isCheckSessionLoading, sessionChecked } = useContext<AuthContextType>(AuthContext);
 
     return (

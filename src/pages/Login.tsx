@@ -55,7 +55,7 @@ const Login: FC = () => {
     const handledSetPassword = (): void => setShowPassowrd(!showPassword);
     
     const { loginRequest } = useAuthorization();
-    const {  mutateAsync: login } = useMutation(loginRequest);
+    const { mutateAsync: login, isLoading } = useMutation(loginRequest);
 
     const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>): void => {
         const { name, value } = event.target;
@@ -106,8 +106,8 @@ const Login: FC = () => {
                         <InputEye showPassword={showPassword} handledSetPassword={handledSetPassword} />
                 </InputWrapper>
 
-                <Button primary type='submit' margin>
-                    Zaloguj
+                <Button primary type='submit' margin isLoading={isLoading}>
+                    <span>Zaloguj</span>
                 </Button>
             </form>
             </Content>

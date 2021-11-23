@@ -1,6 +1,5 @@
-import { FC, useCallback, useContext, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AuthContext } from '../AuthContext';
 import { Input } from '../components/Input/Input';
 import { InputVersion } from '../enums';
 import Button from '../components/Button/Button';
@@ -8,6 +7,7 @@ import { Content, FormWrapper, InputWrapper } from './Login';
 import { removesWhitespaceFromString } from '../utils/utilsFunctions';
 import InputEye from '../components/InputEye';
 import useAuthorization from '../hooks/useAuthorization';
+import { useMutation } from 'react-query';
 
 interface RegisterForm {
     userName: string;
@@ -25,6 +25,7 @@ const Register: FC = () => {
     const handledSetPassword = (): void => setShowPassowrd(!showPassword);
 
     const { authenticateUserRequest } = useAuthorization();
+    const { mutateAsync: authenticateUser, isLoading } = useMutation(authenticateUserRequest);
 
     const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -36,26 +37,9 @@ const Register: FC = () => {
         })
     }, [loginData]);
 
-    const onSubmit = useCallback((): void => {
-        // dispatch<RegisterUser>(authenticateUser(values.username, values.email, values.password)).then(response => {
-        //     setPassword(true);
-        //     setSubmitting(false);
-        //     if (resError(response?.status)) {
-        //         setErrorMessage(response?.errorMessage)
-        //     } else {
-        //         setErrorMessage('')
-        //         history.push('/');
-        //     }
-        // })
-
-        try {
-            authenticateUserRequest({ username: loginData.userName, email: loginData.email, password: loginData.password }); // TODO: async ?
-        } catch (error) {
-            console.log(error);
-        }
+    const onSubmit = useCallback(async (): Promise<void> => {
+        await authenticateUser({ username: loginData.userName, email: loginData.email, password: loginData.password });
     }, [loginData]);
-
-    // const handledSetPassword = () => setShowPassowrd(!showPassword);
     
     return (
         <FormWrapper>
@@ -97,7 +81,7 @@ const Register: FC = () => {
                         <InputEye showPassword={showPassword} handledSetPassword={handledSetPassword} />
                     </InputWrapper>
 
-                    <Button primary type='submit' margin>
+                    <Button primary type='submit' margin isLoading={isLoading}>
                         Uwrórz konto
                     </Button>
                 </form>
