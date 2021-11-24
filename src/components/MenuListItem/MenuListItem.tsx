@@ -34,23 +34,26 @@ const LinkStyled = styled(Link)`
     }
 `;
 
-const TasksNumber = styled.div`
+const TasksNumber = styled.div<{ isNavClosed: boolean | undefined }>`
     margin-left: auto;
     color: ${COLOURS.fontColor};
+    display: ${props => props.isNavClosed ? 'none' : 'flex'};
 `;
 
-const Name = styled.div`
+const Name = styled.div<{ isNavClosed: boolean | undefined }>`
     color: ${COLOURS.fontColor};
     margin-left: 0.5rem;
     overflow-wrap: anywhere;
+    display: ${props => props.isNavClosed ? 'none' : 'flex'};
 `;
 
 interface IMenuListItem  {
     listItem: IListItem;
     isShared?: boolean;
+    isNavClosed?: boolean | undefined;
 }
 
-export const MenuListItem: FC<IMenuListItem > = ({ isShared = false, listItem }) => {
+export const MenuListItem: FC<IMenuListItem > = ({ isShared = false, listItem, isNavClosed }) => {
     const icon = useMemo(() => listItem.url === SideMenuType.myDay && <Sun /> ||
         listItem.url === SideMenuType.important && <Star /> ||
         listItem.url === SideMenuType.planned && <Calendar /> ||
@@ -61,9 +64,9 @@ export const MenuListItem: FC<IMenuListItem > = ({ isShared = false, listItem })
         <LinkStyled to={listItem?.isMainList ? `${listItem?.url}` : `/tasks/${listItem?._id}`}>
             <ContextMenuTrigger id={listItem?._id || ''}>
                 <IconWrapper color={listItem?.themeColor || COLOURS.blue}>{icon || <List />}</IconWrapper>
-                <Name>{listItem?.title}</Name>
+                <Name isNavClosed={isNavClosed}>{listItem?.title}</Name>
                 {isShared && <Share />}
-                {!!listItem?.taskNumber && <TasksNumber>{listItem?.taskNumber}</TasksNumber>}
+                {!!listItem?.taskNumber && <TasksNumber isNavClosed={isNavClosed}>{listItem?.taskNumber}</TasksNumber>}
             </ContextMenuTrigger>
             <ContextualMenu contextualMenuList={contextualMenuSecountOpion} listElementId={listItem?._id || ''} />
         </LinkStyled>

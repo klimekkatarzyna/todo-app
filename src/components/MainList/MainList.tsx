@@ -11,7 +11,11 @@ const Wrapper = styled.div`
     margin-bottom: 2rem;
 `;
 
-export const MainList: FC = () => {
+interface IMainList {
+    isNavClosed: boolean;
+}
+
+export const MainList: FC<IMainList> = ({ isNavClosed }) => {
     // TODO: endpomt to update tasksNumber
     const { mainList, mainListLoading } = useMainList();
 
@@ -21,7 +25,7 @@ export const MainList: FC = () => {
                 <Loader />
             ) : (
                 mainList?.body.mainLists?.map((listItem: IListItem) => (
-                    <MenuListItem listItem={listItem} />
+                    <MenuListItem listItem={listItem} isNavClosed={isNavClosed} />
             )))}
         </Wrapper>
     )

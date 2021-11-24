@@ -22,6 +22,7 @@ const Wrapper = styled.div<IWrapper>`
     cursor: pointer;
     border-right: 1px solid ${COLOURS.lightGrey};
     border-top: 1px solid ${COLOURS.white};
+    width: 100%;
 
     ${props => !props.isIcon && css`
         border-bottom: 1px solid ${COLOURS.darkerGrey};

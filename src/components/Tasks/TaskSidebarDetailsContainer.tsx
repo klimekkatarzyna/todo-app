@@ -18,7 +18,7 @@ import { ShowElementContext } from '../../ShowElementContext';
 
 const TaskSidebarDetailsContainer = styled.div`
     background-color: ${COLOURS.lightGrey};
-    width: 360px;
+    width: 290px;
     padding: 1rem;
     position: relative;
 `;

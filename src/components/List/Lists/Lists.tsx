@@ -11,14 +11,18 @@ const Wrapper = styled.div`
     font-size: 0.9rem;
 `;
 
-const Lists: FC = () => {
+interface ILists {
+    isNavClosed: boolean;
+}
+
+const Lists: FC<ILists> = ({ isNavClosed }) => {
     const { getListsLoading, getListsQuery } = useList();
 
     return (
         <Wrapper>
             {getListsLoading && <Loader />}
             {getListsQuery?.body?.lists?.map((item: IListItem) => (
-                <MenuListItem listItem={item} />
+                <MenuListItem listItem={item} isNavClosed={isNavClosed} />
             ))}
         </Wrapper>
     );

@@ -76,7 +76,6 @@ interface IButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 const Button: FC<IButton> = ({ primary, children, type = 'submit', secondary, outline, disabled, margin, onClick, isLoading, ...props }) => {
     return (
         <>
-        <button></button>
         <ButtonStyled
             {...props}
             primary={primary}
