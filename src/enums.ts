@@ -33,3 +33,12 @@ export enum Importance {
     normal = 'Normal',
     high = 'High'
 }
+
+export enum SortType {
+    draggedItem = 0,
+    createdAt = 'createdAt',
+    alphabetically = 2,
+    deadline = 3,
+    importance = 4,
+    addedToDayly = 5
+}

@@ -28,3 +28,4 @@ export const changeTaskStatus = 'http://localhost:3000/api/changeTaskStatus';
 export const removeTask = 'http://localhost:3000/api/removeTask';
 export const changeTaskImportance = 'http://localhost:3000/api/changeTaskImportance'; 
 export const addTaskToImportantList = 'http://localhost:3000/api/addTaskToImportantList';
+export const addTaskToMyDay = 'http://localhost:3000/api/addTaskToMyDay';

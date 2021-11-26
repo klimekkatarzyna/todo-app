@@ -1,8 +1,9 @@
 import { useCallback, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { AuthContext, AuthContextType } from '../AuthContext';
+import { IAuthResponse, IIUserDataResponse, IUserData } from '../interfaces/app';
 import * as api from '../services';
-import { http } from '../utils/http';
+import { http, HttpResponse } from '../utils/http';
 
 interface IAuthenticateUser {
     email: string;
@@ -16,11 +17,7 @@ const useAuthorization = () => {
 
     const checkSession = useCallback(async () => {
         try {
-            const response = await http(api.me, 'GET', {
-                headers: {
-                    'Content-type': 'application/json'
-                }
-            });
+            const response = await http<IIUserDataResponse>(api.me, 'GET');
             if (!response.isSuccess) return;
             response?.isSuccess ? history.push('/') : history.push('/login');
 
@@ -32,12 +29,7 @@ const useAuthorization = () => {
 
     const authenticateUserRequest = useCallback(async ({ username, email, password }: IAuthenticateUser) => {
         try {
-            const response = await http(api.register, 'POST', {
-                body: JSON.stringify({ username, email, password }),
-                headers: {
-                    'Content-type': 'application/json'
-                }
-            });
+            const response = await http(api.register, 'POST', { username, email, password });
 
             if (!response?.isSuccess) return;
             response?.isSuccess && history.push('/');
@@ -52,16 +44,10 @@ const useAuthorization = () => {
 
     const loginRequest = useCallback(async ({ email, password }: IAuthenticateUser) => {
         try {
-            const response = await http(api.login, 'POST', {
-                body: JSON.stringify({ email, password }),
-                headers: {
-                    'Content-type': 'application/json',
-                }
-            });
-
-            if (response.isSuccess && response.body._id) {
+            const response= await http<any>(api.login, 'POST', { email, password });
+            if (response.isSuccess && response?.body._id) {
                 history.push('/');
-                setAuthData(response.body);
+                setAuthData(response?.body);
             }
 
             return response;
@@ -73,11 +59,7 @@ const useAuthorization = () => {
 
     const logoutUser = useCallback(async () => {
         try {
-            await http(api.logout, 'POST', {
-                headers: {
-                    'Content-type': 'application/json'
-                }
-            });
+            await http(api.logout, 'POST');
             setAuthData(undefined);
             history.push('/login');
         } catch (error) {

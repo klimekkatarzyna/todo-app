@@ -1,9 +1,11 @@
-export interface IAuthData {
-    auth: boolean;
-    body: IUserData;
-    message: string;
-    status: number;
-    token: string;
+import { HttpResponse } from "../utils/http";
+
+export interface IIUserDataResponse extends HttpResponse {
+    user: IUserData;
+}
+
+export interface IAuthResponse {
+    [key: string]: IUserData;
 }
 
 export interface IUserData {

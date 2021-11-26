@@ -1,13 +1,13 @@
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
-export const http = async (url: string, method: HttpMethod, body: any): Promise<any> => {
+export const http = async <T>(url: string, method: HttpMethod, body?: Object): Promise<HttpResponse<T>> => { 
     const response = await fetch(url, {
         method,
         headers: {
             'Content-type': 'application/json'
         },
-        ...body,
-        credentials: 'include' // it's needed to save token in cookie
+        body: body ? JSON.stringify(body) : undefined,
+        credentials: 'include' // it's needed to add token to cookie when FE and BE are o different domaines
     });
 
     if (response.status === 401) {

@@ -5,23 +5,19 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { IUseParams } from '../../interfaces/app';
 import { IDeleteListResponse, IListItem, IListResponse } from '../../interfaces/list';
 import { useParams } from 'react-router';
+import { response } from 'express';
 
 const useList = () => {
     const query = useQueryClient();
     const { listId } = useParams<IUseParams>();
 
-    const createList = useCallback((title: string | undefined): Promise<HttpResponse<IListItem>> => {
-        return http(api.createList, 'POST', {
-            body: JSON.stringify({ title, taskNumber: 0  }),
-            headers: {
-                'Content-type': 'application/json',
-            }
-        }).then((response) => {
+    const createList = useCallback(async (title: string | undefined) => {
+        try {
+            const response = await http<IListItem>(api.createList, 'POST', { title, taskNumber: 0  });
             return response;
-        }).catch(error => {
-            console.error(error);
-            return error;
-        })
+        } catch (err: unknown) {
+            console.error(err);
+        }
     }, []);
 
     const { mutate: mutateCreateList, isLoading: mutateCreateListLoading } = useMutation(createList, {
@@ -30,49 +26,36 @@ const useList = () => {
         })
     });
 
-    const getLists = useCallback(():  Promise<IListResponse> => {
-        return http(api.getLists, 'GET', {
-            headers: {
-                'Content-type': 'application/json',
-            }
-        }).then((response) => {
+    const getLists = useCallback((): Promise<HttpResponse<IListResponse>> => {
+        try {
+            const response = http<IListResponse>(api.getLists, 'GET');
             return response;
-        }).catch(error => {
-            console.error(error);
-            return error;
-        })
+        } catch (err: any) {
+            return err;
+        }
     }, []);
 
-    const { isLoading: getListsLoading, data: getListsQuery } = useQuery<IListResponse>('lists', getLists); // TODO: cache it
+    const { isLoading: getListsLoading, data: getListsQuery } = useQuery('lists', getLists); // TODO: cache it
 
-    const getListById = useCallback((): Promise<any> | undefined => {
+    const getListById = useCallback(async () => {
         if (!listId) return;
-        return http(`${api.getListById}/${listId}`, 'GET', {
-            headers: {
-                'Content-type': 'application/json',
-            }
-        }).then((response) => {
-            return response.body?.[0];
-        }).catch(error => {
-            console.error(error);
-            return error;
-        })
+        try {
+            const response = await http<IListItem[]>(`${api.getListById}/${listId}`, 'GET');
+             return response.body?.[0];
+        } catch (err: unknown) {
+            console.error(err);
+        }
     }, [listId]);
 
     const { data: getListByIdData, isLoading: getListByIdLoading } = useQuery(['getListById', listId], getListById);
 
-    const deleteList = useCallback((listId: string): Promise<IDeleteListResponse> => {
-        return http(api.removeList, 'DELETE', {
-            body: JSON.stringify({ listId }),
-            headers: {
-                'Content-type': 'application/json',
-            }
-        }).then((response) => {
+    const deleteList = useCallback(async (listId: string) => {
+        try {
+            const response = await http<IDeleteListResponse>(api.removeList, 'DELETE', { listId });
             return response;
-        }).catch(error => {
-            console.error(error);
-            return error;
-        })
+        } catch (err: unknown) {
+            console.error(err);
+        }
     }, []);
 
     const { mutate: mutateRemoveList } = useMutation(deleteList, {

@@ -24,7 +24,7 @@ export const MainList: FC<IMainList> = ({ isNavClosed }) => {
             {mainListLoading ? (
                 <Loader />
             ) : (
-                mainList?.body.mainLists?.map((listItem: IListItem) => (
+                mainList?.body?.mainLists?.map((listItem: IListItem) => (
                     <MenuListItem listItem={listItem} isNavClosed={isNavClosed} />
             )))}
         </Wrapper>

@@ -1,4 +1,4 @@
-import { FC, useContext } from 'react';
+import { FC, useContext, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import styled from 'styled-components';
 import MyDay from './pages/MyDay';
@@ -15,6 +15,7 @@ import Tasks from './pages/Tasks';
 import NotFound from './pages/NotFound';
 import { AuthContext, AuthContextType } from './AuthContext';
 import Loader from './components/Loader/Loader';
+import { useHistory } from 'react-router';
 
 const Wrapper = styled.div`
     display: flex;
@@ -29,6 +30,12 @@ const Content= styled.div`
   
 const BrowserRouter: FC = () => {
     const { authData, isCheckSessionLoading, sessionChecked } = useContext<AuthContextType>(AuthContext);
+    const history = useHistory(); 
+
+    useEffect(() => {
+        if (authData?._id && sessionChecked) return;
+        history.push('/login');
+    }, [authData]);
 
     return (
         <Wrapper>

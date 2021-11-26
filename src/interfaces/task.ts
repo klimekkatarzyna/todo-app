@@ -2,23 +2,17 @@ import { AppColorType, Importance } from "../enums";
 import { HttpResponse } from "../utils/http";
 
 export interface ITasksResponse extends HttpResponse {
-    body: {
-        tasks: ITask[];
-    }
+    tasks: ITask[];
 }
 
 export interface IDeleteTaskResponse extends HttpResponse {
-    body: {
-        tasks: {
-            deletedCount: number;
-        }
+    tasks: {
+        deletedCount: number;
     }
 }
 
 export interface IGetTaskResponse extends HttpResponse {
-    body: {
-        [key: number]: ITask;
-    }
+    [key: number]: ITask;
 }
 
 export interface ITask {
@@ -52,4 +46,9 @@ export interface ICreateTaskProps {
     parentFolderId: string;
     importance?: Importance;
     themeColor?: AppColorType;
+}
+
+export interface IAddTaskToMyDayProps {
+    taskId: string;
+    isMyDay: boolean;
 }

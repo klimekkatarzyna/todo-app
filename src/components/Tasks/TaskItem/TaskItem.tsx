@@ -58,7 +58,7 @@ interface ITaskItem {
     onDragOver?: (event:  React.DragEvent<HTMLDivElement>, index: number) => void;
     onDrop?: (event:  React.DragEvent<HTMLDivElement>) => void;
     onDragLeave?: () => void;
-    changeTaskImportance:  UseMutateFunction<HttpResponse<ITask>, unknown, IChangeTaskImportanceProps, unknown>;
+    changeTaskImportance: any;
 }
 
 const TaskItem: FC<ITaskItem> = ({ task, index, onChange, isCompleted = false, dragAndDrop, onDragStart, onDragOver, onDrop, onDragLeave, changeTaskImportance }) => {

@@ -4,32 +4,30 @@ import * as api from '../../services';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useParams } from 'react-router';
 import { IUseParams } from '../../interfaces/app';
-import { IChangeTaskStatusToCompleteProps, IChangeTaskImportanceProps, ICreateTaskProps } from '../../interfaces/task';
-import { Importance } from '../../enums';
+import { IChangeTaskStatusToCompleteProps, IChangeTaskImportanceProps, ICreateTaskProps, IAddTaskToMyDayProps } from '../../interfaces/task';
+import { Importance, SortType } from '../../enums';
 import { IDeleteTaskResponse, ITask, ITasksResponse, ITaskStatus } from '../../interfaces/task';
 
 const useTask = () => {
     const query = useQueryClient();
     const { listId, taskId } = useParams<IUseParams>();
 
-    const createTask = ({ title, parentFolderId, importance, themeColor }: ICreateTaskProps): Promise<HttpResponse<ITask>> => {
-        return http(api.createTask, 'POST', {
-            body: JSON.stringify({ title,
+    const createTask = useCallback(async ({ title, parentFolderId, importance, themeColor }: ICreateTaskProps) => {
+        try {
+            const response = await http<ITask>(api.createTask, 'POST', {
+                title,
                 importance: importance || Importance.normal,
                 parentFolderId,
                 themeColor: themeColor,
-                taskStatus: ITaskStatus.inComplete
-            }),
-            headers: {
-                'Content-type': 'application/json',
-            }
-        }).then((response) => {
+                taskStatus: ITaskStatus.inComplete,
+                sortType: SortType.createdAt,
+                isMyDay: false
+            });
             return response;
-        }).catch(error => {
-            console.error(error);
-            return error;
-        })
-    };
+        } catch (err) {
+            console.error(err);
+        }
+    }, []);
 
     const { mutate: mutateCreateTask } = useMutation(createTask, {
         onSuccess: () => {
@@ -37,34 +35,27 @@ const useTask = () => {
         }
     });
 
-    const getTasksOfCurrentList = useCallback((): Promise<ITasksResponse> => {
-        return http(`${api.getTasks}/${listId}`, 'GET', {
-            headers: {
-                'Content-type': 'application/json',
-            }
-        }).then((response) => {
+    const getTasksOfCurrentList = useCallback(async () => {
+        const sortType = SortType.createdAt;
+        if (!listId) return;
+        try {
+            const response = await http<ITasksResponse>(`${api.getTasks}/${listId}`, 'GET');
             return response;
-        }).catch(error => {
-            console.error(error);
-            return error;
-        })
+        } catch (err) {
+            console.error(err)
+        }
     }, [listId]);
 
-    const { data: getTasksOfCurrentListQuery, isLoading: getTasksOfCurrentListLoading } = useQuery<ITasksResponse>(['tasksOfCurrentList', listId], getTasksOfCurrentList);
+    const { data: getTasksOfCurrentListQuery, isLoading: getTasksOfCurrentListLoading } = useQuery(['tasksOfCurrentList', listId], getTasksOfCurrentList);
 
-    const changeTaskStatus = ({ taskId, taskStatus }: IChangeTaskStatusToCompleteProps): Promise<HttpResponse> => {
-        return http(`${api.changeTaskStatus}/${taskId}`, 'PATCH', {
-            body: JSON.stringify({ taskStatus }),
-            headers: {
-                'Content-type': 'application/json',
-            }
-        }).then((response) => {
+    const changeTaskStatus = useCallback(async ({ taskId, taskStatus }: IChangeTaskStatusToCompleteProps) => {
+        try {
+            const response = await http<any>(`${api.changeTaskStatus}/${taskId}`, 'PATCH', { taskStatus });
             return response;
-        }).catch(error => {
-            console.error(error);
-            return error;
-        })
-    };
+        } catch (err) {
+            console.log(err);
+        }
+    }, []);
 
     const { mutate: mutateChangeTaskStatus } = useMutation(changeTaskStatus, {
         onSuccess: () => {
@@ -72,18 +63,13 @@ const useTask = () => {
         }
     });
 
-    const deleteTask = useCallback((taskId: string): Promise<IDeleteTaskResponse> => {
-        return http(api.removeTask, 'DELETE', {
-            body: JSON.stringify({ taskId }),
-            headers: {
-                'Content-type': 'application/json',
-            }
-        }).then((response) => {
+    const deleteTask = useCallback(async (taskId: string) => {
+        try {
+            const response = await http<IDeleteTaskResponse>(api.removeTask, 'DELETE', { taskId });
             return response;
-        }).catch(error => {
-            console.error(error);
-            return error;
-        })
+        } catch (err) {
+            console.log(err);
+        }
     }, []);
 
     const { mutate: mutateRemoveTask } = useMutation(deleteTask, {
@@ -92,17 +78,14 @@ const useTask = () => {
         }
     });
 
-    const getTask = useCallback((): Promise<any> => {
-        return http(`${api.getTask}/${taskId}`, 'GET', {
-            headers: {
-                'Content-type': 'application/json',
-            }
-        }).then((response) => {
+    const getTask = useCallback(async () => {
+        if (!taskId) return;
+        try {
+            const response = await http<any>(`${api.getTask}/${taskId}`, 'GET');
             return response.body?.[0];
-        }).catch(error => {
-            console.error(error);
-            return error;
-        })
+        } catch (err) {
+            console.log(err);
+        }
     }, [taskId]);
 
     const { data: taskData, isLoading: taskDataLoading } = useQuery(['getTask', taskId], getTask);
@@ -115,25 +98,29 @@ const useTask = () => {
         mutateChangeTaskStatus({ taskId: taskId, taskStatus: ITaskStatus.inComplete });
     }, []);
 
-    const changeTaskImportance = ({ taskId, importance }: IChangeTaskImportanceProps): Promise<HttpResponse> => {
-        return http(`${api.changeTaskImportance}/${listId}/${taskId}`, 'PATCH', {
-            body: JSON.stringify({ importance }),
-            headers: {
-                'Content-type': 'application/json',
-            }
-        }).then((response) => {
+    const changeTaskImportance = useCallback(async ({ taskId, importance }: IChangeTaskImportanceProps) => {
+        try {
+            const response = await http<any>(`${api.changeTaskImportance}/${listId}/${taskId}`, 'PATCH', { importance });
             return response;
-        }).catch(error => {
-            console.error(error);
-            return error;
-        })
-    };
+        } catch (err) {
+            console.log(err);
+        }
+    }, []);
 
     const { mutate: mutateChangeTaskImportance } = useMutation(changeTaskImportance, {
         onSuccess: () => {
             query.invalidateQueries(['tasksOfCurrentList'])
         }
     });
+
+    const addTaskToMyDay = useCallback(async ({ taskId, isMyDay }: IAddTaskToMyDayProps) => {
+        try {
+            const response = await http<any>(`${api.addTaskToMyDay}/${listId}/${taskId}`, 'POST', { isMyDay });
+            return response;
+        } catch (err) {
+            console.log(err);
+        }
+    }, []);
     
     return {
         mutateCreateTask,
@@ -145,7 +132,8 @@ const useTask = () => {
         taskDataLoading,
         onMarkTaskAsCompleted,
         onMarkTaskAsInCompleted,
-        mutateChangeTaskImportance
+        mutateChangeTaskImportance,
+        addTaskToMyDay
     }
 };
 

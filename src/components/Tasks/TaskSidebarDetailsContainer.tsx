@@ -40,7 +40,7 @@ const Container = styled.div<{ flexRow?: boolean, margin?: boolean }>`
     }
 `;
 
-const Section = styled.div`
+const Section = styled.button`
     display: flex;
     color: ${COLOURS.darkerGrey};
     font-size: 0.9rem;
@@ -65,7 +65,7 @@ const Footer = styled.div`
 
 const TaskSidebarDetails: FC = () => {
     const { onHideComponent } = useContext(ShowElementContext);
-    const { taskDataLoading, taskData, onMarkTaskAsCompleted, onMarkTaskAsInCompleted, mutateRemoveTask } = useTask();
+    const { taskDataLoading, taskData, onMarkTaskAsCompleted, onMarkTaskAsInCompleted, mutateRemoveTask, addTaskToMyDay } = useTask();
 
     const onHandleChange = useCallback(() => {
         taskData?.taskStatus === ITaskStatus.inComplete && onMarkTaskAsCompleted(taskData._id);
@@ -79,11 +79,15 @@ const TaskSidebarDetails: FC = () => {
         } catch {
             //TODO: handle error & show notificayion
         }
-    }, []);
+    }, [taskData?._id]);
 
     const onClose = useCallback((): void => {
         onHideComponent();
     }, []);
+
+    const addTaskToMyDayView = useCallback(() => {
+        addTaskToMyDay({ taskId: taskData?._id, isMyDay: true });
+    }, [taskData?._id]);
 
     return (
         <TaskSidebarDetailsContainer>
@@ -96,9 +100,8 @@ const TaskSidebarDetails: FC = () => {
                     </Container>
 
                     <Container margin>
-                        <Section>
+                        <Section onClick={addTaskToMyDayView}>
                             <IconWrapper color='grey'><Sun /></IconWrapper>
-                            {'Dodaj do widoku "Mój dzień'}
                         </Section>
                     </Container>
                     
