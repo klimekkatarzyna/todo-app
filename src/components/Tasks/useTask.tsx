@@ -115,7 +115,7 @@ const useTask = () => {
 
     const addTaskToMyDay = useCallback(async ({ taskId, isMyDay }: IAddTaskToMyDayProps) => {
         try {
-            const response = await http<any>(`${api.addTaskToMyDay}/${listId}/${taskId}`, 'POST', { isMyDay });
+            const response = await http<any>(`${api.addTaskToMyDay}/${listId}/${taskId}`, 'PATCH', { isMyDay });
             return response;
         } catch (err) {
             console.log(err);

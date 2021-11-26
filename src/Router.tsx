@@ -33,8 +33,8 @@ const BrowserRouter: FC = () => {
     const history = useHistory(); 
 
     useEffect(() => {
-        if (authData?._id && sessionChecked) return;
-        history.push('/login');
+        if (!!authData?._id) return;
+        history.push('/login'); // TODO: find other solution
     }, [authData]);
 
     return (

@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 import { useQuery } from 'react-query';
 import { AuthContext } from './AuthContext';
 import useAuthorization from './hooks/useAuthorization';
@@ -22,9 +22,13 @@ export const AuthProvider: FC<IAuthProvider> = ({ children }) => {
             setSessionChecked(true);
         })();
     }, []);
+
+    const value = useMemo(() => {
+        return { isCheckSessionLoading, authData, setAuthData, sessionChecked, setSessionChecked};
+    }, [isCheckSessionLoading, authData, setAuthData, sessionChecked, setSessionChecked]);
     
     return (
-        <AuthContext.Provider value={{ isCheckSessionLoading, authData, setAuthData, sessionChecked, setSessionChecked}}>
+        <AuthContext.Provider value={value}>
             {children}
         </AuthContext.Provider>
     );
