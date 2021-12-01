@@ -5,7 +5,6 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { IUseParams } from '../../interfaces/app';
 import { IDeleteListResponse, IListItem, IListResponse } from '../../interfaces/list';
 import { useParams } from 'react-router';
-import { response } from 'express';
 
 const useList = () => {
     const query = useQueryClient();
@@ -26,12 +25,12 @@ const useList = () => {
         })
     });
 
-    const getLists = useCallback((): Promise<HttpResponse<IListResponse>> => {
+    const getLists = useCallback((): Promise<HttpResponse<IListResponse>> | undefined => {
         try {
             const response = http<IListResponse>(api.getLists, 'GET');
             return response;
-        } catch (err: any) {
-            return err;
+        } catch (err: unknown) {
+            console.error(err);
         }
     }, []);
 

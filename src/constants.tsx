@@ -15,6 +15,8 @@ interface ColoursType { // is the same as Record<string, string>
    [key: string]: string;
  }
 
+type ColorNames = 'darkGrey' | 'darkerGrey' | 'grey' | 'lightGrey' | 'blue' | 'lightBlue' | 'white' | 'red' | 'green' | 'border' | 'fontColor';
+
 export const COLOURS: Record<string, string> = {
    darkGrey: '#383636',
    darkerGrey: '#767678',
@@ -55,6 +57,9 @@ export const BackgroundLines = styled.div`
     box-shadow: inset 0 1px 0 0 #e5e5e5;
     height: 100%;
 `;
+
+
+type ContextualMenuFirstOpionType = 'icon' | 'name' | 'type';
 
 export const contextualMenuFirstOpion: IContextualMenuList[] = [{
    icon: <Sun />,

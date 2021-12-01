@@ -50,7 +50,7 @@ const useTask = () => {
 
     const changeTaskStatus = useCallback(async ({ taskId, taskStatus }: IChangeTaskStatusToCompleteProps) => {
         try {
-            const response = await http<any>(`${api.changeTaskStatus}/${taskId}`, 'PATCH', { taskStatus });
+            const response = await http<any>(`${api.changeTaskStatus}/${taskId}`, 'PATCH', { taskStatus }); // TODO: fix
             return response;
         } catch (err) {
             console.log(err);
@@ -81,7 +81,7 @@ const useTask = () => {
     const getTask = useCallback(async () => {
         if (!taskId) return;
         try {
-            const response = await http<any>(`${api.getTask}/${taskId}`, 'GET');
+            const response = await http<any>(`${api.getTask}/${taskId}`, 'GET'); // TODO: fix
             return response.body?.[0];
         } catch (err) {
             console.log(err);
@@ -100,7 +100,7 @@ const useTask = () => {
 
     const changeTaskImportance = useCallback(async ({ taskId, importance }: IChangeTaskImportanceProps) => {
         try {
-            const response = await http<any>(`${api.changeTaskImportance}/${listId}/${taskId}`, 'PATCH', { importance });
+            const response = await http<any>(`${api.changeTaskImportance}/${listId}/${taskId}`, 'PATCH', { importance }); // TODO: fix
             return response;
         } catch (err) {
             console.log(err);
@@ -115,7 +115,7 @@ const useTask = () => {
 
     const addTaskToMyDay = useCallback(async ({ taskId, isMyDay }: IAddTaskToMyDayProps) => {
         try {
-            const response = await http<any>(`${api.addTaskToMyDay}/${listId}/${taskId}`, 'PATCH', { isMyDay });
+            const response = await http<any>(`${api.addTaskToMyDay}/${listId}/${taskId}`, 'PATCH', { isMyDay }); // TODO: fix
             return response;
         } catch (err) {
             console.log(err);

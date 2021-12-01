@@ -58,7 +58,7 @@ interface ITaskItem {
     onDragOver?: (event:  React.DragEvent<HTMLDivElement>, index: number) => void;
     onDrop?: (event:  React.DragEvent<HTMLDivElement>) => void;
     onDragLeave?: () => void;
-    changeTaskImportance: any;
+    changeTaskImportance: any; // TODO: fix
 }
 
 const TaskItem: FC<ITaskItem> = ({ task, index, onChange, isCompleted = false, dragAndDrop, onDragStart, onDragOver, onDrop, onDragLeave, changeTaskImportance }) => {
@@ -70,7 +70,7 @@ const TaskItem: FC<ITaskItem> = ({ task, index, onChange, isCompleted = false, d
     const importanceType: Importance = useMemo(() => !isImportanceButtonChecked ? Importance.high : Importance.normal, [isImportanceButtonChecked]);
 
     useEffect(() => {
-        setIsImportanceButtonChecked(task.importance === Importance.high ? true : false)
+        setIsImportanceButtonChecked(task.importance === Importance.high)
     }, [task])
 
     const onHandleChange = useCallback((): void => {
@@ -94,8 +94,8 @@ const TaskItem: FC<ITaskItem> = ({ task, index, onChange, isCompleted = false, d
                     key={index}
                     draggable
                     data-position={index}
-                    onDragStart={onDragStart as any}
-                    onDragOver={onDragOver as any}
+                    onDragStart={onDragStart as any} // TODO: fix
+                    onDragOver={onDragOver as any} // TODO: fix
                     onDrop={onDrop}
                     onDragLeave={onDragLeave}
                     onClick={onSelectTask}
