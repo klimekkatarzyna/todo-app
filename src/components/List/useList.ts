@@ -7,71 +7,74 @@ import { IDeleteListResponse, IListItem, IListResponse } from '../../interfaces/
 import { useParams } from 'react-router';
 
 const useList = () => {
-    const query = useQueryClient();
-    const { listId } = useParams<IUseParams>();
+	const query = useQueryClient();
+	const { listId } = useParams<IUseParams>();
 
-    const createList = useCallback(async (title: string | undefined) => {
-        try {
-            const response = await http<IListItem>(api.createList, 'POST', { title, taskNumber: 0  });
-            return response;
-        } catch (err: unknown) {
-            console.error(err);
-        }
-    }, []);
+	const createList = useCallback(async (title: string | undefined) => {
+		try {
+			const response = await http<IListItem>(api.createList, 'POST', {
+				title,
+				taskNumber: 0,
+			});
+			return response;
+		} catch (err: unknown) {
+			console.error(err);
+		}
+	}, []);
 
-    const { mutate: mutateCreateList, isLoading: mutateCreateListLoading } = useMutation(createList, {
-        onSuccess: (() => {
-            query.invalidateQueries(['lists'])
-        })
-    });
+	const { mutate: mutateCreateList, isLoading: mutateCreateListLoading } = useMutation(createList, {
+		onSuccess: () => {
+			query.invalidateQueries(['lists']);
+		},
+	});
 
-    const getLists = useCallback((): Promise<HttpResponse<IListResponse>> | undefined => {
-        try {
-            const response = http<IListResponse>(api.getLists, 'GET');
-            return response;
-        } catch (err: unknown) {
-            console.error(err);
-        }
-    }, []);
+	const getLists = useCallback((): Promise<HttpResponse<IListResponse>> | undefined => {
+		try {
+			const response = http<IListResponse>(api.getLists, 'GET');
+			return response;
+		} catch (err: unknown) {
+			console.error(err);
+		}
+	}, []);
 
-    const { isLoading: getListsLoading, data: getListsQuery } = useQuery('lists', getLists); // TODO: cache it
+	const { isLoading: getListsLoading, data: getListsQuery } = useQuery('lists', getLists); // TODO: cache it
 
-    const getListById = useCallback(async () => {
-        if (!listId) return;
-        try {
-            const response = await http<IListItem[]>(`${api.getListById}/${listId}`, 'GET');
-             return response.body?.[0];
-        } catch (err: unknown) {
-            console.error(err);
-        }
-    }, [listId]);
+	const getListById = useCallback(async () => {
+		if (!listId) return;
+		try {
+			const response = await http<IListItem[]>(`${api.getListById}/${listId}`, 'GET');
+			return response.body?.[0];
+		} catch (err: unknown) {
+			console.error(err);
+		}
+	}, [listId]);
 
-    const { data: getListByIdData, isLoading: getListByIdLoading } = useQuery(['getListById', listId], getListById);
+	const { data: getListByIdData, isLoading: getListByIdLoading } = useQuery(['getListById', listId], getListById);
 
-    const deleteList = useCallback(async (listId: string) => {
-        try {
-            const response = await http<IDeleteListResponse>(api.removeList, 'DELETE', { listId });
-            return response;
-        } catch (err: unknown) {
-            console.error(err);
-        }
-    }, []);
+	const deleteList = useCallback(async (listId: string) => {
+		try {
+			const response = await http<IDeleteListResponse>(api.removeList, 'DELETE', { listId });
+			return response;
+		} catch (err: unknown) {
+			console.error(err);
+		}
+	}, []);
 
-    const { mutate: mutateRemoveList } = useMutation(deleteList, {
-        onSuccess: () => {
-            query.invalidateQueries(['lists'])
-        }
-    });
+	const { mutate: mutateRemoveList } = useMutation(deleteList, {
+		onSuccess: () => {
+			query.invalidateQueries(['lists']);
+		},
+	});
 
-    return {
-        mutateCreateList,
-        mutateCreateListLoading,
-        getListsLoading,
-        getListsQuery,
-        getListByIdData,
-        getListByIdLoading,
-        mutateRemoveList
-    }
+	return {
+		mutateCreateList,
+		mutateCreateListLoading,
+		getListsLoading,
+		getListsQuery,
+		getListByIdData,
+		getListByIdLoading,
+		mutateRemoveList,
+	};
 };
 
 export default useList;

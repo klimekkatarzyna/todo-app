@@ -17,148 +17,178 @@ import { XSquare } from '@styled-icons/feather/XSquare';
 import { ShowElementContext } from '../../ShowElementContext';
 
 const TaskSidebarDetailsContainer = styled.div`
-    background-color: ${COLOURS.lightGrey};
-    width: 290px;
-    padding: 1rem;
-    position: relative;
+	background-color: ${COLOURS.lightGrey};
+	width: 290px;
+	padding: 1rem;
+	position: relative;
 `;
 
 const TaskDetailsWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
+	display: flex;
+	flex-direction: column;
 `;
 
-const Container = styled.div<{ flexRow?: boolean, margin?: boolean }>`
-    display: flex;
-    flex-direction: ${props => props.flexRow ? 'row' : 'column'};
-    margin-bottom: ${props => props.margin && '0.7rem'};
-    background-color: ${COLOURS.white};
-    padding: 1rem;
-    border: 1px solid ${COLOURS.border};
-    &:hover {
-        background-color: ${COLOURS.lightGrey};
-    }
+const Container = styled.div<{ flexRow?: boolean; margin?: boolean }>`
+	display: flex;
+	flex-direction: ${props => (props.flexRow ? 'row' : 'column')};
+	margin-bottom: ${props => props.margin && '0.7rem'};
+	background-color: ${COLOURS.white};
+	padding: 1rem;
+	border: 1px solid ${COLOURS.border};
+	&:hover {
+		background-color: ${COLOURS.lightGrey};
+	}
 `;
 
 const Section = styled.button`
-    display: flex;
-    color: ${COLOURS.darkerGrey};
-    font-size: 0.9rem;
-    svg {
-        margin-right: 0.5rem;
-    }
+	display: flex;
+	color: ${COLOURS.darkerGrey};
+	font-size: 0.9rem;
+	svg {
+		margin-right: 0.5rem;
+	}
 `;
 
 const Footer = styled.div`
-    display: flex;
-    align-items: center;
-    position: absolute;
-    bottom: 1rem;
-    color: ${COLOURS.darkerGrey};
-    font-size: 0.8rem;
-    button {
-        border: none;
-        background: inherit;
-        cursor: pointer;
-    }
+	display: flex;
+	align-items: center;
+	position: absolute;
+	bottom: 1rem;
+	color: ${COLOURS.darkerGrey};
+	font-size: 0.8rem;
+	button {
+		border: none;
+		background: inherit;
+		cursor: pointer;
+	}
 `;
 
 const TaskSidebarDetails: FC = () => {
-    const { onHideComponent } = useContext(ShowElementContext);
-    const { taskDataLoading, taskData, onMarkTaskAsCompleted, onMarkTaskAsInCompleted, mutateRemoveTask, addTaskToMyDay } = useTask();
+	const { onHideComponent } = useContext(ShowElementContext);
+	const {
+		taskDataLoading,
+		taskData,
+		onMarkTaskAsCompleted,
+		onMarkTaskAsInCompleted,
+		mutateRemoveTask,
+		addTaskToMyDay,
+	} = useTask();
 
-    const onHandleChange = useCallback(() => {
-        taskData?.taskStatus === ITaskStatus.inComplete && onMarkTaskAsCompleted(taskData._id);
-        taskData?.taskStatus === ITaskStatus.complete && onMarkTaskAsInCompleted(taskData._id);
-    }, [taskData]);
+	const onHandleChange = useCallback(() => {
+		taskData?.taskStatus === ITaskStatus.inComplete && onMarkTaskAsCompleted(taskData._id);
+		taskData?.taskStatus === ITaskStatus.complete && onMarkTaskAsInCompleted(taskData._id);
+	}, [taskData]);
 
-    const handleClick = useCallback(async (): Promise<void> => {
-        try {
-            await mutateRemoveTask(taskData?._id || '');
-            onClose();
-        } catch {
-            //TODO: handle error & show notificayion
-        }
-    }, [taskData?._id]);
+	const handleClick = useCallback(async (): Promise<void> => {
+		try {
+			await mutateRemoveTask(taskData?._id || '');
+			onClose();
+		} catch {
+			//TODO: handle error & show notificayion
+		}
+	}, [taskData?._id]);
 
-    const onClose = useCallback((): void => {
-        onHideComponent();
-    }, []);
+	const onClose = useCallback((): void => {
+		onHideComponent();
+	}, []);
 
-    const addTaskToMyDayView = useCallback(() => {
-        addTaskToMyDay({ taskId: taskData?._id, isMyDay: true });
-    }, [taskData?._id]);
+	const addTaskToMyDayView = useCallback(() => {
+		addTaskToMyDay({ taskId: taskData?._id, isMyDay: true });
+	}, [taskData?._id]);
 
-    return (
-        <TaskSidebarDetailsContainer>
-            {taskDataLoading ? (
-                <Loader />
-            ) : (
-                <TaskDetailsWrapper>
-                    <Container flexRow margin>
-                        <TaskDetails taskData={taskData as ITask} onHandleChange={onHandleChange} isChecked={false} onClickImportanceButton={() => {}} />
-                    </Container>
+	return (
+		<TaskSidebarDetailsContainer>
+			{taskDataLoading ? (
+				<Loader />
+			) : (
+				<TaskDetailsWrapper>
+					<Container flexRow margin>
+						<TaskDetails
+							taskData={taskData as ITask}
+							onHandleChange={onHandleChange}
+							isChecked={false}
+							onClickImportanceButton={() => {}}
+						/>
+					</Container>
 
-                    <Container margin>
-                        <Section onClick={addTaskToMyDayView}>
-                            <IconWrapper color='grey'><Sun /></IconWrapper>
-                        </Section>
-                    </Container>
-                    
-                    <Container>
-                        <Section>
-                            <IconWrapper color='grey'><Bell /></IconWrapper>
-                            {'Przypomnij'}
-                        </Section>
-                    </Container>
-                    <Container>
-                        <Section>
-                            <IconWrapper color='grey'><Calendar /></IconWrapper>
-                            {'Dodaj termin wykonania'}
-                        </Section>
-                    </Container>
-                    <Container margin>
-                        <Section>
-                            <IconWrapper color='grey'><Repeat /></IconWrapper>
-                            {'Powtórz'}
-                        </Section>
-                    </Container>
+					<Container margin>
+						<Section onClick={addTaskToMyDayView}>
+							<IconWrapper color='grey'>
+								<Sun />
+							</IconWrapper>
+						</Section>
+					</Container>
 
-                    <Container margin>
-                        <Section>
-                            <IconWrapper color='grey'><UserPlus /></IconWrapper>
-                            {'Przydziel do'}
-                        </Section>
-                    </Container>
+					<Container>
+						<Section>
+							<IconWrapper color='grey'>
+								<Bell />
+							</IconWrapper>
+							{'Przypomnij'}
+						</Section>
+					</Container>
+					<Container>
+						<Section>
+							<IconWrapper color='grey'>
+								<Calendar />
+							</IconWrapper>
+							{'Dodaj termin wykonania'}
+						</Section>
+					</Container>
+					<Container margin>
+						<Section>
+							<IconWrapper color='grey'>
+								<Repeat />
+							</IconWrapper>
+							{'Powtórz'}
+						</Section>
+					</Container>
 
-                    <Container margin>
-                        <Section>{'Wybierz kategorię'}</Section>  
-                    </Container>
+					<Container margin>
+						<Section>
+							<IconWrapper color='grey'>
+								<UserPlus />
+							</IconWrapper>
+							{'Przydziel do'}
+						</Section>
+					</Container>
 
-                    <Container margin>
-                        <Section>
-                            <IconWrapper color='grey'><FilePlus /></IconWrapper>
-                            {'Dodaj plik'}
-                        </Section>
-                    </Container>
+					<Container margin>
+						<Section>{'Wybierz kategorię'}</Section>
+					</Container>
 
-                    <Container>
-                        <textarea />
-                    </Container>
+					<Container margin>
+						<Section>
+							<IconWrapper color='grey'>
+								<FilePlus />
+							</IconWrapper>
+							{'Dodaj plik'}
+						</Section>
+					</Container>
 
-                    <Footer>
-                        <button onClick={onClose}>
-                            <IconWrapper color='grey'><XSquare /></IconWrapper>
-                        </button>
-                        {`Utworzone ${getDayName(parseUTCtoDate(taskData?.createdAt || ''))}, ${getDay(parseUTCtoDate(taskData?.createdAt || ''))} ${getMonth(parseUTCtoDate(taskData?.createdAt || ''))}`}
-                        <button onClick={handleClick}>
-                            <IconWrapper color='grey'><Trash2 /></IconWrapper>
-                        </button>
-                    </Footer>
-                </TaskDetailsWrapper>
-            )}
-        </TaskSidebarDetailsContainer>
-    );
+					<Container>
+						<textarea />
+					</Container>
+
+					<Footer>
+						<button onClick={onClose}>
+							<IconWrapper color='grey'>
+								<XSquare />
+							</IconWrapper>
+						</button>
+						{`Utworzone ${getDayName(parseUTCtoDate(taskData?.createdAt || ''))}, ${getDay(
+							parseUTCtoDate(taskData?.createdAt || '')
+						)} ${getMonth(parseUTCtoDate(taskData?.createdAt || ''))}`}
+						<button onClick={handleClick}>
+							<IconWrapper color='grey'>
+								<Trash2 />
+							</IconWrapper>
+						</button>
+					</Footer>
+				</TaskDetailsWrapper>
+			)}
+		</TaskSidebarDetailsContainer>
+	);
 };
 
 export default TaskSidebarDetails;

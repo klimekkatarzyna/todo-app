@@ -5,35 +5,35 @@ import { COLOURS, IconWrapper } from '../../constants';
 import Tooltip from '../Tooltip/Tooltip';
 
 const ImportanceButtonWrapper = styled.button`
-    position: relative;
-    border: none;
-    background: inherit;
+	position: relative;
+	border: none;
+	background: inherit;
 
-    input {
-        display: none;
-    }
+	input {
+		display: none;
+	}
 `;
 
 interface IImportanceButton {
-    isChecked: boolean;
-    onClick: () => void;
+	isChecked: boolean;
+	onClick: () => void;
 }
 
 const ImportanceButton: FC<IImportanceButton> = ({ isChecked, onClick }) => {
-    const tooltipText = useMemo(() => !isChecked ? 'Oznacz zadanie jako wazne' : 'Usuń ważność', [isChecked]);
+	const tooltipText = useMemo(() => (!isChecked ? 'Oznacz zadanie jako wazne' : 'Usuń ważność'), [isChecked]);
 
-    return (
-        <ImportanceButtonWrapper onClick={onClick}>
-            <input type="checkbox" checked={isChecked} />
-            <Tooltip position={'right'} text={tooltipText}>
-                <IconWrapper
-                    color={COLOURS.blue} // TODO: theme color
-                    isChecked={isChecked}>
-                    <Star />
-                </IconWrapper>
-            </Tooltip>
-        </ImportanceButtonWrapper>
-    );
+	return (
+		<ImportanceButtonWrapper onClick={onClick}>
+			<input type='checkbox' checked={isChecked} />
+			<Tooltip position={'right'} text={tooltipText}>
+				<IconWrapper
+					color={COLOURS.blue} // TODO: theme color
+					isChecked={isChecked}>
+					<Star />
+				</IconWrapper>
+			</Tooltip>
+		</ImportanceButtonWrapper>
+	);
 };
 
 export default ImportanceButton;

@@ -8,42 +8,46 @@ import useTask from './useTask';
 import useDragAndDrop from '../../hooks/useDragAndDrop';
 
 const TasksNumber = styled.span`
-    margin-left: 1rem;
-    font-size: 1rem;
-    color: ${COLOURS.darkerGrey};
+	margin-left: 1rem;
+	font-size: 1rem;
+	color: ${COLOURS.darkerGrey};
 `;
 
 const ComplitedTasks: FC = () => {
-    const { getTasksOfCurrentListQuery, onMarkTaskAsInCompleted, mutateChangeTaskImportance } = useTask();
-    const comletedTasks = useMemo(() => (getTasksOfCurrentListQuery?.body?.tasks || []).filter(task => task.taskStatus === ITaskStatus.complete), [getTasksOfCurrentListQuery]);
-    const [completedTaskslist, setComplitedTasksList] = useState<ITask[]>(comletedTasks);
+	const { getTasksOfCurrentListQuery, onMarkTaskAsInCompleted, mutateChangeTaskImportance } = useTask();
+	const comletedTasks = useMemo(
+		() => (getTasksOfCurrentListQuery?.body?.tasks || []).filter(task => task.taskStatus === ITaskStatus.complete),
+		[getTasksOfCurrentListQuery]
+	);
+	const [completedTaskslist, setComplitedTasksList] = useState<ITask[]>(comletedTasks);
 
-    const { onDragStart, onDragOver, onDragLeave, onDrop } = useDragAndDrop(comletedTasks, setComplitedTasksList);
+	const { onDragStart, onDragOver, onDragLeave, onDrop } = useDragAndDrop(comletedTasks, setComplitedTasksList);
 
-    useEffect(() => {
-        setComplitedTasksList(comletedTasks)
-    }, [getTasksOfCurrentListQuery]);
+	useEffect(() => {
+		setComplitedTasksList(comletedTasks);
+	}, [getTasksOfCurrentListQuery]);
 
-    return (
-        <>
-            {!!completedTaskslist?.length && (
-                <Accordion title={'Wykonane'} details={<TasksNumber>{comletedTasks?.length}</TasksNumber>}>
-                    {completedTaskslist?.map((task: ITask, index) => 
-                        <TaskItem
-                            task={task}
-                            onChange={onMarkTaskAsInCompleted}
-                            isCompleted
-                            index={index}
-                            onDragStart={onDragStart}
-                            onDragOver={onDragOver}
-                            onDrop={onDrop}
-                            onDragLeave={onDragLeave}
-                            changeTaskImportance={mutateChangeTaskImportance} />
-                    )}
-                </Accordion>
-            )}
-        </>
-    );
+	return (
+		<>
+			{!!completedTaskslist?.length && (
+				<Accordion title={'Wykonane'} details={<TasksNumber>{comletedTasks?.length}</TasksNumber>}>
+					{completedTaskslist?.map((task: ITask, index) => (
+						<TaskItem
+							task={task}
+							onChange={onMarkTaskAsInCompleted}
+							isCompleted
+							index={index}
+							onDragStart={onDragStart}
+							onDragOver={onDragOver}
+							onDrop={onDrop}
+							onDragLeave={onDragLeave}
+							changeTaskImportance={mutateChangeTaskImportance}
+						/>
+					))}
+				</Accordion>
+			)}
+		</>
+	);
 };
 
 export default ComplitedTasks;

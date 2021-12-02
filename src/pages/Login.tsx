@@ -11,108 +11,114 @@ import { useMutation } from 'react-query';
 import useAuthorization from '../hooks/useAuthorization';
 
 export const FormWrapper = styled.div`
-    background-color: ${COLOURS.lightGrey};
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    form {
-        width: 100%;
-    }
+	background-color: ${COLOURS.lightGrey};
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	form {
+		width: 100%;
+	}
 `;
 
 export const Content = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: ${COLOURS.white};
-    padding: 2rem;
-    min-width: 300px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-color: ${COLOURS.white};
+	padding: 2rem;
+	min-width: 300px;
 
-    h2, a {
-        color: ${COLOURS.blue};
-    }
+	h2,
+	a {
+		color: ${COLOURS.blue};
+	}
 `;
 
 export const InputWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    position: relative;
+	display: flex;
+	align-items: center;
+	position: relative;
 `;
 
 interface LoginForm {
-    email: string;
-    password: string;
+	email: string;
+	password: string;
 }
 
 const Login: FC = () => {
-    const [loginData, setLoginData] = useState<LoginForm>({
-        email: '',
-        password: ''
-    });
+	const [loginData, setLoginData] = useState<LoginForm>({
+		email: '',
+		password: '',
+	});
 
-    const [showPassword, setShowPassowrd] = useState<boolean>(false);
-    const handledSetPassword = (): void => setShowPassowrd(!showPassword);
-    
-    const { loginRequest } = useAuthorization();
-    const { mutateAsync: login, isLoading } = useMutation(loginRequest);
+	const [showPassword, setShowPassowrd] = useState<boolean>(false);
+	const handledSetPassword = (): void => setShowPassowrd(!showPassword);
 
-    const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>): void => {
-        const { name, value } = event.target;
-        const clearStr = removesWhitespaceFromString(value);
+	const { loginRequest } = useAuthorization();
+	const { mutateAsync: login, isLoading } = useMutation(loginRequest);
 
-        setLoginData({
-            ...loginData,
-            [name]: clearStr
-        })
-    }, [loginData]);
-    
-    const onSubmit = useCallback(async (event: React.SyntheticEvent): Promise<void> => {
-        event.preventDefault();
-        await login({ email: loginData.email, password: loginData.password});
-    }, [loginData]);
+	const handleChange = useCallback(
+		(event: React.ChangeEvent<HTMLInputElement>): void => {
+			const { name, value } = event.target;
+			const clearStr = removesWhitespaceFromString(value);
 
-    return (
-        <FormWrapper>
-            <Content>
-            <h2>Zaloguj się</h2>
-            <p>Nie masz masz konta?
-                {' '}
-                <Link to='/register'>
-                    Rejestruj się!
-                </Link>
-            </p>
-            {/* <p>Uzyj konta Google lub Facebook aby się zalogować</p> */}
+			setLoginData({
+				...loginData,
+				[name]: clearStr,
+			});
+		},
+		[loginData]
+	);
 
-            {/* {errorMessage && (<span>{errorMessage}</span>)} */}
+	const onSubmit = useCallback(
+		async (event: React.SyntheticEvent): Promise<void> => {
+			event.preventDefault();
+			await login({ email: loginData.email, password: loginData.password });
+		},
+		[loginData]
+	);
 
-            <form onSubmit={onSubmit}>
-                <Input
-                    name='email'
-                    colorType={InputVersion.primary}
-                    placeholder={'Email'}
-                    value={loginData.email}
-                    autoFocus
-                    onChange={handleChange} />
+	return (
+		<FormWrapper>
+			<Content>
+				<h2>Zaloguj się</h2>
+				<p>
+					Nie masz masz konta? <Link to='/register'>Rejestruj się!</Link>
+				</p>
+				{/* <p>Uzyj konta Google lub Facebook aby się zalogować</p> */}
 
-                <InputWrapper>
-                    <Input
-                        name='password'
-                        colorType={InputVersion.primary}
-                        type={!showPassword ? 'password' : 'text'}
-                        placeholder={'Password'}
-                        value={loginData.password}
-                        onChange={handleChange} />
-                        <InputEye showPassword={showPassword} handledSetPassword={handledSetPassword} />
-                </InputWrapper>
+				{/* {errorMessage && (<span>{errorMessage}</span>)} */}
 
-                <Button primary type='submit' margin isLoading={isLoading}>
-                    <span>Zaloguj</span>
-                </Button>
-            </form>
-            </Content>
-        </FormWrapper>
-    );
-}
+				<form onSubmit={onSubmit}>
+					<Input
+						name='email'
+						colorType={InputVersion.primary}
+						placeholder={'Email'}
+						value={loginData.email}
+						autoFocus
+						onChange={handleChange}
+					/>
+
+					<InputWrapper>
+						<Input
+							name='password'
+							colorType={InputVersion.primary}
+							type={!showPassword ? 'password' : 'text'}
+							placeholder={'Password'}
+							value={loginData.password}
+							onChange={handleChange}
+						/>
+						<InputEye showPassword={showPassword} handledSetPassword={handledSetPassword} />
+					</InputWrapper>
+
+					<Button primary type='submit' margin isLoading={isLoading}>
+						<span>Zaloguj</span>
+					</Button>
+				</form>
+			</Content>
+		</FormWrapper>
+	);
+};
 
 export default Login;

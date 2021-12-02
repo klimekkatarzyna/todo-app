@@ -3,6 +3,7 @@
 ```
 
 isChecked
+
 ```js
 <ImportanceButton isChecked={true} />
 ```

@@ -2,9 +2,9 @@ export const splitChar = (char: string): string[] => char?.split(' ');
 
 export const returnsFirstChar = (char: string): string => char?.substr(0, 1);
 
-export const removesWhitespaceFromString = (value: string) => value === ' ' ? value?.trim() : value;
+export const removesWhitespaceFromString = (value: string) => (value === ' ' ? value?.trim() : value);
 
-export const handleResertInput = ((functionName: Function) => functionName(' '));
+export const handleResertInput = (functionName: Function) => functionName(' ');
 
 // will scroll the browser to the top of the page
 const goToTop = () => window.scrollTo(0, 0);
@@ -13,4 +13,4 @@ const goToTop = () => window.scrollTo(0, 0);
 const isAppleDevice = /Mac|iPod|iPhone|iPad/.test(navigator.platform);
 
 // will return true if in focus, false if not in focus
-const elementIsInFocus = (el: unknown) => (el === document.activeElement);
+const elementIsInFocus = (el: unknown) => el === document.activeElement;

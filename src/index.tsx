@@ -6,10 +6,10 @@ import history from './history';
 import { History } from 'history';
 
 render(
-    <React.StrictMode>
-        <Router history={history as History}>
-            <App />
-        </Router>
-    </React.StrictMode>,
-    document.getElementById('root')
+	<React.StrictMode>
+		<Router history={history as History}>
+			<App />
+		</Router>
+	</React.StrictMode>,
+	document.getElementById('root')
 );

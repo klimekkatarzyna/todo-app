@@ -1,21 +1,21 @@
 import { useCallback, useState } from 'react';
 
 const useFocusingHandling = () => {
-    const [isFocused, setFocused] = useState<boolean>(false);
+	const [isFocused, setFocused] = useState<boolean>(false);
 
-    const onFocus = useCallback((): void => {
-        setFocused(true);
-    }, []);
+	const onFocus = useCallback((): void => {
+		setFocused(true);
+	}, []);
 
-    const onBlur = useCallback((): void => {
-        setFocused(false);
-    }, []);
+	const onBlur = useCallback((): void => {
+		setFocused(false);
+	}, []);
 
-    return {
-        isFocused,
-        onFocus,
-        onBlur
-    }
+	return {
+		isFocused,
+		onFocus,
+		onBlur,
+	};
 };
 
 export default useFocusingHandling;

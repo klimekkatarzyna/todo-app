@@ -6,26 +6,26 @@ import { MenuListItem } from '../../MenuListItem/MenuListItem';
 import Loader from '../../Loader/Loader';
 
 const Wrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    font-size: 0.9rem;
+	display: flex;
+	flex-direction: column;
+	font-size: 0.9rem;
 `;
 
 interface ILists {
-    isNavClosed: boolean;
+	isNavClosed: boolean;
 }
 
 const Lists: FC<ILists> = ({ isNavClosed }) => {
-    const { getListsLoading, getListsQuery } = useList();
+	const { getListsLoading, getListsQuery } = useList();
 
-    return (
-        <Wrapper>
-            {getListsLoading && <Loader />}
-            {getListsQuery?.body?.lists?.map((item: IListItem) => (
-                <MenuListItem listItem={item} isNavClosed={isNavClosed} />
-            ))}
-        </Wrapper>
-    );
+	return (
+		<Wrapper>
+			{getListsLoading && <Loader />}
+			{getListsQuery?.body?.lists?.map((item: IListItem) => (
+				<MenuListItem listItem={item} isNavClosed={isNavClosed} />
+			))}
+		</Wrapper>
+	);
 };
 
 export default Lists;

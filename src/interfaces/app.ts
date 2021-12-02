@@ -1,28 +1,28 @@
-import { HttpResponse } from "../utils/http";
+import { HttpResponse } from '../utils/http';
 
 export interface IIUserDataResponse extends HttpResponse {
-    user: IUserData;
+	user: IUserData;
 }
 
 export interface IAuthResponse {
-    [key: string]: IUserData;
+	[key: string]: IUserData;
 }
 
 export interface IUserData {
-    username: string;
-    email: string;
-    _id: string;
-    createdAt: string;
+	username: string;
+	email: string;
+	_id: string;
+	createdAt: string;
 }
 
 export enum IResponseStatus {
-    error = "error",
-    idle = "idle",
-    loading = "loading",
-    success = "success"
+	error = 'error',
+	idle = 'idle',
+	loading = 'loading',
+	success = 'success',
 }
 
 export interface IUseParams {
-    listId: string;
-    taskId: string;
+	listId: string;
+	taskId: string;
 }

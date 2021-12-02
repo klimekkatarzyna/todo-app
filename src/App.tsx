@@ -31,18 +31,18 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const App: FC = () => {
-    return (
-        <QueryClientProvider client={queryClient}>
-            <AuthProvider>
-                <ShowModalProvider>
-                    {/* <ReactQueryDevtools initialIsOpen /> */}
-                    <GlobalStyle />
+	return (
+		<QueryClientProvider client={queryClient}>
+			<AuthProvider>
+				<ShowModalProvider>
+					{/* <ReactQueryDevtools initialIsOpen /> */}
+					<GlobalStyle />
 
-                    <BrowserRouter />
-                </ShowModalProvider>
-            </AuthProvider>
-        </QueryClientProvider>
-    );
-}
+					<BrowserRouter />
+				</ShowModalProvider>
+			</AuthProvider>
+		</QueryClientProvider>
+	);
+};
 
 export default App;

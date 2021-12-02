@@ -7,47 +7,54 @@ import { Input } from '../Input/Input';
 import useTask from './useTask';
 
 const CreateTask = () => {
-    const history = useHistory(); 
-    const { listId } = useParams<IUseParams>();
-    const { mutateCreateTask } = useTask();
-   
-   useEffect(() => {
-        history.listen(() => setTaskName('')) 
-   }, [history]);
+	const history = useHistory();
+	const { listId } = useParams<IUseParams>();
+	const { mutateCreateTask } = useTask();
 
-    const [taskName, setTaskName] = useState<string | undefined>(undefined);
+	useEffect(() => {
+		history.listen(() => setTaskName(''));
+	}, [history]);
 
-    const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-        const clearStr = removesWhitespaceFromString(event.target.value); 
-        setTaskName(clearStr);
-    }, []);
-    
-    const onSubmit = useCallback(async (event: React.SyntheticEvent) => {
-        event.preventDefault();
-        try {
-            mutateCreateTask({ title: taskName, parentFolderId: listId, themeColor: 'blue' }); // TODO: async await?
-            handleResertInput(setTaskName);
-        } catch {
-            // TODO: handle error
-        }
-    }, [taskName, listId]);
+	const [taskName, setTaskName] = useState<string | undefined>(undefined);
 
-    return (
-        <div>
-            <form onSubmit={onSubmit}>
-                <Input
-                    isIcon
-                    name='taskName'
-                    colorType={InputVersion.primary}
-                    isTaskInput
-                    placeholder={'Dodaj zadanie'}
-                    value={taskName}
-                    autoFocus
-                    onChange={handleChange}
-                />
-            </form>
-        </div>
-    );
+	const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+		const clearStr = removesWhitespaceFromString(event.target.value);
+		setTaskName(clearStr);
+	}, []);
+
+	const onSubmit = useCallback(
+		async (event: React.SyntheticEvent) => {
+			event.preventDefault();
+			try {
+				mutateCreateTask({
+					title: taskName,
+					parentFolderId: listId,
+					themeColor: 'blue',
+				}); // TODO: async await?
+				handleResertInput(setTaskName);
+			} catch {
+				// TODO: handle error
+			}
+		},
+		[taskName, listId]
+	);
+
+	return (
+		<div>
+			<form onSubmit={onSubmit}>
+				<Input
+					isIcon
+					name='taskName'
+					colorType={InputVersion.primary}
+					isTaskInput
+					placeholder={'Dodaj zadanie'}
+					value={taskName}
+					autoFocus
+					onChange={handleChange}
+				/>
+			</form>
+		</div>
+	);
 };
 
 export default CreateTask;
