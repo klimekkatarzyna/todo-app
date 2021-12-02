@@ -57,7 +57,7 @@ const SortComponent: FC<ISortComponent> = ({ dataToSort }) => {
 			const sorted =
 				dataToSort?.length &&
 				[...dataToSort]?.sort((a, b) => b.title[SortType[type]] - a.title[SortType[type]]);
-			setData(sorted)
+			setData(sorted);
 		};
 
 		sortArray(sortType);
