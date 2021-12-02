@@ -74,7 +74,6 @@
 	},
 	"devDependencies": {
 		"@types/express": "^4.17.13",
-		"prettier": "2.5.0",
-		"prettier-watch": "onchange \"**/*\" -- prettier --write --ignore-unknown {{changed}}"
+		"prettier": "2.5.0"
 	}
 }
