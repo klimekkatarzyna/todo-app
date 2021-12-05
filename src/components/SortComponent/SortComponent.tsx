@@ -1,8 +1,12 @@
-import React, { useCallback, useEffect, useRef, useState, FC } from 'react';
+import React, { useRef, FC } from 'react';
 import styled from 'styled-components';
 import { COLOURS } from '../../constants';
+import { SortTaskType } from '../../enums';
 
 const Wrapper = styled.div`
+	position: absolute;
+	right: 1rem;
+	top: 0;
 	background-color: ${COLOURS.white};
 	width: 300px;
 	height: 200px;
@@ -27,53 +31,22 @@ const Select = styled.select`
 	font-size: 1rem;
 	padding: 1rem;
 `;
-
-enum SortType {
-	date = 'date',
-	name = 'name',
-	importance = 'importance',
-	deadline = 'deadline',
+interface ISortComponent {
+	requestSort: (event: any) => void;
 }
 
-interface ISortComponent<T = any> {
-	dataToSort: T;
-}
-
-// interface ISortComponent {
-//     dataToSort: any;
-// }
-
-const SortComponent: FC<ISortComponent> = ({ dataToSort }) => {
+const SortComponent: FC<ISortComponent> = ({ requestSort }) => {
 	const sortReference = useRef<HTMLDivElement>(null);
-	const [sortType, setSortType] = useState<SortType>(SortType.name);
-	const [data, setData] = useState([]);
-
-	const onSort = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
-		setSortType(event.target.value as SortType);
-	}, []);
-
-	useEffect(() => {
-		const sortArray = (type: SortType) => {
-			const sorted =
-				dataToSort?.length &&
-				[...dataToSort]?.sort((a, b) => b.title[SortType[type]] - a.title[SortType[type]]);
-			setData(sorted);
-		};
-
-		sortArray(sortType);
-	}, [sortType, dataToSort, data]);
-
-	console.log(data, dataToSort);
 
 	return (
 		<Wrapper>
 			<div ref={sortReference}>
 				<span>Sortuj według</span>
-				<Select onChange={onSort}>
-					<option value={SortType.name}>Alfabetycznie</option>
-					<option value={SortType.date}>Data utworzenia</option>
-					<option value={SortType.importance}>Ważność</option>
-					<option value={SortType.deadline}>Termin wykonania</option>
+				<Select onChange={requestSort}>
+					<option value={[SortTaskType.title, 'string']}>Alfabetycznie</option>
+					<option value={[SortTaskType.createdAt, 'date']}>Data utworzenia</option>
+					<option value={[SortTaskType.importance, 'string']}>Ważność</option>
+					<option value={[SortTaskType.deadline, 'date']}>Termin wykonania</option> TODO: add to task schema
 				</Select>
 			</div>
 		</Wrapper>

@@ -24,7 +24,19 @@ export interface ITask {
 	themeColor: AppColorType;
 	_id: string;
 	taskStatus: ITaskStatus;
+	deadline?: string;
 }
+
+export type ITaskType =
+	| 'createdAt'
+	| 'importance'
+	| 'parentFolderId'
+	| 'groupName'
+	| 'title'
+	| 'themeColor'
+	| '_id'
+	| 'taskStatus'
+	| 'deadline';
 
 export enum ITaskStatus {
 	inComplete = 'inComplete',

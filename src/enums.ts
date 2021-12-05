@@ -42,3 +42,10 @@ export enum SortType {
 	importance = 4,
 	addedToDayly = 5,
 }
+
+export enum SortTaskType {
+	createdAt = 'createdAt',
+	title = 'title',
+	importance = 'importance',
+	deadline = 'deadline',
+}

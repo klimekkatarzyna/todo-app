@@ -1,21 +1,27 @@
 import { FC } from 'react';
 import useDragAndDrop from '../../hooks/useDragAndDrop';
 import { ITask } from '../../interfaces/task';
+import SortComponent from '../SortComponent/SortComponent';
 import TaskItem from './TaskItem/TaskItem';
 import useIncompleteComplete from './useIncompleteCompleteTasks';
 
 const InCompletedTasks: FC = () => {
-	const { inCompletedTaskslist, setInCompletedTasksList, onMarkTaskAsCompleted, mutateChangeTaskImportance } =
-		useIncompleteComplete();
+	const {
+		inCompletedTaskslist,
+		requestSort,
+		setInCompletedTasksList,
+		onMarkTaskAsCompleted,
+		mutateChangeTaskImportance,
+	} = useIncompleteComplete();
 
 	const { onDragStart, onDragOver, onDragLeave, onDrop, dragAndDrop } = useDragAndDrop(
 		inCompletedTaskslist,
 		setInCompletedTasksList
 	);
-
 	return (
 		<>
-			{inCompletedTaskslist?.map((task: ITask, index) => (
+			<SortComponent requestSort={requestSort} />
+			{inCompletedTaskslist?.map((task, index) => (
 				<TaskItem
 					task={task}
 					index={index}

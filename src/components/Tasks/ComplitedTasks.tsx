@@ -28,7 +28,7 @@ const ComplitedTasks: FC = () => {
 		<>
 			{!!completedTaskslist?.length && (
 				<Accordion title={'Wykonane'} details={<TasksNumber>{comletedTasks?.length}</TasksNumber>}>
-					{completedTaskslist?.map((task: ITask, index) => (
+					{completedTaskslist?.map((task, index) => (
 						<TaskItem
 							task={task}
 							onChange={onMarkTaskAsInCompleted}
