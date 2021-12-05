@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import styled from 'styled-components';
 import { COLOURS } from '../../constants';
-import Button from '../Button/Button';
-import useShowModal from '../../hooks/useShowModal';
+import { Button } from '../Button/Button';
+import { useShowModal } from '../../hooks/useShowModal';
 
 const ModalBackground = styled.div`
 	width: 100%;
@@ -53,7 +53,7 @@ interface IModal {
 	subtitle?: string;
 }
 
-const Modal: FC<IModal> = ({ title, subtitle }) => {
+export const Modal: FC<IModal> = ({ title, subtitle }) => {
 	const { onCloseModal } = useShowModal();
 
 	return (
@@ -71,5 +71,3 @@ const Modal: FC<IModal> = ({ title, subtitle }) => {
 		</ModalBackground>
 	);
 };
-
-export default Modal;

@@ -1,20 +1,20 @@
 import { FC, useContext, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import styled from 'styled-components';
-import MyDay from './pages/MyDay';
-import Important from './pages/Important';
-import Planned from './pages/Planned';
+import { MyDay } from './pages/MyDay';
+import { Important } from './pages/Important';
+import { Planned } from './pages/Planned';
 import { Sidebar } from './components/Sidebar';
-import Inbox from './pages/Inbox';
-import Assigned from './pages/Assigned';
-import PrivateRoute from './PrivateRoute';
-import Login from './pages/Login';
+import { Inbox } from './pages/Inbox';
+import { Assigned } from './pages/Assigned';
+import { PrivateRoute } from './PrivateRoute';
+import { Login } from './pages/Login';
 import Register from './pages/Register';
-import Header from './components/Header';
-import Tasks from './pages/Tasks';
-import NotFound from './pages/NotFound';
+import { Header } from './components/Header';
+import { Tasks } from './pages/Tasks';
+import { NotFound } from './pages/NotFound';
 import { AuthContext, AuthContextType } from './AuthContext';
-import Loader from './components/Loader/Loader';
+import { Loader } from './components/Loader/Loader';
 import { useHistory } from 'react-router';
 
 const Wrapper = styled.div`

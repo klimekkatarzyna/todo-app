@@ -1,9 +1,9 @@
 import { FC, useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { COLOURS } from '../constants';
-import CreateGroup from './CreateGroup';
-import CreateList from './List/CreateList/CreateList';
-import Lists from './List/Lists/Lists';
+import { CreateGroup } from './CreateGroup';
+import { CreateList } from './List/CreateList/CreateList';
+import { Lists } from './List/Lists/Lists';
 import { MainList } from './MainList/MainList';
 import { ArrowLeft } from '@styled-icons/feather/ArrowLeft';
 import { ArrowRight } from '@styled-icons/feather/ArrowRight';

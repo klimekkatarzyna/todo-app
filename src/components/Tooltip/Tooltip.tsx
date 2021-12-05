@@ -52,7 +52,7 @@ interface ITooltip {
 	text?: string;
 }
 
-const Tooltip: FC<ITooltip> = ({ children, position, text }) => {
+export const Tooltip: FC<ITooltip> = ({ children, position, text }) => {
 	const [show, setShow] = useState<boolean>(false);
 
 	return (
@@ -66,5 +66,3 @@ const Tooltip: FC<ITooltip> = ({ children, position, text }) => {
 		</TooltipWrapper>
 	);
 };
-
-export default Tooltip;

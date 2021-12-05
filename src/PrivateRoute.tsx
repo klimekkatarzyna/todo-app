@@ -7,7 +7,7 @@ interface IPrivateRoute {
 	exact?: boolean;
 }
 
-const PrivateRoute: FC<IPrivateRoute> = ({ children, ...rest }) => {
+export const PrivateRoute: FC<IPrivateRoute> = ({ children, ...rest }) => {
 	const { authData } = useContext<AuthContextType>(AuthContext);
 
 	return (
@@ -28,5 +28,3 @@ const PrivateRoute: FC<IPrivateRoute> = ({ children, ...rest }) => {
 		/>
 	);
 };
-
-export default PrivateRoute;

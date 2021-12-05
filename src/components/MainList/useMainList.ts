@@ -4,7 +4,7 @@ import * as api from '../../services';
 import { useQuery } from 'react-query';
 import { IMainListResponse } from '../../interfaces/list';
 
-const useMainList = () => {
+export const useMainList = () => {
 	const getMainList = useCallback(async () => {
 		const response = await http<IMainListResponse>(api.getMainList, 'GET');
 		return response;
@@ -18,5 +18,3 @@ const useMainList = () => {
 		mainListLoading,
 	};
 };
-
-export default useMainList;

@@ -13,7 +13,7 @@ import {
 import { Importance, SortType } from '../../enums';
 import { IDeleteTaskResponse, ITask, ITasksResponse, ITaskStatus } from '../../interfaces/task';
 
-const useTask = () => {
+export const useTask = () => {
 	const query = useQueryClient();
 	const { listId, taskId } = useParams<IUseParams>();
 
@@ -152,5 +152,3 @@ const useTask = () => {
 		addTaskToMyDay,
 	};
 };
-
-export default useTask;

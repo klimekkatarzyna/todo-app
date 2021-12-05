@@ -4,9 +4,9 @@ import { InputVersion } from '../../enums';
 import { IUseParams } from '../../interfaces/app';
 import { handleResertInput, removesWhitespaceFromString } from '../../utils/utilsFunctions';
 import { Input } from '../Input/Input';
-import useTask from './useTask';
+import { useTask } from './useTask';
 
-const CreateTask = () => {
+export const CreateTask = () => {
 	const history = useHistory();
 	const { listId } = useParams<IUseParams>();
 	const { mutateCreateTask } = useTask();
@@ -56,5 +56,3 @@ const CreateTask = () => {
 		</div>
 	);
 };
-
-export default CreateTask;

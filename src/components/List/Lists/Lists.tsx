@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { IListItem } from '../../../interfaces/list';
 import useList from '../useList';
 import { MenuListItem } from '../../MenuListItem/MenuListItem';
-import Loader from '../../Loader/Loader';
+import { Loader } from '../../Loader/Loader';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -15,7 +15,7 @@ interface ILists {
 	isNavClosed: boolean;
 }
 
-const Lists: FC<ILists> = ({ isNavClosed }) => {
+export const Lists: FC<ILists> = ({ isNavClosed }) => {
 	const { getListsLoading, getListsQuery } = useList();
 
 	return (
@@ -27,5 +27,3 @@ const Lists: FC<ILists> = ({ isNavClosed }) => {
 		</Wrapper>
 	);
 };
-
-export default Lists;

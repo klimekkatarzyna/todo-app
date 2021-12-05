@@ -1,11 +1,11 @@
 import { FC } from 'react';
 import styled from 'styled-components';
 import { ITask } from '../../interfaces/task';
-import TaskItem from './TaskItem/TaskItem';
+import { TaskItem } from './TaskItem/TaskItem';
 import { COLOURS } from '../../constants';
-import Accordion from '../Accordion/Accordion';
-import useDragAndDrop from '../../hooks/useDragAndDrop';
-import useIncompleteComplete from './useIncompleteCompleteTasks';
+import { Accordion } from '../Accordion/Accordion';
+import { useDragAndDrop } from '../../hooks/useDragAndDrop';
+import { useIncompleteCompleteTasks } from './useIncompleteCompleteTasks';
 
 const TasksNumber = styled.span`
 	margin-left: 1rem;
@@ -13,14 +13,14 @@ const TasksNumber = styled.span`
 	color: ${COLOURS.darkerGrey};
 `;
 
-const ComplitedTasks: FC = () => {
+export const ComplitedTasks: FC = () => {
 	const {
 		completedTaskslist,
 		comletedTasks,
 		setComplitedTasksList,
 		onMarkTaskAsInCompleted,
 		mutateChangeTaskImportance,
-	} = useIncompleteComplete();
+	} = useIncompleteCompleteTasks();
 
 	const { onDragStart, onDragOver, onDragLeave, onDrop } = useDragAndDrop(comletedTasks, setComplitedTasksList);
 
@@ -46,5 +46,3 @@ const ComplitedTasks: FC = () => {
 		</>
 	);
 };
-
-export default ComplitedTasks;

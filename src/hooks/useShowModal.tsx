@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-const useShowModal = () => {
+export const useShowModal = () => {
 	const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
 	const onOpeneModal = useCallback((): void => {
@@ -17,5 +17,3 @@ const useShowModal = () => {
 		onCloseModal,
 	};
 };
-
-export default useShowModal;

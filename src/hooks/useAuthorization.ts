@@ -11,7 +11,7 @@ interface IAuthenticateUser {
 	username?: string;
 }
 
-const useAuthorization = () => {
+export const useAuthorization = () => {
 	const history = useHistory();
 	const { setAuthData } = useContext<AuthContextType>(AuthContext);
 
@@ -79,5 +79,3 @@ const useAuthorization = () => {
 		logoutUser,
 	};
 };
-
-export default useAuthorization;

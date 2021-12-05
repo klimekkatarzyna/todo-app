@@ -2,7 +2,7 @@ import { FC } from 'react';
 import styled from 'styled-components';
 import { COLOURS } from '../../constants';
 import { IContextualMenuList } from '../../interfaces/list';
-import ContextualMenuItem from './ContextualMenuItem';
+import { ContextualMenuItem } from './ContextualMenuItem';
 import { ContextMenu } from 'react-contextmenu';
 
 const ContextualMenuWrapper = styled(ContextMenu)`
@@ -23,7 +23,7 @@ interface IContextualMenu {
 	listElementId: string;
 }
 
-const ContextualMenu: FC<IContextualMenu> = ({ contextualMenuList, listElementId }) => {
+export const ContextualMenu: FC<IContextualMenu> = ({ contextualMenuList, listElementId }) => {
 	return (
 		<ContextualMenuWrapper id={listElementId}>
 			{contextualMenuList.map(listItem => (
@@ -32,5 +32,3 @@ const ContextualMenu: FC<IContextualMenu> = ({ contextualMenuList, listElementId
 		</ContextualMenuWrapper>
 	);
 };
-
-export default ContextualMenu;

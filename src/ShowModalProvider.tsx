@@ -5,7 +5,7 @@ interface IShowElementProvider {
 	children: React.ReactNode;
 }
 
-const ShowComponentProvider: FC<IShowElementProvider> = ({ children }) => {
+export const ShowModalProvider: FC<IShowElementProvider> = ({ children }) => {
 	const [isVisible, setIsVisible] = useState<boolean>(false);
 
 	const onShowComponent = useCallback((): void => {
@@ -22,5 +22,3 @@ const ShowComponentProvider: FC<IShowElementProvider> = ({ children }) => {
 		</ShowElementContext.Provider>
 	);
 };
-
-export default ShowComponentProvider;

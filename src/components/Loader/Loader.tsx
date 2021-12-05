@@ -27,12 +27,10 @@ const Container = styled.div`
 	}
 `;
 
-const Loader: FC = () => {
+export const Loader: FC = () => {
 	return (
 		<Container>
 			<span />
 		</Container>
 	);
 };
-
-export default Loader;

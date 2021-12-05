@@ -2,11 +2,11 @@ import { FC, useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Input } from '../components/Input/Input';
 import { InputVersion } from '../enums';
-import Button from '../components/Button/Button';
+import { Button } from '../components/Button/Button';
 import { Content, FormWrapper, InputWrapper } from './Login';
 import { removesWhitespaceFromString } from '../utils/utilsFunctions';
-import InputEye from '../components/InputEye';
-import useAuthorization from '../hooks/useAuthorization';
+import { InputEye } from '../components/InputEye';
+import { useAuthorization } from '../hooks/useAuthorization';
 import { useMutation } from 'react-query';
 
 interface RegisterForm {
@@ -15,7 +15,7 @@ interface RegisterForm {
 	password: string;
 }
 
-const Register: FC = () => {
+export const Register: FC = () => {
 	const [loginData, setLoginData] = useState<RegisterForm>({
 		userName: '',
 		email: '',

@@ -4,7 +4,7 @@ import { COLOURS, IconWrapper } from '../../constants';
 import { InputVersion } from '../../enums';
 import { Plus } from '@styled-icons/feather/Plus';
 import { Circle } from '@styled-icons/feather/Circle';
-import useFocusingHandling from '../../hooks/useMouseHandling';
+import { useFocusingHandling } from '../../hooks/useMouseHandling';
 
 interface IWrapper {
 	type: InputVersion;

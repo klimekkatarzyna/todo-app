@@ -1,6 +1,6 @@
 export type Direction = 'asc' | 'desc';
 
-const useSort = <T>() => {
+export const useSort = <T>() => {
 	const sorter = {
 		date: (sortKey: string, direction: Direction) => (a: any, b: any) => {
 			// TODO: fix type
@@ -16,5 +16,3 @@ const useSort = <T>() => {
 		sorter,
 	};
 };
-
-export default useSort;

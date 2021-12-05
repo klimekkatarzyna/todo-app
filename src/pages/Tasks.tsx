@@ -1,12 +1,12 @@
 import { FC } from 'react';
 import { Board } from '../components/Board';
 import useList from '../components/List/useList';
-import Loader from '../components/Loader/Loader';
-import CreateTask from '../components/Tasks/CreateTask';
-import TasksList from '../components/Tasks/Tasks';
-import Toolbar from '../components/Toolbar';
+import { Loader } from '../components/Loader/Loader';
+import { CreateTask } from '../components/Tasks/CreateTask';
+import { TasksList } from '../components/Tasks/Tasks';
+import { Toolbar } from '../components/Toolbar';
 
-const Tasks: FC = () => {
+export const Tasks: FC = () => {
 	const { getListByIdData, getListByIdLoading } = useList();
 
 	return (
@@ -26,5 +26,3 @@ const Tasks: FC = () => {
 		</Board>
 	);
 };
-
-export default Tasks;

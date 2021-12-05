@@ -38,7 +38,7 @@ interface IToolbar {
 	isDateVisible?: boolean;
 }
 
-const Toolbar: FC<IToolbar> = ({ name, colorType = 'grey', isDateVisible }) => {
+export const Toolbar: FC<IToolbar> = ({ name, colorType = 'grey', isDateVisible }) => {
 	const date = new Date();
 
 	return (
@@ -48,5 +48,3 @@ const Toolbar: FC<IToolbar> = ({ name, colorType = 'grey', isDateVisible }) => {
 		</Wrapper>
 	);
 };
-
-export default Toolbar;

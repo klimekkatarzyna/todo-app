@@ -2,13 +2,13 @@ import { FC, useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { COLOURS } from '../constants';
-import Button from '../components/Button/Button';
+import { Button } from '../components/Button/Button';
 import { InputVersion } from '../enums';
 import { Input } from '../components/Input/Input';
 import { removesWhitespaceFromString } from '../utils/utilsFunctions';
-import InputEye from '../components/InputEye';
+import { InputEye } from '../components/InputEye';
 import { useMutation } from 'react-query';
-import useAuthorization from '../hooks/useAuthorization';
+import { useAuthorization } from '../hooks/useAuthorization';
 
 export const FormWrapper = styled.div`
 	background-color: ${COLOURS.lightGrey};
@@ -46,7 +46,7 @@ interface LoginForm {
 	password: string;
 }
 
-const Login: FC = () => {
+export const Login: FC = () => {
 	const [loginData, setLoginData] = useState<LoginForm>({
 		email: '',
 		password: '',
@@ -120,5 +120,3 @@ const Login: FC = () => {
 		</FormWrapper>
 	);
 };
-
-export default Login;

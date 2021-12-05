@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import styled from 'styled-components';
-import Loader from '../Loader/Loader';
-import ComplitedTasks from './ComplitedTasks';
-import InCompletedTasks from './InCompletedTasks';
-import useTask from './useTask';
+import { Loader } from '../Loader/Loader';
+import { ComplitedTasks } from './ComplitedTasks';
+import { InCompletedTasks } from './InCompletedTasks';
+import { useTask } from './useTask';
 
 const TasksListContainer = styled.div`
 	box-shadow: inset 0 1px 0 0 #e5e5e5;
@@ -13,7 +13,7 @@ const TasksListContainer = styled.div`
 	overflow-y: scroll;
 `;
 
-const TasksList: FC = () => {
+export const TasksList: FC = () => {
 	const { getTasksOfCurrentListLoading } = useTask();
 
 	return (
@@ -31,5 +31,3 @@ const TasksList: FC = () => {
 		</TasksListContainer>
 	);
 };
-
-export default TasksList;

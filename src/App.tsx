@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { AuthProvider } from './AuthProvider';
 import BrowserRouter from './Router';
-import ShowModalProvider from './ShowModalProvider';
+import { ShowModalProvider } from './ShowModalProvider';
 
 const queryClient = new QueryClient();
 

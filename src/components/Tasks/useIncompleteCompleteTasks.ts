@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { SortTaskType } from '../../enums';
 import { ITask, ITaskStatus } from '../../interfaces/task';
-import useSort from '../../hooks/useSort';
-import useTask from './useTask';
+import { useSort } from '../../hooks/useSort';
+import { useTask } from './useTask';
 
 interface SortType {
 	key: SortTaskType;
@@ -12,7 +12,7 @@ interface SortType {
 
 export type KeyType = 'string' | 'date';
 
-const useIncompleteCompleteTasks = () => {
+export const useIncompleteCompleteTasks = () => {
 	const { getTasksOfCurrentListQuery, onMarkTaskAsCompleted, onMarkTaskAsInCompleted, mutateChangeTaskImportance } =
 		useTask();
 
@@ -57,5 +57,3 @@ const useIncompleteCompleteTasks = () => {
 		requestSort,
 	};
 };
-
-export default useIncompleteCompleteTasks;

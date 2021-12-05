@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import styled, { css } from 'styled-components';
 import { COLOURS } from '../../constants';
-import Loader from '../Loader/Loader';
+import { Loader } from '../Loader/Loader';
 
 interface IButtonProps {
 	primary?: boolean;
@@ -80,7 +80,7 @@ interface IButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	isLoading?: boolean;
 }
 
-const Button: FC<IButton> = ({
+export const Button: FC<IButton> = ({
 	primary,
 	children,
 	type = 'submit',
@@ -109,5 +109,3 @@ const Button: FC<IButton> = ({
 		</>
 	);
 };
-
-export default Button;

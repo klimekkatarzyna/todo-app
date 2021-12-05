@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-const useFocusingHandling = () => {
+export const useFocusingHandling = () => {
 	const [isFocused, setFocused] = useState<boolean>(false);
 
 	const onFocus = useCallback((): void => {
@@ -17,5 +17,3 @@ const useFocusingHandling = () => {
 		onBlur,
 	};
 };
-
-export default useFocusingHandling;

@@ -14,7 +14,7 @@ interface IInputEye {
 	handledSetPassword: () => void;
 }
 
-const InputEye: FC<IInputEye> = ({ showPassword, handledSetPassword }) => {
+export const InputEye: FC<IInputEye> = ({ showPassword, handledSetPassword }) => {
 	return (
 		<>
 			{!showPassword ? (
@@ -29,5 +29,3 @@ const InputEye: FC<IInputEye> = ({ showPassword, handledSetPassword }) => {
 		</>
 	);
 };
-
-export default InputEye;

@@ -5,8 +5,8 @@ import { COLOURS, contextualMenuFirstOpion } from '../../../constants';
 import { IChangeTaskImportanceProps } from '../../../interfaces/task';
 import { ITask } from '../../../interfaces/task';
 import { IinitialDnDState } from '../../../hooks/useDragAndDrop';
-import ContextualMenu from '../../ContextualMenu/ContextualMenu';
-import TaskDetails from '../TaskDetails';
+import { ContextualMenu } from '../../ContextualMenu/ContextualMenu';
+import { TaskDetails } from '../TaskDetails';
 import { ShowElementContext } from '../../../ShowElementContext';
 import { Importance } from '../../../enums';
 import { UseMutateFunction } from 'react-query';
@@ -61,7 +61,7 @@ interface ITaskItem {
 	changeTaskImportance: any; // TODO: fix
 }
 
-const TaskItem: FC<ITaskItem> = ({
+export const TaskItem: FC<ITaskItem> = ({
 	task,
 	index,
 	onChange,
@@ -130,5 +130,3 @@ const TaskItem: FC<ITaskItem> = ({
 		</>
 	);
 };
-
-export default TaskItem;

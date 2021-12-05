@@ -5,10 +5,10 @@ import { IContextualMenuList } from '../../interfaces/list';
 import { MenuItem } from 'react-contextmenu';
 import useList from '../List/useList';
 import { useQueryClient } from 'react-query';
-import Modal from '../Modal/Modal';
-import useShowModal from '../../hooks/useShowModal';
+import { Modal } from '../Modal/Modal';
+import { useShowModal } from '../../hooks/useShowModal';
 import { ContextualMenuOpion } from '../../enums';
-import useTask from '../Tasks/useTask';
+import { useTask } from '../Tasks/useTask';
 
 const Item = styled(MenuItem)`
 	display: inline-flex;
@@ -36,7 +36,7 @@ interface IItem extends IContextualMenuList {
 	listElementId: string;
 }
 
-const ContextualMenuItem: FC<IContextualMenuItem> = ({ listItem, listElementId }) => {
+export const ContextualMenuItem: FC<IContextualMenuItem> = ({ listItem, listElementId }) => {
 	const query = useQueryClient();
 	const { mutateRemoveList } = useList();
 	const { mutateRemoveTask } = useTask();
@@ -73,5 +73,3 @@ const ContextualMenuItem: FC<IContextualMenuItem> = ({ listItem, listElementId }
 		</Item>
 	);
 };
-
-export default ContextualMenuItem;

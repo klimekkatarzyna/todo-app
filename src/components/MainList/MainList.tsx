@@ -2,8 +2,8 @@ import { FC } from 'react';
 import styled from 'styled-components';
 import { MenuListItem } from '../MenuListItem/MenuListItem';
 import { IListItem } from '../../interfaces/list';
-import useMainList from './useMainList';
-import Loader from '../Loader/Loader';
+import { useMainList } from './useMainList';
+import { Loader } from '../Loader/Loader';
 
 const Wrapper = styled.div`
 	display: flex;

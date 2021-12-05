@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { COLOURS } from '../constants';
 import { returnsFirstChar, splitChar } from '../utils/utilsFunctions';
-import Button from './Button/Button';
-import useAuthorization from '../hooks/useAuthorization';
+import { Button } from './Button/Button';
+import { useAuthorization } from '../hooks/useAuthorization';
 
 const HraderWrapper = styled.div`
 	padding: 0.5rem 1rem;
@@ -36,7 +36,7 @@ interface IHeader {
 	userName: string;
 }
 
-const Header: FC<IHeader> = ({ userName }) => {
+export const Header: FC<IHeader> = ({ userName }) => {
 	const { logoutUser } = useAuthorization();
 	const [firstChar, secChar] = splitChar(userName);
 
@@ -54,5 +54,3 @@ const Header: FC<IHeader> = ({ userName }) => {
 		</HraderWrapper>
 	);
 };
-
-export default Header;

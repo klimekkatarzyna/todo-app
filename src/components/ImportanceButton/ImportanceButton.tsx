@@ -2,7 +2,7 @@ import React, { FC, useMemo } from 'react';
 import styled from 'styled-components';
 import { Star } from '@styled-icons/feather/Star';
 import { COLOURS, IconWrapper } from '../../constants';
-import Tooltip from '../Tooltip/Tooltip';
+import { Tooltip } from '../Tooltip/Tooltip';
 
 const ImportanceButtonWrapper = styled.button`
 	position: relative;
@@ -19,7 +19,7 @@ interface IImportanceButton {
 	onClick: () => void;
 }
 
-const ImportanceButton: FC<IImportanceButton> = ({ isChecked, onClick }) => {
+export const ImportanceButton: FC<IImportanceButton> = ({ isChecked, onClick }) => {
 	const tooltipText = useMemo(() => (!isChecked ? 'Oznacz zadanie jako wazne' : 'Usuń ważność'), [isChecked]);
 
 	return (
@@ -35,5 +35,3 @@ const ImportanceButton: FC<IImportanceButton> = ({ isChecked, onClick }) => {
 		</ImportanceButtonWrapper>
 	);
 };
-
-export default ImportanceButton;

@@ -14,7 +14,7 @@ const Wrapper = styled.div`
 	width: 210px;
 `;
 
-const CreateList: FC = () => {
+export const CreateList: FC = () => {
 	const [listName, setListName] = useState<string | undefined>(undefined);
 	const { mutateCreateList } = useList();
 
@@ -52,5 +52,3 @@ const CreateList: FC = () => {
 		</Wrapper>
 	);
 };
-
-export default CreateList;

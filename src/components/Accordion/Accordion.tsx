@@ -29,7 +29,7 @@ interface IAccordion {
 	details: React.ReactElement;
 }
 
-const Accordion: FC<IAccordion> = ({ title, details, children }) => {
+export const Accordion: FC<IAccordion> = ({ title, details, children }) => {
 	const [isActive, setIsActive] = useState<boolean>(false);
 
 	const onToogle = useCallback((): void => {
@@ -47,5 +47,3 @@ const Accordion: FC<IAccordion> = ({ title, details, children }) => {
 		</AccordionWrapper>
 	);
 };
-
-export default Accordion;

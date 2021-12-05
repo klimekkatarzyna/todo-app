@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useMemo, useState } from 'react';
 import { useQuery } from 'react-query';
 import { AuthContext } from './AuthContext';
-import useAuthorization from './hooks/useAuthorization';
+import { useAuthorization } from './hooks/useAuthorization';
 import { IUserData } from './interfaces/app';
 
 interface IAuthProvider {

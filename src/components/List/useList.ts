@@ -6,7 +6,7 @@ import { IUseParams } from '../../interfaces/app';
 import { IDeleteListResponse, IListItem, IListResponse } from '../../interfaces/list';
 import { useParams } from 'react-router';
 
-const useList = () => {
+export const useList = () => {
 	const query = useQueryClient();
 	const { listId } = useParams<IUseParams>();
 

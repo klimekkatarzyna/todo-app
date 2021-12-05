@@ -2,7 +2,7 @@ import React, { FC, useContext } from 'react';
 import styled from 'styled-components';
 import { BackgroundLines } from '../constants';
 import { ShowElementContext } from '../ShowElementContext';
-import TaskSidebarDetails from './Tasks/TaskSidebarDetailsContainer';
+import { TaskSidebarDetails } from './Tasks/TaskSidebarDetailsContainer';
 
 const Wrapper = styled.div`
 	flex: 1;

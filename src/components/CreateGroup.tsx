@@ -14,7 +14,7 @@ const Wrapper = styled.div`
 	}
 `;
 
-const CreateGroup = () => {
+export const CreateGroup = () => {
 	// TODO: logic to adding group
 	return (
 		<Wrapper>
@@ -24,5 +24,3 @@ const CreateGroup = () => {
 		</Wrapper>
 	);
 };
-
-export default CreateGroup;

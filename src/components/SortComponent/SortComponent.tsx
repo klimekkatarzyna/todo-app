@@ -3,10 +3,25 @@ import styled from 'styled-components';
 import { COLOURS } from '../../constants';
 import { SortTaskType } from '../../enums';
 
-const Wrapper = styled.div`
+const SortingOptionsButton = styled.button`
 	position: absolute;
 	right: 1rem;
 	top: 0;
+	background-color: inherit;
+	border: none;
+	color: ${COLOURS.blue};
+	cursor: pointer;
+	padding: 1rem;
+	&:hover {
+		background-color: ${COLOURS.lightGrey};
+	}
+`;
+
+const Wrapper = styled.div`
+	position: absolute;
+	right: 1rem;
+	top: 3rem;
+	z-index: 1;
 	background-color: ${COLOURS.white};
 	width: 300px;
 	height: 200px;
@@ -35,22 +50,24 @@ interface ISortComponent {
 	requestSort: (event: any) => void;
 }
 
-const SortComponent: FC<ISortComponent> = ({ requestSort }) => {
+export const SortComponent: FC<ISortComponent> = ({ requestSort }) => {
 	const sortReference = useRef<HTMLDivElement>(null);
 
 	return (
-		<Wrapper>
-			<div ref={sortReference}>
-				<span>Sortuj według</span>
-				<Select onChange={requestSort}>
-					<option value={[SortTaskType.title, 'string']}>Alfabetycznie</option>
-					<option value={[SortTaskType.createdAt, 'date']}>Data utworzenia</option>
-					<option value={[SortTaskType.importance, 'string']}>Ważność</option>
-					<option value={[SortTaskType.deadline, 'date']}>Termin wykonania</option> TODO: add to task schema
-				</Select>
-			</div>
-		</Wrapper>
+		<>
+			<SortingOptionsButton>Sortuj</SortingOptionsButton>
+			<Wrapper>
+				<div ref={sortReference}>
+					<span>Sortuj według</span>
+					<Select onChange={requestSort}>
+						<option value={[SortTaskType.title, 'string']}>Alfabetycznie</option>
+						<option value={[SortTaskType.createdAt, 'date']}>Data utworzenia</option>
+						<option value={[SortTaskType.importance, 'string']}>Ważność</option>
+						<option value={[SortTaskType.deadline, 'date']}>Termin wykonania</option> TODO: add to task
+						schema
+					</Select>
+				</div>
+			</Wrapper>
+		</>
 	);
 };
-
-export default SortComponent;

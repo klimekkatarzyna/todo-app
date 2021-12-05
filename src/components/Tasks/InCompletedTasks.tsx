@@ -1,18 +1,18 @@
 import { FC } from 'react';
-import useDragAndDrop from '../../hooks/useDragAndDrop';
+import { useDragAndDrop } from '../../hooks/useDragAndDrop';
 import { ITask } from '../../interfaces/task';
-import SortComponent from '../SortComponent/SortComponent';
-import TaskItem from './TaskItem/TaskItem';
-import useIncompleteComplete from './useIncompleteCompleteTasks';
+import { SortComponent } from '../SortComponent/SortComponent';
+import { TaskItem } from './TaskItem/TaskItem';
+import { useIncompleteCompleteTasks } from './useIncompleteCompleteTasks';
 
-const InCompletedTasks: FC = () => {
+export const InCompletedTasks: FC = () => {
 	const {
 		inCompletedTaskslist,
 		requestSort,
 		setInCompletedTasksList,
 		onMarkTaskAsCompleted,
 		mutateChangeTaskImportance,
-	} = useIncompleteComplete();
+	} = useIncompleteCompleteTasks();
 
 	const { onDragStart, onDragOver, onDragLeave, onDrop, dragAndDrop } = useDragAndDrop(
 		inCompletedTaskslist,
@@ -37,5 +37,3 @@ const InCompletedTasks: FC = () => {
 		</>
 	);
 };
-
-export default InCompletedTasks;

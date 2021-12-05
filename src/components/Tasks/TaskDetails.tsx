@@ -6,8 +6,8 @@ import { COLOURS } from '../../constants';
 import { ITask, ITaskStatus } from '../../interfaces/task';
 import { IUseParams } from '../../interfaces/app';
 import { getDay, getDayName, getMonth, parseUTCtoDate } from '../../utils/date';
-import Checkbox from '../Checkbox/Checkbox';
-import ImportanceButton from '../ImportanceButton/ImportanceButton';
+import { Checkbox } from '../Checkbox/Checkbox';
+import { ImportanceButton } from '../ImportanceButton/ImportanceButton';
 
 const Names = styled(Link)`
 	display: flex;
@@ -54,7 +54,7 @@ interface ITaskDetailsProps {
 	onClickImportanceButton: () => void;
 }
 
-const TaskDetails: FC<ITaskDetailsProps> = ({
+export const TaskDetails: FC<ITaskDetailsProps> = ({
 	taskData,
 	onHandleChange,
 	isCompleted = false,
@@ -87,5 +87,3 @@ const TaskDetails: FC<ITaskDetailsProps> = ({
 		</>
 	);
 };
-
-export default TaskDetails;

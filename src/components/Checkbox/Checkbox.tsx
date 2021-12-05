@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import styled, { css } from 'styled-components';
 import { COLOURS } from '../../constants';
 import { AppColorType } from '../../enums';
-import Tooltip from '../Tooltip/Tooltip';
+import { Tooltip } from '../Tooltip/Tooltip';
 
 interface CheckboxWrapperProps {
 	round?: boolean;
@@ -126,7 +126,17 @@ interface CheckboxProps {
 	tooltipText?: string;
 }
 
-const Checkbox: FC<CheckboxProps> = ({ round, color, disabled, checked, onChange, id, key, children, tooltipText }) => {
+export const Checkbox: FC<CheckboxProps> = ({
+	round,
+	color,
+	disabled,
+	checked,
+	onChange,
+	id,
+	key,
+	children,
+	tooltipText,
+}) => {
 	return (
 		<Tooltip position={'left'} text={tooltipText}>
 			<CheckboxWrapper round={round} color={color || 'blue'} disabled={disabled}>
@@ -146,5 +156,3 @@ const Checkbox: FC<CheckboxProps> = ({ round, color, disabled, checked, onChange
 		</Tooltip>
 	);
 };
-
-export default Checkbox;

@@ -16,7 +16,7 @@ const initialDnDState = {
 	updatedOrder: [],
 };
 
-const useDragAndDrop = <T>(list: T[], setList: React.Dispatch<React.SetStateAction<T[]>>) => {
+export const useDragAndDrop = <T>(list: T[], setList: React.Dispatch<React.SetStateAction<T[]>>) => {
 	const [dragAndDrop, setDragAndDrop] = useState<IinitialDnDState<T>>(initialDnDState);
 
 	const onDragStart = useCallback(
@@ -92,5 +92,3 @@ const useDragAndDrop = <T>(list: T[], setList: React.Dispatch<React.SetStateActi
 		onDragLeave,
 	};
 };
-
-export default useDragAndDrop;
