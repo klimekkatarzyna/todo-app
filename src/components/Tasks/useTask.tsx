@@ -51,10 +51,9 @@ export const useTask = () => {
 		}
 	}, [listId]);
 
-	const { data: getTasksOfCurrentListQuery, isLoading: getTasksOfCurrentListLoading } = useQuery(
-		['tasksOfCurrentList', listId],
-		getTasksOfCurrentList
-	);
+	const { data: getTasksOfCurrentListQuery, isLoading: getTasksOfCurrentListLoading } = useQuery<
+		HttpResponse<ITasksResponse> | undefined
+	>(['tasksOfCurrentList', listId], getTasksOfCurrentList);
 
 	const changeTaskStatus = useCallback(async ({ taskId, taskStatus }: IChangeTaskStatusToCompleteProps) => {
 		try {
@@ -96,7 +95,7 @@ export const useTask = () => {
 		}
 	}, [taskId]);
 
-	const { data: taskData, isLoading: taskDataLoading } = useQuery(['getTask', taskId], getTask);
+	const { data: taskData, isLoading: taskDataLoading } = useQuery<any>(['getTask', taskId], getTask); // TODO: fix me
 
 	const onMarkTaskAsCompleted = useCallback((taskId: string): void => {
 		mutateChangeTaskStatus({

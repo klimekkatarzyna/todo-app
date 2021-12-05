@@ -2,7 +2,8 @@ import React, { FC, useEffect, useMemo, useState } from 'react';
 import { useQuery } from 'react-query';
 import { AuthContext } from './AuthContext';
 import { useAuthorization } from './hooks/useAuthorization';
-import { IUserData } from './interfaces/app';
+import { IIUserDataResponse, IUserData } from './interfaces/app';
+import { HttpResponse } from './utils/http';
 
 interface IAuthProvider {
 	children: React.ReactNode;
@@ -13,7 +14,10 @@ export const AuthProvider: FC<IAuthProvider> = ({ children }) => {
 	const [sessionChecked, setSessionChecked] = useState<boolean>(false);
 
 	const { checkSession } = useAuthorization();
-	const { isLoading: isCheckSessionLoading } = useQuery('checkSession', checkSession);
+	const { isLoading: isCheckSessionLoading } = useQuery<HttpResponse<IIUserDataResponse> | undefined>(
+		'checkSession',
+		checkSession
+	);
 
 	useEffect(() => {
 		(async () => {
