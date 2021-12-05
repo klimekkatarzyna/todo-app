@@ -126,29 +126,12 @@ interface CheckboxProps {
 	tooltipText?: string;
 }
 
-export const Checkbox: FC<CheckboxProps> = ({
-	round,
-	color,
-	disabled,
-	checked,
-	onChange,
-	id,
-	key,
-	children,
-	tooltipText,
-}) => {
+export const Checkbox: FC<CheckboxProps> = ({ round, color, disabled, checked, onChange, id, key, children, tooltipText }) => {
 	return (
 		<Tooltip position={'left'} text={tooltipText}>
 			<CheckboxWrapper round={round} color={color || 'blue'} disabled={disabled}>
 				<label>
-					<input
-						type='checkbox'
-						checked={!!checked}
-						onChange={onChange}
-						id={id}
-						key={key}
-						disabled={disabled}
-					/>
+					<input type='checkbox' checked={!!checked} onChange={onChange} id={id} key={key} disabled={disabled} />
 					<span />
 					{children && <Label>{children}</Label>}
 				</label>

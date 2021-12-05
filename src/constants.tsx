@@ -16,18 +16,7 @@ interface ColoursType {
 	[key: string]: string;
 }
 
-type ColorNames =
-	| 'darkGrey'
-	| 'darkerGrey'
-	| 'grey'
-	| 'lightGrey'
-	| 'blue'
-	| 'lightBlue'
-	| 'white'
-	| 'red'
-	| 'green'
-	| 'border'
-	| 'fontColor';
+type ColorNames = 'darkGrey' | 'darkerGrey' | 'grey' | 'lightGrey' | 'blue' | 'lightBlue' | 'white' | 'red' | 'green' | 'border' | 'fontColor';
 
 export const COLOURS: Record<string, string> = {
 	darkGrey: '#383636',

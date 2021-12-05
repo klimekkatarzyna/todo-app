@@ -68,13 +68,7 @@ export const Register: FC = () => {
 						autoFocus
 						onChange={handleChange}
 					/>
-					<Input
-						name='email'
-						colorType={InputVersion.primary}
-						placeholder={'Email'}
-						value={loginData.email}
-						onChange={handleChange}
-					/>
+					<Input name='email' colorType={InputVersion.primary} placeholder={'Email'} value={loginData.email} onChange={handleChange} />
 
 					<InputWrapper>
 						<Input

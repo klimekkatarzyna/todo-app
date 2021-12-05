@@ -65,14 +65,7 @@ const Footer = styled.div`
 
 export const TaskSidebarDetails: FC = () => {
 	const { onHideComponent } = useContext(ShowElementContext);
-	const {
-		taskDataLoading,
-		taskData,
-		onMarkTaskAsCompleted,
-		onMarkTaskAsInCompleted,
-		mutateRemoveTask,
-		addTaskToMyDay,
-	} = useTask();
+	const { taskDataLoading, taskData, onMarkTaskAsCompleted, onMarkTaskAsInCompleted, mutateRemoveTask, addTaskToMyDay } = useTask();
 
 	const onHandleChange = useCallback(() => {
 		taskData?.taskStatus === ITaskStatus.inComplete && onMarkTaskAsCompleted(taskData._id);

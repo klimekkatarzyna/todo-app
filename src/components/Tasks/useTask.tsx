@@ -4,12 +4,7 @@ import * as api from '../../services';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useParams } from 'react-router';
 import { IUseParams } from '../../interfaces/app';
-import {
-	IChangeTaskStatusToCompleteProps,
-	IChangeTaskImportanceProps,
-	ICreateTaskProps,
-	IAddTaskToMyDayProps,
-} from '../../interfaces/task';
+import { IChangeTaskStatusToCompleteProps, IChangeTaskImportanceProps, ICreateTaskProps, IAddTaskToMyDayProps } from '../../interfaces/task';
 import { Importance, SortType } from '../../enums';
 import { IDeleteTaskResponse, ITask, ITasksResponse, ITaskStatus } from '../../interfaces/task';
 
@@ -51,9 +46,10 @@ export const useTask = () => {
 		}
 	}, [listId]);
 
-	const { data: getTasksOfCurrentListQuery, isLoading: getTasksOfCurrentListLoading } = useQuery<
-		HttpResponse<ITasksResponse> | undefined
-	>(['tasksOfCurrentList', listId], getTasksOfCurrentList);
+	const { data: getTasksOfCurrentListQuery, isLoading: getTasksOfCurrentListLoading } = useQuery<HttpResponse<ITasksResponse> | undefined>(
+		['tasksOfCurrentList', listId],
+		getTasksOfCurrentList
+	);
 
 	const changeTaskStatus = useCallback(async ({ taskId, taskStatus }: IChangeTaskStatusToCompleteProps) => {
 		try {

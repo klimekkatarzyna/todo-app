@@ -12,11 +12,7 @@ export const Tasks: FC = () => {
 	return (
 		<Board>
 			<div>
-				{getListByIdLoading ? (
-					<Loader />
-				) : (
-					<Toolbar name={getListByIdData?.title || ''} colorType={getListByIdData?.themeColor} />
-				)}
+				{getListByIdLoading ? <Loader /> : <Toolbar name={getListByIdData?.title || ''} colorType={getListByIdData?.themeColor} />}
 
 				<div>
 					<CreateTask />

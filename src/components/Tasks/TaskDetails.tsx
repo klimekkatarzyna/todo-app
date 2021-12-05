@@ -54,13 +54,7 @@ interface ITaskDetailsProps {
 	onClickImportanceButton: () => void;
 }
 
-export const TaskDetails: FC<ITaskDetailsProps> = ({
-	taskData,
-	onHandleChange,
-	isCompleted = false,
-	isChecked = false,
-	onClickImportanceButton,
-}) => {
+export const TaskDetails: FC<ITaskDetailsProps> = ({ taskData, onHandleChange, isCompleted = false, isChecked = false, onClickImportanceButton }) => {
 	const { listId } = useParams<IUseParams>();
 	const tooltipText = useMemo(
 		() => (taskData?.taskStatus === ITaskStatus.complete ? 'oznacz jako niewykonane' : 'oznacz jako wykonane'),

@@ -63,8 +63,7 @@ export const SortComponent: FC<ISortComponent> = ({ requestSort }) => {
 						<option value={[SortTaskType.title, 'string']}>Alfabetycznie</option>
 						<option value={[SortTaskType.createdAt, 'date']}>Data utworzenia</option>
 						<option value={[SortTaskType.importance, 'string']}>Ważność</option>
-						<option value={[SortTaskType.deadline, 'date']}>Termin wykonania</option> TODO: add to task
-						schema
+						<option value={[SortTaskType.deadline, 'date']}>Termin wykonania</option> TODO: add to task schema
 					</Select>
 				</div>
 			</Wrapper>

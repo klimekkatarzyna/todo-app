@@ -27,16 +27,7 @@ export interface ITask {
 	deadline?: string;
 }
 
-export type ITaskType =
-	| 'createdAt'
-	| 'importance'
-	| 'parentFolderId'
-	| 'groupName'
-	| 'title'
-	| 'themeColor'
-	| '_id'
-	| 'taskStatus'
-	| 'deadline';
+export type ITaskType = 'createdAt' | 'importance' | 'parentFolderId' | 'groupName' | 'title' | 'themeColor' | '_id' | 'taskStatus' | 'deadline';
 
 export enum ITaskStatus {
 	inComplete = 'inComplete',

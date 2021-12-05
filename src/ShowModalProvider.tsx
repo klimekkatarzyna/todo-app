@@ -16,9 +16,5 @@ export const ShowModalProvider: FC<IShowElementProvider> = ({ children }) => {
 		setIsVisible(false);
 	}, []);
 
-	return (
-		<ShowElementContext.Provider value={{ isVisible, onShowComponent, onHideComponent }}>
-			{children}
-		</ShowElementContext.Provider>
-	);
+	return <ShowElementContext.Provider value={{ isVisible, onShowComponent, onHideComponent }}>{children}</ShowElementContext.Provider>;
 };

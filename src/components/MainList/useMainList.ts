@@ -10,10 +10,7 @@ export const useMainList = () => {
 		return response;
 	}, []);
 
-	const { data: mainList, isLoading: mainListLoading } = useQuery<HttpResponse<IMainListResponse>>(
-		'getMainList',
-		getMainList
-	);
+	const { data: mainList, isLoading: mainListLoading } = useQuery<HttpResponse<IMainListResponse>>('getMainList', getMainList);
 
 	return {
 		getMainList,

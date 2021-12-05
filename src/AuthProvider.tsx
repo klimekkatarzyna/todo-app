@@ -14,10 +14,7 @@ export const AuthProvider: FC<IAuthProvider> = ({ children }) => {
 	const [sessionChecked, setSessionChecked] = useState<boolean>(false);
 
 	const { checkSession } = useAuthorization();
-	const { isLoading: isCheckSessionLoading } = useQuery<HttpResponse<IIUserDataResponse> | undefined>(
-		'checkSession',
-		checkSession
-	);
+	const { isLoading: isCheckSessionLoading } = useQuery<HttpResponse<IIUserDataResponse> | undefined>('checkSession', checkSession);
 
 	useEffect(() => {
 		(async () => {

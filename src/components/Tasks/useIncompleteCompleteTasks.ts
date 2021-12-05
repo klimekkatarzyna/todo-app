@@ -13,8 +13,7 @@ interface SortType {
 export type KeyType = 'string' | 'date';
 
 export const useIncompleteCompleteTasks = () => {
-	const { getTasksOfCurrentListQuery, onMarkTaskAsCompleted, onMarkTaskAsInCompleted, mutateChangeTaskImportance } =
-		useTask();
+	const { getTasksOfCurrentListQuery, onMarkTaskAsCompleted, onMarkTaskAsInCompleted, mutateChangeTaskImportance } = useTask();
 
 	const comletedTasks = useMemo(
 		() => (getTasksOfCurrentListQuery?.body?.tasks || []).filter(task => task.taskStatus === ITaskStatus.complete),

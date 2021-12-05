@@ -60,10 +60,7 @@ const InputStyled = styled.input<{
 	outline: none;
 	background-color: ${props => (props.colorType === InputVersion.primary ? `inherit` : `${COLOURS.grey}`)};
 	::placeholder {
-		color: ${props =>
-			props.colorType === InputVersion.primary && !props.inputFocused
-				? `${COLOURS.blue}`
-				: `${COLOURS.darkerGrey}`};
+		color: ${props => (props.colorType === InputVersion.primary && !props.inputFocused ? `${COLOURS.blue}` : `${COLOURS.darkerGrey}`)};
 	}
 `;
 
@@ -81,22 +78,9 @@ interface IInput<T = string | number | undefined> {
 	isTaskInput?: boolean;
 }
 
-export const Input: FC<IInput> = ({
-	name,
-	value,
-	isIcon = false,
-	placeholder = '',
-	colorType,
-	type = 'test',
-	onChange,
-	autoFocus,
-	isTaskInput,
-}) => {
+export const Input: FC<IInput> = ({ name, value, isIcon = false, placeholder = '', colorType, type = 'test', onChange, autoFocus, isTaskInput }) => {
 	const { onFocus, onBlur, isFocused } = useFocusingHandling();
-	const iconColor: string = useMemo(
-		() => (colorType === InputVersion.primary && !isFocused ? COLOURS.blue : COLOURS.fontColor),
-		[type, isFocused]
-	);
+	const iconColor: string = useMemo(() => (colorType === InputVersion.primary && !isFocused ? COLOURS.blue : COLOURS.fontColor), [type, isFocused]);
 
 	return (
 		<Wrapper type={colorType} inputFocused={isFocused} isIcon={isIcon} isTaskInput={isTaskInput}>

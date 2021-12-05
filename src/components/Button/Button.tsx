@@ -80,18 +80,7 @@ interface IButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	isLoading?: boolean;
 }
 
-export const Button: FC<IButton> = ({
-	primary,
-	children,
-	type = 'submit',
-	secondary,
-	outline,
-	disabled,
-	margin,
-	onClick,
-	isLoading,
-	...props
-}) => {
+export const Button: FC<IButton> = ({ primary, children, type = 'submit', secondary, outline, disabled, margin, onClick, isLoading, ...props }) => {
 	return (
 		<>
 			<ButtonStyled

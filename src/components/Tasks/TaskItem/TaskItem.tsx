@@ -81,10 +81,7 @@ export const TaskItem: FC<ITaskItem> = ({
 	);
 
 	const [isImportanceButtonChecked, setIsImportanceButtonChecked] = useState<boolean>(false);
-	const importanceType: Importance = useMemo(
-		() => (!isImportanceButtonChecked ? Importance.high : Importance.normal),
-		[isImportanceButtonChecked]
-	);
+	const importanceType: Importance = useMemo(() => (!isImportanceButtonChecked ? Importance.high : Importance.normal), [isImportanceButtonChecked]);
 
 	useEffect(() => {
 		setIsImportanceButtonChecked(task.importance === Importance.high);

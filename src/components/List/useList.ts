@@ -37,10 +37,7 @@ export const useList = () => {
 		}
 	}, []);
 
-	const { isLoading: getListsLoading, data: getListsQuery } = useQuery<HttpResponse<IListResponse> | undefined>(
-		'lists',
-		getLists
-	); // TODO: cache it
+	const { isLoading: getListsLoading, data: getListsQuery } = useQuery<HttpResponse<IListResponse> | undefined>('lists', getLists); // TODO: cache it
 
 	const getListById = useCallback(async () => {
 		if (!listId) return;
@@ -52,10 +49,7 @@ export const useList = () => {
 		}
 	}, [listId]);
 
-	const { data: getListByIdData, isLoading: getListByIdLoading } = useQuery<IListItem | undefined>(
-		['getListById', listId],
-		getListById
-	);
+	const { data: getListByIdData, isLoading: getListByIdLoading } = useQuery<IListItem | undefined>(['getListById', listId], getListById);
 
 	const deleteList = useCallback(async (listId: string) => {
 		try {

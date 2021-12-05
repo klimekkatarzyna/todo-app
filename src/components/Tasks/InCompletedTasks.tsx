@@ -6,18 +6,10 @@ import { TaskItem } from './TaskItem/TaskItem';
 import { useIncompleteCompleteTasks } from './useIncompleteCompleteTasks';
 
 export const InCompletedTasks: FC = () => {
-	const {
-		inCompletedTaskslist,
-		requestSort,
-		setInCompletedTasksList,
-		onMarkTaskAsCompleted,
-		mutateChangeTaskImportance,
-	} = useIncompleteCompleteTasks();
+	const { inCompletedTaskslist, requestSort, setInCompletedTasksList, onMarkTaskAsCompleted, mutateChangeTaskImportance } =
+		useIncompleteCompleteTasks();
 
-	const { onDragStart, onDragOver, onDragLeave, onDrop, dragAndDrop } = useDragAndDrop(
-		inCompletedTaskslist,
-		setInCompletedTasksList
-	);
+	const { onDragStart, onDragOver, onDragLeave, onDrop, dragAndDrop } = useDragAndDrop(inCompletedTaskslist, setInCompletedTasksList);
 	return (
 		<>
 			<SortComponent requestSort={requestSort} />

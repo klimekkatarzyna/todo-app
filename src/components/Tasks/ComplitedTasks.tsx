@@ -14,13 +14,8 @@ const TasksNumber = styled.span`
 `;
 
 export const ComplitedTasks: FC = () => {
-	const {
-		completedTaskslist,
-		comletedTasks,
-		setComplitedTasksList,
-		onMarkTaskAsInCompleted,
-		mutateChangeTaskImportance,
-	} = useIncompleteCompleteTasks();
+	const { completedTaskslist, comletedTasks, setComplitedTasksList, onMarkTaskAsInCompleted, mutateChangeTaskImportance } =
+		useIncompleteCompleteTasks();
 
 	const { onDragStart, onDragOver, onDragLeave, onDrop } = useDragAndDrop(comletedTasks, setComplitedTasksList);
 
