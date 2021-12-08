@@ -5,7 +5,7 @@ import { InputVersion } from '../enums';
 import { Button } from '../components/Button/Button';
 import { Content, FormWrapper, InputWrapper } from './Login';
 import { removesWhitespaceFromString } from '../utils/utilsFunctions';
-import { InputEye } from '../components/InputEye';
+import { InputEye } from '../components/InputEye/InputEye';
 import { useAuthorization } from '../hooks/useAuthorization';
 import { useMutation } from 'react-query';
 

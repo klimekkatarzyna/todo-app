@@ -6,7 +6,7 @@ import { Button } from '../components/Button/Button';
 import { InputVersion } from '../enums';
 import { Input } from '../components/Input/Input';
 import { removesWhitespaceFromString } from '../utils/utilsFunctions';
-import { InputEye } from '../components/InputEye';
+import { InputEye } from '../components/InputEye/InputEye';
 import { useMutation } from 'react-query';
 import { useAuthorization } from '../hooks/useAuthorization';
 

@@ -1,13 +1,15 @@
 Checkbox
 
 ```js
-import { COLOURS } from '../../constants';
-<Checkbox round color={'blue'} disabled={false} />;
+<div style={{ display: 'flex' }}>
+	<Checkbox round color={'blue'} disabled={false} tooltipText={'oznacz jako wykonane'} />
+</div>
 ```
 
 Checkbox checked
 
 ```js
-import { COLOURS } from '../../constants';
-<Checkbox round color={'red'} disabled={false} checked />;
+<div style={{ display: 'flex' }}>
+	<Checkbox round color={'red'} disabled={false} checked tooltipText={'oznacz jako niewykonane'} />
+</div>
 ```

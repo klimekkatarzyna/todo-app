@@ -78,7 +78,17 @@ interface IInput<T = string | number | undefined> {
 	isTaskInput?: boolean;
 }
 
-export const Input: FC<IInput> = ({ name, value, isIcon = false, placeholder = '', colorType, type = 'test', onChange, autoFocus, isTaskInput }) => {
+export const Input: FC<IInput> = ({
+	name,
+	value,
+	isIcon = false,
+	placeholder = '',
+	colorType = InputVersion.primary,
+	type = 'test',
+	onChange,
+	autoFocus,
+	isTaskInput,
+}) => {
 	const { onFocus, onBlur, isFocused } = useFocusingHandling();
 	const iconColor: string = useMemo(() => (colorType === InputVersion.primary && !isFocused ? COLOURS.blue : COLOURS.fontColor), [type, isFocused]);
 

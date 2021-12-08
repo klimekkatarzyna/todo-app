@@ -1,41 +1,81 @@
+List item
+
+```js
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { Sun } from '@styled-icons/feather/Sun';
+import { COLOURS } from '../../constants';
+import { IListItem, IListItemType } from '../../interfaces/list';
+import { BrowserRouter as Router } from 'react-router-dom';
+
+const queryClient = new QueryClient();
+
+const mainList = {
+	isMainList: false,
+	title: 'Mój dzien',
+	icon: <Sun />,
+	themeColor: 'green',
+	createdAt: new Date(),
+	url: 'myday',
+};
+
+<QueryClientProvider client={queryClient}>
+	<Router>
+		<MenuListItem listItem={mainList} />
+	</Router>
+</QueryClientProvider>;
+```
+
 Item with number
 
 ```js
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { Sun } from '@styled-icons/feather/Sun';
 import { COLOURS } from '../../constants';
-import { IListItem, IListItemType } from '../../interfaces';
+import { IListItem, IListItemType } from '../../interfaces/list';
+import { BrowserRouter as Router } from 'react-router-dom';
 
-const mainList = [
-	{
-		type: IListItemType.MY_DAY,
-		name: 'Mój dzien',
-		tasksNumber: undefined,
-		icon: <Sun />,
-		color: COLOURS.fontColor,
-		url: 'myday',
-	},
-];
+const queryClient = new QueryClient();
 
-<MenuListItem listItem={mainList} />;
+const mainList = {
+	isMainList: false,
+	title: 'Mój dzien',
+	icon: <Sun />,
+	themeColor: 'green',
+	createdAt: new Date(),
+	url: 'myday',
+	taskNumber: 100,
+};
+
+<QueryClientProvider client={queryClient}>
+	<Router>
+		<MenuListItem listItem={mainList} />
+	</Router>
+</QueryClientProvider>;
 ```
 
 Item with custom icon and color
 
 ```js
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { COLOURS } from '../../constants';
 import { Sun } from '@styled-icons/feather/Sun';
-import { IListItem, IListItemType } from '../../interfaces';
+import { IListItem, IListItemType } from '../../interfaces/list';
+import { BrowserRouter as Router } from 'react-router-dom';
 
-const mainList = [
-	{
-		type: IListItemType.MY_DAY,
-		name: 'Mój dzien',
-		tasksNumber: 3,
-		icon: <Sun />,
-		color: COLOURS.fontColor,
-		url: 'myday',
-	},
-];
+const queryClient = new QueryClient();
 
-<MenuListItem listItem={mainList} />;
+const mainList = {
+	isMainList: true,
+	title: 'Mój dzien',
+	icon: <Sun />,
+	themeColor: 'red',
+	createdAt: new Date(),
+	url: '/',
+};
+
+<QueryClientProvider client={queryClient}>
+	<Router>
+		<MenuListItem listItem={mainList} />
+	</Router>
+</QueryClientProvider>;
 ```

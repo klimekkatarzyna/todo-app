@@ -1,11 +1,31 @@
 Modal
 
 ```js
-<Modal title={'Lista zostanie trwale usunieta.'} />
+import styled from 'styled-components';
+const Wrapper = styled.div`
+	position: relative;
+	> div {
+		position: relative;
+	}
+`;
+
+<Wrapper>
+	<Modal title={'Lista zostanie trwale usunieta.'} />
+</Wrapper>;
 ```
 
 Modal - title & subtitle
 
 ```js
-<Modal title={'Lista zostanie trwale usunieta.'} subtitle={'Tej akcji nie można cofnąć'} />
+import styled from 'styled-components';
+const Wrapper = styled.div`
+	position: relative;
+	> div {
+		position: relative;
+	}
+`;
+
+<Wrapper>
+	<Modal title={'Lista zostanie trwale usunieta.'} subtitle={'Tej akcji nie można cofnąć'} />
+</Wrapper>;
 ```

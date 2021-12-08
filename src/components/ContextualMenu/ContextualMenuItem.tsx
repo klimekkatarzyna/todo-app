@@ -4,7 +4,6 @@ import { COLOURS, IconWrapper } from '../../constants';
 import { IContextualMenuList } from '../../interfaces/list';
 import { MenuItem } from 'react-contextmenu';
 import useList from '../List/useList';
-import { useQueryClient } from 'react-query';
 import { Modal } from '../Modal/Modal';
 import { useShowModal } from '../../hooks/useShowModal';
 import { ContextualMenuOpion } from '../../enums';
@@ -37,7 +36,6 @@ interface IItem extends IContextualMenuList {
 }
 
 export const ContextualMenuItem: FC<IContextualMenuItem> = ({ listItem, listElementId }) => {
-	const query = useQueryClient();
 	const { mutateRemoveList } = useList();
 	const { mutateRemoveTask } = useTask();
 	const [selectedMenuItemType, setSelectedMenuItemType] = useState<boolean>(false);

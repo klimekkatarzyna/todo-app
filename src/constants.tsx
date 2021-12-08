@@ -138,3 +138,8 @@ export const contextualMenuSecountOpion: IContextualMenuList[] = [
 		type: ContextualMenuOpion.remove_list,
 	},
 ];
+
+export const IconWrapperStyled = styled(IconWrapper)`
+	position: absolute;
+	right: 10px;
+`;

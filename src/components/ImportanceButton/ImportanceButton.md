@@ -1,9 +1,13 @@
 ```js
-<ImportanceButton />
+<div style={{ display: 'flex' }}>
+	<ImportanceButton />
+</div>
 ```
 
 isChecked
 
 ```js
-<ImportanceButton isChecked={true} />
+<div style={{ display: 'flex' }}>
+	<ImportanceButton isChecked={true} />
+</div>
 ```
