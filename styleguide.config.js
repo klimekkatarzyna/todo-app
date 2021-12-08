@@ -18,7 +18,6 @@ module.exports = {
 		'**/components/Tasks/CreateTask.tsx',
 		'**/components/Tasks/ComplitedTasks.tsx',
 		'**/components/SortComponent/SortComponent.tsx',
-		// '**/components/MenuListItem/MenuListItem.tsx',
 		'**/components/MainList/useMainList.ts',
 		'**/components/Loader/Loader.tsx',
 		'**/components/List/useList.ts',
