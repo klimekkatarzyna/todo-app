@@ -44,6 +44,10 @@ export const useIncompleteCompleteTasks = () => {
 		setInCompletedTasksList(sortedTasks);
 	}, [getTasksOfCurrentListQuery, sort]);
 
+	useEffect(() => {
+		setComplitedTasksList(comletedTasks);
+	}, [getTasksOfCurrentListQuery, sort]);
+
 	return {
 		inCompletedTaskslist,
 		setInCompletedTasksList,

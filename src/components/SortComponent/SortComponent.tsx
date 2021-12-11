@@ -1,7 +1,8 @@
-import React, { useRef, FC } from 'react';
+import React, { useRef, FC, useCallback, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { COLOURS } from '../../constants';
 import { SortTaskType } from '../../enums';
+import { useDropdown } from '../../hooks/useDropdown';
 
 const SortingOptionsButton = styled.button`
 	position: absolute;
@@ -51,22 +52,24 @@ interface ISortComponent {
 }
 
 export const SortComponent: FC<ISortComponent> = ({ requestSort }) => {
-	const sortReference = useRef<HTMLDivElement>(null);
+	const { elementeReference, toggleDropdown, dropdownOpen } = useDropdown();
 
 	return (
-		<>
-			<SortingOptionsButton>Sortuj</SortingOptionsButton>
-			<Wrapper>
-				<div ref={sortReference}>
-					<span>Sortuj według</span>
-					<Select onChange={requestSort}>
-						<option value={[SortTaskType.title, 'string']}>Alfabetycznie</option>
-						<option value={[SortTaskType.createdAt, 'date']}>Data utworzenia</option>
-						<option value={[SortTaskType.importance, 'string']}>Ważność</option>
-						<option value={[SortTaskType.deadline, 'date']}>Termin wykonania</option> TODO: add to task schema
-					</Select>
-				</div>
-			</Wrapper>
-		</>
+		<div ref={elementeReference}>
+			<SortingOptionsButton onClick={toggleDropdown}>Sortuj</SortingOptionsButton>
+			{dropdownOpen && (
+				<Wrapper>
+					<div>
+						<span>Sortuj według</span>
+						<Select onChange={requestSort}>
+							<option value={[SortTaskType.title, 'string']}>Alfabetycznie</option>
+							<option value={[SortTaskType.createdAt, 'date']}>Data utworzenia</option>
+							<option value={[SortTaskType.importance, 'string']}>Ważność</option>
+							<option value={[SortTaskType.deadline, 'date']}>Termin wykonania</option> TODO: add to task schema
+						</Select>
+					</div>
+				</Wrapper>
+			)}
+		</div>
 	);
 };
