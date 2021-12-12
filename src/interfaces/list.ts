@@ -1,6 +1,5 @@
 import { ReactElement } from 'react';
 import { AppColorType, ContextualMenuOpion } from '../enums';
-import { HttpResponse } from '../utils/http';
 
 export interface IListItem {
 	isMainList?: boolean;
@@ -21,25 +20,25 @@ export enum IListItemType {
 	TASKS = 'TASKS',
 }
 
-export interface IContextualMenuList {
+export interface IContextualMenu {
 	icon: ReactElement;
 	name: string;
 	type: ContextualMenuOpion;
 }
 
-export interface IListResponse extends HttpResponse {
+export interface IListResponse {
 	lists: IListItem[];
 }
 
-export interface IMainListResponse extends HttpResponse {
+export interface IMainListResponse {
 	mainLists: IListItem[];
 }
 
-export interface IGetSingleListResponse extends HttpResponse {
+export interface IGetSingleListResponse {
 	[key: number]: IListItem;
 }
 
-export interface IDeleteListResponse extends HttpResponse {
+export interface IDeleteListResponse {
 	lists: {
 		deletedCount: number;
 	};

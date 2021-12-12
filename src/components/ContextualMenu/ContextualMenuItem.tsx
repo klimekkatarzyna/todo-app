@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { COLOURS, IconWrapper } from '../../constants';
-import { IContextualMenuList } from '../../interfaces/list';
+import { IContextualMenu } from '../../interfaces/list';
 import { MenuItem } from 'react-contextmenu';
 import useList from '../List/useList';
 import { Modal } from '../Modal/Modal';
@@ -27,11 +27,11 @@ const Item = styled(MenuItem)`
 `;
 
 interface IContextualMenuItem {
-	listItem: IContextualMenuList;
+	listItem: IContextualMenu;
 	listElementId: string;
 }
 
-interface IItem extends IContextualMenuList {
+interface IItem extends IContextualMenu {
 	listElementId: string;
 }
 

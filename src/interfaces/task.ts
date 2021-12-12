@@ -1,17 +1,16 @@
 import { AppColorType, Importance } from '../enums';
-import { HttpResponse } from '../utils/http';
 
-export interface ITasksResponse extends HttpResponse {
+export interface ITasksResponse {
 	tasks: ITask[];
 }
 
-export interface IDeleteTaskResponse extends HttpResponse {
+export interface IDeleteTaskResponse {
 	tasks: {
 		deletedCount: number;
 	};
 }
 
-export interface IGetTaskResponse extends HttpResponse {
+export interface IGetTaskResponse {
 	[key: number]: ITask;
 }
 

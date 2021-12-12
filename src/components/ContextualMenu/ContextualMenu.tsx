@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import styled from 'styled-components';
 import { COLOURS } from '../../constants';
-import { IContextualMenuList } from '../../interfaces/list';
+import { IContextualMenu } from '../../interfaces/list';
 import { ContextualMenuItem } from './ContextualMenuItem';
 import { ContextMenu } from 'react-contextmenu';
 
@@ -18,12 +18,12 @@ const ContextualMenuWrapper = styled(ContextMenu)`
 	z-index: 1;
 `;
 
-interface IContextualMenu {
-	contextualMenuList: IContextualMenuList[];
+interface IContextualMenuProps {
+	contextualMenuList: IContextualMenu[];
 	listElementId: string;
 }
 
-export const ContextualMenu: FC<IContextualMenu> = ({ contextualMenuList, listElementId }) => {
+export const ContextualMenu: FC<IContextualMenuProps> = ({ contextualMenuList, listElementId }) => {
 	return (
 		<ContextualMenuWrapper id={listElementId}>
 			{contextualMenuList.map(listItem => (

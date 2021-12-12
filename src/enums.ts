@@ -16,6 +16,8 @@ export enum ContextualMenuOpion {
 	duplicate_list = 'duplicate_list',
 	print_list = 'print_list',
 	remove_list = 'remove_list',
+	remove_group = 'remove_group',
+	edit_group_name = 'edit_group_name',
 	// TODO: add more
 }
 

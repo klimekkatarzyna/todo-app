@@ -5,7 +5,7 @@ import { CheckCircle } from '@styled-icons/feather/CheckCircle';
 import { Copy } from '@styled-icons/feather/Copy';
 import { FileMinus } from '@styled-icons/feather/FileMinus';
 import { Trash2 } from '@styled-icons/feather/Trash2';
-import { IContextualMenuList } from './interfaces/list';
+import { IContextualMenu } from './interfaces/list';
 import { ContextualMenuOpion } from './enums';
 import { Sun } from '@styled-icons/feather/Sun';
 import { Star } from '@styled-icons/feather/Star';
@@ -63,7 +63,7 @@ export const BackgroundLines = styled.div`
 
 type ContextualMenuFirstOpionType = 'icon' | 'name' | 'type';
 
-export const contextualMenuFirstOpion: IContextualMenuList[] = [
+export const contextualMenuFirstOpion: IContextualMenu[] = [
 	{
 		icon: <Sun />,
 		name: "Dodaj do widoku 'Mój dzień'",
@@ -111,7 +111,7 @@ export const contextualMenuFirstOpion: IContextualMenuList[] = [
 	},
 ];
 
-export const contextualMenuSecountOpion: IContextualMenuList[] = [
+export const contextualMenuSecountOpion: IContextualMenu[] = [
 	{
 		icon: <Calendar />,
 		name: 'Opcje udostępniania',
@@ -136,6 +136,19 @@ export const contextualMenuSecountOpion: IContextualMenuList[] = [
 		icon: <Trash2 />,
 		name: 'Usuń listę',
 		type: ContextualMenuOpion.remove_list,
+	},
+];
+
+export const contextualMenuGroupOpion: IContextualMenu[] = [
+	{
+		icon: <Copy />,
+		name: 'Zmień nazwę grupy',
+		type: ContextualMenuOpion.edit_group_name,
+	},
+	{
+		icon: <Trash2 />,
+		name: 'Usuń grupę',
+		type: ContextualMenuOpion.remove_group,
 	},
 ];
 

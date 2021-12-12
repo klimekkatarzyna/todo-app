@@ -1,12 +1,13 @@
 import { FC, useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { COLOURS } from '../constants';
-import { CreateGroup } from './CreateGroup';
 import { CreateList } from './List/CreateList/CreateList';
 import { Lists } from './List/Lists/Lists';
 import { MainList } from './MainList/MainList';
 import { ArrowLeft } from '@styled-icons/feather/ArrowLeft';
 import { ArrowRight } from '@styled-icons/feather/ArrowRight';
+import { CreateGroup } from './Group/CreateGroup';
+import { Groups } from './Group/Groups';
 
 const Wrapper = styled.div<{ isNavClosed: boolean }>`
 	display: flex;
@@ -59,8 +60,7 @@ export const Sidebar: FC = () => {
 				<MainList isNavClosed={isNavClosed} />
 
 				<Lists isNavClosed={isNavClosed} />
-				{/*TODO: list od added lists or groups*/}
-				{/*TODO: input to add lists or groups */}
+				<Groups isNavClosed={isNavClosed} />
 			</ScrolledWrapper>
 			<InputsWrapper>
 				<CreateList />

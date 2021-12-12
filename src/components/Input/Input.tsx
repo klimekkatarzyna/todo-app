@@ -72,7 +72,7 @@ interface IInput<T = string | number | undefined> {
 	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	placeholder?: string;
 	isIcon?: boolean;
-	colorType: InputVersion;
+	colorType?: InputVersion;
 	type?: InputType;
 	autoFocus?: boolean;
 	isTaskInput?: boolean;

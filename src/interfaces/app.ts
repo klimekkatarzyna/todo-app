@@ -1,6 +1,4 @@
-import { HttpResponse } from '../utils/http';
-
-export interface IIUserDataResponse extends HttpResponse {
+export interface IIUserDataResponse {
 	user: IUserData;
 }
 
