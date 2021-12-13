@@ -20,14 +20,14 @@ const ContextualMenuWrapper = styled(ContextMenu)`
 
 interface IContextualMenuProps {
 	contextualMenuList: IContextualMenu[];
-	listElementId: string;
+	elementId: string;
 }
 
-export const ContextualMenu: FC<IContextualMenuProps> = ({ contextualMenuList, listElementId }) => {
+export const ContextualMenu: FC<IContextualMenuProps> = ({ contextualMenuList, elementId }) => {
 	return (
-		<ContextualMenuWrapper id={listElementId}>
+		<ContextualMenuWrapper id={elementId}>
 			{contextualMenuList.map(listItem => (
-				<ContextualMenuItem listItem={listItem} listElementId={listElementId} />
+				<ContextualMenuItem listItem={listItem} elementId={elementId} />
 			))}
 		</ContextualMenuWrapper>
 	);

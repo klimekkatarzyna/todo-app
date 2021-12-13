@@ -59,7 +59,7 @@ export const CreateGroup = () => {
 						<Folder />
 					</IconWrapper>
 					<form onSubmit={onSubmit}>
-						<Input name='groupName' placeholder='Grupa bez nazwy' value={groupName as string} onChange={handleChange} />
+						<Input name='groupName' placeholder='Grupa bez nazwy' value={groupName} onChange={handleChange} />
 					</form>
 				</InputWrapper>
 			)}

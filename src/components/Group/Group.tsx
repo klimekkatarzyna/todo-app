@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { ContextMenuTrigger } from 'react-contextmenu';
 import styled from 'styled-components';
 import { Folder } from '@styled-icons/feather/Folder';
@@ -7,15 +7,17 @@ import { COLOURS, contextualMenuGroupOpion, IconWrapper } from '../../constants'
 import { GroupedLists } from './GroupedLists';
 import { useDropdown } from '../../hooks/useDropdown';
 import { ContextualMenu } from '../ContextualMenu/ContextualMenu';
+import { EditGroup } from './EditGroup';
 
 const Wrapper = styled.div<{ isNavClosed: boolean }>`
 	display: flex;
 	padding: 0.5rem 1rem;
 	cursor: pointer;
+	align-items: center;
 	&:hover {
 		background-color: ${COLOURS.white};
 	}
-	> p {
+	> div > p {
 		margin: 0 0.5rem;
 		font-weight: 600;
 		font-size: 0.9rem;
@@ -38,11 +40,11 @@ export const Group: FC<IGroupProps> = ({ group, isNavClosed }) => {
 					<IconWrapper color='grey'>
 						<Folder />
 					</IconWrapper>
-					<p>{group.title}</p>
+					<EditGroup title={group.title} groupId={group._id} />
 				</Wrapper>
 			</ContextMenuTrigger>
 			{dropdownOpen && <GroupedLists />}
-			<ContextualMenu contextualMenuList={contextualMenuGroupOpion} listElementId={group?._id || ''} />
+			<ContextualMenu contextualMenuList={contextualMenuGroupOpion} elementId={group?._id} />
 		</div>
 	);
 };

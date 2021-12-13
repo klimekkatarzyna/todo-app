@@ -10,6 +10,7 @@ import { ContextualMenuOpion } from './enums';
 import { Sun } from '@styled-icons/feather/Sun';
 import { Star } from '@styled-icons/feather/Star';
 import { Calendar } from '@styled-icons/feather/Calendar';
+import { Edit2 } from '@styled-icons/feather/Edit2';
 
 interface ColoursType {
 	// is the same as Record<string, string>
@@ -141,7 +142,7 @@ export const contextualMenuSecountOpion: IContextualMenu[] = [
 
 export const contextualMenuGroupOpion: IContextualMenu[] = [
 	{
-		icon: <Copy />,
+		icon: <Edit2 />,
 		name: 'Zmień nazwę grupy',
 		type: ContextualMenuOpion.edit_group_name,
 	},

@@ -123,7 +123,7 @@ export const TaskItem: FC<ITaskItem> = ({
 					/>
 				</TaskItemWrapper>
 			</ContextMenuTrigger>
-			<ContextualMenu contextualMenuList={contextualMenuFirstOpion} listElementId={task?._id || ''} />
+			<ContextualMenu contextualMenuList={contextualMenuFirstOpion} elementId={task?._id || ''} />
 		</>
 	);
 };

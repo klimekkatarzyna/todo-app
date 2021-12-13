@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { http, HttpResponse } from '../../utils/http';
 import * as api from '../../services';
-import { IGroup, IGroupsResponse } from '../../interfaces/group';
+import { IDeleteGroupResponse, IGroup, IGroupsResponse } from '../../interfaces/group';
 
 export const useGroup = () => {
 	const query = useQueryClient();
@@ -10,7 +10,7 @@ export const useGroup = () => {
 	const createGroup = useCallback(async (title: string): Promise<HttpResponse<IGroup> | undefined> => {
 		try {
 			const response = await http<IGroup>(api.createGroup, 'POST', {
-				title,
+				title: title || 'Grupa bez nazwy',
 			});
 			return response;
 		} catch (err: unknown) {
@@ -42,10 +42,42 @@ export const useGroup = () => {
 		useErrorBoundary: true,
 	});
 
+	const deleteGroup = useCallback(async (groupId: string): Promise<HttpResponse<IDeleteGroupResponse> | undefined> => {
+		try {
+			const response = await http<IDeleteGroupResponse>(api.removeGroup, 'DELETE', { groupId });
+			return response;
+		} catch (err: unknown) {
+			console.error(err);
+		}
+	}, []);
+
+	const { mutate: deleteGroupMutate } = useMutation(deleteGroup, {
+		onSuccess: () => {
+			query.invalidateQueries(['groups']);
+		},
+	});
+
+	const editGroup = useCallback(async ({ groupId, title }) => {
+		try {
+			const response = await http(api.editGroup, 'PATCH', { groupId, title });
+			return response;
+		} catch (err: unknown) {
+			console.error(err);
+		}
+	}, []);
+
+	const { mutate: editGroupMutate } = useMutation(editGroup, {
+		onSuccess: () => {
+			query.invalidateQueries(['groups']);
+		},
+	});
+
 	return {
 		mutateCreateGroup,
 		mutateCreateGroupLoading,
 		getGroupsLoading,
 		groupsData,
+		deleteGroupMutate,
+		editGroupMutate,
 	};
 };

@@ -72,7 +72,7 @@ export const MenuListItem: FC<IMenuListItem> = ({ isShared = false, listItem, is
 				{isShared && <Share />}
 				{!!listItem?.taskNumber && <TasksNumber isNavClosed={isNavClosed}>{listItem?.taskNumber}</TasksNumber>}
 			</ContextMenuTrigger>
-			<ContextualMenu contextualMenuList={contextualMenuSecountOpion} listElementId={listItem?._id || ''} />
+			<ContextualMenu contextualMenuList={contextualMenuSecountOpion} elementId={listItem?._id || ''} />
 		</LinkStyled>
 	);
 };
