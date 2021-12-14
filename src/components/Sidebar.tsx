@@ -4,10 +4,9 @@ import { COLOURS } from '../constants';
 import { CreateList } from './List/CreateList/CreateList';
 import { Lists } from './List/Lists/Lists';
 import { MainList } from './MainList/MainList';
-import { ArrowLeft } from '@styled-icons/feather/ArrowLeft';
-import { ArrowRight } from '@styled-icons/feather/ArrowRight';
 import { CreateGroup } from './Group/CreateGroup';
 import { Groups } from './Group/Groups';
+import { Menu } from '@styled-icons/feather/Menu';
 
 const Wrapper = styled.div<{ isNavClosed: boolean }>`
 	display: flex;
@@ -22,7 +21,7 @@ const Wrapper = styled.div<{ isNavClosed: boolean }>`
 	transition: width 0.5s;
 `;
 
-const ArrowButton = styled.button`
+const MenuButton = styled.button`
 	border: none;
 	background-color: inherit;
 	text-align: left;
@@ -55,7 +54,7 @@ export const Sidebar: FC = () => {
 	return (
 		<Wrapper isNavClosed={isNavClosed}>
 			{/*TODO: search*/}
-			<ArrowButton onClick={handleClick}>{isNavClosed ? <ArrowLeft /> : <ArrowRight />}</ArrowButton>
+			<MenuButton onClick={handleClick}>{<Menu />}</MenuButton>
 			<ScrolledWrapper>
 				<MainList isNavClosed={isNavClosed} />
 

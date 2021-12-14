@@ -5,6 +5,7 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { AuthProvider } from './AuthProvider';
 import BrowserRouter from './Router';
 import { ShowModalProvider } from './ShowModalProvider';
+import { ContextualMenuProvider } from './ContextualMenuProvider';
 
 const queryClient = new QueryClient();
 
@@ -35,10 +36,12 @@ const App: FC = () => {
 		<QueryClientProvider client={queryClient}>
 			<AuthProvider>
 				<ShowModalProvider>
-					{/* <ReactQueryDevtools initialIsOpen /> */}
-					<GlobalStyle />
+					<ContextualMenuProvider>
+						{/* <ReactQueryDevtools initialIsOpen /> */}
+						<GlobalStyle />
 
-					<BrowserRouter />
+						<BrowserRouter />
+					</ContextualMenuProvider>
 				</ShowModalProvider>
 			</AuthProvider>
 		</QueryClientProvider>
