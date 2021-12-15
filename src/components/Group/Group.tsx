@@ -1,5 +1,5 @@
-import React, { FC, useContext, useState } from 'react';
-import { ContextMenuTrigger, ContextMenu, MenuItem } from 'react-contextmenu';
+import React, { FC } from 'react';
+import { ContextMenuTrigger } from 'react-contextmenu';
 import styled from 'styled-components';
 import { Folder } from '@styled-icons/feather/Folder';
 import { IGroup } from '../../interfaces/group';
@@ -8,8 +8,6 @@ import { GroupedLists } from './GroupedLists';
 import { useDropdown } from '../../hooks/useDropdown';
 import { ContextualMenu } from '../ContextualMenu/ContextualMenu';
 import { EditGroup } from './EditGroup';
-import { ContextualMenuItem } from '../ContextualMenu/ContextualMenuItem';
-import { ContextualMenuContext } from '../../ContextualMenuProvider';
 
 const Wrapper = styled.div<{ isNavClosed: boolean }>`
 	display: flex;
@@ -35,8 +33,6 @@ interface IGroupProps {
 export const Group: FC<IGroupProps> = ({ group, isNavClosed }) => {
 	const { elementeReference, toggleDropdown, dropdownOpen } = useDropdown();
 
-	const { contextualMenu } = useContext(ContextualMenuContext);
-	// console.log(contextualMenu, group?._id);
 	return (
 		<div ref={elementeReference}>
 			<ContextMenuTrigger id={group._id}>

@@ -1,15 +1,12 @@
 import React, { FC, useCallback, useMemo, useState } from 'react';
 
 import { createContext } from 'react';
-import { useGroup } from './components/Group/useGroup';
-import useList from './components/List/useList';
-import { useTask } from './components/Tasks/useTask';
 import { ContextualMenuOpion } from './enums';
 import { IContextualMenu } from './interfaces/list';
 
 export interface ContextualMenuType {
 	contextualMenu: any;
-	handleClick: (event: React.ChangeEvent<HTMLInputElement>, data: any) => Promise<void>;
+	handleClick: (event: React.ChangeEvent<HTMLInputElement>, data: any) => void;
 }
 
 export const ContextualMenuContext = createContext<ContextualMenuType>({} as ContextualMenuType);
@@ -25,35 +22,27 @@ interface IContextualMenuProvider {
 }
 
 export const ContextualMenuProvider: FC<IContextualMenuProvider> = ({ children }) => {
-	const [contextualMenu, setContextualMenu] = useState<IData>();
+	const [contextualMenu, setContextualMenu] = useState<IData | unknown>();
 
-	const { mutateRemoveList } = useList();
-	const { mutateRemoveTask } = useTask();
-	const { deleteGroupMutate, editGroupMutate } = useGroup();
-
-	const handleClick = useCallback(async (event: React.ChangeEvent<HTMLInputElement>, data: IData): Promise<void> => {
+	const handleClick = useCallback((event: React.ChangeEvent<HTMLInputElement>, data: IData) => {
 		setContextualMenu(data);
-		console.log(data);
-		try {
-			switch (data.type) {
-				case ContextualMenuOpion.remove_list:
-					await mutateRemoveList(data.elementId);
-					break;
-				case ContextualMenuOpion.remove_group:
-					await deleteGroupMutate(data.elementId);
-					break;
-				case ContextualMenuOpion.remove_task:
-					await mutateRemoveTask(data.elementId);
-					break;
-				case ContextualMenuOpion.edit_group_name:
-					await editGroupMutate(data.elementId);
-					break;
-				default:
-					setContextualMenu(undefined);
-					break;
-			}
-		} catch {
-			//TODO: handle error & show notificayion
+
+		switch (data.type) {
+			case ContextualMenuOpion.remove_list:
+				setContextualMenu(data);
+				break;
+			case ContextualMenuOpion.remove_group:
+				setContextualMenu(data);
+				break;
+			case ContextualMenuOpion.remove_task:
+				setContextualMenu(data);
+				break;
+			case ContextualMenuOpion.edit_group_name:
+				setContextualMenu(data);
+				break;
+			default:
+				setContextualMenu(undefined);
+				break;
 		}
 	}, []);
 

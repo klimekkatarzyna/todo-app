@@ -1,7 +1,6 @@
-import React, { FC, useCallback, useContext, useState } from 'react';
+import React, { FC, useCallback, useContext, useEffect, useState } from 'react';
 import { ContextualMenuContext } from '../../ContextualMenuProvider';
 import { ContextualMenuOpion } from '../../enums';
-import { useDropdown } from '../../hooks/useDropdown';
 import { handleResertInput, removesWhitespaceFromString } from '../../utils/utilsFunctions';
 import { Input } from '../Input/Input';
 import { useGroup } from './useGroup';
@@ -12,9 +11,7 @@ interface IEditGroupProps {
 }
 
 export const EditGroup: FC<IEditGroupProps> = ({ title, groupId }) => {
-	const { elementeReference, toggleDropdown, dropdownOpen } = useDropdown();
-	const { editGroupMutate } = useGroup();
-
+	const { editGroupMutate, setIsInputVisible, isInputVisible } = useGroup();
 	const { contextualMenu } = useContext(ContextualMenuContext);
 
 	const [groupName, setGroupName] = useState<string>(title);
@@ -37,16 +34,18 @@ export const EditGroup: FC<IEditGroupProps> = ({ title, groupId }) => {
 		[groupName]
 	);
 
-	// console.log(contextualMenu?.type === ContextualMenuOpion.edit_group_name && contextualMenu?.elementId === groupId);
+	useEffect(() => {
+		setIsInputVisible(contextualMenu?.type === ContextualMenuOpion.edit_group_name && contextualMenu?.elementId === groupId);
+	}, [contextualMenu]);
 
 	return (
-		<div ref={elementeReference}>
-			{contextualMenu?.type === ContextualMenuOpion.edit_group_name && contextualMenu?.elementId === groupId ? (
+		<div>
+			{isInputVisible ? (
 				<form onSubmit={onSubmit}>
 					<Input name='groupName' value={groupName} onChange={handleChange} />
 				</form>
 			) : (
-				<p onClick={toggleDropdown}>{title}</p>
+				<p>{title}</p>
 			)}
 		</div>
 	);

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { http, HttpResponse } from '../../utils/http';
 import * as api from '../../services';
@@ -6,6 +6,8 @@ import { IDeleteGroupResponse, IGroup, IGroupsResponse } from '../../interfaces/
 
 export const useGroup = () => {
 	const query = useQueryClient();
+
+	const [isInputVisible, setIsInputVisible] = useState(false);
 
 	const createGroup = useCallback(async (title: string): Promise<HttpResponse<IGroup> | undefined> => {
 		try {
@@ -60,6 +62,7 @@ export const useGroup = () => {
 	const editGroup = useCallback(async ({ groupId, title }) => {
 		try {
 			const response = await http(api.editGroup, 'PATCH', { groupId, title });
+			setIsInputVisible(false);
 			return response;
 		} catch (err: unknown) {
 			console.error(err);
@@ -79,5 +82,7 @@ export const useGroup = () => {
 		groupsData,
 		deleteGroupMutate,
 		editGroupMutate,
+		setIsInputVisible,
+		isInputVisible,
 	};
 };
