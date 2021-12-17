@@ -74,7 +74,7 @@ export const Modal: FC<IModal> = ({ title, subtitle, onHandleAction, contextualT
 
 	useEffect(() => {
 		const listener = (event: KeyboardEvent) => {
-			if (event.code === 'Enter') {
+			if (event.code === 'Enter' && contextualMenu?.type === contextualType) {
 				onHandleActionAndClose();
 			}
 		};
