@@ -1,8 +1,10 @@
-import { FC } from 'react';
+import { FC, useCallback, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { COLOURS } from '../../constants';
 import { Button } from '../Button/Button';
 import { useShowModal } from '../../hooks/useShowModal';
+import { ContextualMenuOpion } from '../../enums';
+import { ContextualMenuContext } from '../../ContextualMenuProvider';
 
 const ModalBackground = styled.div`
 	width: 100%;
@@ -51,23 +53,65 @@ const ButtonsWrapper = styled.div`
 interface IModal {
 	title: string;
 	subtitle?: string;
+	contextualType: ContextualMenuOpion;
+	onHandleAction?: any;
 }
 
-export const Modal: FC<IModal> = ({ title, subtitle }) => {
-	const { onCloseModal } = useShowModal();
+export const Modal: FC<IModal> = ({ title, subtitle, onHandleAction, contextualType }) => {
+	const { contextualMenu } = useContext(ContextualMenuContext);
+	const { isModalVisible, onCloseModal, onOpeneModal } = useShowModal();
+
+	useEffect(() => {
+		if (contextualMenu?.type === contextualType) {
+			onOpeneModal();
+		}
+	}, [contextualMenu]);
+
+	const onHandleActionAndClose = useCallback(() => {
+		onCloseModal();
+		onHandleAction?.(contextualMenu?.elementId);
+	}, [contextualMenu]);
+
+	useEffect(() => {
+		const listener = (event: KeyboardEvent) => {
+			if (event.code === 'Enter') {
+				onHandleActionAndClose();
+			}
+		};
+		document.addEventListener('keydown', listener);
+		return () => {
+			document.removeEventListener('keydown', listener);
+		};
+	}, [contextualMenu]);
+
+	useEffect(() => {
+		const listener = (event: KeyboardEvent) => {
+			if (event.code === 'Escape') {
+				onCloseModal();
+			}
+		};
+		document.addEventListener('keydown', listener);
+		return () => {
+			document.removeEventListener('keydown', listener);
+		};
+	}, []);
 
 	return (
-		<ModalBackground>
-			<ModalContent>
-				<Title>{title}</Title>
-				<Subtitle>{subtitle}</Subtitle>
-				<ButtonsWrapper>
-					<Button onClick={onCloseModal}>{'Anuluj'}</Button>
-					<Button secondary onClick={onCloseModal}>
-						{'Usuwanie'}
-					</Button>
-				</ButtonsWrapper>
-			</ModalContent>
-		</ModalBackground>
+		<>
+			{isModalVisible && (
+				<ModalBackground>
+					<ModalContent>
+						<Title>{title}</Title>
+						<Subtitle>{subtitle}</Subtitle>
+						<ButtonsWrapper>
+							<Button onClick={onCloseModal}>{'Anuluj'}</Button>
+							<Button type='button' secondary onClick={onHandleActionAndClose}>
+								{'Usuwanie'}
+							</Button>
+						</ButtonsWrapper>
+					</ModalContent>
+				</ModalBackground>
+			)}
+		</>
 	);
 };

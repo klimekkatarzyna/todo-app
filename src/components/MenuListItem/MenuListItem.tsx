@@ -1,19 +1,20 @@
 import { FC, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Share } from '@styled-icons/feather/Share';
-import { List } from '@styled-icons/feather/List';
 import styled from 'styled-components';
 import { COLOURS, contextualMenuSecountOpion, IconWrapper } from '../../constants';
-import { IListItem } from '../../interfaces/list';
-import { ContextualMenu } from '../ContextualMenu/ContextualMenu';
-import { ContextMenuTrigger } from 'react-contextmenu';
-
+import { IDeleteListResponse, IListItem } from '../../interfaces/list';
 import { Sun } from '@styled-icons/feather/Sun';
 import { Star } from '@styled-icons/feather/Star';
+import { Share } from '@styled-icons/feather/Share';
+import { List } from '@styled-icons/feather/List';
 import { Calendar } from '@styled-icons/feather/Calendar';
 import { User } from '@styled-icons/feather/User';
 import { Home } from '@styled-icons/feather/Home';
 import { SideMenuType } from '../../enums';
+import { UseMutateFunction } from 'react-query';
+import { HttpResponse } from '../../utils/http';
+import { ContextMenuTrigger } from 'react-contextmenu';
+import { ContextualMenu } from '../ContextualMenu/ContextualMenu';
 
 const LinkStyled = styled(Link)`
 	text-decoration: none;

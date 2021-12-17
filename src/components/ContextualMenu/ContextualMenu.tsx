@@ -27,7 +27,7 @@ export const ContextualMenu: FC<IContextualMenuProps> = ({ contextualMenuList, e
 	return (
 		<ContextualMenuWrapper id={elementId}>
 			{contextualMenuList.map(listItem => (
-				<ContextualMenuItem listItem={listItem} elementId={elementId} />
+				<ContextualMenuItem key={listItem?.name} listItem={listItem} elementId={elementId} />
 			))}
 		</ContextualMenuWrapper>
 	);

@@ -5,11 +5,11 @@ export const useShowModal = () => {
 
 	const onOpeneModal = useCallback((): void => {
 		setIsModalVisible(true);
-	}, []);
+	}, [isModalVisible]);
 
 	const onCloseModal = useCallback((): void => {
 		setIsModalVisible(false);
-	}, []);
+	}, [isModalVisible]);
 
 	return {
 		isModalVisible,

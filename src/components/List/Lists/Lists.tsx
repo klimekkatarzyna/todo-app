@@ -4,6 +4,8 @@ import { IListItem } from '../../../interfaces/list';
 import useList from '../useList';
 import { MenuListItem } from '../../MenuListItem/MenuListItem';
 import { Loader } from '../../Loader/Loader';
+import { Modal } from '../../Modal/Modal';
+import { ContextualMenuOpion } from '../../../enums';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -16,14 +18,17 @@ interface ILists {
 }
 
 export const Lists: FC<ILists> = ({ isNavClosed }) => {
-	const { getListsLoading, getListsQuery } = useList();
+	const { getListsLoading, getListsQuery, mutateRemoveList } = useList();
 
 	return (
-		<Wrapper>
-			{getListsLoading && <Loader />}
-			{getListsQuery?.body?.lists?.map((item: IListItem) => (
-				<MenuListItem listItem={item} isNavClosed={isNavClosed} />
-			))}
-		</Wrapper>
+		<>
+			<Wrapper>
+				{getListsLoading && <Loader />}
+				{getListsQuery?.body?.lists?.map((list: IListItem) => (
+					<MenuListItem key={list?._id} listItem={list} isNavClosed={isNavClosed} />
+				))}
+			</Wrapper>
+			<Modal title='Czy chcesz usunąć listę?' onHandleAction={mutateRemoveList} contextualType={ContextualMenuOpion.remove_list} />
+		</>
 	);
 };

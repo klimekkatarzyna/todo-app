@@ -1,6 +1,8 @@
 import { FC } from 'react';
 import styled from 'styled-components';
+import { ContextualMenuOpion } from '../../enums';
 import { Loader } from '../Loader/Loader';
+import { Modal } from '../Modal/Modal';
 import { ComplitedTasks } from './ComplitedTasks';
 import { InCompletedTasks } from './InCompletedTasks';
 import { useTask } from './useTask';
@@ -14,7 +16,7 @@ const TasksListContainer = styled.div`
 `;
 
 export const TasksList: FC = () => {
-	const { getTasksOfCurrentListLoading } = useTask();
+	const { getTasksOfCurrentListLoading, mutateRemoveTask } = useTask();
 
 	return (
 		<TasksListContainer>
@@ -28,6 +30,7 @@ export const TasksList: FC = () => {
 					</>
 				)}
 			</div>
+			<Modal title='Czy chcesz usunąć zadanie?' onHandleAction={mutateRemoveTask} contextualType={ContextualMenuOpion.remove_task} />
 		</TasksListContainer>
 	);
 };
