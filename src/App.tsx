@@ -39,7 +39,6 @@ const App: FC = () => {
 					<ContextualMenuProvider>
 						{/* <ReactQueryDevtools initialIsOpen /> */}
 						<GlobalStyle />
-						<div>{'dupa'}</div>
 						<BrowserRouter />
 					</ContextualMenuProvider>
 				</ShowModalProvider>
