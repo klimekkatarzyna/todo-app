@@ -16,7 +16,7 @@ const Wrapper = styled.div`
 
 export const CreateList: FC = () => {
 	const [listName, setListName] = useState<string | undefined>(undefined);
-	const { mutateCreateList } = useList();
+	const { createListMutation } = useList();
 
 	const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
 		const clearStr = removesWhitespaceFromString(event.target?.value);
@@ -27,7 +27,7 @@ export const CreateList: FC = () => {
 		async (event: React.SyntheticEvent): Promise<void> => {
 			event.preventDefault();
 			try {
-				await mutateCreateList(listName);
+				await createListMutation(listName);
 				handleResertInput(setListName);
 				//TODO: redirect on created list
 			} catch {

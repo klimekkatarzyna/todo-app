@@ -14,7 +14,7 @@ const TasksNumber = styled.span`
 `;
 
 export const ComplitedTasks: FC = () => {
-	const { completedTaskslist, comletedTasks, setComplitedTasksList, onMarkTaskAsInCompleted, mutateChangeTaskImportance } =
+	const { completedTaskslist, comletedTasks, setComplitedTasksList, onMarkTaskAsInCompleted, changeTaskImportanceMutation } =
 		useIncompleteCompleteTasks();
 
 	const { onDragStart, onDragOver, onDragLeave, onDrop } = useDragAndDrop(comletedTasks, setComplitedTasksList);
@@ -33,7 +33,7 @@ export const ComplitedTasks: FC = () => {
 							onDragOver={onDragOver}
 							onDrop={onDrop}
 							onDragLeave={onDragLeave}
-							changeTaskImportance={mutateChangeTaskImportance}
+							changeTaskImportance={changeTaskImportanceMutation}
 						/>
 					))}
 				</Accordion>

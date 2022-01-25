@@ -65,7 +65,7 @@ const Footer = styled.div`
 
 export const TaskSidebarDetails: FC = () => {
 	const { onHideComponent } = useContext(ShowElementContext);
-	const { taskDataLoading, taskData, onMarkTaskAsCompleted, onMarkTaskAsInCompleted, mutateRemoveTask, addTaskToMyDay } = useTask();
+	const { taskDataLoading, taskData, onMarkTaskAsCompleted, onMarkTaskAsInCompleted, removeTaskMutation, addTaskToMyDayAction } = useTask();
 
 	const onHandleChange = useCallback(() => {
 		taskData?.taskStatus === ITaskStatus.inComplete && onMarkTaskAsCompleted(taskData._id);
@@ -74,7 +74,7 @@ export const TaskSidebarDetails: FC = () => {
 
 	const handleClick = useCallback(async (): Promise<void> => {
 		try {
-			await mutateRemoveTask(taskData?._id || '');
+			await removeTaskMutation(taskData?._id || '');
 			onClose();
 		} catch {
 			//TODO: handle error & show notificayion
@@ -86,7 +86,7 @@ export const TaskSidebarDetails: FC = () => {
 	}, []);
 
 	const addTaskToMyDayView = useCallback(() => {
-		addTaskToMyDay({ taskId: taskData?._id, isMyDay: true });
+		addTaskToMyDayAction({ taskId: taskData?._id, isMyDay: true });
 	}, [taskData?._id]);
 
 	return (

@@ -8,36 +8,36 @@ import { useQuery } from 'react-query';
 import { AuthContext, AuthContextType } from '../../AuthContext';
 
 interface ISharingOptionsProps {
-	getListByIdData: IListItem | undefined;
-	isLoadingAddInvitationTokenToList: boolean;
+	listData: IListItem | undefined;
+	addInvitationTokenToListLoading: boolean;
 	addInvitationTokenToListMutation: any;
-	getListById: any;
+	getListByIdAction: any;
 }
 
 export const SharingOptions: FC<ISharingOptionsProps> = ({
-	getListById,
-	isLoadingAddInvitationTokenToList,
+	getListByIdAction,
+	addInvitationTokenToListLoading,
 	addInvitationTokenToListMutation,
-	getListByIdData,
+	listData,
 }) => {
 	const { authData } = useContext<AuthContextType>(AuthContext);
 	const { contextualMenu } = useContext(ContextualMenuContext);
 	const { invitationToken, onGenerateInvitationToken } = useGenerateInvitationToken();
 	// const { data, isLoading: getListByIdLoading } = useQuery<IListItem | undefined>(['getListById', contextualMenu?.elementId], getListById);
-	console.log(getListByIdData);
+	console.log(listData);
 	// console.log({ data });
 
 	useEffect(() => {
-		if (!!getListByIdData?.invitationToken) return;
+		if (!!listData?.invitationToken) return;
 		addInvitationTokenToListMutation({ listId: contextualMenu?.elementId, invitationToken: invitationToken, owner: authData?.email });
-	}, [contextualMenu?.elementId, invitationToken, getListByIdData?.invitationToken]);
+	}, [contextualMenu?.elementId, invitationToken, listData?.invitationToken]);
 
 	return (
 		<div>
-			{!!getListByIdData?.invitationToken ? (
-				<ShareTokenView invitationToken={getListByIdData?.invitationToken || ''} />
+			{!!listData?.invitationToken ? (
+				<ShareTokenView invitationToken={listData?.invitationToken || ''} />
 			) : (
-				<GenerateTokenView isLoading={isLoadingAddInvitationTokenToList} onGenerateInvitationToken={onGenerateInvitationToken} />
+				<GenerateTokenView isLoading={addInvitationTokenToListLoading} onGenerateInvitationToken={onGenerateInvitationToken} />
 			)}
 		</div>
 	);

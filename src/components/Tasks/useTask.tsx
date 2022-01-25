@@ -12,9 +12,9 @@ export const useTask = () => {
 	const query = useQueryClient();
 	const { listId, taskId } = useParams<IUseParams>();
 
-	const createTask = useCallback(async ({ title, parentFolderId, importance, themeColor }: ICreateTaskProps) => {
-		try {
-			const response = await http<ITask>(api.createTask, 'POST', {
+	const createTaskAction = useCallback(
+		async ({ title, parentFolderId, importance, themeColor }: ICreateTaskProps) =>
+			await http<ITask>(api.createTask, 'POST', {
 				title,
 				importance: importance || Importance.normal,
 				parentFolderId,
@@ -22,20 +22,20 @@ export const useTask = () => {
 				taskStatus: ITaskStatus.inComplete,
 				sortType: SortType.createdAt,
 				isMyDay: false,
-			});
-			return response;
-		} catch (err) {
-			console.error(err);
-		}
-	}, []);
-
-	const { mutate: mutateCreateTask } = useMutation(createTask, {
+			}),
+		[]
+	);
+	const {
+		mutate: createTaskMutation,
+		error: createTaskError,
+		isLoading: createTaskLoading,
+	} = useMutation(createTaskAction, {
 		onSuccess: () => {
 			query.invalidateQueries(['tasksOfCurrentList']);
 		},
 	});
 
-	const getTasksOfCurrentList = useCallback(async () => {
+	const getTasksOfCurrentListAction = useCallback(async () => {
 		const sortType = SortType.createdAt;
 		if (!listId) return;
 		try {
@@ -46,42 +46,30 @@ export const useTask = () => {
 		}
 	}, [listId]);
 
-	const { data: getTasksOfCurrentListQuery, isLoading: getTasksOfCurrentListLoading } = useQuery<HttpResponse<ITasksResponse> | undefined>(
-		['tasksOfCurrentList', listId],
-		getTasksOfCurrentList
+	const {
+		data: tasksOfCurrentList,
+		isLoading: getTasksOfCurrentListLoading,
+		error: getTasksOfCurrentListError,
+	} = useQuery<HttpResponse<ITasksResponse> | undefined>(['tasksOfCurrentList', listId], getTasksOfCurrentListAction);
+
+	const changeTaskStatusAction = useCallback(
+		async ({ taskId, taskStatus }: IChangeTaskStatusToCompleteProps) => await http(`${api.changeTaskStatus}/${taskId}`, 'PATCH', { taskStatus }),
+		[]
 	);
-
-	const changeTaskStatus = useCallback(async ({ taskId, taskStatus }: IChangeTaskStatusToCompleteProps) => {
-		try {
-			const response = await http<any>(`${api.changeTaskStatus}/${taskId}`, 'PATCH', { taskStatus }); // TODO: fix
-			return response;
-		} catch (err) {
-			console.log(err);
-		}
-	}, []);
-
-	const { mutate: mutateChangeTaskStatus } = useMutation(changeTaskStatus, {
+	const { mutate: changeTaskStatusMutation } = useMutation(changeTaskStatusAction, {
 		onSuccess: () => {
 			query.invalidateQueries(['tasksOfCurrentList']);
 		},
 	});
 
-	const deleteTask = useCallback(async (taskId: string) => {
-		try {
-			const response = await http<IDeleteTaskResponse>(api.removeTask, 'DELETE', { taskId });
-			return response;
-		} catch (err) {
-			console.log(err);
-		}
-	}, []);
-
-	const { mutate: mutateRemoveTask } = useMutation(deleteTask, {
+	const deleteTaskAction = useCallback(async (taskId: string) => await http<IDeleteTaskResponse>(api.removeTask, 'DELETE', { taskId }), []);
+	const { mutate: removeTaskMutation } = useMutation(deleteTaskAction, {
 		onSuccess: () => {
 			query.invalidateQueries(['tasksOfCurrentList']);
 		},
 	});
 
-	const getTask = useCallback(async () => {
+	const getTaskAction = useCallback(async () => {
 		if (!taskId) return;
 		try {
 			const response = await http<any>(`${api.getTask}/${taskId}`, 'GET'); // TODO: fix
@@ -91,59 +79,51 @@ export const useTask = () => {
 		}
 	}, [taskId]);
 
-	const { data: taskData, isLoading: taskDataLoading } = useQuery<any>(['getTask', taskId], getTask); // TODO: fix me
+	const { data: taskData, isLoading: taskDataLoading, error: getTaskError } = useQuery<any>(['getTask', taskId], getTaskAction); // TODO: fix me
 
 	const onMarkTaskAsCompleted = useCallback((taskId: string): void => {
-		mutateChangeTaskStatus({
+		changeTaskStatusMutation({
 			taskId: taskId,
 			taskStatus: ITaskStatus.complete,
 		});
 	}, []);
 
 	const onMarkTaskAsInCompleted = useCallback((taskId: string): void => {
-		mutateChangeTaskStatus({
+		changeTaskStatusMutation({
 			taskId: taskId,
 			taskStatus: ITaskStatus.inComplete,
 		});
 	}, []);
 
-	const changeTaskImportance = useCallback(async ({ taskId, importance }: IChangeTaskImportanceProps) => {
-		try {
-			const response = await http<any>(`${api.changeTaskImportance}/${listId}/${taskId}`, 'PATCH', {
+	const changeTaskImportanceAction = useCallback(
+		async ({ taskId, importance }: IChangeTaskImportanceProps) =>
+			await http(`${api.changeTaskImportance}/${listId}/${taskId}`, 'PATCH', {
 				importance,
-			}); // TODO: fix
-			return response;
-		} catch (err) {
-			console.log(err);
-		}
-	}, []);
-
-	const { mutate: mutateChangeTaskImportance } = useMutation(changeTaskImportance, {
+			}),
+		[]
+	);
+	const { mutate: changeTaskImportanceMutation } = useMutation(changeTaskImportanceAction, {
 		onSuccess: () => {
 			query.invalidateQueries(['tasksOfCurrentList']);
 		},
 	});
 
-	const addTaskToMyDay = useCallback(async ({ taskId, isMyDay }: IAddTaskToMyDayProps) => {
-		try {
-			const response = await http<any>(`${api.addTaskToMyDay}/${listId}/${taskId}`, 'PATCH', { isMyDay }); // TODO: fix
-			return response;
-		} catch (err) {
-			console.log(err);
-		}
-	}, []);
+	const addTaskToMyDayAction = useCallback(
+		async ({ taskId, isMyDay }: IAddTaskToMyDayProps) => await http(`${api.addTaskToMyDay}/${listId}/${taskId}`, 'PATCH', { isMyDay }),
+		[]
+	);
 
 	return {
-		mutateCreateTask,
+		createTaskMutation,
 		getTasksOfCurrentListLoading,
-		getTasksOfCurrentListQuery,
-		mutateChangeTaskStatus,
-		mutateRemoveTask,
+		tasksOfCurrentList,
+		changeTaskStatusMutation,
+		removeTaskMutation,
 		taskData,
 		taskDataLoading,
 		onMarkTaskAsCompleted,
 		onMarkTaskAsInCompleted,
-		mutateChangeTaskImportance,
-		addTaskToMyDay,
+		changeTaskImportanceMutation,
+		addTaskToMyDayAction,
 	};
 };

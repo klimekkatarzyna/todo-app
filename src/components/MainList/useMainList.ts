@@ -5,15 +5,10 @@ import { useQuery } from 'react-query';
 import { IMainListResponse } from '../../interfaces/list';
 
 export const useMainList = () => {
-	const getMainList = useCallback(async () => {
-		const response = await http<IMainListResponse>(api.getMainList, 'GET');
-		return response;
-	}, []);
-
-	const { data: mainList, isLoading: mainListLoading } = useQuery<HttpResponse<IMainListResponse>>('getMainList', getMainList);
+	const getMainListAction = useCallback(async () => await http<IMainListResponse>(api.getMainList, 'GET'), []);
+	const { data: mainList, isLoading: mainListLoading } = useQuery<HttpResponse<IMainListResponse>>('getMainList', getMainListAction);
 
 	return {
-		getMainList,
 		mainList,
 		mainListLoading,
 	};

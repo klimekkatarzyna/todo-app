@@ -13,11 +13,11 @@ interface SortType {
 export type KeyType = 'string' | 'date';
 
 export const useIncompleteCompleteTasks = () => {
-	const { getTasksOfCurrentListQuery, onMarkTaskAsCompleted, onMarkTaskAsInCompleted, mutateChangeTaskImportance } = useTask();
+	const { tasksOfCurrentList, onMarkTaskAsCompleted, onMarkTaskAsInCompleted, changeTaskImportanceMutation } = useTask();
 
 	const comletedTasks = useMemo(
-		() => (getTasksOfCurrentListQuery?.body?.tasks || []).filter(task => task.taskStatus === ITaskStatus.complete),
-		[getTasksOfCurrentListQuery]
+		() => (tasksOfCurrentList?.body?.tasks || []).filter(task => task.taskStatus === ITaskStatus.complete),
+		[tasksOfCurrentList]
 	);
 
 	const [inCompletedTaskslist, setInCompletedTasksList] = useState<ITask[]>([]);
@@ -33,26 +33,26 @@ export const useIncompleteCompleteTasks = () => {
 
 	const sortedTasks = useMemo(
 		() => [
-			...(getTasksOfCurrentListQuery?.body?.tasks || [])
+			...(tasksOfCurrentList?.body?.tasks || [])
 				.sort(sorter[sort.keyType](sort.key, sort.direction))
 				.filter(task => task.taskStatus === ITaskStatus.inComplete),
 		],
-		[getTasksOfCurrentListQuery, sort]
+		[tasksOfCurrentList, sort]
 	);
 
 	useEffect(() => {
 		setInCompletedTasksList(sortedTasks);
-	}, [getTasksOfCurrentListQuery, sort]);
+	}, [tasksOfCurrentList, sort]);
 
 	useEffect(() => {
 		setComplitedTasksList(comletedTasks);
-	}, [getTasksOfCurrentListQuery, sort]);
+	}, [tasksOfCurrentList, sort]);
 
 	return {
 		inCompletedTaskslist,
 		setInCompletedTasksList,
 		onMarkTaskAsCompleted,
-		mutateChangeTaskImportance,
+		changeTaskImportanceMutation,
 		completedTaskslist,
 		setComplitedTasksList,
 		comletedTasks,

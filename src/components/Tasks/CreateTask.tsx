@@ -9,7 +9,7 @@ import { useTask } from './useTask';
 export const CreateTask = () => {
 	const history = useHistory();
 	const { listId } = useParams<IUseParams>();
-	const { mutateCreateTask } = useTask();
+	const { createTaskMutation } = useTask();
 
 	useEffect(() => {
 		history.listen(() => setTaskName(''));
@@ -26,7 +26,7 @@ export const CreateTask = () => {
 		async (event: React.SyntheticEvent) => {
 			event.preventDefault();
 			try {
-				mutateCreateTask({
+				createTaskMutation({
 					title: taskName,
 					parentFolderId: listId,
 					themeColor: 'blue',

@@ -16,7 +16,7 @@ const TasksListContainer = styled.div`
 `;
 
 export const TasksList: FC = () => {
-	const { getTasksOfCurrentListLoading, mutateRemoveTask } = useTask();
+	const { getTasksOfCurrentListLoading, removeTaskMutation } = useTask();
 
 	return (
 		<TasksListContainer>
@@ -30,7 +30,7 @@ export const TasksList: FC = () => {
 					</>
 				)}
 			</div>
-			<Modal title='Czy chcesz usunąć zadanie?' onHandleAction={mutateRemoveTask} contextualType={ContextualMenuOpion.remove_task} />
+			<Modal title='Czy chcesz usunąć zadanie?' onHandleAction={removeTaskMutation} contextualType={ContextualMenuOpion.remove_task} />
 		</TasksListContainer>
 	);
 };

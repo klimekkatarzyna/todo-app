@@ -7,12 +7,12 @@ import { TasksList } from '../components/Tasks/Tasks';
 import { Toolbar } from '../components/Toolbar';
 
 export const Tasks: FC = () => {
-	const { getListByIdData, getListByIdLoading } = useList();
+	const { listDataResponse, listDataLoading } = useList();
 
 	return (
 		<Board>
 			<div>
-				{getListByIdLoading ? <Loader /> : <Toolbar name={getListByIdData?.title || ''} colorType={getListByIdData?.themeColor} />}
+				{listDataLoading ? <Loader /> : <Toolbar name={listDataResponse?.title || ''} colorType={listDataResponse?.themeColor} />}
 
 				<div>
 					<CreateTask />

@@ -21,31 +21,31 @@ interface ILists {
 export const Lists: FC<ILists> = ({ isNavClosed }) => {
 	const {
 		getListsLoading,
-		getListsQuery,
-		mutateRemoveList,
+		listsResponse,
+		removeListMutation,
 		addInvitationTokenToListMutation,
-		isLoadingAddInvitationTokenToList,
-		getListById,
-		getListByIdData,
+		addInvitationTokenToListLoading,
+		getListByIdAction,
+		listDataResponse,
 	} = useList();
 
-	console.log({ getListByIdData });
+	console.log({ listDataResponse });
 	return (
 		<>
 			<Wrapper>
 				{getListsLoading && <Loader />}
-				{getListsQuery?.body?.lists?.map((list: IListItem) => (
+				{listsResponse?.body?.lists?.map((list: IListItem) => (
 					<MenuListItem key={list?._id} listItem={list} isNavClosed={isNavClosed} />
 				))}
 			</Wrapper>
 			{/* TODO: react portal for modals ? */}
-			<Modal title='Czy chcesz usunąć listę?' onHandleAction={mutateRemoveList} contextualType={ContextualMenuOpion.remove_list} />
+			<Modal title='Czy chcesz usunąć listę?' onHandleAction={removeListMutation} contextualType={ContextualMenuOpion.remove_list} />
 			<Modal title='Udostępnij listę' onHandleAction={() => {}} contextualType={ContextualMenuOpion.sharing_options}>
 				<SharingOptions
-					getListByIdData={getListByIdData}
+					listData={listDataResponse}
 					addInvitationTokenToListMutation={addInvitationTokenToListMutation}
-					isLoadingAddInvitationTokenToList={isLoadingAddInvitationTokenToList}
-					getListById={getListById}
+					addInvitationTokenToListLoading={addInvitationTokenToListLoading}
+					getListByIdAction={getListByIdAction}
 				/>
 			</Modal>
 		</>
