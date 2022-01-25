@@ -19,6 +19,7 @@ export const getListById = 'http://localhost:3000/api/getList';
 export const createList = 'http://localhost:3000/api/createList';
 export const editList = 'http://localhost:3000/api/editList';
 export const removeList = 'http://localhost:3000/api/removeList';
+export const addInvitationTokenToList = 'http://localhost:3000/api/addInvitationTokenToList';
 
 // task
 export const createTask = 'http://localhost:3000/api/createTask';

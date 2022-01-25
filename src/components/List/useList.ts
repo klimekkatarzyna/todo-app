@@ -22,7 +22,11 @@ export const useList = () => {
 		}
 	}, []);
 
-	const { mutate: mutateCreateList, isLoading: mutateCreateListLoading } = useMutation(createList, {
+	const {
+		mutate: mutateCreateList,
+		isLoading: mutateCreateListLoading,
+		error,
+	} = useMutation(createList, {
 		onSuccess: () => {
 			query.invalidateQueries(['lists']);
 		},
@@ -50,6 +54,7 @@ export const useList = () => {
 	}, [listId]);
 
 	const { data: getListByIdData, isLoading: getListByIdLoading } = useQuery<IListItem | undefined>(['getListById', listId], getListById);
+	console.log({ listId, getListByIdLoading, getListByIdData });
 
 	const deleteList = useCallback(async (listId: string) => {
 		try {
@@ -66,6 +71,21 @@ export const useList = () => {
 		},
 	});
 
+	const addInvitationTokenToList = useCallback(async ({ listId, invitationToken, owner }) => {
+		try {
+			const response = await http(api.addInvitationTokenToList, 'PATCH', { listId, invitationToken, owner });
+			return response;
+		} catch (err: unknown) {
+			console.error(err);
+		}
+	}, []);
+
+	const { mutate: addInvitationTokenToListMutation, isLoading: isLoadingAddInvitationTokenToList } = useMutation(addInvitationTokenToList, {
+		onSuccess: () => {
+			query.invalidateQueries(['lists']);
+		},
+	});
+
 	return {
 		mutateCreateList,
 		mutateCreateListLoading,
@@ -74,7 +94,8 @@ export const useList = () => {
 		getListByIdData,
 		getListByIdLoading,
 		mutateRemoveList,
+		addInvitationTokenToListMutation,
+		isLoadingAddInvitationTokenToList,
+		getListById,
 	};
 };
-
-export default useList;

@@ -76,7 +76,7 @@ interface IButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	outline?: boolean;
 	disabled?: boolean;
 	margin?: boolean;
-	onClick?: () => void;
+	onClick?: (e: React.MouseEvent) => void;
 	isLoading?: boolean;
 }
 

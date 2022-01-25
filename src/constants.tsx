@@ -11,6 +11,7 @@ import { Sun } from '@styled-icons/feather/Sun';
 import { Star } from '@styled-icons/feather/Star';
 import { Calendar } from '@styled-icons/feather/Calendar';
 import { Edit2 } from '@styled-icons/feather/Edit2';
+import { Users } from '@styled-icons/feather';
 
 interface ColoursType {
 	// is the same as Record<string, string>
@@ -114,7 +115,7 @@ export const contextualMenuFirstOpion: IContextualMenu[] = [
 
 export const contextualMenuSecountOpion: IContextualMenu[] = [
 	{
-		icon: <Calendar />,
+		icon: <Users />,
 		name: 'Opcje udostępniania',
 		type: ContextualMenuOpion.sharing_options,
 	},

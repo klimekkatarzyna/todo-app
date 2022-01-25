@@ -5,6 +5,7 @@ import { Button } from '../Button/Button';
 import { useShowModal } from '../../hooks/useShowModal';
 import { ContextualMenuOpion } from '../../enums';
 import { ContextualMenuContext } from '../../ContextualMenuProvider';
+import { X } from '@styled-icons/feather';
 
 const ModalBackground = styled.div`
 	width: 100%;
@@ -27,11 +28,25 @@ const ModalBackground = styled.div`
 `;
 
 const ModalContent = styled.div`
-	min-width: 250px;
-	height: 150px;
+	min-width: 300px;
+	min-height: 150px;
 	border-radius: 0.3rem;
 	background-color: ${COLOURS.white};
 	padding: 1rem;
+	position: relative;
+
+	> button {
+		border: none;
+		background-color: inherit;
+		position: absolute;
+		right: 10px;
+		cursor: pointer;
+	}
+
+	svg {
+		width: 20px;
+		stroke: ${COLOURS.fontColor};
+	}
 `;
 
 const Title = styled.div`
@@ -55,9 +70,10 @@ interface IModal {
 	subtitle?: string;
 	contextualType: ContextualMenuOpion;
 	onHandleAction?: any;
+	children?: React.ReactChild | undefined;
 }
 
-export const Modal: FC<IModal> = ({ title, subtitle, onHandleAction, contextualType }) => {
+export const Modal: FC<IModal> = ({ title, subtitle, onHandleAction, contextualType, children }) => {
 	const { contextualMenu } = useContext(ContextualMenuContext);
 	const { isModalVisible, onCloseModal, onOpeneModal } = useShowModal();
 
@@ -101,14 +117,22 @@ export const Modal: FC<IModal> = ({ title, subtitle, onHandleAction, contextualT
 			{isModalVisible && (
 				<ModalBackground>
 					<ModalContent>
+						<button onClick={onCloseModal}>
+							<X />
+						</button>
 						<Title>{title}</Title>
 						<Subtitle>{subtitle}</Subtitle>
-						<ButtonsWrapper>
-							<Button onClick={onCloseModal}>{'Anuluj'}</Button>
-							<Button type='button' secondary onClick={onHandleActionAndClose}>
-								{'Usuwanie'}
-							</Button>
-						</ButtonsWrapper>
+						{children}
+						{contextualType !== ContextualMenuOpion.sharing_options ? (
+							<ButtonsWrapper>
+								<Button onClick={onCloseModal}>{'Anuluj'}</Button>
+								<Button type='button' secondary onClick={onHandleActionAndClose}>
+									{'Usuwanie'}
+								</Button>
+							</ButtonsWrapper>
+						) : (
+							<p>{'Zarządzaj dostępem'}</p>
+						)}
 					</ModalContent>
 				</ModalBackground>
 			)}

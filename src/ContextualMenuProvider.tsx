@@ -5,7 +5,7 @@ import { ContextualMenuOpion } from './enums';
 import { IContextualMenu } from './interfaces/list';
 
 export interface ContextualMenuType {
-	contextualMenu: any;
+	contextualMenu: IData | undefined;
 	handleClick: (event: React.ChangeEvent<HTMLInputElement>, data: any) => void;
 }
 
@@ -22,7 +22,7 @@ interface IContextualMenuProvider {
 }
 
 export const ContextualMenuProvider: FC<IContextualMenuProvider> = ({ children }) => {
-	const [contextualMenu, setContextualMenu] = useState<IData | unknown>();
+	const [contextualMenu, setContextualMenu] = useState<IData | undefined>();
 
 	const handleClick = useCallback((event: React.ChangeEvent<HTMLInputElement>, data: IData) => {
 		setContextualMenu(data);
@@ -40,6 +40,9 @@ export const ContextualMenuProvider: FC<IContextualMenuProvider> = ({ children }
 			case ContextualMenuOpion.edit_group_name:
 				setContextualMenu(data);
 				break;
+			case ContextualMenuOpion.sharing_options:
+				setContextualMenu(data);
+				break;
 			default:
 				setContextualMenu(undefined);
 				break;
@@ -52,6 +55,8 @@ export const ContextualMenuProvider: FC<IContextualMenuProvider> = ({ children }
 			handleClick,
 		};
 	}, [contextualMenu, handleClick]);
+
+	console.log({ contextualMenu });
 
 	return <ContextualMenuContext.Provider value={value}>{children}</ContextualMenuContext.Provider>;
 };

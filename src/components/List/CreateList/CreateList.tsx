@@ -2,7 +2,7 @@ import React, { FC, useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { InputVersion } from '../../../enums';
 import { Input } from '../../Input/Input';
-import useList from '../useList';
+import { useList } from '../useList';
 import { COLOURS } from '../../../constants';
 import { handleResertInput, removesWhitespaceFromString } from '../../../utils/utilsFunctions';
 

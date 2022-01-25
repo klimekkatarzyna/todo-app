@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from 'react';
+import React, { FC, RefObject, useMemo } from 'react';
 import styled, { css } from 'styled-components';
 import { COLOURS, IconWrapper } from '../../constants';
 import { InputVersion } from '../../enums';
@@ -11,6 +11,7 @@ interface IWrapper {
 	inputFocused: boolean;
 	isIcon: boolean;
 	isTaskInput?: boolean;
+	readOnly?: boolean | undefined;
 }
 
 const Wrapper = styled.div<IWrapper>`
@@ -69,13 +70,15 @@ type InputType = 'text' | 'password';
 interface IInput<T = string | number | undefined> {
 	name: string;
 	value: T;
-	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+	onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	placeholder?: string;
 	isIcon?: boolean;
 	colorType?: InputVersion;
 	type?: InputType;
 	autoFocus?: boolean;
 	isTaskInput?: boolean;
+	readOnly?: boolean;
+	inputRef?: RefObject<HTMLInputElement>;
 }
 
 export const Input: FC<IInput> = ({
@@ -88,6 +91,8 @@ export const Input: FC<IInput> = ({
 	onChange,
 	autoFocus,
 	isTaskInput,
+	readOnly,
+	inputRef,
 }) => {
 	const { onFocus, onBlur, isFocused } = useFocusingHandling();
 	const iconColor: string = useMemo(() => (colorType === InputVersion.primary && !isFocused ? COLOURS.blue : COLOURS.fontColor), [type, isFocused]);
@@ -103,6 +108,7 @@ export const Input: FC<IInput> = ({
 				name={name}
 				value={value}
 				type={type}
+				readOnly={readOnly}
 				colorType={colorType}
 				placeholder={placeholder}
 				autoFocus={autoFocus || false}
@@ -111,6 +117,7 @@ export const Input: FC<IInput> = ({
 				onBlur={onBlur}
 				inputFocused={isFocused}
 				isTaskInput={isTaskInput}
+				ref={inputRef}
 			/>
 		</Wrapper>
 	);

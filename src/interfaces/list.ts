@@ -10,6 +10,7 @@ export interface IListItem {
 	_id?: string;
 	createdAt?: string;
 	url?: string;
+	invitationToken?: string;
 }
 
 export enum IListItemType {
@@ -24,6 +25,7 @@ export interface IContextualMenu {
 	icon: ReactElement;
 	name: string;
 	type: ContextualMenuOpion;
+	target?: ReactElement;
 }
 
 export interface IListResponse {

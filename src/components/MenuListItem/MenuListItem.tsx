@@ -2,17 +2,15 @@ import { FC, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { COLOURS, contextualMenuSecountOpion, IconWrapper } from '../../constants';
-import { IDeleteListResponse, IListItem } from '../../interfaces/list';
+import { IListItem } from '../../interfaces/list';
 import { Sun } from '@styled-icons/feather/Sun';
 import { Star } from '@styled-icons/feather/Star';
-import { Share } from '@styled-icons/feather/Share';
 import { List } from '@styled-icons/feather/List';
 import { Calendar } from '@styled-icons/feather/Calendar';
 import { User } from '@styled-icons/feather/User';
+import { Users } from '@styled-icons/feather/Users';
 import { Home } from '@styled-icons/feather/Home';
 import { SideMenuType } from '../../enums';
-import { UseMutateFunction } from 'react-query';
-import { HttpResponse } from '../../utils/http';
 import { ContextMenuTrigger } from 'react-contextmenu';
 import { ContextualMenu } from '../ContextualMenu/ContextualMenu';
 
@@ -30,7 +28,9 @@ const LinkStyled = styled(Link)`
 		}
 
 		> svg {
-			margin-right: 0.5rem;
+			margin-left: 0.5rem;
+			width: 18px;
+			stroke: ${COLOURS.fontColor};
 		}
 	}
 `;
@@ -50,11 +50,10 @@ const Name = styled.div<{ isNavClosed: boolean | undefined }>`
 
 interface IMenuListItem {
 	listItem: IListItem;
-	isShared?: boolean;
 	isNavClosed?: boolean | undefined;
 }
 
-export const MenuListItem: FC<IMenuListItem> = ({ isShared = false, listItem, isNavClosed }) => {
+export const MenuListItem: FC<IMenuListItem> = ({ listItem, isNavClosed }) => {
 	const icon = useMemo(
 		() =>
 			(listItem.url === SideMenuType.myDay && <Sun />) ||
@@ -70,7 +69,7 @@ export const MenuListItem: FC<IMenuListItem> = ({ isShared = false, listItem, is
 			<ContextMenuTrigger id={listItem?._id || ''}>
 				<IconWrapper color={listItem?.themeColor || COLOURS.blue}>{icon || <List />}</IconWrapper>
 				<Name isNavClosed={isNavClosed}>{listItem?.title}</Name>
-				{isShared && <Share />}
+				{listItem.invitationToken && <Users />}
 				{!!listItem?.taskNumber && <TasksNumber isNavClosed={isNavClosed}>{listItem?.taskNumber}</TasksNumber>}
 			</ContextMenuTrigger>
 			<ContextualMenu contextualMenuList={contextualMenuSecountOpion} elementId={listItem?._id || ''} />
