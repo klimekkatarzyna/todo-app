@@ -11,6 +11,7 @@ export interface IListItem {
 	createdAt?: string;
 	url?: string;
 	invitationToken?: string;
+	owner?: string;
 }
 
 export enum IListItemType {

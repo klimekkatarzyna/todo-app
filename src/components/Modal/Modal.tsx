@@ -53,6 +53,9 @@ const Title = styled.div`
 	font-weight: 600;
 	margin-bottom: 1rem;
 	color: ${COLOURS.fontColor};
+	text-align: center;
+	border-bottom: 1px solid ${COLOURS.border};
+	padding: 0rem 1rem 1rem;
 `;
 
 const Subtitle = styled.div`
@@ -123,15 +126,13 @@ export const Modal: FC<IModal> = ({ title, subtitle, onHandleAction, contextualT
 						<Title>{title}</Title>
 						<Subtitle>{subtitle}</Subtitle>
 						{children}
-						{contextualType !== ContextualMenuOpion.sharing_options ? (
+						{contextualType !== ContextualMenuOpion.sharing_options && (
 							<ButtonsWrapper>
 								<Button onClick={onCloseModal}>{'Anuluj'}</Button>
 								<Button type='button' secondary onClick={onHandleActionAndClose}>
 									{'Usuwanie'}
 								</Button>
 							</ButtonsWrapper>
-						) : (
-							<p>{'Zarządzaj dostępem'}</p>
 						)}
 					</ModalContent>
 				</ModalBackground>

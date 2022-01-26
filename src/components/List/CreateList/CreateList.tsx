@@ -2,9 +2,12 @@ import React, { FC, useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { InputVersion } from '../../../enums';
 import { Input } from '../../Input/Input';
-import { useList } from '../useList';
 import { COLOURS } from '../../../constants';
 import { handleResertInput, removesWhitespaceFromString } from '../../../utils/utilsFunctions';
+import { http } from '../../../utils/http';
+import { IListItem } from '../../../interfaces/list';
+import * as api from '../../../services';
+import { useMutation, useQueryClient } from 'react-query';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -15,8 +18,26 @@ const Wrapper = styled.div`
 `;
 
 export const CreateList: FC = () => {
+	const query = useQueryClient();
 	const [listName, setListName] = useState<string | undefined>(undefined);
-	const { createListMutation } = useList();
+
+	const createListAction = useCallback(
+		async (title: string | undefined) =>
+			await http<IListItem>(api.createList, 'POST', {
+				title,
+				taskNumber: 0,
+			}),
+		[]
+	);
+	const {
+		mutate: createListMutation,
+		isLoading: createListLoading,
+		error: createListError,
+	} = useMutation(createListAction, {
+		onSuccess: () => {
+			query.invalidateQueries(['lists']);
+		},
+	});
 
 	const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
 		const clearStr = removesWhitespaceFromString(event.target?.value);
@@ -26,13 +47,10 @@ export const CreateList: FC = () => {
 	const onSubmit = useCallback(
 		async (event: React.SyntheticEvent): Promise<void> => {
 			event.preventDefault();
-			try {
-				await createListMutation(listName);
-				handleResertInput(setListName);
-				//TODO: redirect on created list
-			} catch {
-				//TODO: handle error & show notificayion
-			}
+
+			await createListMutation(listName);
+			handleResertInput(setListName);
+			//TODO: redirect on created list
 		},
 		[listName]
 	);

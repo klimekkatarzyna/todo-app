@@ -11,9 +11,9 @@ export const GenerateTokenView: FC<IGenerateTokenViewProps> = ({ isLoading, onGe
 	return (
 		<div>
 			<p>Zaproś inne osoby. Gdy dołączą zostaną tutaj zaproszone.</p>
-			{isLoading && <Loader />}
 			<Button primary onClick={onGenerateInvitationToken}>
 				{'Utwórz link zaproszenia'}
+				{isLoading && <Loader />}
 			</Button>
 		</div>
 	);

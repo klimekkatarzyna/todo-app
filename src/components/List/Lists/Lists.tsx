@@ -19,17 +19,8 @@ interface ILists {
 }
 
 export const Lists: FC<ILists> = ({ isNavClosed }) => {
-	const {
-		getListsLoading,
-		listsResponse,
-		removeListMutation,
-		addInvitationTokenToListMutation,
-		addInvitationTokenToListLoading,
-		getListByIdAction,
-		listDataResponse,
-	} = useList();
+	const { getListsLoading, listsResponse, removeListMutation, addInvitationTokenToListMutation, addInvitationTokenToListLoading } = useList();
 
-	console.log({ listDataResponse });
 	return (
 		<>
 			<Wrapper>
@@ -42,10 +33,8 @@ export const Lists: FC<ILists> = ({ isNavClosed }) => {
 			<Modal title='Czy chcesz usunąć listę?' onHandleAction={removeListMutation} contextualType={ContextualMenuOpion.remove_list} />
 			<Modal title='Udostępnij listę' onHandleAction={() => {}} contextualType={ContextualMenuOpion.sharing_options}>
 				<SharingOptions
-					listData={listDataResponse}
-					addInvitationTokenToListMutation={addInvitationTokenToListMutation}
 					addInvitationTokenToListLoading={addInvitationTokenToListLoading}
-					getListByIdAction={getListByIdAction}
+					addInvitationTokenToListMutation={addInvitationTokenToListMutation}
 				/>
 			</Modal>
 		</>

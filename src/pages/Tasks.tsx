@@ -1,13 +1,24 @@
 import { FC } from 'react';
+import { useQuery } from 'react-query';
+import { useParams } from 'react-router-dom';
 import { Board } from '../components/Board';
 import { useList } from '../components/List/useList';
 import { Loader } from '../components/Loader/Loader';
 import { CreateTask } from '../components/Tasks/CreateTask';
 import { TasksList } from '../components/Tasks/Tasks';
 import { Toolbar } from '../components/Toolbar';
+import { IUseParams } from '../interfaces/app';
+import { IListItem } from '../interfaces/list';
 
 export const Tasks: FC = () => {
-	const { listDataResponse, listDataLoading } = useList();
+	const { listId } = useParams<IUseParams>();
+	const { getListByIdAction } = useList();
+
+	const {
+		data: listDataResponse,
+		isLoading: listDataLoading,
+		error: getListByIdError,
+	} = useQuery<IListItem | undefined>(['getListById', listId], getListByIdAction);
 
 	return (
 		<Board>

@@ -1,41 +1,59 @@
-import React, { FC, useContext, useEffect } from 'react';
+import React, { FC, useCallback, useContext, useEffect, useState } from 'react';
 import { ContextualMenuContext } from '../../ContextualMenuProvider';
 import { IListItem } from '../../interfaces/list';
 import { useGenerateInvitationToken } from './useGenerateInvitationToken';
 import { GenerateTokenView } from './GenerateTokenView';
 import { ShareTokenView } from './ShareTokenView';
-import { useQuery } from 'react-query';
+import { UseMutateFunction, useQuery } from 'react-query';
 import { AuthContext, AuthContextType } from '../../AuthContext';
+import * as api from '../../services';
+import { http, HttpResponse } from '../../utils/http';
+import { AccessManagement } from './AccessManagement';
 
 interface ISharingOptionsProps {
-	listData: IListItem | undefined;
 	addInvitationTokenToListLoading: boolean;
-	addInvitationTokenToListMutation: any;
-	getListByIdAction: any;
+	addInvitationTokenToListMutation: UseMutateFunction<HttpResponse<unknown>, unknown, any, unknown>;
 }
 
-export const SharingOptions: FC<ISharingOptionsProps> = ({
-	getListByIdAction,
-	addInvitationTokenToListLoading,
-	addInvitationTokenToListMutation,
-	listData,
-}) => {
+export const SharingOptions: FC<ISharingOptionsProps> = ({ addInvitationTokenToListLoading, addInvitationTokenToListMutation }) => {
 	const { authData } = useContext<AuthContextType>(AuthContext);
 	const { contextualMenu } = useContext(ContextualMenuContext);
 	const { invitationToken, onGenerateInvitationToken } = useGenerateInvitationToken();
-	// const { data, isLoading: getListByIdLoading } = useQuery<IListItem | undefined>(['getListById', contextualMenu?.elementId], getListById);
-	console.log(listData);
-	// console.log({ data });
+	const [step, setStep] = useState<number>(1);
+
+	const getListByIdAction = useCallback(async () => {
+		const response = await http<IListItem[]>(`${api.getListById}/${contextualMenu?.elementId}`, 'GET');
+		return response.body?.[0];
+	}, [contextualMenu?.elementId]);
+
+	const {
+		data: listDataResponse,
+		isLoading: listDataLoading,
+		error: getListByIdError,
+	} = useQuery<IListItem | undefined>(['getListById', contextualMenu?.elementId], getListByIdAction);
 
 	useEffect(() => {
-		if (!!listData?.invitationToken) return;
+		if (!!listDataResponse?.invitationToken) return;
 		addInvitationTokenToListMutation({ listId: contextualMenu?.elementId, invitationToken: invitationToken, owner: authData?.email });
-	}, [contextualMenu?.elementId, invitationToken, listData?.invitationToken]);
+	}, [contextualMenu?.elementId, invitationToken]);
+
+	const onNextStep = useCallback(() => {
+		setStep(step + 1);
+	}, [step]);
+
+	const onPrevStep = useCallback(() => {
+		setStep(step - 1);
+	}, [step]);
 
 	return (
 		<div>
-			{!!listData?.invitationToken ? (
-				<ShareTokenView invitationToken={listData?.invitationToken || ''} />
+			{!!listDataResponse?.invitationToken ? (
+				<>
+					{step === 1 && (
+						<ShareTokenView invitationToken={listDataResponse?.invitationToken} owner={listDataResponse?.owner} onNextStep={onNextStep} />
+					)}
+					{step === 2 && <AccessManagement invitationToken={listDataResponse?.invitationToken} onPrevStep={onPrevStep} />}
+				</>
 			) : (
 				<GenerateTokenView isLoading={addInvitationTokenToListLoading} onGenerateInvitationToken={onGenerateInvitationToken} />
 			)}

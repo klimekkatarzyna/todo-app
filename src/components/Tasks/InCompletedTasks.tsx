@@ -15,6 +15,7 @@ export const InCompletedTasks: FC = () => {
 			<SortComponent requestSort={requestSort} />
 			{inCompletedTaskslist?.map((task, index) => (
 				<TaskItem
+					key={index}
 					task={task}
 					index={index}
 					dragAndDrop={dragAndDrop}
