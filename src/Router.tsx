@@ -1,4 +1,4 @@
-import { FC, useContext, useEffect } from 'react';
+import { FC, useContext } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import { MyDay } from './pages/MyDay';
@@ -15,7 +15,7 @@ import { Tasks } from './pages/Tasks';
 import { NotFound } from './pages/NotFound';
 import { AuthContext, AuthContextType } from './AuthContext';
 import { Loader } from './components/Loader/Loader';
-import { useHistory } from 'react-router';
+import { Sharing } from './pages/Sharing';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -30,12 +30,6 @@ const Content = styled.div`
 
 const BrowserRouter: FC = () => {
 	const { authData, isCheckSessionLoading, sessionChecked } = useContext<AuthContextType>(AuthContext);
-	const history = useHistory();
-
-	useEffect(() => {
-		if (!!authData?._id) return;
-		history.push('/login'); // TODO: find other solution
-	}, [authData]);
 
 	return (
 		<Wrapper>
@@ -47,7 +41,7 @@ const BrowserRouter: FC = () => {
 					<Content>
 						{authData?._id && sessionChecked && <Sidebar />}
 						<Switch>
-							{authData?._id && sessionChecked ? (
+							{authData?._id !== undefined && sessionChecked !== undefined ? (
 								<>
 									<PrivateRoute exact path='/'>
 										<MyDay />
@@ -70,6 +64,9 @@ const BrowserRouter: FC = () => {
 									<PrivateRoute exact path='/tasks/:listId/:taskId'>
 										<Tasks />
 									</PrivateRoute>
+									{/* <PrivateRoute exact path='/tasks/sharing?invitationToken/:id'>
+										<Sharing />
+									</PrivateRoute> */}
 
 									{/* <Route render={(routeProps) => {
                                 return (
@@ -84,6 +81,9 @@ const BrowserRouter: FC = () => {
 									</Route>
 									<Route path='/login'>
 										<Login />
+									</Route>
+									<Route path='/tasks/sharing'>
+										<Sharing />
 									</Route>
 								</>
 							)}

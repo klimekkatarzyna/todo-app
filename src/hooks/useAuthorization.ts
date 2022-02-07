@@ -19,10 +19,11 @@ export const useAuthorization = () => {
 		try {
 			const response = await http<IIUserDataResponse>(api.me, 'GET');
 			if (!response.isSuccess) return;
-			response?.isSuccess ? history.push('/') : history.push('/login');
+			response?.isSuccess ? history.push(history.location.pathname) : history.push('/login');
 
 			return response;
 		} catch (err) {
+			history.push(window.location.pathname !== '/tasks/sharing' ? '/login' : window.location.pathname);
 			console.error(err);
 		}
 	}, []);

@@ -14,7 +14,7 @@ export const PrivateRoute: FC<IPrivateRoute> = ({ children, ...rest }) => {
 		<Route
 			{...rest}
 			render={({ location }) =>
-				authData?._id ? (
+				authData?._id !== undefined ? (
 					children
 				) : (
 					<Redirect
