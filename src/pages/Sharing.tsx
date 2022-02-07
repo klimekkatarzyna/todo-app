@@ -1,9 +1,14 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { AuthContext } from '../AuthContext';
+import { AuthContext, AuthContextType } from '../AuthContext';
 import { Button } from '../components/Button/Button';
 import { COLOURS } from '../constants';
+import { http } from '../utils/http';
+import * as api from '../services';
+import { useMutation } from 'react-query';
+import { getStringAfterCharacter } from '../utils/utilsFunctions';
+import { Loader } from '../components/Loader/Loader';
 
 const Wrapper = styled.div`
 	position: absolute;
@@ -27,19 +32,32 @@ const Body = styled.div`
 
 export const Sharing = () => {
 	const history = useHistory();
+	const { authData } = useContext<AuthContextType>(AuthContext);
 
-	useEffect(() => {
-		sessionStorage.setItem('invitationTokenUrl', `${history.location.pathname}${history.location.search}`);
-	}, [history]);
+	const addUserToMemberOfListAction = useCallback(async (): Promise<unknown> => {
+		const response = await http(api.addUserToMemberOfList, 'PATCH', {
+			invitationToken: getStringAfterCharacter(history.location.search),
+			member: authData?._id,
+		});
 
-	// najpierw widok logowania
-	// pozniej widok ten !!
+		return response;
+	}, [authData]);
+
+	const { mutate: addUserToMemberOfListMutation, error, isLoading, isSuccess } = useMutation(addUserToMemberOfListAction);
+
+	const addUserToMemberOfList = useCallback(() => {
+		addUserToMemberOfListMutation();
+		if (isSuccess) history.push('/tasks/');
+	}, []);
 
 	return (
 		<Wrapper>
 			<Body>
+				<p>
+					<strong>{`Hej ${authData?.username}!`}</strong>
+				</p>
 				<p>{"Dołącz do listy 'Do zabrania dla synka'"}</p>
-				<p>{'Dołączono już do listy Do zabrania dla synka'}</p>
+				{/* <p>{'Dołączono już do listy Do zabrania dla synka'}</p> */}
 				{/*TODO: check if user is already invited to the list 
                 - yes => show info about that
                 - no => process of invitation */}
@@ -49,7 +67,10 @@ export const Sharing = () => {
 
 				{/*TODO: user don't have account: 
                 - redirect to register view */}
-				<Button primary>{'Dołącz'}</Button>
+				<Button primary onClick={addUserToMemberOfList}>
+					{'Dołącz'}
+					{isLoading && <Loader />}
+				</Button>
 			</Body>
 		</Wrapper>
 	);

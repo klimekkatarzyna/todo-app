@@ -16,6 +16,7 @@ import { NotFound } from './pages/NotFound';
 import { AuthContext, AuthContextType } from './AuthContext';
 import { Loader } from './components/Loader/Loader';
 import { Sharing } from './pages/Sharing';
+import { Redirect } from './pages/Redirect';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -64,9 +65,9 @@ const BrowserRouter: FC = () => {
 									<PrivateRoute exact path='/tasks/:listId/:taskId'>
 										<Tasks />
 									</PrivateRoute>
-									{/* <PrivateRoute exact path='/tasks/sharing?invitationToken/:id'>
+									<PrivateRoute exact path='/jointToList/tasks/sharing'>
 										<Sharing />
-									</PrivateRoute> */}
+									</PrivateRoute>
 
 									{/* <Route render={(routeProps) => {
                                 return (
@@ -83,7 +84,7 @@ const BrowserRouter: FC = () => {
 										<Login />
 									</Route>
 									<Route path='/tasks/sharing'>
-										<Sharing />
+										<Redirect />
 									</Route>
 								</>
 							)}

@@ -37,3 +37,6 @@ export const createGroup = 'http://localhost:3000/api/createGroup';
 export const getGroups = 'http://localhost:3000/api/getGroups';
 export const removeGroup = 'http://localhost:3000/api/removeGroup';
 export const editGroup = 'http://localhost:3000/api/editGroup';
+
+// sharing
+export const addUserToMemberOfList = 'http://localhost:3000/api/addUserToMemberOfList';

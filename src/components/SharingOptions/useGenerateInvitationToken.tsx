@@ -6,7 +6,7 @@ export const useGenerateInvitationToken = () => {
 
 	const onGenerateInvitationToken = useCallback(() => {
 		const token = uuidv4();
-		setInvitationToken(`http://localhost:8080/tasks/sharing?invitationToken=${token}`); // TODO: https on prod
+		setInvitationToken(token);
 	}, []);
 
 	return {

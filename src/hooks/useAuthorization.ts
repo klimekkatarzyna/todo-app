@@ -13,6 +13,7 @@ interface IAuthenticateUser {
 
 export const useAuthorization = () => {
 	const history = useHistory();
+	const invitationTokenUrl = sessionStorage.getItem('invitationTokenUrl');
 	const { setAuthData } = useContext<AuthContextType>(AuthContext);
 
 	const checkSession = useCallback(async () => {
@@ -23,7 +24,6 @@ export const useAuthorization = () => {
 
 			return response;
 		} catch (err) {
-			history.push(window.location.pathname !== '/tasks/sharing' ? '/login' : window.location.pathname);
 			console.error(err);
 		}
 	}, []);
@@ -53,7 +53,7 @@ export const useAuthorization = () => {
 				password,
 			});
 			if (response.isSuccess && response?.body._id) {
-				history.push('/');
+				history.push(invitationTokenUrl ? `/jointToList${invitationTokenUrl}` : '/');
 				setAuthData(response?.body);
 			}
 

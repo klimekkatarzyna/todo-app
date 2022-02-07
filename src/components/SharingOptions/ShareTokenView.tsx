@@ -60,7 +60,13 @@ export const ShareTokenView: FC<IShareTokenViewProps> = ({ invitationToken, owne
 			<p>
 				{owner} <span>{'Właściciel'}</span>
 			</p>
-			<Input type='text' value={invitationToken} inputRef={inputRef} readOnly name='shareLink' />
+			<Input
+				type='text'
+				value={`http://localhost:8080/tasks/sharing?invitationToken=${invitationToken}`} // TODO: https on prod
+				inputRef={inputRef}
+				readOnly
+				name='shareLink'
+			/>
 			<Button primary onClick={copyToClipboard}>
 				{'Kopiuj link'}
 			</Button>
