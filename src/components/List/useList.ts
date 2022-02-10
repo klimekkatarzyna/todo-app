@@ -41,7 +41,7 @@ export const useList = () => {
 	);
 	const { mutate: addInvitationTokenToListMutation, isLoading: addInvitationTokenToListLoading } = useMutation(addInvitationTokenToListAction, {
 		onSuccess: () => {
-			query.invalidateQueries(['lists']);
+			query.invalidateQueries(['getListById']);
 		},
 	});
 

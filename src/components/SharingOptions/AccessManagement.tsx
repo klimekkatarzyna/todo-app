@@ -30,7 +30,7 @@ const BackButton = styled.button`
 `;
 
 interface IAccessManagementProps {
-	invitationToken: string;
+	invitationToken: string | undefined;
 	onPrevStep: () => void;
 }
 
@@ -48,7 +48,7 @@ export const AccessManagement: FC<IAccessManagementProps> = ({ invitationToken, 
 				<ArrowLeft />
 			</BackButton>
 			<h3>{'Link do zapraszania'}</h3>
-			<div>{invitationToken}</div>
+			<div>{`http://localhost:8080/tasks/sharing?invitationToken=${invitationToken}`}</div>
 			<Button secondary onClick={() => {}}>
 				{'Zatrzymaj udostępnianie'}
 			</Button>

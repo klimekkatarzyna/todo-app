@@ -12,6 +12,7 @@ import { Star } from '@styled-icons/feather/Star';
 import { Calendar } from '@styled-icons/feather/Calendar';
 import { Edit2 } from '@styled-icons/feather/Edit2';
 import { Users } from '@styled-icons/feather';
+import { LogOut } from '@styled-icons/feather/LogOut';
 
 interface ColoursType {
 	// is the same as Record<string, string>
@@ -138,6 +139,34 @@ export const contextualMenuSecountOpion: IContextualMenu[] = [
 		icon: <Trash2 />,
 		name: 'Usuń listę',
 		type: ContextualMenuOpion.remove_list,
+	},
+];
+
+export const contextualMenuSecountOpionMembers: IContextualMenu[] = [
+	{
+		icon: <Users />,
+		name: 'Opcje udostępniania',
+		type: ContextualMenuOpion.sharing_options,
+	},
+	{
+		icon: <Plus />,
+		name: 'Przenieś listę do... >',
+		type: ContextualMenuOpion.move_list_to,
+	},
+	{
+		icon: <FileMinus />,
+		name: 'Duplikuj listę',
+		type: ContextualMenuOpion.duplicate_list,
+	},
+	{
+		icon: <Copy />,
+		name: 'Wydrukuj listę',
+		type: ContextualMenuOpion.print_list,
+	},
+	{
+		icon: <LogOut />,
+		name: 'Opuść listę',
+		type: ContextualMenuOpion.leave_list,
 	},
 ];
 

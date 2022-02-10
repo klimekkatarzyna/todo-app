@@ -37,6 +37,7 @@ export const Lists: FC<ILists> = ({ isNavClosed }) => {
 					addInvitationTokenToListMutation={addInvitationTokenToListMutation}
 				/>
 			</Modal>
+			<Modal title='Czy chcesz opuścić tę listę?' onHandleAction={() => {}} contextualType={ContextualMenuOpion.leave_list} />
 		</>
 	);
 };

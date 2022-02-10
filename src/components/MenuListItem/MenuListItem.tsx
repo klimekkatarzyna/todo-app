@@ -1,7 +1,7 @@
 import { FC, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { COLOURS, contextualMenuSecountOpion, IconWrapper } from '../../constants';
+import { COLOURS, contextualMenuSecountOpion, contextualMenuSecountOpionMembers, IconWrapper } from '../../constants';
 import { IListItem } from '../../interfaces/list';
 import { Sun } from '@styled-icons/feather/Sun';
 import { Star } from '@styled-icons/feather/Star';
@@ -13,6 +13,7 @@ import { Home } from '@styled-icons/feather/Home';
 import { SideMenuType } from '../../enums';
 import { ContextMenuTrigger } from 'react-contextmenu';
 import { ContextualMenu } from '../ContextualMenu/ContextualMenu';
+import { useSharingData } from '../../hooks/useSharingData';
 
 const LinkStyled = styled(Link)`
 	text-decoration: none;
@@ -63,6 +64,7 @@ export const MenuListItem: FC<IMenuListItem> = ({ listItem, isNavClosed }) => {
 			(listItem.url === SideMenuType.inbox && <Home />),
 		[listItem]
 	);
+	const { isOwner } = useSharingData(listItem?.members);
 
 	return (
 		<LinkStyled to={listItem?.isMainList ? `${listItem?.url}` : `/tasks/${listItem?._id}`}>
@@ -72,7 +74,10 @@ export const MenuListItem: FC<IMenuListItem> = ({ listItem, isNavClosed }) => {
 				{listItem.invitationToken && <Users />}
 				{!!listItem?.taskNumber && <TasksNumber isNavClosed={isNavClosed}>{listItem?.taskNumber}</TasksNumber>}
 			</ContextMenuTrigger>
-			<ContextualMenu contextualMenuList={contextualMenuSecountOpion} elementId={listItem?._id || ''} />
+			<ContextualMenu
+				contextualMenuList={isOwner ? contextualMenuSecountOpionMembers : contextualMenuSecountOpion}
+				elementId={listItem?._id || ''}
+			/>
 		</LinkStyled>
 	);
 };

@@ -12,6 +12,11 @@ export interface IListItem {
 	url?: string;
 	invitationToken?: string;
 	owner?: string;
+	members?: string[];
+}
+
+export interface IMember {
+	[key: string]: string;
 }
 
 export enum IListItemType {

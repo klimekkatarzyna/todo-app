@@ -43,6 +43,9 @@ export const ContextualMenuProvider: FC<IContextualMenuProvider> = ({ children }
 			case ContextualMenuOpion.sharing_options:
 				setContextualMenu(data);
 				break;
+			case ContextualMenuOpion.leave_list:
+				setContextualMenu(data);
+				break;
 			default:
 				setContextualMenu(undefined);
 				break;

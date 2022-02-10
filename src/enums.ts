@@ -18,6 +18,7 @@ export enum ContextualMenuOpion {
 	remove_list = 'remove_list',
 	remove_group = 'remove_group',
 	edit_group_name = 'edit_group_name',
+	leave_list = 'leave_list',
 	// TODO: add more
 }
 

@@ -50,7 +50,12 @@ export const SharingOptions: FC<ISharingOptionsProps> = ({ addInvitationTokenToL
 			{!!listDataResponse?.invitationToken ? (
 				<>
 					{step === 1 && (
-						<ShareTokenView invitationToken={listDataResponse?.invitationToken} owner={listDataResponse?.owner} onNextStep={onNextStep} />
+						<ShareTokenView
+							invitationToken={listDataResponse?.invitationToken}
+							owner={listDataResponse?.owner}
+							ownerId={listDataResponse?.members}
+							onNextStep={onNextStep}
+						/>
 					)}
 					{step === 2 && <AccessManagement invitationToken={listDataResponse?.invitationToken} onPrevStep={onPrevStep} />}
 				</>
