@@ -10,10 +10,10 @@ import { getStringAfterCharacter } from '../../utils/utilsFunctions';
 export const useList = () => {
 	const query = useQueryClient();
 	const { listId } = useParams<IUseParams>();
-	const invitationToken = getStringAfterCharacter(`/${sessionStorage.getItem('invitationTokenUrl')}` || undefined);
+	const invitationToken = getStringAfterCharacter(sessionStorage.getItem('invitationTokenUrl') || undefined); // TODO: fix me!!
 
 	const getListsAction = useCallback(
-		(): Promise<HttpResponse<IListResponse>> | undefined => http<IListResponse>(`${api.getLists}${invitationToken}`, 'GET'),
+		(): Promise<HttpResponse<IListResponse>> | undefined => http<IListResponse>(`${api.getLists}/${invitationToken}`, 'GET'),
 		[]
 	);
 	const {
