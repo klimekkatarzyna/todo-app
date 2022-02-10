@@ -47,7 +47,7 @@ export const Sharing = () => {
 
 	const addUserToMemberOfList = useCallback(() => {
 		addUserToMemberOfListMutation();
-		if (isSuccess) history.push('/tasks/');
+		// history.push('/tasks');
 	}, []);
 
 	return (

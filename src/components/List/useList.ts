@@ -5,12 +5,17 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { IUseParams } from '../../interfaces/app';
 import { IDeleteListResponse, IListItem, IListResponse } from '../../interfaces/list';
 import { useParams } from 'react-router';
+import { getStringAfterCharacter } from '../../utils/utilsFunctions';
 
 export const useList = () => {
 	const query = useQueryClient();
 	const { listId } = useParams<IUseParams>();
+	const invitationToken = getStringAfterCharacter(`/${sessionStorage.getItem('invitationTokenUrl')}` || undefined);
 
-	const getListsAction = useCallback((): Promise<HttpResponse<IListResponse>> | undefined => http<IListResponse>(api.getLists, 'GET'), []);
+	const getListsAction = useCallback(
+		(): Promise<HttpResponse<IListResponse>> | undefined => http<IListResponse>(`${api.getLists}${invitationToken}`, 'GET'),
+		[]
+	);
 	const {
 		isLoading: getListsLoading,
 		data: listsResponse,
