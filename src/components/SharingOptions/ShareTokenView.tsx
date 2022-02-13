@@ -1,6 +1,7 @@
-import React, { FC, RefObject, useCallback, useRef } from 'react';
+import React, { FC, RefObject, useCallback, useContext, useRef } from 'react';
 import styled from 'styled-components';
 import { COLOURS } from '../../constants';
+import { ContextualMenuContext } from '../../ContextualMenuProvider';
 import { ContextualMenuOpion } from '../../enums';
 import { useSharingData } from '../../hooks/useSharingData';
 import { Button } from '../Button/Button';
@@ -71,12 +72,12 @@ interface IShareTokenViewProps {
 	invitationToken: string | undefined;
 	owner: string | undefined;
 	onNextStep: () => void;
-	ownerId: string[] | undefined;
+	membersIds: string[] | undefined;
 }
 
-export const ShareTokenView: FC<IShareTokenViewProps> = ({ invitationToken, owner, onNextStep, ownerId }) => {
+export const ShareTokenView: FC<IShareTokenViewProps> = ({ invitationToken, owner, onNextStep, membersIds }) => {
 	const inputRef: RefObject<HTMLInputElement> = useRef(null);
-	const { isOwner, authData } = useSharingData(ownerId);
+	const { isUserListOwner } = useSharingData(membersIds);
 
 	const copyToClipboard = useCallback((e: React.MouseEvent) => {
 		const input = inputRef?.current;
@@ -93,7 +94,7 @@ export const ShareTokenView: FC<IShareTokenViewProps> = ({ invitationToken, owne
 			<p>
 				{owner} <span>{'Właściciel'}</span>
 			</p>
-			{isOwner && <p>{authData?.email}</p>}
+			{membersIds && membersIds.map(member => <p key={member}>{member}</p>)} {/*TODO: display name of user or email*/}
 			<Input
 				type='text'
 				value={`http://localhost:8080/tasks/sharing?invitationToken=${invitationToken}`} // TODO: https on prod
@@ -104,8 +105,7 @@ export const ShareTokenView: FC<IShareTokenViewProps> = ({ invitationToken, owne
 			<Button primary onClick={copyToClipboard}>
 				{'Kopiuj link'}
 			</Button>
-
-			{!isOwner ? (
+			{!isUserListOwner ? (
 				<ShareButton onClick={onNextStep}>{'Zarządzaj dostępem'}</ShareButton>
 			) : (
 				<LeaveButton onClick={() => {}}>{'Opuść listę'}</LeaveButton>

@@ -33,7 +33,8 @@ export const SharingOptions: FC<ISharingOptionsProps> = ({ addInvitationTokenToL
 	} = useQuery<IListItem | undefined>(['getListById', contextualMenu?.elementId], getListByIdAction);
 
 	useEffect(() => {
-		if (!!listDataResponse?.invitationToken) return;
+		// TODO: zle sie wyswietla kto jest ownerem po stronie zaproszonej osoby bo caly czas leci ten endpoint  fix me!
+		if (!!sessionStorage.getItem('invitationTokenUrl')?.length) return;
 		addInvitationTokenToListMutation({ listId: contextualMenu?.elementId, invitationToken: invitationToken, owner: authData?.email });
 	}, [contextualMenu?.elementId, invitationToken]);
 
@@ -47,13 +48,13 @@ export const SharingOptions: FC<ISharingOptionsProps> = ({ addInvitationTokenToL
 
 	return (
 		<div>
-			{!!listDataResponse?.invitationToken ? (
+			{!!listDataResponse?.members?.length ? (
 				<>
 					{step === 1 && (
 						<ShareTokenView
 							invitationToken={listDataResponse?.invitationToken}
 							owner={listDataResponse?.owner}
-							ownerId={listDataResponse?.members}
+							membersIds={listDataResponse?.members}
 							onNextStep={onNextStep}
 						/>
 					)}

@@ -27,7 +27,7 @@ export const ContextualMenuProvider: FC<IContextualMenuProvider> = ({ children }
 	const handleClick = useCallback((event: React.ChangeEvent<HTMLInputElement>, data: IData) => {
 		setContextualMenu(data);
 
-		switch (data.type) {
+		switch (data?.type) {
 			case ContextualMenuOpion.remove_list:
 				setContextualMenu(data);
 				break;

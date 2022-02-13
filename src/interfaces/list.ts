@@ -28,9 +28,9 @@ export enum IListItemType {
 }
 
 export interface IContextualMenu {
+	type: ContextualMenuOpion;
 	icon: ReactElement;
 	name: string;
-	type: ContextualMenuOpion;
 	target?: ReactElement;
 }
 

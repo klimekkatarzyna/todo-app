@@ -64,18 +64,18 @@ export const MenuListItem: FC<IMenuListItem> = ({ listItem, isNavClosed }) => {
 			(listItem.url === SideMenuType.inbox && <Home />),
 		[listItem]
 	);
-	const { isOwner } = useSharingData(listItem?.members);
+	const { isUserListOwner } = useSharingData(listItem?.members);
 
 	return (
 		<LinkStyled to={listItem?.isMainList ? `${listItem?.url}` : `/tasks/${listItem?._id}`}>
 			<ContextMenuTrigger id={listItem?._id || ''}>
 				<IconWrapper color={listItem?.themeColor || COLOURS.blue}>{icon || <List />}</IconWrapper>
 				<Name isNavClosed={isNavClosed}>{listItem?.title}</Name>
-				{listItem.invitationToken && <Users />}
+				{!!listItem.members?.length && <Users />}
 				{!!listItem?.taskNumber && <TasksNumber isNavClosed={isNavClosed}>{listItem?.taskNumber}</TasksNumber>}
 			</ContextMenuTrigger>
 			<ContextualMenu
-				contextualMenuList={isOwner ? contextualMenuSecountOpionMembers : contextualMenuSecountOpion}
+				contextualMenuList={isUserListOwner ? contextualMenuSecountOpionMembers : contextualMenuSecountOpion}
 				elementId={listItem?._id || ''}
 			/>
 		</LinkStyled>
