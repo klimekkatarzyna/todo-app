@@ -1,34 +1,25 @@
-import React, { FC, RefObject, useCallback, useContext, useRef } from 'react';
+import React, { FC, RefObject, useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import { COLOURS } from '../../constants';
-import { ContextualMenuContext } from '../../ContextualMenuProvider';
 import { ContextualMenuOpion } from '../../enums';
 import { useSharingData } from '../../hooks/useSharingData';
+import { IListItem } from '../../interfaces/list';
 import { Button } from '../Button/Button';
 import { Input } from '../Input/Input';
 import { Modal } from '../Modal/Modal';
+import { Member, Dot } from './Member';
 
 const Wrapper = styled.div`
 	h3 {
 		color: ${COLOURS.darkerGrey};
 		font-size: 0.9rem;
 	}
-	> p {
+
+	> div {
 		display: flex;
 		align-items: center;
-		position: relative;
-		margin-left: 0.5rem;
-		font-size: 0.9rem;
-		&:before {
-			content: '';
-			position: relative;
-			left: -10px;
-			width: 40px;
-			height: 40px;
-			background-color: ${COLOURS.red};
-			border-radius: 50%;
-		}
 	}
+
 	span {
 		color: ${COLOURS.darkerGrey};
 		font-size: 0.8rem;
@@ -67,17 +58,14 @@ const LeaveButton = styled.button`
 	color: ${COLOURS.red};
 	display: flex;
 `;
-
 interface IShareTokenViewProps {
-	invitationToken: string | undefined;
-	owner: string | undefined;
 	onNextStep: () => void;
-	membersIds: string[] | undefined;
+	listDataResponse: IListItem;
 }
 
-export const ShareTokenView: FC<IShareTokenViewProps> = ({ invitationToken, owner, onNextStep, membersIds }) => {
+export const ShareTokenView: FC<IShareTokenViewProps> = ({ onNextStep, listDataResponse }) => {
 	const inputRef: RefObject<HTMLInputElement> = useRef(null);
-	const { isUserListOwner } = useSharingData(membersIds);
+	const { isUserListOwner } = useSharingData(listDataResponse?.members);
 
 	const copyToClipboard = useCallback((e: React.MouseEvent) => {
 		const input = inputRef?.current;
@@ -91,13 +79,16 @@ export const ShareTokenView: FC<IShareTokenViewProps> = ({ invitationToken, owne
 	return (
 		<Wrapper>
 			<h3>Członkowie listy</h3>
-			<p>
-				{owner} <span>{'Właściciel'}</span>
-			</p>
-			{membersIds && membersIds.map(member => <p key={member}>{member}</p>)} {/*TODO: display name of user or email*/}
+			<div>
+				<Dot /> {listDataResponse?.owner} <span>{'Właściciel'}</span>
+			</div>
+			{listDataResponse?.members?.map(member => (
+				<Member key={member} member={member} listId={listDataResponse._id} />
+			))}{' '}
+			{/*TODO: display name of user or email*/}
 			<Input
 				type='text'
-				value={`http://localhost:8080/tasks/sharing?invitationToken=${invitationToken}`} // TODO: https on prod
+				value={`http://localhost:8080/tasks/sharing?invitationToken=${listDataResponse?.invitationToken}`} // TODO: https on prod
 				inputRef={inputRef}
 				readOnly
 				name='shareLink'
@@ -106,7 +97,7 @@ export const ShareTokenView: FC<IShareTokenViewProps> = ({ invitationToken, owne
 				{'Kopiuj link'}
 			</Button>
 			{!isUserListOwner ? (
-				<ShareButton onClick={onNextStep}>{'Zarządzaj dostępem'}</ShareButton>
+				!!listDataResponse?.members?.length && <ShareButton onClick={onNextStep}>{'Zarządzaj dostępem'}</ShareButton>
 			) : (
 				<LeaveButton onClick={() => {}}>{'Opuść listę'}</LeaveButton>
 			)}

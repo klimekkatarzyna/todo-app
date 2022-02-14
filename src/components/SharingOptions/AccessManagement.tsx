@@ -5,7 +5,9 @@ import { Button } from '../Button/Button';
 import { ArrowLeft } from '@styled-icons/feather/ArrowLeft';
 import { http } from '../../utils/http';
 import * as api from '../../services';
-import { ContextualMenuContext } from '../../ContextualMenuProvider';
+import { IListItem } from '../../interfaces/list';
+import { useMutation, useQueryClient } from 'react-query';
+import { Loader } from '../Loader/Loader';
 
 const Wrapper = styled.div`
 	h3 {
@@ -30,17 +32,28 @@ const BackButton = styled.button`
 `;
 
 interface IAccessManagementProps {
-	invitationToken: string | undefined;
+	listDataResponse: IListItem;
 	onPrevStep: () => void;
 }
 
-export const AccessManagement: FC<IAccessManagementProps> = ({ invitationToken, onPrevStep }) => {
-	const { contextualMenu } = useContext(ContextualMenuContext);
-
+export const AccessManagement: FC<IAccessManagementProps> = ({ listDataResponse, onPrevStep }) => {
+	const query = useQueryClient();
 	const removeInvitationAction = useCallback(async () => {
-		const response = await http(`${api.removeInvitation}/${contextualMenu?.elementId}`, 'DELETE');
+		const response = await http(`${api.removeInvitation}`, 'PATCH', {
+			listId: listDataResponse?._id,
+		});
 		return response;
-	}, [contextualMenu?.elementId]);
+	}, [listDataResponse]);
+
+	const {
+		mutate: removeInvitationMutation,
+		isLoading: removeInvitationLoading,
+		isError,
+	} = useMutation(removeInvitationAction, {
+		onSuccess: () => {
+			query.invalidateQueries(['getListById']);
+		},
+	});
 
 	return (
 		<Wrapper>
@@ -48,9 +61,10 @@ export const AccessManagement: FC<IAccessManagementProps> = ({ invitationToken, 
 				<ArrowLeft />
 			</BackButton>
 			<h3>{'Link do zapraszania'}</h3>
-			<div>{`http://localhost:8080/tasks/sharing?invitationToken=${invitationToken}`}</div>
-			<Button secondary onClick={() => {}}>
+			<div>{`http://localhost:8080/tasks/sharing?invitationToken=${listDataResponse?.invitationToken}`}</div>
+			<Button secondary onClick={() => removeInvitationMutation()}>
 				{'Zatrzymaj udostępnianie'}
+				{removeInvitationLoading && <Loader />}
 			</Button>
 		</Wrapper>
 	);

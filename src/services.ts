@@ -19,8 +19,6 @@ export const getListById = 'http://localhost:3000/api/getList';
 export const createList = 'http://localhost:3000/api/createList';
 export const editList = 'http://localhost:3000/api/editList';
 export const removeList = 'http://localhost:3000/api/removeList';
-export const addInvitationTokenToList = 'http://localhost:3000/api/addInvitationTokenToList';
-export const removeInvitation = 'http://localhost:3000/api/removeInvitation';
 
 // task
 export const createTask = 'http://localhost:3000/api/createTask';
@@ -39,4 +37,7 @@ export const removeGroup = 'http://localhost:3000/api/removeGroup';
 export const editGroup = 'http://localhost:3000/api/editGroup';
 
 // sharing
+export const addInvitationTokenToList = 'http://localhost:3000/api/addInvitationTokenToList';
 export const addUserToMemberOfList = 'http://localhost:3000/api/addUserToMemberOfList';
+export const removeMemberFromList = 'http://localhost:3000/api/removeMemberFromList';
+export const removeInvitation = 'http://localhost:3000/api/removeInvitation';
