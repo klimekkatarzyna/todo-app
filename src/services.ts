@@ -41,3 +41,6 @@ export const addInvitationTokenToList = 'http://localhost:3000/api/addInvitation
 export const addUserToMemberOfList = 'http://localhost:3000/api/addUserToMemberOfList';
 export const removeMemberFromList = 'http://localhost:3000/api/removeMemberFromList';
 export const removeInvitation = 'http://localhost:3000/api/removeInvitation';
+
+// importance tasks
+export const getImportanceTasks = 'http://localhost:3000/api/getImportanceTasks';

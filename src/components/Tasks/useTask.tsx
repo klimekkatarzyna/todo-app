@@ -104,7 +104,7 @@ export const useTask = () => {
 	);
 	const { mutate: changeTaskImportanceMutation } = useMutation(changeTaskImportanceAction, {
 		onSuccess: () => {
-			query.invalidateQueries(['tasksOfCurrentList']);
+			query.invalidateQueries(['tasksOfCurrentList', 'getImportanceTasks']);
 		},
 	});
 
