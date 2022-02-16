@@ -1,6 +1,6 @@
 import { useCallback, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import { AuthContext, AuthContextType } from '../AuthContext';
+import { AuthContext, AuthContextType } from '../AuthProvider';
 import { IAuthResponse, IIUserDataResponse, IUserData } from '../interfaces/app';
 import * as api from '../services';
 import { http, HttpResponse } from '../utils/http';

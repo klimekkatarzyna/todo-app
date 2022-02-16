@@ -1,6 +1,6 @@
 import { FC, useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { AuthContext, AuthContextType } from './AuthContext';
+import { AuthContext, AuthContextType } from './AuthProvider';
 
 interface IPrivateRoute {
 	path: string;

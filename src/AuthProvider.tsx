@@ -1,9 +1,19 @@
-import React, { FC, useEffect, useMemo, useState } from 'react';
+import React, { FC, useEffect, useMemo, useState, createContext } from 'react';
 import { useQuery } from 'react-query';
-import { AuthContext } from './AuthContext';
 import { useAuthorization } from './hooks/useAuthorization';
 import { IIUserDataResponse, IUserData } from './interfaces/app';
 import { HttpResponse } from './utils/http';
+
+export interface AuthContextType {
+	isCheckSessionLoading: boolean;
+	authData: IUserData | undefined;
+	setAuthData: React.Dispatch<React.SetStateAction<IUserData | undefined>>;
+	sessionChecked: boolean;
+	setSessionChecked: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+// better do it in separate file because the values return by the context will be use in few files
+export const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 interface IAuthProvider {
 	children: React.ReactNode;

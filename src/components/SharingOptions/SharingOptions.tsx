@@ -5,7 +5,7 @@ import { useGenerateInvitationToken } from './useGenerateInvitationToken';
 import { GenerateTokenView } from './GenerateTokenView';
 import { ShareTokenView } from './ShareTokenView';
 import { UseMutateFunction, useQuery } from 'react-query';
-import { AuthContext, AuthContextType } from '../../AuthContext';
+import { AuthContext, AuthContextType } from '../../AuthProvider';
 import * as api from '../../services';
 import { http, HttpResponse } from '../../utils/http';
 import { AccessManagement } from './AccessManagement';

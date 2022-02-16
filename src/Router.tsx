@@ -13,7 +13,7 @@ import Register from './pages/Register';
 import { Header } from './components/Header';
 import { Tasks } from './pages/Tasks';
 import { NotFound } from './pages/NotFound';
-import { AuthContext, AuthContextType } from './AuthContext';
+import { AuthContext, AuthContextType } from './AuthProvider';
 import { Loader } from './components/Loader/Loader';
 import { Sharing } from './pages/Sharing';
 import { Redirect } from './pages/Redirect';

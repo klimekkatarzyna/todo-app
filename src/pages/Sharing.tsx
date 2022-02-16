@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { AuthContext, AuthContextType } from '../AuthContext';
+import { AuthContext, AuthContextType } from '../AuthProvider';
 import { Button } from '../components/Button/Button';
 import { COLOURS } from '../constants';
 import { http } from '../utils/http';

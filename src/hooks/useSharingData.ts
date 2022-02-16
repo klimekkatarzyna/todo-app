@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { AuthContext, AuthContextType } from '../AuthContext';
+import { AuthContext, AuthContextType } from '../AuthProvider';
 
 export const useSharingData = (membersIds: string[] | undefined) => {
 	const { authData } = useContext<AuthContextType>(AuthContext);

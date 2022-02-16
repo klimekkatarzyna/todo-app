@@ -1,6 +1,5 @@
 import { FC } from 'react';
 import styled from 'styled-components';
-import { ITask } from '../../interfaces/task';
 import { TaskItem } from './TaskItem/TaskItem';
 import { COLOURS } from '../../constants';
 import { Accordion } from '../Accordion/Accordion';
