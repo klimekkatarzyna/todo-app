@@ -7,17 +7,7 @@ import BrowserRouter from './Router';
 import { ShowModalProvider } from './ShowModalProvider';
 import { ContextualMenuProvider } from './ContextualMenuProvider';
 
-const queryClient = new QueryClient({
-	defaultOptions: {
-		queries: {
-			refetchOnWindowFocus: false,
-			refetchOnMount: false,
-			refetchOnReconnect: false,
-			retry: false,
-			staleTime: 5 * 60 * 1000,
-		},
-	},
-});
+const queryClient = new QueryClient();
 
 const GlobalStyle = createGlobalStyle`
     html, body {

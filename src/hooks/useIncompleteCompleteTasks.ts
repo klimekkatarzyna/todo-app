@@ -26,7 +26,8 @@ export const useIncompleteCompleteTasks = () => {
 
 	const { mutate: changeTaskImportanceMutation } = useMutation(changeTaskImportanceAction, {
 		onSuccess: () => {
-			query.invalidateQueries(['tasksOfCurrentList', 'getImportanceTasks']);
+			query.invalidateQueries('getImportanceTasks');
+			query.invalidateQueries('tasksOfCurrentList');
 		},
 	});
 
@@ -66,6 +67,7 @@ export const useIncompleteCompleteTasks = () => {
 	const { mutate: changeTaskStatusMutation } = useMutation(changeTaskStatusAction, {
 		onSuccess: () => {
 			query.invalidateQueries(['tasksOfCurrentList']);
+			query.invalidateQueries(['getImportanceTasks']);
 		},
 	});
 

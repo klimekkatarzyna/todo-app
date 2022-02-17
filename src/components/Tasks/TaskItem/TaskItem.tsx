@@ -2,17 +2,12 @@ import { FC, useCallback, useContext, useEffect, useMemo, useState } from 'react
 import styled from 'styled-components';
 import { ContextMenuTrigger } from 'react-contextmenu';
 import { COLOURS, contextualMenuFirstOpion } from '../../../constants';
-import { IChangeTaskImportanceProps } from '../../../interfaces/task';
 import { ITask } from '../../../interfaces/task';
 import { IinitialDnDState } from '../../../hooks/useDragAndDrop';
 import { ContextualMenu } from '../../ContextualMenu/ContextualMenu';
 import { TaskDetails } from '../TaskDetails';
 import { ShowElementContext } from '../../../ShowElementContext';
 import { Importance } from '../../../enums';
-import { UseMutateFunction } from 'react-query';
-import { HttpResponse } from '../../../utils/http';
-import { useParams } from 'react-router-dom';
-import { IUseParams } from '../../../interfaces/app';
 
 const TaskItemWrapper = styled.div`
 	display: flex;
@@ -75,7 +70,6 @@ export const TaskItem: FC<ITaskItem> = ({
 	onDragLeave,
 	changeTaskImportance,
 }) => {
-	const { listId } = useParams<IUseParams>();
 	const { onShowComponent } = useContext(ShowElementContext);
 
 	const dragAndDropClass = useMemo(
@@ -98,9 +92,9 @@ export const TaskItem: FC<ITaskItem> = ({
 		onShowComponent();
 	}, [onShowComponent]);
 
-	const onClickImportanceButton = useCallback((): void => {
+	const onClickImportanceButton = useCallback(() => {
 		setIsImportanceButtonChecked(!isImportanceButtonChecked);
-		changeTaskImportance({ listId, taskId: task._id, importance: importanceType });
+		changeTaskImportance({ listId: task.parentFolderId, taskId: task._id, importance: importanceType });
 		// TODO: add task to importance list
 	}, [isImportanceButtonChecked]);
 

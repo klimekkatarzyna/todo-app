@@ -42,3 +42,5 @@ export const changeTaskImportanceAction = async ({ listId, taskId, importance }:
 
 export const addTaskToMyDayAction = async ({ listId, taskId, isMyDay }: IAddTaskToMyDayProps) =>
 	await http(`${api.addTaskToMyDay}/${listId}/${taskId}`, 'PATCH', { isMyDay });
+
+export const onGetImportanceTasksAction = async () => await http<ITasksResponse>(`${api.getImportanceTasks}`, 'GET');
