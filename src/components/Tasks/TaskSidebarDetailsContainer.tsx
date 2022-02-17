@@ -5,7 +5,6 @@ import { ITask, ITaskStatus } from '../../interfaces/task';
 import { getDay, getDayName, getMonth, parseUTCtoDate } from '../../utils/date';
 import { Loader } from '../Loader/Loader';
 import { TaskDetails } from './TaskDetails';
-import { useTask } from './useTask';
 import { Sun } from '@styled-icons/feather/Sun';
 import { Bell } from '@styled-icons/feather/Bell';
 import { Calendar } from '@styled-icons/feather/Calendar';
@@ -15,6 +14,11 @@ import { FilePlus } from '@styled-icons/feather/FilePlus';
 import { Trash2 } from '@styled-icons/feather/Trash2';
 import { XSquare } from '@styled-icons/feather/XSquare';
 import { ShowElementContext } from '../../ShowElementContext';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useParams } from 'react-router-dom';
+import { IUseParams } from '../../interfaces/app';
+import { addTaskToMyDayAction, deleteTaskAction, getTaskAction } from '../../actions/tasks';
+import { useIncompleteCompleteTasks } from '../../hooks/useIncompleteCompleteTasks';
 
 const TaskSidebarDetailsContainer = styled.div`
 	background-color: ${COLOURS.lightGrey};
@@ -64,8 +68,17 @@ const Footer = styled.div`
 `;
 
 export const TaskSidebarDetails: FC = () => {
+	const query = useQueryClient();
+	const { taskId, listId } = useParams<IUseParams>();
 	const { onHideComponent } = useContext(ShowElementContext);
-	const { taskDataLoading, taskData, onMarkTaskAsCompleted, onMarkTaskAsInCompleted, removeTaskMutation, addTaskToMyDayAction } = useTask();
+	const { onMarkTaskAsCompleted, onMarkTaskAsInCompleted } = useIncompleteCompleteTasks();
+
+	const { data: taskData, isLoading: taskDataLoading } = useQuery<any>(['getTask', taskId], () => getTaskAction(taskId));
+	const { mutate: removeTaskMutation } = useMutation(deleteTaskAction, {
+		onSuccess: () => {
+			query.invalidateQueries(['tasksOfCurrentList']);
+		},
+	});
 
 	const onHandleChange = useCallback(() => {
 		taskData?.taskStatus === ITaskStatus.inComplete && onMarkTaskAsCompleted(taskData._id);
@@ -86,7 +99,7 @@ export const TaskSidebarDetails: FC = () => {
 	}, []);
 
 	const addTaskToMyDayView = useCallback(() => {
-		addTaskToMyDayAction({ taskId: taskData?._id, isMyDay: true });
+		addTaskToMyDayAction({ listId, taskId: taskData?._id, isMyDay: true });
 	}, [taskData?._id]);
 
 	return (

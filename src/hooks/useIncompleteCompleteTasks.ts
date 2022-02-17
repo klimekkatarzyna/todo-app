@@ -1,8 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { SortTaskType } from '../../enums';
-import { ITask, ITaskStatus } from '../../interfaces/task';
-import { useSort } from '../../hooks/useSort';
-import { useTask } from './useTask';
+import { SortTaskType } from '../enums';
+import { ITask, ITasksResponse, ITaskStatus } from '../interfaces/task';
+import { useSort } from './useSort';
+import { HttpResponse } from '../utils/http';
+import { useParams } from 'react-router-dom';
+import { IUseParams } from '../interfaces/app';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { changeTaskImportanceAction, changeTaskStatusAction, getTasksOfCurrentListAction } from '../actions/tasks';
 
 interface SortType {
 	key: SortTaskType;
@@ -13,7 +17,18 @@ interface SortType {
 export type KeyType = 'string' | 'date';
 
 export const useIncompleteCompleteTasks = () => {
-	const { tasksOfCurrentList, onMarkTaskAsCompleted, onMarkTaskAsInCompleted, changeTaskImportanceMutation } = useTask();
+	const query = useQueryClient();
+	const { listId } = useParams<IUseParams>();
+
+	const { data: tasksOfCurrentList } = useQuery<HttpResponse<ITasksResponse> | undefined>(['tasksOfCurrentList', listId], () =>
+		getTasksOfCurrentListAction(listId)
+	);
+
+	const { mutate: changeTaskImportanceMutation } = useMutation(changeTaskImportanceAction, {
+		onSuccess: () => {
+			query.invalidateQueries(['tasksOfCurrentList', 'getImportanceTasks']);
+		},
+	});
 
 	const comletedTasks = useMemo(
 		() => (tasksOfCurrentList?.body?.tasks || []).filter(task => task.taskStatus === ITaskStatus.complete),
@@ -48,15 +63,35 @@ export const useIncompleteCompleteTasks = () => {
 		setComplitedTasksList(comletedTasks);
 	}, [tasksOfCurrentList, sort]);
 
+	const { mutate: changeTaskStatusMutation } = useMutation(changeTaskStatusAction, {
+		onSuccess: () => {
+			query.invalidateQueries(['tasksOfCurrentList']);
+		},
+	});
+
+	const onMarkTaskAsCompleted = useCallback((taskId: string): void => {
+		changeTaskStatusMutation({
+			taskId: taskId,
+			taskStatus: ITaskStatus.complete,
+		});
+	}, []);
+
+	const onMarkTaskAsInCompleted = useCallback((taskId: string): void => {
+		changeTaskStatusMutation({
+			taskId: taskId,
+			taskStatus: ITaskStatus.inComplete,
+		});
+	}, []);
+
 	return {
 		inCompletedTaskslist,
 		setInCompletedTasksList,
-		onMarkTaskAsCompleted,
 		changeTaskImportanceMutation,
 		completedTaskslist,
 		setComplitedTasksList,
 		comletedTasks,
-		onMarkTaskAsInCompleted,
 		requestSort,
+		onMarkTaskAsCompleted,
+		onMarkTaskAsInCompleted,
 	};
 };

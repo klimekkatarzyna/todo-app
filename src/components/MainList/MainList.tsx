@@ -1,9 +1,11 @@
-import { FC } from 'react';
+import { FC, useCallback } from 'react';
 import styled from 'styled-components';
 import { MenuListItem } from '../MenuListItem/MenuListItem';
-import { IListItem } from '../../interfaces/list';
-import { useMainList } from './useMainList';
+import { IListItem, IMainListResponse } from '../../interfaces/list';
 import { Loader } from '../Loader/Loader';
+import { http, HttpResponse } from '../../utils/http';
+import * as api from '../../services';
+import { useQuery } from 'react-query';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -17,7 +19,8 @@ interface IMainList {
 
 export const MainList: FC<IMainList> = ({ isNavClosed }) => {
 	// TODO: endpomt to update tasksNumber
-	const { mainList, mainListLoading } = useMainList();
+	const getMainListAction = useCallback(async () => await http<IMainListResponse>(api.getMainList, 'GET'), []);
+	const { data: mainList, isLoading: mainListLoading } = useQuery<HttpResponse<IMainListResponse>>('getMainList', getMainListAction);
 
 	return (
 		<Wrapper>

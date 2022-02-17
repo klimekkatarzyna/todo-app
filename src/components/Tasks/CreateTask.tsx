@@ -1,15 +1,22 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useMutation, useQueryClient } from 'react-query';
 import { useHistory, useParams } from 'react-router';
+import { createTaskAction } from '../../actions/tasks';
 import { InputVersion } from '../../enums';
 import { IUseParams } from '../../interfaces/app';
 import { handleResertInput, removesWhitespaceFromString } from '../../utils/utilsFunctions';
 import { Input } from '../Input/Input';
-import { useTask } from './useTask';
 
 export const CreateTask = () => {
+	const query = useQueryClient();
 	const history = useHistory();
 	const { listId } = useParams<IUseParams>();
-	const { createTaskMutation } = useTask();
+
+	const { mutate: createTaskMutation } = useMutation(createTaskAction, {
+		onSuccess: () => {
+			query.invalidateQueries(['tasksOfCurrentList']);
+		},
+	});
 
 	useEffect(() => {
 		history.listen(() => setTaskName(''));

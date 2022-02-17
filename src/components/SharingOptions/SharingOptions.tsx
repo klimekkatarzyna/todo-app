@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useContext, useEffect, useState } from 'react';
 import { ContextualMenuContext } from '../../ContextualMenuProvider';
 import { IListItem } from '../../interfaces/list';
-import { useGenerateInvitationToken } from './useGenerateInvitationToken';
+import { useGenerateInvitationToken } from '../../hooks/useGenerateInvitationToken';
 import { GenerateTokenView } from './GenerateTokenView';
 import { ShareTokenView } from './ShareTokenView';
 import { UseMutateFunction, useQuery } from 'react-query';

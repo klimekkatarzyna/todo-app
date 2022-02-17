@@ -11,6 +11,8 @@ import { ShowElementContext } from '../../../ShowElementContext';
 import { Importance } from '../../../enums';
 import { UseMutateFunction } from 'react-query';
 import { HttpResponse } from '../../../utils/http';
+import { useParams } from 'react-router-dom';
+import { IUseParams } from '../../../interfaces/app';
 
 const TaskItemWrapper = styled.div`
 	display: flex;
@@ -73,6 +75,7 @@ export const TaskItem: FC<ITaskItem> = ({
 	onDragLeave,
 	changeTaskImportance,
 }) => {
+	const { listId } = useParams<IUseParams>();
 	const { onShowComponent } = useContext(ShowElementContext);
 
 	const dragAndDropClass = useMemo(
@@ -97,7 +100,7 @@ export const TaskItem: FC<ITaskItem> = ({
 
 	const onClickImportanceButton = useCallback((): void => {
 		setIsImportanceButtonChecked(!isImportanceButtonChecked);
-		changeTaskImportance({ taskId: task._id, importance: importanceType });
+		changeTaskImportance({ listId, taskId: task._id, importance: importanceType });
 		// TODO: add task to importance list
 	}, [isImportanceButtonChecked]);
 

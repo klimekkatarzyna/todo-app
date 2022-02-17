@@ -39,6 +39,7 @@ export interface IChangeTaskStatusToCompleteProps {
 }
 
 export interface IChangeTaskImportanceProps {
+	listId: string;
 	taskId: string;
 	importance: Importance;
 }
@@ -51,6 +52,7 @@ export interface ICreateTaskProps {
 }
 
 export interface IAddTaskToMyDayProps {
+	listId: string;
 	taskId: string;
 	isMyDay: boolean;
 }

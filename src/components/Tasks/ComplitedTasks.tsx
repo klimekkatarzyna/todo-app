@@ -4,7 +4,7 @@ import { TaskItem } from './TaskItem/TaskItem';
 import { COLOURS } from '../../constants';
 import { Accordion } from '../Accordion/Accordion';
 import { useDragAndDrop } from '../../hooks/useDragAndDrop';
-import { useIncompleteCompleteTasks } from './useIncompleteCompleteTasks';
+import { useIncompleteCompleteTasks } from '../../hooks/useIncompleteCompleteTasks';
 
 const TasksNumber = styled.span`
 	margin-left: 1rem;
