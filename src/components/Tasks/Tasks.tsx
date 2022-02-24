@@ -26,7 +26,8 @@ export const TasksList: FC = () => {
 
 	const { mutate: removeTaskMutation } = useMutation(deleteTaskAction, {
 		onSuccess: () => {
-			query.invalidateQueries(['tasksOfCurrentList']);
+			query.invalidateQueries('tasksOfCurrentList');
+			query.invalidateQueries('lists');
 		},
 	});
 
