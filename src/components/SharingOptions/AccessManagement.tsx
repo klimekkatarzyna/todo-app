@@ -61,7 +61,7 @@ export const AccessManagement: FC<IAccessManagementProps> = ({ listDataResponse,
 				<ArrowLeft />
 			</BackButton>
 			<h3>{'Link do zapraszania'}</h3>
-			<div>{`http://localhost:8080/tasks/sharing?invitationToken=${listDataResponse?.invitationToken}`}</div>
+			<div>{`${process.env.REACT_APP_CONFIG_API}/tasks/sharing?invitationToken=${listDataResponse?.invitationToken}`}</div>
 			<Button secondary onClick={() => removeInvitationMutation()}>
 				{'Zatrzymaj udostępnianie'}
 				{removeInvitationLoading && <Loader />}

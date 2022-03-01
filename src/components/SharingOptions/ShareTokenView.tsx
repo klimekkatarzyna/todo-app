@@ -88,7 +88,7 @@ export const ShareTokenView: FC<IShareTokenViewProps> = ({ onNextStep, listDataR
 			{/*TODO: display name of user or email*/}
 			<Input
 				type='text'
-				value={`http://localhost:8080/tasks/sharing?invitationToken=${listDataResponse?.invitationToken}`} // TODO: https on prod
+				value={`${process.env.REACT_APP_CONFIG_API}/tasks/sharing?invitationToken=${listDataResponse?.invitationToken}`} // TODO: https on prod
 				inputRef={inputRef}
 				readOnly
 				name='shareLink'
