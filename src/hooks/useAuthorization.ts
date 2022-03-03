@@ -1,9 +1,9 @@
 import { useCallback, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { AuthContext, AuthContextType } from '../AuthProvider';
-import { IAuthResponse, IIUserDataResponse, IUserData } from '../interfaces/app';
+import { IIUserDataResponse, IUserData } from '../interfaces/app';
 import * as api from '../services';
-import { http, HttpResponse } from '../utils/http';
+import { http } from '../utils/http';
 
 interface IAuthenticateUser {
 	email: string;
@@ -48,11 +48,11 @@ export const useAuthorization = () => {
 
 	const loginRequest = useCallback(async ({ email, password }: IAuthenticateUser) => {
 		try {
-			const response = await http<any>(api.login, 'POST', {
+			const response = await http<IUserData>(api.login, 'POST', {
 				email,
 				password,
 			});
-			if (response.isSuccess && response?.body._id) {
+			if (response.isSuccess && response?.body?._id) {
 				history.push(invitationTokenUrl ? `/jointToList${invitationTokenUrl}` : '/');
 				setAuthData(response?.body);
 			}

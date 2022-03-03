@@ -9,8 +9,8 @@ const queryClient = new QueryClient();
 <QueryClientProvider client={queryClient}>
 	<Router>
 		<div style={{ display: 'flex', flexDirection: 'column' }}>
-			{contextualMenuFirstOpion.map(listItem => (
-				<ContextualMenuItem listItem={listItem} listElementId={'1'} />
+			{contextualMenuFirstOpion.map((listItem, index) => (
+				<ContextualMenuItem key={index} listItem={listItem} listElementId={'1'} />
 			))}
 		</div>
 	</Router>

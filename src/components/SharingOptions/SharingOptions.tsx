@@ -22,8 +22,8 @@ export const SharingOptions: FC<ISharingOptionsProps> = ({ addInvitationTokenToL
 	const [step, setStep] = useState<number>(1);
 
 	const getListByIdAction = useCallback(async () => {
-		const response = await http<IListItem[]>(`${api.getListById}/${contextualMenu?.elementId}`, 'GET');
-		return response.body?.[0];
+		const response = await http<IListItem>(`${api.getListById}/${contextualMenu?.elementId}`, 'GET');
+		return response.body;
 	}, [contextualMenu?.elementId]);
 
 	const {

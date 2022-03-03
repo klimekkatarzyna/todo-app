@@ -13,17 +13,17 @@ const TasksNumber = styled.span`
 `;
 
 export const ComplitedTasks: FC = () => {
-	const { completedTaskslist, comletedTasks, setComplitedTasksList, onMarkTaskAsInCompleted, changeTaskImportanceMutation } =
-		useIncompleteCompleteTasks();
+	const { completedTaskslist, setComplitedTasksList, onMarkTaskAsInCompleted, changeTaskImportanceMutation } = useIncompleteCompleteTasks();
 
-	const { onDragStart, onDragOver, onDragLeave, onDrop } = useDragAndDrop(comletedTasks, setComplitedTasksList);
+	const { onDragStart, onDragOver, onDragLeave, onDrop } = useDragAndDrop(completedTaskslist, setComplitedTasksList);
 
 	return (
 		<>
 			{!!completedTaskslist?.length && (
-				<Accordion title={'Wykonane'} details={<TasksNumber>{comletedTasks?.length}</TasksNumber>}>
+				<Accordion title={'Wykonane'} details={<TasksNumber>{completedTaskslist?.length}</TasksNumber>}>
 					{completedTaskslist?.map((task, index) => (
 						<TaskItem
+							key={task._id}
 							task={task}
 							onChange={onMarkTaskAsInCompleted}
 							isCompleted

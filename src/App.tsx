@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { createGlobalStyle } from 'styled-components';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
@@ -7,7 +7,7 @@ import BrowserRouter from './Router';
 import { ShowModalProvider } from './ShowModalProvider';
 import { ContextualMenuProvider } from './ContextualMenuProvider';
 import { ListsProvider } from './providers/ListsProviders';
-import io from 'socket.io-client';
+import { SocketProvider } from './providers/SocketProvider';
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -40,23 +40,20 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const App: FC = () => {
-	const socket = io('http://localhost:3001');
-	socket.on('connect', () => {
-		console.log(socket.id, socket.connected);
-	});
-
 	return (
 		<QueryClientProvider client={queryClient}>
 			<AuthProvider>
-				<ListsProvider>
-					<ShowModalProvider>
-						<ContextualMenuProvider>
-							{/* <ReactQueryDevtools initialIsOpen /> */}
-							<GlobalStyle />
-							<BrowserRouter />
-						</ContextualMenuProvider>
-					</ShowModalProvider>
-				</ListsProvider>
+				<SocketProvider>
+					<ListsProvider>
+						<ShowModalProvider>
+							<ContextualMenuProvider>
+								{/* <ReactQueryDevtools initialIsOpen /> */}
+								<GlobalStyle />
+								<BrowserRouter />
+							</ContextualMenuProvider>
+						</ShowModalProvider>
+					</ListsProvider>
+				</SocketProvider>
 			</AuthProvider>
 		</QueryClientProvider>
 	);

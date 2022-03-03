@@ -14,8 +14,8 @@ const invitationToken = getStringAfterCharacter(sessionStorage.getItem('invitati
 export const getListsAction = async () => await http<IListResponse>(`${api.getLists}/${invitationToken}`, 'GET');
 
 export const getListByIdAction = async (listId: string) => {
-	const response = await http<IListItem[]>(`${api.getListById}/${listId}`, 'GET');
-	return response.body?.[0];
+	const response = await http<IListItem>(`${api.getListById}/${listId}`, 'GET');
+	return response.body;
 };
 
 export const deleteListAction = async (listId: string) => await http<IDeleteListResponse>(api.removeList, 'DELETE', { listId });

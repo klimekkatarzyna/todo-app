@@ -24,7 +24,7 @@ export const ImportanceButton: FC<IImportanceButton> = ({ isChecked, onClick }) 
 
 	return (
 		<ImportanceButtonWrapper onClick={onClick}>
-			<input type='checkbox' checked={isChecked} />
+			<input type='checkbox' checked={isChecked} onChange={() => {}} />
 			<Tooltip position={'right'} text={tooltipText}>
 				<IconWrapper
 					color={COLOURS.blue} // TODO: theme color

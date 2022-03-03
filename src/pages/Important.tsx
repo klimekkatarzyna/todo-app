@@ -32,7 +32,7 @@ export const Important: FC = () => {
 			) : (
 				tasksList?.map((task, index) => (
 					<TaskItem
-						key={index}
+						key={task._id}
 						task={task}
 						index={index}
 						dragAndDrop={dragAndDrop}
