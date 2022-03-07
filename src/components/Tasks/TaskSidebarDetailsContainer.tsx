@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useContext } from 'react';
+import { FC, useCallback, useContext } from 'react';
 import styled from 'styled-components';
 import { COLOURS, IconWrapper } from '../../constants';
 import { ITask, ITaskStatus } from '../../interfaces/task';
@@ -14,10 +14,7 @@ import { FilePlus } from '@styled-icons/feather/FilePlus';
 import { Trash2 } from '@styled-icons/feather/Trash2';
 import { XSquare } from '@styled-icons/feather/XSquare';
 import { ShowElementContext } from '../../ShowElementContext';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { useParams } from 'react-router-dom';
-import { IUseParams } from '../../interfaces/app';
-import { addTaskToMyDayAction, deleteTaskAction, getTaskAction } from '../../actions/tasks';
+import { addTaskToMyDayAction } from '../../actions/tasks';
 import { useIncompleteCompleteTasks } from '../../hooks/useIncompleteCompleteTasks';
 
 const TaskSidebarDetailsContainer = styled.div`
@@ -68,26 +65,12 @@ const Footer = styled.div`
 `;
 
 export const TaskSidebarDetails: FC = () => {
-	const query = useQueryClient();
-	const { taskId, listId } = useParams<IUseParams>();
 	const { onHideComponent } = useContext(ShowElementContext);
-	const { onMarkTaskAsCompleted, onMarkTaskAsInCompleted } = useIncompleteCompleteTasks();
-
-	const { data: taskData, isLoading: taskDataLoading } = useQuery<any>(['getTask', taskId], () => getTaskAction(taskId));
-	const { mutate: removeTaskMutation } = useMutation(deleteTaskAction, {
-		onSuccess: () => {
-			query.invalidateQueries(['tasksOfCurrentList']);
-		},
-	});
-
-	const onHandleChange = useCallback(() => {
-		taskData?.taskStatus === ITaskStatus.inComplete && onMarkTaskAsCompleted(taskData._id);
-		taskData?.taskStatus === ITaskStatus.complete && onMarkTaskAsInCompleted(taskData._id);
-	}, [taskData]);
+	const { onHandleChangeTaskStatus, taskData, taskDataLoading, removeTaskMutation, listId } = useIncompleteCompleteTasks();
 
 	const handleClick = useCallback(async (): Promise<void> => {
 		try {
-			await removeTaskMutation(taskData?._id || '');
+			await removeTaskMutation();
 			onClose();
 		} catch {
 			//TODO: handle error & show notificayion
@@ -111,7 +94,7 @@ export const TaskSidebarDetails: FC = () => {
 					<Container flexRow margin>
 						<TaskDetails
 							taskData={taskData as ITask}
-							onHandleChange={onHandleChange}
+							onHandleChange={onHandleChangeTaskStatus}
 							isChecked={false}
 							onClickImportanceButton={() => {}}
 						/>

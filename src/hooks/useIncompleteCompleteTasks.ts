@@ -6,8 +6,9 @@ import { HttpResponse } from '../utils/http';
 import { useParams } from 'react-router-dom';
 import { IUseParams } from '../interfaces/app';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { changeTaskImportanceAction, changeTaskStatusAction, getTasksOfCurrentListAction } from '../actions/tasks';
+import { changeTaskImportanceAction, changeTaskStatusAction, deleteTaskAction, getTaskAction, getTasksOfCurrentListAction } from '../actions/tasks';
 import { SocketContext } from '../providers/SocketProvider';
+import { TasksContext } from '../providers/TasksProvider';
 
 interface SortType {
 	key: SortTaskType;
@@ -19,8 +20,9 @@ export type KeyType = 'string' | 'date';
 
 export const useIncompleteCompleteTasks = () => {
 	const query = useQueryClient();
-	const { listId } = useParams<IUseParams>();
+	const { listId, taskId } = useParams<IUseParams>();
 	const { socket } = useContext(SocketContext);
+	const { inCompletedTaskslist, completedTaskslist, setInCompletedTasksList, setComplitedTasksList } = useContext(TasksContext);
 
 	const { data: tasksOfCurrentList } = useQuery<HttpResponse<ITasksResponse> | undefined>(['tasksOfCurrentList', listId], () =>
 		getTasksOfCurrentListAction(listId)
@@ -33,13 +35,22 @@ export const useIncompleteCompleteTasks = () => {
 		},
 	});
 
+	const { isLoading: getTasksOfCurrentListLoading } = useQuery(['tasksOfCurrentList', listId], () => getTasksOfCurrentListAction(listId));
+
+	const { data: taskData, isLoading: taskDataLoading } = useQuery<any>(['getTask', taskId], () => getTaskAction(taskId));
+
+	const { mutate: removeTaskMutation } = useMutation(() => deleteTaskAction(taskId || '', taskData?.parentFolderId), {
+		onSuccess: () => {
+			query.invalidateQueries(['tasksOfCurrentList']);
+			query.invalidateQueries('lists');
+		},
+	});
+
 	const comletedTasks = useMemo(
 		() => (tasksOfCurrentList?.body?.tasks || []).filter(task => task.taskStatus === ITaskStatus.complete),
 		[tasksOfCurrentList]
 	);
 
-	const [inCompletedTaskslist, setInCompletedTasksList] = useState<ITask[]>([] || undefined);
-	const [completedTaskslist, setComplitedTasksList] = useState<ITask[]>([] || undefined);
 	const [sort, setSort] = useState<SortType>({ key: SortTaskType.title, direction: 'asc', keyType: 'string' });
 
 	const requestSort = useCallback(event => {
@@ -87,23 +98,38 @@ export const useIncompleteCompleteTasks = () => {
 		});
 	}, []);
 
+	const onHandleChangeTaskStatus = useCallback(() => {
+		taskData?.taskStatus === ITaskStatus.inComplete && onMarkTaskAsCompleted(taskData._id);
+		taskData?.taskStatus === ITaskStatus.complete && onMarkTaskAsInCompleted(taskData._id);
+	}, [taskData]);
+
 	useEffect(() => {
-		const newTaskListener = (newTask: any) => {
-			return (
-				listId === newTask.parentFolderId &&
-				setInCompletedTasksList([
-					...[...(tasksOfCurrentList?.body?.tasks || []), newTask]
-						.sort(sorter[sort.keyType](sort.key, sort.direction))
-						.filter((task: ITask) => task.taskStatus === ITaskStatus.inComplete),
-				])
-			);
-		};
-		socket?.on('add-task', newTaskListener);
+		[...(tasksOfCurrentList?.body?.tasks || [])]
+			.sort(sorter[sort.keyType](sort.key, sort.direction))
+			.filter((task: ITask) => task.taskStatus === ITaskStatus.inComplete);
+	}, [tasksOfCurrentList]);
+
+	useEffect(() => {
+		const taskListener = (newTask: ITask) =>
+			listId === newTask?.parentFolderId && setInCompletedTasksList([...[...(inCompletedTaskslist || []), newTask]]);
+		socket?.on('add-task', taskListener);
 
 		return () => {
-			socket?.off('add-task', newTaskListener);
+			socket?.off('add-task', taskListener);
 		};
-	}, [tasksOfCurrentList]);
+	}, [inCompletedTaskslist]);
+
+	useEffect(() => {
+		// TODO: powtarza sie kod wiec to nie jest programowanie rekreatywne!! wydzielic do osobnej funkcji
+		const taskListener = (newTask: ITask) =>
+			listId === newTask?.parentFolderId &&
+			setInCompletedTasksList([...[...(inCompletedTaskslist || [])].filter((task: ITask) => task._id !== newTask._id)]);
+		socket?.on('remove-task', taskListener);
+
+		return () => {
+			socket?.off('remove-task', taskListener);
+		};
+	}, [inCompletedTaskslist]);
 
 	return {
 		inCompletedTaskslist,
@@ -114,5 +140,11 @@ export const useIncompleteCompleteTasks = () => {
 		requestSort,
 		onMarkTaskAsCompleted,
 		onMarkTaskAsInCompleted,
+		getTasksOfCurrentListLoading,
+		removeTaskMutation,
+		taskData,
+		taskDataLoading,
+		listId,
+		onHandleChangeTaskStatus,
 	};
 };

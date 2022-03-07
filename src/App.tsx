@@ -8,6 +8,9 @@ import { ShowModalProvider } from './ShowModalProvider';
 import { ContextualMenuProvider } from './ContextualMenuProvider';
 import { ListsProvider } from './providers/ListsProviders';
 import { SocketProvider } from './providers/SocketProvider';
+import { TasksProvider } from './providers/TasksProvider';
+import { useParams } from 'react-router-dom';
+import { IUseParams } from './interfaces/app';
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -45,13 +48,15 @@ const App: FC = () => {
 			<AuthProvider>
 				<SocketProvider>
 					<ListsProvider>
-						<ShowModalProvider>
-							<ContextualMenuProvider>
-								{/* <ReactQueryDevtools initialIsOpen /> */}
-								<GlobalStyle />
-								<BrowserRouter />
-							</ContextualMenuProvider>
-						</ShowModalProvider>
+						<TasksProvider>
+							<ShowModalProvider>
+								<ContextualMenuProvider>
+									{/* <ReactQueryDevtools initialIsOpen /> */}
+									<GlobalStyle />
+									<BrowserRouter />
+								</ContextualMenuProvider>
+							</ShowModalProvider>
+						</TasksProvider>
 					</ListsProvider>
 				</SocketProvider>
 			</AuthProvider>
