@@ -15,7 +15,7 @@ import { Trash2 } from '@styled-icons/feather/Trash2';
 import { XSquare } from '@styled-icons/feather/XSquare';
 import { ShowElementContext } from '../../ShowElementContext';
 import { addTaskToMyDayAction } from '../../actions/tasks';
-import { useIncompleteCompleteTasks } from '../../hooks/useIncompleteCompleteTasks';
+import { useTasks } from '../../hooks/useTasks';
 
 const TaskSidebarDetailsContainer = styled.div`
 	background-color: ${COLOURS.lightGrey};
@@ -66,7 +66,7 @@ const Footer = styled.div`
 
 export const TaskSidebarDetails: FC = () => {
 	const { onHideComponent } = useContext(ShowElementContext);
-	const { onHandleChangeTaskStatus, taskData, taskDataLoading, removeTaskMutation, listId } = useIncompleteCompleteTasks();
+	const { onHandleChangeTaskStatus, taskData, taskDataLoading, removeTaskMutation, listId } = useTasks();
 
 	const handleClick = useCallback(async (): Promise<void> => {
 		try {

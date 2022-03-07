@@ -18,7 +18,7 @@ interface SortType {
 
 export type KeyType = 'string' | 'date';
 
-export const useIncompleteCompleteTasks = () => {
+export const useTasks = () => {
 	const query = useQueryClient();
 	const { listId, taskId } = useParams<IUseParams>();
 	const { socket } = useContext(SocketContext);

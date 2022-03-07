@@ -2,11 +2,10 @@ import { FC } from 'react';
 import { useDragAndDrop } from '../../hooks/useDragAndDrop';
 import { SortComponent } from '../SortComponent/SortComponent';
 import { TaskItem } from './TaskItem/TaskItem';
-import { useIncompleteCompleteTasks } from '../../hooks/useIncompleteCompleteTasks';
+import { useTasks } from '../../hooks/useTasks';
 
 export const InCompletedTasks: FC = () => {
-	const { inCompletedTaskslist, requestSort, setInCompletedTasksList, onMarkTaskAsCompleted, changeTaskImportanceMutation } =
-		useIncompleteCompleteTasks();
+	const { inCompletedTaskslist, requestSort, setInCompletedTasksList, onMarkTaskAsCompleted, changeTaskImportanceMutation } = useTasks();
 
 	const { onDragStart, onDragOver, onDragLeave, onDrop, dragAndDrop } = useDragAndDrop(inCompletedTaskslist, setInCompletedTasksList);
 

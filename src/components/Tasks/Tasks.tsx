@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import styled from 'styled-components';
 import { ContextualMenuOpion } from '../../enums';
-import { useIncompleteCompleteTasks } from '../../hooks/useIncompleteCompleteTasks';
+import { useTasks } from '../../hooks/useTasks';
 import { Loader } from '../Loader/Loader';
 import { Modal } from '../Modal/Modal';
 import { ComplitedTasks } from './ComplitedTasks';
@@ -16,7 +16,7 @@ const TasksListContainer = styled.div`
 `;
 
 export const TasksList: FC = () => {
-	const { getTasksOfCurrentListLoading, removeTaskMutation } = useIncompleteCompleteTasks();
+	const { getTasksOfCurrentListLoading, removeTaskMutation } = useTasks();
 
 	return (
 		<TasksListContainer>

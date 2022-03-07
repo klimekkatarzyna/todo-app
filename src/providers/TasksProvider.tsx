@@ -1,5 +1,4 @@
-import React, { FC, useEffect, useMemo, useState, createContext, SetStateAction } from 'react';
-import { useQueryClient } from 'react-query';
+import React, { FC, useMemo, useState, createContext, SetStateAction } from 'react';
 import { ITask } from '../interfaces/task';
 
 export interface TasksContextType {
@@ -9,7 +8,6 @@ export interface TasksContextType {
 	setComplitedTasksList: React.Dispatch<SetStateAction<ITask[]>>;
 }
 
-// better do it in separate file because the values return by the context will be use in few files
 export const TasksContext = createContext<TasksContextType>({} as TasksContextType);
 
 interface ITasksProvider {
@@ -17,11 +15,8 @@ interface ITasksProvider {
 }
 
 export const TasksProvider: FC<ITasksProvider> = ({ children }) => {
-	const query = useQueryClient();
-
 	const [inCompletedTaskslist, setInCompletedTasksList] = useState<ITask[]>([] || undefined);
 	const [completedTaskslist, setComplitedTasksList] = useState<ITask[]>([] || undefined);
-	// const [sort, setSort] = useState<SortType>({ key: SortTaskType .title, direction: 'asc', keyType: 'string' });
 
 	const value = useMemo(() => {
 		return {

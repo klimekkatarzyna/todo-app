@@ -4,7 +4,7 @@ import { TaskItem } from './TaskItem/TaskItem';
 import { COLOURS } from '../../constants';
 import { Accordion } from '../Accordion/Accordion';
 import { useDragAndDrop } from '../../hooks/useDragAndDrop';
-import { useIncompleteCompleteTasks } from '../../hooks/useIncompleteCompleteTasks';
+import { useTasks } from '../../hooks/useTasks';
 
 const TasksNumber = styled.span`
 	margin-left: 1rem;
@@ -13,7 +13,7 @@ const TasksNumber = styled.span`
 `;
 
 export const ComplitedTasks: FC = () => {
-	const { completedTaskslist, setComplitedTasksList, onMarkTaskAsInCompleted, changeTaskImportanceMutation } = useIncompleteCompleteTasks();
+	const { completedTaskslist, setComplitedTasksList, onMarkTaskAsInCompleted, changeTaskImportanceMutation } = useTasks();
 
 	const { onDragStart, onDragOver, onDragLeave, onDrop } = useDragAndDrop(completedTaskslist, setComplitedTasksList);
 

@@ -6,12 +6,12 @@ import { HttpResponse } from '../utils/http';
 import { Loader } from '../components/Loader/Loader';
 import { ITasksResponse, ITaskStatus } from '../interfaces/task';
 import { TaskItem } from '../components/Tasks/TaskItem/TaskItem';
-import { useIncompleteCompleteTasks } from '../hooks/useIncompleteCompleteTasks';
+import { useTasks } from '../hooks/useTasks';
 import { useDragAndDrop } from '../hooks/useDragAndDrop';
 import { onGetImportanceTasksAction } from '../actions/tasks';
 
 export const Important: FC = () => {
-	const { inCompletedTaskslist, setInCompletedTasksList, onMarkTaskAsCompleted, changeTaskImportanceMutation } = useIncompleteCompleteTasks();
+	const { inCompletedTaskslist, setInCompletedTasksList, onMarkTaskAsCompleted, changeTaskImportanceMutation } = useTasks();
 	const { onDragStart, onDragOver, onDragLeave, onDrop, dragAndDrop } = useDragAndDrop(inCompletedTaskslist, setInCompletedTasksList);
 	const {
 		data: importanceTasksResponse,
