@@ -61,11 +61,11 @@ export const TaskDetails: FC<ITaskDetailsProps> = ({ taskData, onChangeTaskStatu
 		[taskData]
 	);
 
-	const [isImportanceButtonChecked, setIsImportanceButtonChecked] = useState<boolean>(taskData.importance === Importance.high);
+	const [isImportanceButtonChecked, setIsImportanceButtonChecked] = useState<boolean>(taskData?.importance === Importance.high);
 	const importanceType: Importance = useMemo(() => (!isImportanceButtonChecked ? Importance.high : Importance.normal), [isImportanceButtonChecked]);
 
 	useEffect(() => {
-		setIsImportanceButtonChecked(taskData.importance === Importance.high);
+		setIsImportanceButtonChecked(taskData?.importance === Importance.high);
 	}, [taskData]);
 
 	const onHandleChange = useCallback((): void => {
