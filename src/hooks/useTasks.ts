@@ -32,12 +32,13 @@ export const useTasks = () => {
 		onSuccess: () => {
 			query.invalidateQueries('getImportanceTasks');
 			query.invalidateQueries('tasksOfCurrentList');
+			query.invalidateQueries('getTask');
 		},
 	});
 
 	const { isLoading: getTasksOfCurrentListLoading } = useQuery(['tasksOfCurrentList', listId], () => getTasksOfCurrentListAction(listId));
 
-	const { data: taskData, isLoading: taskDataLoading } = useQuery<any>(['getTask', taskId], () => getTaskAction(taskId));
+	const { data: taskData, isLoading: taskDataLoading } = useQuery(['getTask', taskId], () => getTaskAction(taskId));
 
 	const { mutate: removeTaskMutation } = useMutation(() => deleteTaskAction(taskId || '', taskData?.parentFolderId), {
 		onSuccess: () => {
@@ -81,6 +82,7 @@ export const useTasks = () => {
 		onSuccess: () => {
 			query.invalidateQueries(['tasksOfCurrentList']);
 			query.invalidateQueries(['getImportanceTasks']);
+			query.invalidateQueries(['getTask']);
 		},
 	});
 
@@ -131,6 +133,11 @@ export const useTasks = () => {
 		};
 	}, [inCompletedTaskslist]);
 
+	const onChangeTaskStatus = useMemo(
+		() => (taskData?.taskStatus === ITaskStatus.complete ? onMarkTaskAsInCompleted : onMarkTaskAsCompleted),
+		[taskData]
+	);
+
 	return {
 		inCompletedTaskslist,
 		setInCompletedTasksList,
@@ -146,5 +153,6 @@ export const useTasks = () => {
 		taskDataLoading,
 		listId,
 		onHandleChangeTaskStatus,
+		onChangeTaskStatus,
 	};
 };

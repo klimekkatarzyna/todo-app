@@ -5,7 +5,7 @@ import { TaskItem } from './TaskItem/TaskItem';
 import { useTasks } from '../../hooks/useTasks';
 
 export const InCompletedTasks: FC = () => {
-	const { inCompletedTaskslist, requestSort, setInCompletedTasksList, onMarkTaskAsCompleted, changeTaskImportanceMutation } = useTasks();
+	const { inCompletedTaskslist, requestSort, setInCompletedTasksList, onChangeTaskStatus, changeTaskImportanceMutation } = useTasks();
 
 	const { onDragStart, onDragOver, onDragLeave, onDrop, dragAndDrop } = useDragAndDrop(inCompletedTaskslist, setInCompletedTasksList);
 
@@ -22,7 +22,7 @@ export const InCompletedTasks: FC = () => {
 					onDragOver={onDragOver}
 					onDrop={onDrop}
 					onDragLeave={onDragLeave}
-					onChange={onMarkTaskAsCompleted}
+					onChangeTaskStatus={onChangeTaskStatus}
 					changeTaskImportance={changeTaskImportanceMutation}
 				/>
 			))}

@@ -66,7 +66,7 @@ const Footer = styled.div`
 
 export const TaskSidebarDetails: FC = () => {
 	const { onHideComponent } = useContext(ShowElementContext);
-	const { onHandleChangeTaskStatus, taskData, taskDataLoading, removeTaskMutation, listId } = useTasks();
+	const { onChangeTaskStatus, taskData, taskDataLoading, removeTaskMutation, listId, changeTaskImportanceMutation } = useTasks();
 
 	const handleClick = useCallback(async (): Promise<void> => {
 		try {
@@ -94,9 +94,8 @@ export const TaskSidebarDetails: FC = () => {
 					<Container flexRow margin>
 						<TaskDetails
 							taskData={taskData as ITask}
-							onHandleChange={onHandleChangeTaskStatus}
-							isChecked={false}
-							onClickImportanceButton={() => {}}
+							onChangeTaskStatus={onChangeTaskStatus}
+							changeTaskImportance={changeTaskImportanceMutation}
 						/>
 					</Container>
 

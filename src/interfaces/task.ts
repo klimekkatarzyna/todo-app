@@ -53,6 +53,6 @@ export interface ICreateTaskProps {
 
 export interface IAddTaskToMyDayProps {
 	listId: string;
-	taskId: string;
+	taskId: string | undefined;
 	isMyDay: boolean;
 }

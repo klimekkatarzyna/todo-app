@@ -11,7 +11,7 @@ import { useDragAndDrop } from '../hooks/useDragAndDrop';
 import { onGetImportanceTasksAction } from '../actions/tasks';
 
 export const Important: FC = () => {
-	const { inCompletedTaskslist, setInCompletedTasksList, onMarkTaskAsCompleted, changeTaskImportanceMutation } = useTasks();
+	const { inCompletedTaskslist, setInCompletedTasksList, onChangeTaskStatus, changeTaskImportanceMutation } = useTasks();
 	const { onDragStart, onDragOver, onDragLeave, onDrop, dragAndDrop } = useDragAndDrop(inCompletedTaskslist, setInCompletedTasksList);
 	const {
 		data: importanceTasksResponse,
@@ -40,7 +40,7 @@ export const Important: FC = () => {
 						onDragOver={onDragOver}
 						onDrop={onDrop}
 						onDragLeave={onDragLeave}
-						onChange={onMarkTaskAsCompleted}
+						onChangeTaskStatus={onChangeTaskStatus}
 						changeTaskImportance={changeTaskImportanceMutation}
 					/>
 				))

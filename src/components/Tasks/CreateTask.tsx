@@ -16,6 +16,7 @@ export const CreateTask = () => {
 		onSuccess: () => {
 			query.invalidateQueries('tasksOfCurrentList');
 			query.invalidateQueries('getListById');
+			query.invalidateQueries('lists');
 		},
 	});
 

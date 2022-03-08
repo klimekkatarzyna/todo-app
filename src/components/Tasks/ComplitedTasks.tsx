@@ -13,7 +13,7 @@ const TasksNumber = styled.span`
 `;
 
 export const ComplitedTasks: FC = () => {
-	const { completedTaskslist, setComplitedTasksList, onMarkTaskAsInCompleted, changeTaskImportanceMutation } = useTasks();
+	const { completedTaskslist, setComplitedTasksList, onChangeTaskStatus, changeTaskImportanceMutation } = useTasks();
 
 	const { onDragStart, onDragOver, onDragLeave, onDrop } = useDragAndDrop(completedTaskslist, setComplitedTasksList);
 
@@ -25,7 +25,7 @@ export const ComplitedTasks: FC = () => {
 						<TaskItem
 							key={task._id}
 							task={task}
-							onChange={onMarkTaskAsInCompleted}
+							onChangeTaskStatus={onChangeTaskStatus}
 							isCompleted
 							index={index}
 							onDragStart={onDragStart}

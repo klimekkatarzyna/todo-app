@@ -1,13 +1,14 @@
-import { FC, useMemo } from 'react';
+import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
-import { useHistory, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { COLOURS } from '../../constants';
-import { ITask, ITaskStatus } from '../../interfaces/task';
+import { IChangeTaskImportanceProps, ITask, ITaskStatus } from '../../interfaces/task';
 import { IUseParams } from '../../interfaces/app';
 import { getDay, getDayName, getMonth, parseUTCtoDate } from '../../utils/date';
 import { Checkbox } from '../Checkbox/Checkbox';
 import { ImportanceButton } from '../ImportanceButton/ImportanceButton';
+import { Importance } from '../../enums';
 
 const Names = styled(Link)`
 	display: flex;
@@ -48,18 +49,33 @@ const TaskItemInfo = styled.span<{ color: string }>`
 
 interface ITaskDetailsProps {
 	taskData: ITask;
-	onHandleChange?: () => void;
+	onChangeTaskStatus?: (taskId: string) => void;
 	isCompleted?: boolean;
-	isChecked: boolean;
-	onClickImportanceButton: () => void;
+	changeTaskImportance: ({ listId, taskId, importance }: IChangeTaskImportanceProps) => void;
 }
 
-export const TaskDetails: FC<ITaskDetailsProps> = ({ taskData, onHandleChange, isCompleted = false, isChecked = false, onClickImportanceButton }) => {
+export const TaskDetails: FC<ITaskDetailsProps> = ({ taskData, onChangeTaskStatus, isCompleted = false, changeTaskImportance }) => {
 	const { listId } = useParams<IUseParams>();
 	const tooltipText = useMemo(
-		() => (taskData?.taskStatus === ITaskStatus.complete ? 'oznacz jako niewykonane' : 'oznacz jako wykonane'),
+		() => (taskData?.importance === ITaskStatus.complete ? 'oznacz jako niewykonane' : 'oznacz jako wykonane'),
 		[taskData]
 	);
+
+	const [isImportanceButtonChecked, setIsImportanceButtonChecked] = useState<boolean>(taskData.importance === Importance.high);
+	const importanceType: Importance = useMemo(() => (!isImportanceButtonChecked ? Importance.high : Importance.normal), [isImportanceButtonChecked]);
+
+	useEffect(() => {
+		setIsImportanceButtonChecked(taskData.importance === Importance.high);
+	}, [taskData]);
+
+	const onHandleChange = useCallback((): void => {
+		onChangeTaskStatus?.(taskData._id);
+	}, [taskData]);
+
+	const onClickImportanceButton = useCallback(() => {
+		setIsImportanceButtonChecked(!isImportanceButtonChecked);
+		changeTaskImportance({ listId: taskData.parentFolderId, taskId: taskData._id, importance: importanceType });
+	}, [isImportanceButtonChecked]);
 
 	return (
 		<>
@@ -77,7 +93,7 @@ export const TaskDetails: FC<ITaskDetailsProps> = ({ taskData, onHandleChange, i
 					{/* {taskData?.createdAt && <TaskItemInfo color={taskData?.themeColor}>{`${getDayName(parseUTCtoDate(taskData?.createdAt))}, ${getDay(parseUTCtoDate(taskData?.createdAt))} ${getMonth(parseUTCtoDate(taskData?.createdAt))}`}</TaskItemInfo>} */}
 				</div>
 			</Names>
-			<ImportanceButton isChecked={isChecked} onClick={onClickImportanceButton} />
+			<ImportanceButton isChecked={isImportanceButtonChecked} onClick={onClickImportanceButton} />
 		</>
 	);
 };
