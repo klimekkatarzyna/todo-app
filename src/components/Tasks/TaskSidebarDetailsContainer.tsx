@@ -94,6 +94,7 @@ export const TaskSidebarDetails: FC = () => {
 					<Container flexRow margin>
 						<TaskDetails
 							taskData={taskData as ITask}
+							isCompleted={taskData?.taskStatus === ITaskStatus.complete}
 							onChangeTaskStatus={onChangeTaskStatus}
 							changeTaskImportance={changeTaskImportanceMutation}
 						/>

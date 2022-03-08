@@ -28,11 +28,11 @@ export const getTasksOfCurrentListAction = async (listId: string) => await http<
 export const changeTaskStatusAction = async ({ taskId, taskStatus }: IChangeTaskStatusToCompleteProps) =>
 	await http(`${api.changeTaskStatus}/${taskId}`, 'PATCH', { taskStatus });
 
-export const deleteTaskAction = async (taskId: string, parentFolderId: string) =>
+export const deleteTaskAction = async (taskId: string, parentFolderId: string | undefined) =>
 	await http<IDeleteTaskResponse>(api.removeTask, 'DELETE', { taskId, parentFolderId });
 
 export const getTaskAction = async (taskId: string) => {
-	const response = await http<any>(`${api.getTask}/${taskId}`, 'GET'); // TODO: fix
+	const response = await http<ITask[]>(`${api.getTask}/${taskId}`, 'GET');
 	return response.body?.[0];
 };
 
