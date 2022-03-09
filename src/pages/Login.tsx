@@ -6,9 +6,10 @@ import { Button } from '../components/Button/Button';
 import { InputVersion } from '../enums';
 import { Input } from '../components/Input/Input';
 import { removesWhitespaceFromString } from '../utils/utilsFunctions';
-import { InputEye } from '../components/InputEye/InputEye';
 import { useMutation } from 'react-query';
 import { useAuthorization } from '../hooks/useAuthorization';
+import { PasswordInput } from '../components/PasswordInput';
+import { LoginForm } from '../interfaces/app';
 
 export const FormWrapper = styled.div`
 	background-color: ${COLOURS.lightGrey};
@@ -35,28 +36,14 @@ export const Content = styled.div`
 	}
 `;
 
-export const InputWrapper = styled.div`
-	display: flex;
-	align-items: center;
-	position: relative;
-`;
-
-interface LoginForm {
-	email: string;
-	password: string;
-}
-
 export const Login: FC = () => {
 	const [loginData, setLoginData] = useState<LoginForm>({
 		email: '',
 		password: '',
 	});
 
-	const [showPassword, setShowPassowrd] = useState<boolean>(false);
-	const handledSetPassword = (): void => setShowPassowrd(!showPassword);
-
 	const { loginRequest } = useAuthorization();
-	const { mutateAsync: login, isLoading } = useMutation(loginRequest);
+	const { mutateAsync: login, isLoading, error } = useMutation(loginRequest);
 
 	const handleChange = useCallback(
 		(event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -88,7 +75,7 @@ export const Login: FC = () => {
 				</p>
 				{/* <p>Uzyj konta Google lub Facebook aby się zalogować</p> */}
 
-				{/* {errorMessage && (<span>{errorMessage}</span>)} */}
+				{/* {error && (<span>{error}</span>)} */}
 
 				<form onSubmit={onSubmit}>
 					<Input
@@ -100,17 +87,7 @@ export const Login: FC = () => {
 						onChange={handleChange}
 					/>
 
-					<InputWrapper>
-						<Input
-							name='password'
-							colorType={InputVersion.primary}
-							type={!showPassword ? 'password' : 'text'}
-							placeholder={'Password'}
-							value={loginData.password}
-							onChange={handleChange}
-						/>
-						<InputEye showPassword={showPassword} handledSetPassword={handledSetPassword} />
-					</InputWrapper>
+					<PasswordInput loginData={loginData} handleChange={handleChange} />
 
 					<Button primary type='submit' margin isLoading={isLoading}>
 						<span>Zaloguj</span>

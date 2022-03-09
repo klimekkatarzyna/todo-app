@@ -24,3 +24,8 @@ export interface IUseParams {
 	listId: string;
 	taskId: string;
 }
+
+export interface LoginForm {
+	email: string;
+	password: string;
+}

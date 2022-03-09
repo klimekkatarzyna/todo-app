@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import { Input } from '../components/Input/Input';
 import { InputVersion } from '../enums';
 import { Button } from '../components/Button/Button';
-import { Content, FormWrapper, InputWrapper } from './Login';
+import { Content, FormWrapper } from './Login';
 import { removesWhitespaceFromString } from '../utils/utilsFunctions';
-import { InputEye } from '../components/InputEye/InputEye';
 import { useAuthorization } from '../hooks/useAuthorization';
 import { useMutation } from 'react-query';
+import { PasswordInput } from '../components/PasswordInput';
 
 interface RegisterForm {
 	userName: string;
@@ -21,11 +21,9 @@ export const Register: FC = () => {
 		email: '',
 		password: '',
 	});
-	const [showPassword, setShowPassowrd] = useState<boolean>(false);
-	const handledSetPassword = (): void => setShowPassowrd(!showPassword);
 
 	const { authenticateUserRequest } = useAuthorization();
-	const { mutateAsync: authenticateUser, isLoading } = useMutation(authenticateUserRequest);
+	const { mutateAsync: authenticateUser, isLoading, error } = useMutation(authenticateUserRequest);
 
 	const handleChange = useCallback(
 		(event: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,7 +55,7 @@ export const Register: FC = () => {
 				</p>
 				{/* <p>Uzyj konta Google lub Facebook aby się zalogować</p> */}
 
-				{/* {errorMessage && (<span>{errorMessage}</span>)} */}
+				{/* {error && <span>{error}</span>} */}
 
 				<form onSubmit={onSubmit}>
 					<Input
@@ -70,17 +68,7 @@ export const Register: FC = () => {
 					/>
 					<Input name='email' colorType={InputVersion.primary} placeholder={'Email'} value={loginData.email} onChange={handleChange} />
 
-					<InputWrapper>
-						<Input
-							name='password'
-							colorType={InputVersion.primary}
-							type={!showPassword ? 'password' : 'text'}
-							placeholder={'Password'}
-							value={loginData.password}
-							onChange={handleChange}
-						/>
-						<InputEye showPassword={showPassword} handledSetPassword={handledSetPassword} />
-					</InputWrapper>
+					<PasswordInput loginData={loginData} handleChange={handleChange} />
 
 					<Button primary type='submit' margin isLoading={isLoading}>
 						Uwrórz konto
