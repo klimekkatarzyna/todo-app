@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useMemo, useState, RefObject, useRef } from 'react';
+import { FC, useCallback, useEffect, useMemo, useState, RefObject, useRef, memo } from 'react';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router';
@@ -65,7 +65,7 @@ interface ITaskDetailsProps {
 	isTaskDetailsView?: boolean | undefined;
 }
 
-export const TaskDetails: FC<ITaskDetailsProps> = ({
+const TaskDetailsComponent: FC<ITaskDetailsProps> = ({
 	taskData,
 	onChangeTaskStatus,
 	isCompleted = false,
@@ -119,3 +119,5 @@ export const TaskDetails: FC<ITaskDetailsProps> = ({
 		</>
 	);
 };
+
+export const TaskDetails = memo(TaskDetailsComponent);

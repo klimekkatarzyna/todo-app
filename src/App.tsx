@@ -9,8 +9,6 @@ import { ContextualMenuProvider } from './ContextualMenuProvider';
 import { ListsProvider } from './providers/ListsProviders';
 import { SocketProvider } from './providers/SocketProvider';
 import { TasksProvider } from './providers/TasksProvider';
-import { useParams } from 'react-router-dom';
-import { IUseParams } from './interfaces/app';
 
 const queryClient = new QueryClient({
 	defaultOptions: {

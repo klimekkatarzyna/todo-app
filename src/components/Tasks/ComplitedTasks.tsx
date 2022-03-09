@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import styled from 'styled-components';
 import { TaskItem } from './TaskItem/TaskItem';
 import { COLOURS } from '../../constants';
@@ -12,7 +12,7 @@ const TasksNumber = styled.span`
 	color: ${COLOURS.darkerGrey};
 `;
 
-export const ComplitedTasks: FC = () => {
+const ComplitedTasksComponent: FC = () => {
 	const { completedTaskslist, setComplitedTasksList, onChangeTaskStatus, changeTaskImportanceMutation } = useTasks();
 
 	const { onDragStart, onDragOver, onDragLeave, onDrop } = useDragAndDrop(completedTaskslist, setComplitedTasksList);
@@ -40,3 +40,5 @@ export const ComplitedTasks: FC = () => {
 		</>
 	);
 };
+
+export const ComplitedTasks = memo(ComplitedTasksComponent);

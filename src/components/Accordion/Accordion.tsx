@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useCallback, memo, useState } from 'react';
 import styled from 'styled-components';
 import { IconWrapper } from '../../constants';
 import { ArrowRight } from '@styled-icons/feather/ArrowRight';
@@ -29,7 +29,7 @@ interface IAccordion {
 	details: React.ReactElement;
 }
 
-export const Accordion: FC<IAccordion> = ({ title, details, children }) => {
+const AccordionComponent: FC<IAccordion> = ({ title, details, children }) => {
 	const [isActive, setIsActive] = useState<boolean>(false);
 
 	const onToogle = useCallback((): void => {
@@ -47,3 +47,5 @@ export const Accordion: FC<IAccordion> = ({ title, details, children }) => {
 		</AccordionWrapper>
 	);
 };
+
+export const Accordion = memo(AccordionComponent);

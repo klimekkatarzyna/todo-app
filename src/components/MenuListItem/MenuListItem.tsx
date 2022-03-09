@@ -1,4 +1,4 @@
-import { FC, useMemo } from 'react';
+import { FC, useMemo, memo } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { COLOURS, contextualMenuSecountOpion, contextualMenuSecountOpionMembers, IconWrapper } from '../../constants';
@@ -54,7 +54,7 @@ interface IMenuListItem {
 	isNavClosed?: boolean | undefined;
 }
 
-export const MenuListItem: FC<IMenuListItem> = ({ listItem, isNavClosed }) => {
+const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed }) => {
 	const icon = useMemo(
 		() =>
 			(listItem.url === SideMenuType.myDay && <Sun />) ||
@@ -81,3 +81,5 @@ export const MenuListItem: FC<IMenuListItem> = ({ listItem, isNavClosed }) => {
 		</LinkStyled>
 	);
 };
+
+export const MenuListItem = memo(MenuListItemComponent);

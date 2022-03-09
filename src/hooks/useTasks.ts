@@ -133,6 +133,15 @@ export const useTasks = () => {
 		};
 	}, [inCompletedTaskslist]);
 
+	useEffect(() => {
+		const taskListener = (newTask: ITask) => setInCompletedTasksList(inCompletedTaskslist);
+		socket?.on('edit-task', taskListener);
+
+		return () => {
+			socket?.off('edit-task', taskListener);
+		};
+	}, [inCompletedTaskslist]);
+
 	const onChangeTaskStatus = useMemo(
 		() => (taskData?.taskStatus === ITaskStatus.complete ? onMarkTaskAsInCompleted : onMarkTaskAsCompleted),
 		[taskData]

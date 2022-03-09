@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import styled from 'styled-components';
 import { IListItem, IListResponse } from '../../../interfaces/list';
 import { MenuListItem } from '../../MenuListItem/MenuListItem';
@@ -20,7 +20,7 @@ interface ILists {
 	isNavClosed: boolean;
 }
 
-export const Lists: FC<ILists> = ({ isNavClosed }) => {
+const ListsComponents: FC<ILists> = ({ isNavClosed }) => {
 	const query = useQueryClient();
 	const {
 		isLoading: getListsLoading,
@@ -60,3 +60,5 @@ export const Lists: FC<ILists> = ({ isNavClosed }) => {
 		</>
 	);
 };
+
+export const Lists = memo(ListsComponents);

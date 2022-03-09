@@ -1,10 +1,10 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import { useDragAndDrop } from '../../hooks/useDragAndDrop';
 import { SortComponent } from '../SortComponent/SortComponent';
 import { TaskItem } from './TaskItem/TaskItem';
 import { useTasks } from '../../hooks/useTasks';
 
-export const InCompletedTasks: FC = () => {
+const InCompletedTasksComponent: FC = () => {
 	const { inCompletedTaskslist, requestSort, setInCompletedTasksList, onChangeTaskStatus, changeTaskImportanceMutation } = useTasks();
 
 	const { onDragStart, onDragOver, onDragLeave, onDrop, dragAndDrop } = useDragAndDrop(inCompletedTaskslist, setInCompletedTasksList);
@@ -29,3 +29,5 @@ export const InCompletedTasks: FC = () => {
 		</>
 	);
 };
+
+export const InCompletedTasks = memo(InCompletedTasksComponent);

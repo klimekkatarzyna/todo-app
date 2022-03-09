@@ -1,4 +1,4 @@
-import { FC, useCallback } from 'react';
+import { FC, useCallback, memo } from 'react';
 import styled from 'styled-components';
 import { MenuListItem } from '../MenuListItem/MenuListItem';
 import { IListItem, IMainListResponse } from '../../interfaces/list';
@@ -17,7 +17,7 @@ interface IMainList {
 	isNavClosed: boolean;
 }
 
-export const MainList: FC<IMainList> = ({ isNavClosed }) => {
+const MainListComponent: FC<IMainList> = ({ isNavClosed }) => {
 	// TODO: endpomt to update tasksNumber
 	const getMainListAction = useCallback(async () => await http<IMainListResponse>(api.getMainList, 'GET'), []);
 	const { data: mainList, isLoading: mainListLoading } = useQuery<HttpResponse<IMainListResponse>>('getMainList', getMainListAction);
@@ -34,3 +34,5 @@ export const MainList: FC<IMainList> = ({ isNavClosed }) => {
 		</Wrapper>
 	);
 };
+
+export const MainList = memo(MainListComponent);
