@@ -1,10 +1,10 @@
-import React, { useCallback, useState } from 'react';
+import React, { FC, useCallback } from 'react';
 import styled from 'styled-components';
 import { useDropdown } from '../../hooks/useDropdown';
-import { handleResertInput, removesWhitespaceFromString } from '../../utils/utilsFunctions';
+import { handleResertInput } from '../../utils/utilsFunctions';
 import { Input } from '../Input/Input';
 import { IconButton } from './IconButton';
-import { useGroup } from './useGroup';
+import { useGroup } from '../../hooks/useGroup';
 import { Folder } from '@styled-icons/feather/Folder';
 import { IconWrapper } from '../../constants';
 
@@ -26,26 +26,17 @@ const InputWrapper = styled.div`
 	}
 `;
 
-export const CreateGroup = () => {
+export const CreateGroup: FC = () => {
 	const { elementeReference, toggleDropdown, dropdownOpen } = useDropdown();
-	const { mutateCreateGroup } = useGroup();
-
-	const [groupName, setGroupName] = useState<string>('');
-
-	const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-		const clearStr = removesWhitespaceFromString(event.target?.value);
-		setGroupName(clearStr);
-	}, []);
+	const { mutateCreateGroup, groupName, handleChange, setGroupName } = useGroup();
 
 	const onSubmit = useCallback(
 		async (event: React.SyntheticEvent): Promise<void> => {
 			event.preventDefault();
-			try {
-				await mutateCreateGroup(groupName);
-				handleResertInput(setGroupName);
-			} catch {
-				//TODO: handle error & show notificayion
-			}
+
+			await mutateCreateGroup(groupName);
+			handleResertInput(setGroupName);
+			toggleDropdown();
 		},
 		[groupName]
 	);
@@ -59,7 +50,7 @@ export const CreateGroup = () => {
 						<Folder />
 					</IconWrapper>
 					<form onSubmit={onSubmit}>
-						<Input name='groupName' placeholder='Grupa bez nazwy' value={groupName} onChange={handleChange} />
+						<Input name='groupName' placeholder='Grupa bez nazwy' value={groupName} onChange={handleChange} autoFocus />
 					</form>
 				</InputWrapper>
 			)}

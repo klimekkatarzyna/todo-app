@@ -1,13 +1,20 @@
 import React, { useCallback, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { http, HttpResponse } from '../../utils/http';
-import * as api from '../../services';
-import { IDeleteGroupResponse, IGroup, IGroupsResponse } from '../../interfaces/group';
+import { http, HttpResponse } from '../utils/http';
+import * as api from '../services';
+import { IDeleteGroupResponse, IGroup, IGroupsResponse } from '../interfaces/group';
+import { removesWhitespaceFromString } from '../utils/utilsFunctions';
 
 export const useGroup = () => {
 	const query = useQueryClient();
 
 	const [isInputVisible, setIsInputVisible] = useState(false);
+	const [groupName, setGroupName] = useState<string>('');
+
+	const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+		const clearStr = removesWhitespaceFromString(event.target?.value);
+		setGroupName(clearStr);
+	}, []);
 
 	const createGroup = useCallback(async (title: string): Promise<HttpResponse<IGroup> | undefined> => {
 		try {
@@ -84,5 +91,8 @@ export const useGroup = () => {
 		editGroupMutate,
 		setIsInputVisible,
 		isInputVisible,
+		groupName,
+		handleChange,
+		setGroupName,
 	};
 };

@@ -1,9 +1,9 @@
-import React, { FC, useCallback, useContext, useEffect, useState } from 'react';
+import React, { FC, useCallback, useContext, useEffect } from 'react';
 import { ContextualMenuContext } from '../../ContextualMenuProvider';
 import { ContextualMenuOpion } from '../../enums';
-import { handleResertInput, removesWhitespaceFromString } from '../../utils/utilsFunctions';
+import { handleResertInput } from '../../utils/utilsFunctions';
 import { Input } from '../Input/Input';
-import { useGroup } from './useGroup';
+import { useGroup } from '../../hooks/useGroup';
 
 interface IEditGroupProps {
 	title: string;
@@ -11,15 +11,8 @@ interface IEditGroupProps {
 }
 
 export const EditGroup: FC<IEditGroupProps> = ({ title, groupId }) => {
-	const { editGroupMutate, setIsInputVisible, isInputVisible } = useGroup();
+	const { editGroupMutate, setIsInputVisible, isInputVisible, groupName, handleChange, setGroupName } = useGroup();
 	const { contextualMenu } = useContext(ContextualMenuContext);
-
-	const [groupName, setGroupName] = useState<string>(title);
-
-	const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-		const clearStr = removesWhitespaceFromString(event.target?.value);
-		setGroupName(clearStr);
-	}, []);
 
 	const onSubmit = useCallback(
 		async (event: React.SyntheticEvent): Promise<void> => {
@@ -42,7 +35,7 @@ export const EditGroup: FC<IEditGroupProps> = ({ title, groupId }) => {
 		<div>
 			{isInputVisible ? (
 				<form onSubmit={onSubmit}>
-					<Input name='groupName' value={groupName} onChange={handleChange} />
+					<Input name='groupName' value={groupName} onChange={handleChange} autoFocus />
 				</form>
 			) : (
 				<p>{title}</p>

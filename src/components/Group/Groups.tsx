@@ -3,7 +3,7 @@ import { ContextualMenuOpion } from '../../enums';
 import { IGroup } from '../../interfaces/group';
 import { Modal } from '../Modal/Modal';
 import { Group } from './Group';
-import { useGroup } from './useGroup';
+import { useGroup } from '../../hooks/useGroup';
 
 interface IGroupsProps {
 	isNavClosed: boolean;
