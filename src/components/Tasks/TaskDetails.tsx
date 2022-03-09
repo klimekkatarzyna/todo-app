@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useState, RefObject, useRef } from 'react';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router';
@@ -9,6 +9,8 @@ import { getDay, getDayName, getMonth, parseUTCtoDate } from '../../utils/date';
 import { Checkbox } from '../Checkbox/Checkbox';
 import { ImportanceButton } from '../ImportanceButton/ImportanceButton';
 import { Importance } from '../../enums';
+import { useFocusingHandling } from '../../hooks/useMouseHandling';
+import { EditTaskName } from './EditTaskName';
 
 const Names = styled(Link)`
 	display: flex;
@@ -24,7 +26,7 @@ const Names = styled(Link)`
 	text-decoration: none;
 `;
 
-const TaskName = styled.div<{ isCompleted: boolean }>`
+const TaskName = styled.div<{ isCompleted: boolean; isTaskDetailsView: boolean | undefined }>`
 	color: ${COLOURS.fontColor};
 	cursor: pointer;
 	${props =>
@@ -32,6 +34,14 @@ const TaskName = styled.div<{ isCompleted: boolean }>`
 		css`
 			text-decoration: line-through;
 			color: ${COLOURS.darkerGrey};
+		`};
+
+	${props =>
+		props.isTaskDetailsView &&
+		css`
+			&:hover {
+				background-color: ${COLOURS.lightGrey};
+			}
 		`};
 `;
 
@@ -52,9 +62,16 @@ interface ITaskDetailsProps {
 	onChangeTaskStatus?: (taskId: string) => void;
 	isCompleted?: boolean;
 	changeTaskImportance: ({ listId, taskId, importance }: IChangeTaskImportanceProps) => void;
+	isTaskDetailsView?: boolean | undefined;
 }
 
-export const TaskDetails: FC<ITaskDetailsProps> = ({ taskData, onChangeTaskStatus, isCompleted = false, changeTaskImportance }) => {
+export const TaskDetails: FC<ITaskDetailsProps> = ({
+	taskData,
+	onChangeTaskStatus,
+	isCompleted = false,
+	changeTaskImportance,
+	isTaskDetailsView,
+}) => {
 	const { listId } = useParams<IUseParams>();
 	const tooltipText = useMemo(
 		() => (taskData?.importance === ITaskStatus.complete ? 'oznacz jako niewykonane' : 'oznacz jako wykonane'),
@@ -77,6 +94,9 @@ export const TaskDetails: FC<ITaskDetailsProps> = ({ taskData, onChangeTaskStatu
 		changeTaskImportance({ listId: taskData.parentFolderId, taskId: taskData._id, importance: importanceType });
 	}, [isImportanceButtonChecked]);
 
+	const elementRef: RefObject<HTMLInputElement> = useRef(null);
+	const { isFocused, onClick } = useFocusingHandling(elementRef);
+
 	return (
 		<>
 			<Checkbox
@@ -87,7 +107,9 @@ export const TaskDetails: FC<ITaskDetailsProps> = ({ taskData, onChangeTaskStatu
 				tooltipText={tooltipText}
 			/>
 			<Names to={`/tasks/${listId}/${taskData?._id}`} draggable>
-				<TaskName isCompleted={isCompleted}>{taskData?.title}</TaskName>
+				<TaskName isCompleted={isCompleted} isTaskDetailsView={isTaskDetailsView} ref={elementRef} onClick={onClick}>
+					{isFocused ? isTaskDetailsView && <EditTaskName taskName={taskData?.title} taskId={taskData?._id} /> : taskData?.title}
+				</TaskName>
 				<div>
 					{taskData?.groupName && <GroupName>{taskData?.groupName}</GroupName>}
 					{/* {taskData?.createdAt && <TaskItemInfo color={taskData?.themeColor}>{`${getDayName(parseUTCtoDate(taskData?.createdAt))}, ${getDay(parseUTCtoDate(taskData?.createdAt))} ${getMonth(parseUTCtoDate(taskData?.createdAt))}`}</TaskItemInfo>} */}

@@ -36,9 +36,6 @@ const Container = styled.div<{ flexRow?: boolean; margin?: boolean }>`
 	background-color: ${COLOURS.white};
 	padding: 1rem;
 	border: 1px solid ${COLOURS.border};
-	&:hover {
-		background-color: ${COLOURS.lightGrey};
-	}
 `;
 
 const Section = styled.button`
@@ -97,6 +94,7 @@ export const TaskSidebarDetails: FC = () => {
 							isCompleted={taskData?.taskStatus === ITaskStatus.complete}
 							onChangeTaskStatus={onChangeTaskStatus}
 							changeTaskImportance={changeTaskImportanceMutation}
+							isTaskDetailsView
 						/>
 					</Container>
 

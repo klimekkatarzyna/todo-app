@@ -8,6 +8,7 @@ import {
 	ITask,
 	ITasksResponse,
 	ITaskStatus,
+	IEditTaskProps,
 } from '../interfaces/task';
 import { http } from '../utils/http';
 import * as api from '../services';
@@ -22,6 +23,8 @@ export const createTaskAction = async ({ title, parentFolderId, importance, them
 		sortType: SortType.createdAt,
 		isMyDay: false,
 	});
+
+export const editTaskAction = async ({ taskId, taskName }: IEditTaskProps) => await http(`${api.editTask}`, 'PATCH', { taskId, taskName });
 
 export const getTasksOfCurrentListAction = async (listId: string) => await http<ITasksResponse>(`${api.getTasks}/${listId}`, 'GET');
 
