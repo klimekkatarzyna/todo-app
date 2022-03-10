@@ -1,18 +1,18 @@
 import React, { FC, useCallback, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { editTaskAction } from '../../actions/tasks';
+import { ITask } from '../../interfaces/task';
 import { removesWhitespaceFromString } from '../../utils/utilsFunctions';
 import { Input } from '../Input/Input';
 import { Loader } from '../Loader/Loader';
 
 interface IEditTaskNameProps {
-	taskName: string;
-	taskId: string;
+	taskData: ITask;
 }
 
-export const EditTaskName: FC<IEditTaskNameProps> = ({ taskName, taskId }) => {
+export const EditTaskName: FC<IEditTaskNameProps> = ({ taskData }) => {
 	const query = useQueryClient();
-	const [name, setTaskName] = useState<string>(taskName);
+	const [name, setTaskName] = useState<string>(taskData?.title);
 
 	const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
 		const clearStr = removesWhitespaceFromString(event.target.value);
@@ -29,9 +29,9 @@ export const EditTaskName: FC<IEditTaskNameProps> = ({ taskName, taskId }) => {
 	const onSubmit = useCallback(
 		async (event: React.SyntheticEvent) => {
 			event.preventDefault();
-			await mutate({ taskName: name, taskId });
+			await mutate({ taskName: name, taskId: taskData?._id, parentId: taskData?.parentFolderId });
 		},
-		[name, taskId]
+		[name, taskData]
 	);
 
 	return (

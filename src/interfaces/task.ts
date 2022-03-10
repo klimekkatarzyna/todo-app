@@ -60,4 +60,5 @@ export interface IAddTaskToMyDayProps {
 export interface IEditTaskProps {
 	taskId: string;
 	taskName: string;
+	parentId: string;
 }

@@ -24,7 +24,8 @@ export const createTaskAction = async ({ title, parentFolderId, importance, them
 		isMyDay: false,
 	});
 
-export const editTaskAction = async ({ taskId, taskName }: IEditTaskProps) => await http(`${api.editTask}`, 'PATCH', { taskId, taskName });
+export const editTaskAction = async ({ taskId, taskName, parentId }: IEditTaskProps) =>
+	await http(`${api.editTask}`, 'PATCH', { taskId, taskName, parentId });
 
 export const getTasksOfCurrentListAction = async (listId: string) => await http<ITasksResponse>(`${api.getTasks}/${listId}`, 'GET');
 

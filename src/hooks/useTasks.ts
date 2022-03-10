@@ -134,7 +134,13 @@ export const useTasks = () => {
 	}, [inCompletedTaskslist]);
 
 	useEffect(() => {
-		const taskListener = (newTask: ITask) => setInCompletedTasksList(inCompletedTaskslist);
+		const taskListener = (newTask: ITask) => {
+			listId === newTask?.parentFolderId &&
+				setInCompletedTasksList([
+					...(inCompletedTaskslist || []).map((task: ITask) => (task._id === newTask._id ? { ...task, title: newTask.title } : task)),
+				]);
+		};
+
 		socket?.on('edit-task', taskListener);
 
 		return () => {
