@@ -23,7 +23,7 @@ interface IBoard {
 
 export const Board: FC<IBoard> = ({ children }) => {
 	const { isVisible } = useContext(ElementVisibilityContext);
-	console.log({ isVisible });
+
 	return (
 		<Wrapper>
 			<MainContainer>

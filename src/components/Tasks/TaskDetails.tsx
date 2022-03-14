@@ -108,7 +108,7 @@ const TaskDetailsComponent: FC<ITaskDetailsProps> = ({
 			/>
 			<Names to={`/tasks/${listId}/${taskData?._id}`} draggable>
 				<TaskName isCompleted={isCompleted} isTaskDetailsView={isTaskDetailsView} ref={elementRef} onClick={onClick}>
-					{isFocused ? isTaskDetailsView && <EditTaskName taskData={taskData} /> : taskData?.title}
+					{isFocused && isTaskDetailsView ? <EditTaskName taskData={taskData} /> : taskData?.title}
 				</TaskName>
 				<div>
 					{taskData?.groupName && <GroupName>{taskData?.groupName}</GroupName>}
