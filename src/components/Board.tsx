@@ -1,7 +1,7 @@
 import React, { FC, useContext } from 'react';
 import styled from 'styled-components';
 import { BackgroundLines } from '../constants';
-import { ShowElementContext } from '../ShowElementContext';
+import { ElementVisibilityContext } from '../providers/ElementVisibilityProvider';
 import { TaskSidebarDetails } from './Tasks/TaskSidebarDetailsContainer';
 
 const Wrapper = styled.div`
@@ -22,8 +22,8 @@ interface IBoard {
 }
 
 export const Board: FC<IBoard> = ({ children }) => {
-	const { isVisible } = useContext(ShowElementContext);
-
+	const { isVisible } = useContext(ElementVisibilityContext);
+	console.log({ isVisible });
 	return (
 		<Wrapper>
 			<MainContainer>

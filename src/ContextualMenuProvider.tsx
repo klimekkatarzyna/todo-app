@@ -1,8 +1,9 @@
-import React, { FC, useCallback, useMemo, useState } from 'react';
+import React, { FC, useCallback, useContext, useMemo, useState } from 'react';
 
 import { createContext } from 'react';
 import { ContextualMenuOpion } from './enums';
 import { IContextualMenu } from './interfaces/list';
+import { ModalVisibilityContext } from './ModalVisibilityProvider';
 
 export interface ContextualMenuType {
 	contextualMenu: IData | undefined;
@@ -23,9 +24,11 @@ interface IContextualMenuProvider {
 
 export const ContextualMenuProvider: FC<IContextualMenuProvider> = ({ children }) => {
 	const [contextualMenu, setContextualMenu] = useState<IData | undefined>();
+	const { onShow } = useContext(ModalVisibilityContext);
 
 	const handleClick = useCallback((event: React.ChangeEvent<HTMLInputElement>, data: IData) => {
 		setContextualMenu(data);
+		onShow();
 
 		switch (data?.type) {
 			case ContextualMenuOpion.remove_list:

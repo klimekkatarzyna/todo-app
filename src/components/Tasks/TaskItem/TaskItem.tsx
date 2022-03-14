@@ -1,4 +1,4 @@
-import { FC, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { FC, useCallback, useContext, useMemo } from 'react';
 import styled from 'styled-components';
 import { ContextMenuTrigger } from 'react-contextmenu';
 import { COLOURS, contextualMenuFirstOpion } from '../../../constants';
@@ -6,7 +6,7 @@ import { IChangeTaskImportanceProps, ITask } from '../../../interfaces/task';
 import { IinitialDnDState } from '../../../hooks/useDragAndDrop';
 import { ContextualMenu } from '../../ContextualMenu/ContextualMenu';
 import { TaskDetails } from '../TaskDetails';
-import { ShowElementContext } from '../../../ShowElementContext';
+import { ElementVisibilityContext } from '../../../providers/ElementVisibilityProvider';
 
 const TaskItemWrapper = styled.div`
 	display: flex;
@@ -69,16 +69,15 @@ export const TaskItem: FC<ITaskItem> = ({
 	onDragLeave,
 	changeTaskImportance,
 }) => {
-	const { onShowComponent } = useContext(ShowElementContext);
-
+	const { onShow } = useContext(ElementVisibilityContext);
 	const dragAndDropClass = useMemo(
 		() => (dragAndDrop?.draggedTo !== 0 && dragAndDrop?.draggedTo === Number(index) ? 'dropArea' : ''),
 		[dragAndDrop]
 	);
 
 	const onSelectTask = useCallback((): void => {
-		onShowComponent();
-	}, [onShowComponent]);
+		onShow();
+	}, [onShow]);
 
 	return (
 		<>

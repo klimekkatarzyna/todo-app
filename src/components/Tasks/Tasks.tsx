@@ -30,7 +30,10 @@ export const TasksList: FC = () => {
 					</>
 				)}
 			</div>
-			<Modal title='Czy chcesz usunąć zadanie?' onHandleAction={removeTaskMutation} contextualType={ContextualMenuOpion.remove_task} />
+
+			<Modal title='To zadanie zostanie trwale usunięte' contextualType={ContextualMenuOpion.remove_task} onHandleAction={removeTaskMutation}>
+				<span>{'Tej akcji nie można cofnąć'}</span>
+			</Modal>
 		</TasksListContainer>
 	);
 };

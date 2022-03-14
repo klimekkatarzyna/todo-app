@@ -4,11 +4,12 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { AuthProvider } from './AuthProvider';
 import BrowserRouter from './Router';
-import { ShowModalProvider } from './ShowModalProvider';
+import { ModalVisibilityProvider } from './ModalVisibilityProvider';
 import { ContextualMenuProvider } from './ContextualMenuProvider';
 import { ListsProvider } from './providers/ListsProviders';
 import { SocketProvider } from './providers/SocketProvider';
 import { TasksProvider } from './providers/TasksProvider';
+import { ElementVisibilityProvider } from './providers/ElementVisibilityProvider';
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -48,13 +49,15 @@ const App: FC = () => {
 				<SocketProvider>
 					<ListsProvider>
 						<TasksProvider>
-							<ShowModalProvider>
+							<ModalVisibilityProvider>
 								<ContextualMenuProvider>
-									{/* <ReactQueryDevtools initialIsOpen /> */}
-									<GlobalStyle />
-									<BrowserRouter />
+									<ElementVisibilityProvider>
+										{/* <ReactQueryDevtools initialIsOpen /> */}
+										<GlobalStyle />
+										<BrowserRouter />
+									</ElementVisibilityProvider>
 								</ContextualMenuProvider>
-							</ShowModalProvider>
+							</ModalVisibilityProvider>
 						</TasksProvider>
 					</ListsProvider>
 				</SocketProvider>

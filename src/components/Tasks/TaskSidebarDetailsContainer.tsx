@@ -13,9 +13,9 @@ import { UserPlus } from '@styled-icons/feather/UserPlus';
 import { FilePlus } from '@styled-icons/feather/FilePlus';
 import { Trash2 } from '@styled-icons/feather/Trash2';
 import { XSquare } from '@styled-icons/feather/XSquare';
-import { ShowElementContext } from '../../ShowElementContext';
 import { addTaskToMyDayAction } from '../../actions/tasks';
 import { useTasks } from '../../hooks/useTasks';
+import { ElementVisibilityContext } from '../../providers/ElementVisibilityProvider';
 
 const TaskSidebarDetailsContainer = styled.div`
 	background-color: ${COLOURS.lightGrey};
@@ -62,7 +62,7 @@ const Footer = styled.div`
 `;
 
 export const TaskSidebarDetails: FC = () => {
-	const { onHideComponent } = useContext(ShowElementContext);
+	const { onHide } = useContext(ElementVisibilityContext);
 	const { onChangeTaskStatus, taskData, taskDataLoading, removeTaskMutation, listId, changeTaskImportanceMutation } = useTasks();
 
 	const handleClick = useCallback(async (): Promise<void> => {
@@ -75,7 +75,7 @@ export const TaskSidebarDetails: FC = () => {
 	}, [taskData?._id]);
 
 	const onClose = useCallback((): void => {
-		onHideComponent();
+		onHide();
 	}, []);
 
 	const addTaskToMyDayView = useCallback(() => {

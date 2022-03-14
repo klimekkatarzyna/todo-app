@@ -1,99 +1,24 @@
-import { FC, useCallback, useContext, useEffect } from 'react';
-import styled from 'styled-components';
-import { COLOURS } from '../../constants';
-import { Button } from '../Button/Button';
-import { useShowModal } from '../../hooks/useShowModal';
-import { ContextualMenuOpion } from '../../enums';
+import React, { FC, useCallback, useContext, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { ContextualMenuContext } from '../../ContextualMenuProvider';
-import { X } from '@styled-icons/feather';
+import { ContextualMenuOpion } from '../../enums';
+import { ModalVisibilityContext } from '../../ModalVisibilityProvider';
+import { Button } from '../Button/Button';
 
-const ModalBackground = styled.div`
-	width: 100%;
-	height: 100%;
-	position: fixed;
-	padding: 1rem;
-	left: 0px;
-	top: 0px;
-	right: 0px;
-	z-index: 12;
-	display: flex;
-	-webkit-box-pack: center;
-	justify-content: center;
-	-webkit-box-align: center;
-	align-items: center;
-	background: rgba(0, 0, 0, 0.25);
-	transition: all 200ms ease-out 0s;
-	opacity: 1;
-	visibility: visible;
-`;
-
-const ModalContent = styled.div`
-	min-width: 300px;
-	min-height: 150px;
-	border-radius: 0.3rem;
-	background-color: ${COLOURS.white};
-	padding: 1rem;
-	position: relative;
-
-	> button {
-		border: none;
-		background-color: inherit;
-		position: absolute;
-		right: 10px;
-		cursor: pointer;
-	}
-
-	svg {
-		width: 20px;
-		stroke: ${COLOURS.fontColor};
-	}
-`;
-
-const Title = styled.div`
-	font-weight: 600;
-	margin-bottom: 1rem;
-	color: ${COLOURS.fontColor};
-	text-align: center;
-	border-bottom: 1px solid ${COLOURS.border};
-	padding: 0rem 1rem 1rem;
-`;
-
-const Subtitle = styled.div`
-	color: ${COLOURS.fontColor};
-`;
-
-const ButtonsWrapper = styled.div`
-	display: flex;
-	justify-content: flex-end;
-	margin-top: 2rem;
-`;
-
-interface IModal {
+interface IModalNEWProps<T> {
+	children?: React.ReactNode;
 	title: string;
-	subtitle?: string;
 	contextualType: ContextualMenuOpion;
-	onHandleAction?: any;
-	children?: React.ReactChild | undefined;
+	onHandleAction: any;
 }
 
-export const Modal: FC<IModal> = ({ title, subtitle, onHandleAction, contextualType, children }) => {
+export const Modal: FC<IModalNEWProps<unknown>> = ({ children, title, contextualType, onHandleAction }) => {
 	const { contextualMenu } = useContext(ContextualMenuContext);
-	const { isModalVisible, onCloseModal, onOpeneModal } = useShowModal();
-
-	useEffect(() => {
-		if (contextualMenu?.type === contextualType) {
-			onOpeneModal();
-		}
-	}, [contextualMenu]);
-
-	const onHandleActionAndClose = useCallback(() => {
-		onCloseModal();
-		onHandleAction?.(contextualMenu?.elementId);
-	}, [contextualMenu]);
+	const { onHide, isVisible } = useContext(ModalVisibilityContext);
 
 	useEffect(() => {
 		const listener = (event: KeyboardEvent) => {
-			if (event.code === 'Enter' && contextualMenu?.type === contextualType) {
+			if (event.code === 'Enter') {
 				onHandleActionAndClose();
 			}
 		};
@@ -106,7 +31,7 @@ export const Modal: FC<IModal> = ({ title, subtitle, onHandleAction, contextualT
 	useEffect(() => {
 		const listener = (event: KeyboardEvent) => {
 			if (event.code === 'Escape') {
-				onCloseModal();
+				onHide();
 			}
 		};
 		document.addEventListener('keydown', listener);
@@ -115,28 +40,29 @@ export const Modal: FC<IModal> = ({ title, subtitle, onHandleAction, contextualT
 		};
 	}, []);
 
-	return (
-		<>
-			{isModalVisible && (
-				<ModalBackground>
-					<ModalContent>
-						<button onClick={onCloseModal}>
-							<X />
-						</button>
-						<Title>{title}</Title>
-						<Subtitle>{subtitle}</Subtitle>
-						{children}
-						{contextualType !== ContextualMenuOpion.sharing_options && (
-							<ButtonsWrapper>
-								<Button onClick={onCloseModal}>{'Anuluj'}</Button>
-								<Button type='button' secondary onClick={onHandleActionAndClose}>
-									{'Usuwanie'}
-								</Button>
-							</ButtonsWrapper>
-						)}
-					</ModalContent>
-				</ModalBackground>
-			)}
-		</>
+	const onHandleActionAndClose = useCallback(() => {
+		onHandleAction();
+		onHide();
+	}, [contextualMenu]);
+
+	const modal = (
+		<div
+			className={`w-full h-full fixed p-4 left-0 top-0 right-0 flex items-center justify-center opacity-100 visible transition-all delay-200 ease-out bg-black-rgba`}>
+			<div className={`w-80 h-40 rounded relative bg-white p-4`}>
+				<div className='flex justify-between'>
+					<div className='font-semibold text-sm'>{title}</div>
+					<button onClick={onHide}>X</button>
+				</div>
+				<div className='text-sm pt-4'>{children}</div>
+				<div className='flex mt-4'>
+					<Button onClick={onHide}>{'Anuluj'}</Button>
+					<Button type='button' secondary onClick={onHandleActionAndClose}>
+						{'Usuń'}
+					</Button>
+				</div>
+			</div>
+		</div>
 	);
+
+	return isVisible && contextualType === contextualMenu?.type ? createPortal(modal, document.body) : null;
 };
