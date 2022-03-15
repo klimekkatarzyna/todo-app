@@ -6,8 +6,9 @@ import { getDay, getDayName, getMonth } from '../utils/date';
 
 const Wrapper = styled.div`
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	margin-bottom: 1rem;
+	align-items: center;
 `;
 
 const ToolbarStyled = styled.div<{ colorType: AppColorType }>`
@@ -36,15 +37,17 @@ interface IToolbar {
 	name: string;
 	colorType?: AppColorType;
 	isDateVisible?: boolean;
+	children?: React.ReactNode;
 }
 
-export const Toolbar: FC<IToolbar> = ({ name, colorType = 'grey', isDateVisible }) => {
+export const Toolbar: FC<IToolbar> = ({ name, colorType = 'grey', isDateVisible, children }) => {
 	const date = new Date();
 
 	return (
 		<Wrapper>
 			<ToolbarStyled colorType={colorType}>{name}</ToolbarStyled>
 			<DateToday>{isDateVisible && `${getDayName(date)}, ${getDay(date)} ${getMonth(date)}`}</DateToday>
+			{children}
 		</Wrapper>
 	);
 };
