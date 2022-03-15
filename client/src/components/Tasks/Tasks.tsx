@@ -1,7 +1,9 @@
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 import styled from 'styled-components';
 import { ContextualMenuOpion } from '../../enums';
+import { useModalVisibility } from '../../hooks/useModalVisibility';
 import { useTasks } from '../../hooks/useTasks';
+import { ModalVisibilityContext } from '../../ModalVisibilityProvider';
 import { Loader } from '../Loader/Loader';
 import { Modal } from '../Modal/Modal';
 import { ComplitedTasks } from './ComplitedTasks';
@@ -16,6 +18,7 @@ const TasksListContainer = styled.div`
 `;
 
 export const TasksList: FC = () => {
+	const { isVisible } = useContext(ModalVisibilityContext);
 	const { getTasksOfCurrentListLoading, removeTaskMutation } = useTasks();
 
 	return (
@@ -31,9 +34,14 @@ export const TasksList: FC = () => {
 				)}
 			</div>
 
-			<Modal title='To zadanie zostanie trwale usunięte' contextualType={ContextualMenuOpion.remove_task} onHandleAction={removeTaskMutation}>
-				<span>{'Tej akcji nie można cofnąć'}</span>
-			</Modal>
+			{isVisible && (
+				<Modal
+					title='To zadanie zostanie trwale usunięte'
+					contextualType={ContextualMenuOpion.remove_task}
+					onHandleAction={removeTaskMutation}>
+					<span>{'Tej akcji nie można cofnąć'}</span>
+				</Modal>
+			)}
 		</TasksListContainer>
 	);
 };

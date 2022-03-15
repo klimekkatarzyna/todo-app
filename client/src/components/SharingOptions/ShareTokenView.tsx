@@ -1,9 +1,10 @@
-import React, { FC, RefObject, useCallback, useRef } from 'react';
+import React, { FC, RefObject, useCallback, useContext, useRef } from 'react';
 import styled from 'styled-components';
 import { COLOURS } from '../../constants';
 import { ContextualMenuOpion } from '../../enums';
 import { useSharingData } from '../../hooks/useSharingData';
 import { IListItem } from '../../interfaces/list';
+import { ModalVisibilityContext } from '../../ModalVisibilityProvider';
 import { Button } from '../Button/Button';
 import { Input } from '../Input/Input';
 import { Modal } from '../Modal/Modal';
@@ -66,6 +67,7 @@ interface IShareTokenViewProps {
 export const ShareTokenView: FC<IShareTokenViewProps> = ({ onNextStep, listDataResponse }) => {
 	const inputRef: RefObject<HTMLInputElement> = useRef(null);
 	const { isUserListOwner } = useSharingData(listDataResponse?.members);
+	const { isVisible } = useContext(ModalVisibilityContext);
 
 	const copyToClipboard = useCallback((e: React.MouseEvent) => {
 		const input = inputRef?.current;
@@ -101,7 +103,7 @@ export const ShareTokenView: FC<IShareTokenViewProps> = ({ onNextStep, listDataR
 			) : (
 				<LeaveButton onClick={() => {}}>{'Opuść listę'}</LeaveButton>
 			)}
-			<Modal title='Czy chcesz opuścić listę?' onHandleAction={() => {}} contextualType={ContextualMenuOpion.leave_list} />
+			{isVisible && <Modal title='Czy chcesz opuścić listę?' onHandleAction={() => {}} contextualType={ContextualMenuOpion.leave_list} />}
 		</Wrapper>
 	);
 };
