@@ -1,5 +1,5 @@
 import React, { FC, useMemo, useState, createContext, SetStateAction } from 'react';
-import { ITask } from '../interfaces/task';
+import { ITask } from '@kkrawczyk/common/types';
 
 export interface TasksContextType {
 	inCompletedTaskslist: ITask[];

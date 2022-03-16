@@ -5,13 +5,13 @@ import {
 	IChangeTaskStatusToCompleteProps,
 	ICreateTaskProps,
 	IDeleteTaskResponse,
-	ITask,
 	ITasksResponse,
 	ITaskStatus,
 	IEditTaskProps,
 } from '../interfaces/task';
 import { http } from '../utils/http';
 import * as api from '../services';
+import { ITask } from '@kkrawczyk/common/types';
 
 export const createTaskAction = async ({ title, parentFolderId, importance, themeColor }: ICreateTaskProps) =>
 	await http<ITask>(api.createTask, 'POST', {

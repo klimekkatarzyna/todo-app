@@ -1,7 +1,7 @@
 import { FC, useCallback, useContext } from 'react';
 import styled from 'styled-components';
 import { COLOURS, IconWrapper } from '../../constants';
-import { ITask, ITaskStatus } from '../../interfaces/task';
+import { ITaskStatus } from '../../interfaces/task';
 import { getDay, getDayName, getMonth, parseUTCtoDate } from '../../utils/date';
 import { Loader } from '../Loader/Loader';
 import { TaskDetails } from './TaskDetails';
@@ -16,6 +16,7 @@ import { XSquare } from '@styled-icons/feather/XSquare';
 import { addTaskToMyDayAction } from '../../actions/tasks';
 import { useTasks } from '../../hooks/useTasks';
 import { ElementVisibilityContext } from '../../providers/ElementVisibilityProvider';
+import { ITask } from '@kkrawczyk/common/types';
 
 const TaskSidebarDetailsContainer = styled.div`
 	background-color: ${COLOURS.lightGrey};

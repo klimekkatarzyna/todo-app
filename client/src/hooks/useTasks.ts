@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState, useContext } from 'react';
 import { SortTaskType } from '../enums';
-import { ITask, ITasksResponse, ITaskStatus } from '../interfaces/task';
+import { ITasksResponse, ITaskStatus } from '../interfaces/task';
 import { useSort } from './useSort';
 import { HttpResponse } from '../utils/http';
 import { useParams } from 'react-router-dom';
@@ -9,6 +9,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { changeTaskImportanceAction, changeTaskStatusAction, deleteTaskAction, getTaskAction, getTasksOfCurrentListAction } from '../actions/tasks';
 import { SocketContext } from '../providers/SocketProvider';
 import { TasksContext } from '../providers/TasksProvider';
+import { ITask } from '@kkrawczyk/common/types';
 
 interface SortType {
 	key: SortTaskType;
@@ -86,14 +87,14 @@ export const useTasks = () => {
 		},
 	});
 
-	const onMarkTaskAsCompleted = useCallback((taskId: string): void => {
+	const onMarkTaskAsCompleted = useCallback((taskId: string | undefined): void => {
 		changeTaskStatusMutation({
 			taskId: taskId,
 			taskStatus: ITaskStatus.complete,
 		});
 	}, []);
 
-	const onMarkTaskAsInCompleted = useCallback((taskId: string): void => {
+	const onMarkTaskAsInCompleted = useCallback((taskId: string | undefined): void => {
 		changeTaskStatusMutation({
 			taskId: taskId,
 			taskStatus: ITaskStatus.inComplete,

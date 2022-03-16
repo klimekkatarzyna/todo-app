@@ -1,4 +1,5 @@
 import { AppColorType, Importance } from '../enums';
+import { ITask } from '@kkrawczyk/common/types';
 
 export interface ITasksResponse {
 	tasks: ITask[];
@@ -14,18 +15,6 @@ export interface IGetTaskResponse {
 	[key: number]: ITask;
 }
 
-export interface ITask {
-	createdAt: string;
-	importance: string;
-	parentFolderId: string;
-	groupName: string;
-	title: string;
-	themeColor: AppColorType;
-	_id: string;
-	taskStatus: ITaskStatus;
-	deadline?: string;
-}
-
 export type ITaskType = 'createdAt' | 'importance' | 'parentFolderId' | 'groupName' | 'title' | 'themeColor' | '_id' | 'taskStatus' | 'deadline';
 
 export enum ITaskStatus {
@@ -34,13 +23,13 @@ export enum ITaskStatus {
 }
 
 export interface IChangeTaskStatusToCompleteProps {
-	taskId: string;
+	taskId: string | undefined;
 	taskStatus: ITaskStatus;
 }
 
 export interface IChangeTaskImportanceProps {
 	listId: string;
-	taskId: string;
+	taskId: string | undefined;
 	importance: Importance;
 }
 
@@ -58,7 +47,7 @@ export interface IAddTaskToMyDayProps {
 }
 
 export interface IEditTaskProps {
-	taskId: string;
+	taskId: string | undefined;
 	taskName: string;
 	parentId: string;
 }

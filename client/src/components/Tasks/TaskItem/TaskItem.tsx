@@ -2,11 +2,12 @@ import { FC, useCallback, useContext, useMemo } from 'react';
 import styled from 'styled-components';
 import { ContextMenuTrigger } from 'react-contextmenu';
 import { COLOURS, contextualMenuFirstOpion } from '../../../constants';
-import { IChangeTaskImportanceProps, ITask } from '../../../interfaces/task';
+import { IChangeTaskImportanceProps } from '../../../interfaces/task';
 import { IinitialDnDState } from '../../../hooks/useDragAndDrop';
 import { ContextualMenu } from '../../ContextualMenu/ContextualMenu';
 import { TaskDetails } from '../TaskDetails';
 import { ElementVisibilityContext } from '../../../providers/ElementVisibilityProvider';
+import { ITask } from '@kkrawczyk/common/types';
 
 const TaskItemWrapper = styled.div`
 	display: flex;
@@ -47,7 +48,7 @@ const TaskItemWrapper = styled.div`
 interface ITaskItem {
 	task: ITask;
 	index: number;
-	onChangeTaskStatus: (taskId: string) => void;
+	onChangeTaskStatus: (taskId: string | undefined) => void;
 	isCompleted?: boolean;
 	dragAndDrop?: IinitialDnDState<ITask>;
 	onDragStart?: (event: React.DragEvent<HTMLDivElement>, index: number) => void;
@@ -81,7 +82,7 @@ export const TaskItem: FC<ITaskItem> = ({
 
 	return (
 		<>
-			<ContextMenuTrigger id={task?._id}>
+			<ContextMenuTrigger id={task?._id as string}>
 				<TaskItemWrapper
 					key={index}
 					draggable

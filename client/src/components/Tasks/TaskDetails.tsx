@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router';
 import { COLOURS } from '../../constants';
-import { IChangeTaskImportanceProps, ITask, ITaskStatus } from '../../interfaces/task';
+import { IChangeTaskImportanceProps, ITaskStatus } from '../../interfaces/task';
 import { IUseParams } from '../../interfaces/app';
 import { getDay, getDayName, getMonth, parseUTCtoDate } from '../../utils/date';
 import { Checkbox } from '../Checkbox/Checkbox';
@@ -11,6 +11,7 @@ import { ImportanceButton } from '../ImportanceButton/ImportanceButton';
 import { Importance } from '../../enums';
 import { useFocusingHandling } from '../../hooks/useMouseHandling';
 import { EditTaskName } from './EditTaskName';
+import { ITask } from '@kkrawczyk/common/types';
 
 const Names = styled(Link)`
 	display: flex;
@@ -59,7 +60,7 @@ const TaskItemInfo = styled.span<{ color: string }>`
 
 interface ITaskDetailsProps {
 	taskData: ITask;
-	onChangeTaskStatus?: (taskId: string) => void;
+	onChangeTaskStatus?: (taskId: string | undefined) => void;
 	isCompleted?: boolean;
 	changeTaskImportance: ({ listId, taskId, importance }: IChangeTaskImportanceProps) => void;
 	isTaskDetailsView?: boolean | undefined;
