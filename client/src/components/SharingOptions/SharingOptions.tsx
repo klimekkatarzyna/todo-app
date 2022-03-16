@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useContext, useEffect, useState } from 'react';
 import { ContextualMenuContext } from '../../ContextualMenuProvider';
-import { IListItem } from '../../interfaces/list';
+import { IList } from '@kkrawczyk/common/types';
 import { useGenerateInvitationToken } from '../../hooks/useGenerateInvitationToken';
 import { GenerateTokenView } from './GenerateTokenView';
 import { ShareTokenView } from './ShareTokenView';
@@ -22,7 +22,7 @@ export const SharingOptions: FC<ISharingOptionsProps> = ({ addInvitationTokenToL
 	const [step, setStep] = useState<number>(1);
 
 	const getListByIdAction = useCallback(async () => {
-		const response = await http<IListItem>(`${api.getListById}/${contextualMenu?.elementId}`, 'GET');
+		const response = await http<IList>(`${api.getListById}/${contextualMenu?.elementId}`, 'GET');
 		return response.body;
 	}, [contextualMenu?.elementId]);
 
@@ -30,7 +30,7 @@ export const SharingOptions: FC<ISharingOptionsProps> = ({ addInvitationTokenToL
 		data: listDataResponse,
 		isLoading: listDataLoading,
 		error: getListByIdError,
-	} = useQuery<IListItem | undefined>(['getListById', contextualMenu?.elementId], getListByIdAction);
+	} = useQuery<IList | undefined>(['getListById', contextualMenu?.elementId], getListByIdAction);
 
 	useEffect(() => {
 		// TODO: zle sie wyswietla kto jest ownerem po stronie zaproszonej osoby bo caly czas leci ten endpoint  fix me!

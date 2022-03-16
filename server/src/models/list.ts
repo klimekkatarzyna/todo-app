@@ -1,7 +1,7 @@
-import { IListItem } from '@kkrawczyk/common/types';
+import { IList } from '@kkrawczyk/common/types';
 import { Schema, model } from 'mongoose';
 
-export const ListSchema = new Schema<IListItem>({
+export const ListSchema = new Schema<IList>({
 	title: {
 		type: String,
 		required: true,
@@ -29,4 +29,4 @@ export const ListSchema = new Schema<IListItem>({
 	},
 });
 
-export const List = model<IListItem>('List', ListSchema);
+export const List = model<IList>('List', ListSchema);

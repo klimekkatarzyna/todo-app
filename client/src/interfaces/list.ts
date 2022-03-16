@@ -1,19 +1,6 @@
 import { ReactElement } from 'react';
-import { AppColorType, ContextualMenuOpion } from '../enums';
-
-export interface IListItem {
-	isMainList?: boolean;
-	title: string;
-	taskNumber: number;
-	icon: ReactElement;
-	themeColor: AppColorType;
-	_id?: string;
-	createdAt?: string;
-	url?: string;
-	invitationToken?: string;
-	owner?: string;
-	members?: string[];
-}
+import { ContextualMenuOpion } from '../enums';
+import { IList } from '@kkrawczyk/common/types';
 
 export interface IMember {
 	[key: string]: string;
@@ -35,15 +22,15 @@ export interface IContextualMenu {
 }
 
 export interface IListResponse {
-	lists: IListItem[];
+	lists: IList[];
 }
 
 export interface IMainListResponse {
-	mainLists: IListItem[];
+	mainLists: IList[];
 }
 
 export interface IGetSingleListResponse {
-	[key: number]: IListItem;
+	[key: number]: IList;
 }
 
 export interface IDeleteListResponse {

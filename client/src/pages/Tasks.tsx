@@ -9,7 +9,7 @@ import { CreateTask } from '../components/Tasks/CreateTask';
 import { TasksList } from '../components/Tasks/Tasks';
 import { Toolbar } from '../components/Toolbar';
 import { IUseParams } from '../interfaces/app';
-import { IListItem } from '../interfaces/list';
+import { IList } from '@kkrawczyk/common/types';
 
 export const Tasks: FC = () => {
 	const { listId } = useParams<IUseParams>();
@@ -18,7 +18,7 @@ export const Tasks: FC = () => {
 		data: listDataResponse,
 		isLoading: listDataLoading,
 		error: getListByIdError,
-	} = useQuery<IListItem | undefined>(['getListById', listId], () => getListByIdAction(listId));
+	} = useQuery<IList | undefined>(['getListById', listId], () => getListByIdAction(listId));
 
 	return (
 		<Board>

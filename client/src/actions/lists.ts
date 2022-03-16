@@ -1,4 +1,5 @@
-import { IDeleteListResponse, IListItem, IListResponse } from '../interfaces/list';
+import { IDeleteListResponse, IListResponse } from '../interfaces/list';
+import { IList } from '@kkrawczyk/common/types';
 import { http, HttpResponse } from '../utils/http';
 import { getStringAfterCharacter } from '../utils/utilsFunctions';
 import * as api from '../services';
@@ -14,7 +15,7 @@ const invitationToken = getStringAfterCharacter(sessionStorage.getItem('invitati
 export const getListsAction = async () => await http<IListResponse>(`${api.getLists}/${invitationToken}`, 'GET');
 
 export const getListByIdAction = async (listId: string) => {
-	const response = await http<IListItem>(`${api.getListById}/${listId}`, 'GET');
+	const response = await http<IList>(`${api.getListById}/${listId}`, 'GET');
 	return response.body;
 };
 

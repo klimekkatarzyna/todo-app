@@ -5,7 +5,7 @@ import { Input } from '../../Input/Input';
 import { COLOURS } from '../../../constants';
 import { handleResertInput, removesWhitespaceFromString } from '../../../utils/utilsFunctions';
 import { http } from '../../../utils/http';
-import { IListItem } from '../../../interfaces/list';
+import { IList } from '@kkrawczyk/common/types';
 import * as api from '../../../services';
 import { useMutation, useQueryClient } from 'react-query';
 
@@ -23,7 +23,7 @@ export const CreateList: FC = () => {
 
 	const createListAction = useCallback(
 		async (title: string | undefined) =>
-			await http<IListItem>(api.createList, 'POST', {
+			await http<IList>(api.createList, 'POST', {
 				title,
 				taskNumber: 0,
 			}),

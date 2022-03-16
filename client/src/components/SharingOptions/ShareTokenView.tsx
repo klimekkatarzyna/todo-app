@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { COLOURS } from '../../constants';
 import { ContextualMenuOpion } from '../../enums';
 import { useSharingData } from '../../hooks/useSharingData';
-import { IListItem } from '../../interfaces/list';
+import { IList } from '@kkrawczyk/common/types';
 import { ModalVisibilityContext } from '../../ModalVisibilityProvider';
 import { Button } from '../Button/Button';
 import { Input } from '../Input/Input';
@@ -61,7 +61,7 @@ const LeaveButton = styled.button`
 `;
 interface IShareTokenViewProps {
 	onNextStep: () => void;
-	listDataResponse: IListItem;
+	listDataResponse: IList;
 }
 
 export const ShareTokenView: FC<IShareTokenViewProps> = ({ onNextStep, listDataResponse }) => {

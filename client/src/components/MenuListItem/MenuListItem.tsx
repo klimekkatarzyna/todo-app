@@ -2,7 +2,7 @@ import { FC, useMemo, memo } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { COLOURS, contextualMenuSecountOpion, contextualMenuSecountOpionMembers, IconWrapper } from '../../constants';
-import { IListItem } from '../../interfaces/list';
+import { IList } from '@kkrawczyk/common/types';
 import { Sun } from '@styled-icons/feather/Sun';
 import { Star } from '@styled-icons/feather/Star';
 import { List } from '@styled-icons/feather/List';
@@ -50,7 +50,7 @@ const Name = styled.div<{ isNavClosed: boolean | undefined }>`
 `;
 
 interface IMenuListItem {
-	listItem: IListItem;
+	listItem: IList;
 	isNavClosed?: boolean | undefined;
 }
 

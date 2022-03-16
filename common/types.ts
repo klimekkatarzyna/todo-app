@@ -34,7 +34,7 @@ export enum SortType {
 
 // ---------------- list ------------------
 
-export interface IListItem {
+export interface IList {
   isMainList?: boolean;
   title: string;
   taskNumber: number;

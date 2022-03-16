@@ -1,6 +1,6 @@
 import { FC, memo, useContext } from 'react';
 import styled from 'styled-components';
-import { IListItem, IListResponse } from '../../../interfaces/list';
+import { IListResponse } from '../../../interfaces/list';
 import { MenuListItem } from '../../MenuListItem/MenuListItem';
 import { Loader } from '../../Loader/Loader';
 import { Modal } from '../../Modal/Modal';
@@ -10,6 +10,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { addInvitationTokenToListAction, deleteListAction, getListsAction } from '../../../actions/lists';
 import { HttpResponse } from '../../../utils/http';
 import { ModalVisibilityContext } from '../../../ModalVisibilityProvider';
+import { IList } from '@kkrawczyk/common/types';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -46,7 +47,7 @@ const ListsComponents: FC<ILists> = ({ isNavClosed }) => {
 		<>
 			<Wrapper>
 				{getListsLoading && <Loader />}
-				{listsResponse?.body?.lists?.map((list: IListItem) => (
+				{listsResponse?.body?.lists?.map((list: IList) => (
 					<MenuListItem key={list?._id} listItem={list} isNavClosed={isNavClosed} />
 				))}
 			</Wrapper>

@@ -5,7 +5,7 @@ import { Button } from '../Button/Button';
 import { ArrowLeft } from '@styled-icons/feather/ArrowLeft';
 import { http } from '../../utils/http';
 import * as api from '../../services';
-import { IListItem } from '../../interfaces/list';
+import { IList } from '@kkrawczyk/common/types';
 import { useMutation, useQueryClient } from 'react-query';
 import { Loader } from '../Loader/Loader';
 
@@ -32,7 +32,7 @@ const BackButton = styled.button`
 `;
 
 interface IAccessManagementProps {
-	listDataResponse: IListItem;
+	listDataResponse: IList;
 	onPrevStep: () => void;
 }
 

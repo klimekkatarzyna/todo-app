@@ -1,11 +1,12 @@
 import { FC, useCallback, memo } from 'react';
 import styled from 'styled-components';
 import { MenuListItem } from '../MenuListItem/MenuListItem';
-import { IListItem, IMainListResponse } from '../../interfaces/list';
+import { IMainListResponse } from '../../interfaces/list';
 import { Loader } from '../Loader/Loader';
 import { http, HttpResponse } from '../../utils/http';
 import * as api from '../../services';
 import { useQuery } from 'react-query';
+import { IList } from '@kkrawczyk/common/types';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -27,7 +28,7 @@ const MainListComponent: FC<IMainList> = ({ isNavClosed }) => {
 			{mainListLoading ? (
 				<Loader />
 			) : (
-				mainList?.body?.mainLists?.map((listItem: IListItem) => (
+				mainList?.body?.mainLists?.map((listItem: IList) => (
 					<MenuListItem key={listItem?._id} listItem={listItem} isNavClosed={isNavClosed} />
 				))
 			)}
