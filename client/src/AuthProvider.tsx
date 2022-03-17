@@ -1,8 +1,9 @@
 import React, { FC, useEffect, useMemo, useState, createContext } from 'react';
 import { useQuery } from 'react-query';
 import { useAuthorization } from './hooks/useAuthorization';
-import { IIUserDataResponse, IUserData } from './interfaces/app';
+import { IIUserDataResponse } from './interfaces/app';
 import { HttpResponse } from './utils/http';
+import { IUserData } from '@kkrawczyk/common/types';
 
 export interface AuthContextType {
 	isCheckSessionLoading: boolean;

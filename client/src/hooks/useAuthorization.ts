@@ -1,9 +1,10 @@
 import { useCallback, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { AuthContext, AuthContextType } from '../AuthProvider';
-import { IIUserDataResponse, IUserData } from '../interfaces/app';
+import { IIUserDataResponse } from '../interfaces/app';
 import * as api from '../services';
 import { http } from '../utils/http';
+import { IUserData } from '@kkrawczyk/common/types';
 
 interface IAuthenticateUser {
 	email: string;

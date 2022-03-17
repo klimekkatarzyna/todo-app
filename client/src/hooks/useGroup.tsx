@@ -2,8 +2,9 @@ import React, { useCallback, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { http, HttpResponse } from '../utils/http';
 import * as api from '../services';
-import { IDeleteGroupResponse, IGroup, IGroupsResponse } from '../interfaces/group';
+import { IDeleteGroupResponse, IGroupsResponse } from '../interfaces/group';
 import { removesWhitespaceFromString } from '../utils/utilsFunctions';
+import { IGroup } from '@kkrawczyk/common/types';
 
 export const useGroup = () => {
 	const query = useQueryClient();

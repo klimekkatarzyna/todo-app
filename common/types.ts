@@ -1,5 +1,16 @@
 import { SchemaDefinitionProperty } from "mongoose";
 
+export interface IUserData {
+  username: string;
+  email: string;
+  password: string;
+  _id: string;
+  createdAt:
+    | SchemaDefinitionProperty<DateConstructor | StringConstructor>
+    | undefined;
+}
+
+// ---------------- task ------------------
 export interface ITask {
   createdAt:
     | SchemaDefinitionProperty<DateConstructor | StringConstructor>
@@ -47,4 +58,13 @@ export interface IList {
   owner?: string;
   members?: string[];
   userId?: string;
+}
+
+// ---------------- group ------------------
+export interface IGroup {
+  title: string;
+  themeColor: AppColorType;
+  _id: string;
+  createdAt?: string;
+  userId: string | undefined;
 }

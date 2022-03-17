@@ -1,16 +1,11 @@
+import { IUserData } from '@kkrawczyk/common/types';
+
 export interface IIUserDataResponse {
 	user: IUserData;
 }
 
 export interface IAuthResponse {
 	[key: string]: IUserData;
-}
-
-export interface IUserData {
-	username: string;
-	email: string;
-	_id: string;
-	createdAt: string;
 }
 
 export enum IResponseStatus {
