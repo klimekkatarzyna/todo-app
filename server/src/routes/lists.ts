@@ -3,6 +3,8 @@ import { List } from '../models/list';
 import MainList from '../models/mainList';
 import { getSessionUserId } from '../utils/auth';
 import { validationResult } from 'express-validator';
+import { validateBody } from '@kkrawczyk/common/validate';
+import { removeListSchema, RemoveList } from '@kkrawczyk/common/schema/list';
 
 const lists = express.Router();
 
@@ -84,11 +86,9 @@ lists.get('/getList/:id', async (req: Request, res: Response) => {
 	}
 });
 
-lists.delete('/removeList', async (req: Request, res: Response) => {
+lists.delete('/removeList', validateBody<RemoveList>(removeListSchema), async (req: Request, res: Response) => {
 	try {
 		await List.deleteOne({ _id: req.body.listId });
-
-		validationResult(req.body.listId).throw();
 
 		res.status(200).json({
 			message: 'list has been deleted',
