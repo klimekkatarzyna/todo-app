@@ -2,13 +2,13 @@ import express, { Request, Response } from 'express';
 import { List } from '../models/list';
 import MainList from '../models/mainList';
 import { getSessionUserId } from '../utils/auth';
+import { validationResult } from 'express-validator';
 
 const lists = express.Router();
 
 lists.post('/createList', async (req: Request, res: Response) => {
 	const userId = getSessionUserId(req);
-
-	const list = new List({
+	const newList = new List({
 		title: req.body.title,
 		themeColor: 'blue',
 		createdAt: Date.now(),
@@ -19,214 +19,153 @@ lists.post('/createList', async (req: Request, res: Response) => {
 		members: [],
 	});
 
-	list
-		.save()
-		.then(() => {
-			res.json({
-				body: {
-					id: list._id,
-					title: list.title,
-					themeColor: list.themeColor,
-					createdAt: list.createdAt,
-					taskNumber: list.taskNumber,
-					invitationToken: list.invitationToken,
-					owner: list.owner,
-					members: list.members,
-				},
-				message: `created list successfully`,
-				status: 200,
-			});
-		})
-		.catch((err: unknown) => {
-			res.status(500).json({
-				success: false,
-				errorMessage: `something went wrong`,
-				err,
-				status: 500,
-			});
+	try {
+		const list = await newList.save();
+		res.status(200).json({
+			body: {
+				id: list._id,
+				title: list.title,
+				themeColor: list.themeColor,
+				createdAt: list.createdAt,
+				taskNumber: list.taskNumber,
+				invitationToken: list.invitationToken,
+				owner: list.owner,
+				members: list.members,
+			},
 		});
+	} catch (error) {
+		res.status(500).json({
+			error,
+		});
+	}
 });
 
 lists.get('/getLists/:invitationToken', async (req: Request, res: Response) => {
 	const userId = getSessionUserId(req);
 	if (!userId) return;
-	const ownLists = await List.find({ userId });
-	const membersLists = await List.find({ $and: [{ members: userId }] });
 
 	try {
-		res.json({
+		const ownLists = await List.find({ userId });
+		const membersLists = await List.find({ $and: [{ members: userId }] });
+		res.status(200).json({
 			body: {
 				lists: [...new Set([...ownLists, ...membersLists])],
 			},
-			status: 200,
 		});
 	} catch (error) {
 		res.status(500).json({
-			success: false,
-			errorMessage: `something went wrong`,
-			status: 500,
+			error,
 		});
 	}
 });
 
 lists.get('/getList/:id', async (req: Request, res: Response) => {
-	List.find({ _id: req.params.id }, (err, docs: any) => {
-		const members = [...new Set(docs[0]?.members)];
-		try {
-			res.json({
-				body: {
-					_id: docs[0]?._id,
-					title: docs[0]?.title,
-					taskNumber: docs[0]?.taskNumber,
-					themeColor: docs[0]?.themeColor,
-					createdAt: docs[0]?.createdAt,
-					userId: docs[0]?.userId,
-					invitationToken: docs[0]?.invitationToken,
-					owner: docs[0]?.owner,
-					members,
-				},
-				status: 200,
-			});
-		} catch (error) {
-			res.status(500).json({
-				success: false,
-				errorMessage: `something went wrong`,
-				err,
-				status: 500,
-			});
-		}
-	});
+	try {
+		const list = await List.find({ _id: req.params.id });
+		const members = [...new Set(list[0]?.members)];
+
+		res.status(200).json({
+			body: {
+				_id: list[0]?._id,
+				title: list[0]?.title,
+				taskNumber: list[0]?.taskNumber,
+				themeColor: list[0]?.themeColor,
+				createdAt: list[0]?.createdAt,
+				userId: list[0]?.userId,
+				invitationToken: list[0]?.invitationToken,
+				owner: list[0]?.owner,
+				members,
+			},
+		});
+	} catch (error) {
+		res.status(500).json({
+			error,
+		});
+	}
 });
 
 lists.delete('/removeList', async (req: Request, res: Response) => {
-	//   console.log("---------");
-	List.deleteOne({ _id: req.body.listId }, (err: unknown, docs: unknown) => {
-		try {
-			res.json({
-				body: {
-					lists: docs,
-				},
-				status: 200,
-			});
-		} catch (error) {
-			res.status(500).json({
-				success: false,
-				errorMessage: `something went wrong`,
-				err,
-				status: 500,
-			});
-		}
-	});
+	try {
+		await List.deleteOne({ _id: req.body.listId });
+
+		validationResult(req.body.listId).throw();
+
+		res.status(200).json({
+			message: 'list has been deleted',
+		});
+	} catch (error) {
+		res.status(500).json({
+			error: 'Id of list is required',
+		});
+	}
 });
 
 lists.get('/getMainList', async (req: Request, res: Response) => {
-	MainList.find((err, docs) => {
-		try {
-			res.json({
-				body: {
-					mainLists: docs,
-				},
-				status: 200,
-			});
-		} catch (error) {
-			res.status(500).json({
-				success: false,
-				errorMessage: `something went wrong`,
-				err,
-				status: 500,
-			});
-		}
-	});
+	try {
+		const mainList = await MainList.find();
+		res.status(200).json({
+			body: {
+				mainLists: mainList,
+			},
+		});
+	} catch (error) {
+		res.status(500).json({
+			error,
+		});
+	}
 });
 
 lists.patch('/addInvitationTokenToList', async (req: Request, res: Response) => {
-	List.updateMany(
-		{ _id: req.body.listId },
-		{
-			$set: {
-				invitationToken: req.body.invitationToken,
-				owner: req.body.owner,
-			},
-		},
-		(err: unknown, docs: unknown) => {
-			try {
-				res.json({
-					message: `invitationToken added successfully to ${req.body.invitationToken}`,
-					status: 200,
-				});
-			} catch (err) {
-				console.log(err);
-				res.status(500).json({
-					success: false,
-					errorMessage: `something went wrong`,
-					err,
-					status: 500,
-				});
+	try {
+		await List.updateMany(
+			{ _id: req.body.listId },
+			{
+				$set: {
+					invitationToken: req.body.invitationToken,
+					owner: req.body.owner,
+				},
 			}
-		}
-	);
+		);
+		res.status(200);
+	} catch (err) {
+		res.status(500).json({
+			err,
+		});
+	}
 });
 
 lists.patch('/addUserToMemberOfList', async (req: Request, res: Response) => {
 	// fix duplicates in members array
-	List.findOneAndUpdate(
-		{ invitationToken: req.body.invitationToken },
-		{ $push: { members: [...new Set([req.body.member])] } },
-		(err: unknown, docs: unknown) => {
-			try {
-				res.json({
-					message: `member added successfully to ${req.body.member}`,
-					status: 200,
-				});
-			} catch (err) {
-				console.log(err);
-				res.status(500).json({
-					success: false,
-					errorMessage: `something went wrong`,
-					err,
-					status: 500,
-				});
-			}
-		}
-	);
+	try {
+		await List.findOneAndUpdate({ invitationToken: req.body.invitationToken }, { $push: { members: [...new Set([req.body.member])] } });
+		res.status(200);
+	} catch (err) {
+		res.status(500).json({
+			err,
+		});
+	}
 });
 
 lists.patch('/removeMemberFromList', async (req: Request, res: Response) => {
-	List.findOneAndUpdate({ _id: req.body.listId }, { $pull: { members: { $in: req.body.member } } }, (err: unknown, docs: unknown) => {
-		try {
-			res.json({
-				message: `member removed successfully to ${req.body.member}`,
-				status: 200,
-			});
-		} catch (err) {
-			console.log(err);
-			res.status(500).json({
-				success: false,
-				errorMessage: `something went wrong`,
-				err,
-				status: 500,
-			});
-		}
-	});
+	try {
+		await List.findOneAndUpdate({ _id: req.body.listId }, { $pull: { members: { $in: req.body.member } } });
+		res.status(200);
+	} catch (err) {
+		res.status(500).json({
+			err,
+		});
+	}
 });
 
 lists.patch('/removeInvitation', async (req: Request, res: Response) => {
-	List.findOneAndUpdate({ _id: req.body.listId }, { $set: { members: [], invitationToken: '' } }, (err: unknown, docs: unknown) => {
-		try {
-			res.json({
-				message: `member removed successfully to ${req.body.member}`,
-				status: 200,
-			});
-		} catch (err) {
-			console.log(err);
-			res.status(500).json({
-				success: false,
-				errorMessage: `something went wrong`,
-				err,
-				status: 500,
-			});
-		}
-	});
+	try {
+		await List.findOneAndUpdate({ _id: req.body.listId }, { $set: { members: [], invitationToken: '' } });
+		res.status(200);
+	} catch (err) {
+		res.status(500).json({
+			err,
+		});
+	}
 });
 
 export default lists;

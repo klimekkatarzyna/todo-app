@@ -4,15 +4,19 @@ import { Schema, model } from 'mongoose';
 const userSchema = new Schema<IUserData>({
 	username: {
 		type: String,
-		required: true,
+		required: [true, 'Username is required'],
+		lowercase: true,
 	},
 	email: {
 		type: String,
-		required: true,
+		required: [true, 'Email is required'],
+		lowercase: true,
+		validate: [],
 	},
 	password: {
 		type: String,
-		required: true,
+		required: [true, 'Password is required'],
+		validate: [],
 	},
 	createdAt: {
 		type: Number,
