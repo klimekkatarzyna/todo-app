@@ -2,5 +2,11 @@
   "name": "@kkrawczyk/common",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@types/express": "^4.17.13",
+    "express": "^4.17.3",
+    "mongoose": "^6.2.7",
+    "yup": "^0.32.11"
+  }
 }

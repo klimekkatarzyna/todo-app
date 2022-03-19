@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import { NextFunction, Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 
 export const validateParams =
   <T>(schema: yup.SchemaOf<T>) =>
