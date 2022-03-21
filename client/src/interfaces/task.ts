@@ -1,5 +1,5 @@
-import { AppColorType, Importance } from '../enums';
-import { ITask } from '@kkrawczyk/common/types';
+import { AppColorType } from '../enums';
+import { ITask, Importance } from '@kkrawczyk/common/types';
 
 export interface ITasksResponse {
 	tasks: ITask[];

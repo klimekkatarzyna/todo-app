@@ -1,4 +1,4 @@
-import { Importance, SortType } from '../enums';
+import { SortType } from '../enums';
 import {
 	IAddTaskToMyDayProps,
 	IChangeTaskImportanceProps,
@@ -11,7 +11,7 @@ import {
 } from '../interfaces/task';
 import { http } from '../utils/http';
 import * as api from '../services';
-import { ITask } from '@kkrawczyk/common/types';
+import { ITask, Importance } from '@kkrawczyk/common/types';
 
 export const createTaskAction = async ({ title, parentFolderId, importance, themeColor }: ICreateTaskProps) =>
 	await http<ITask>(api.createTask, 'POST', {

@@ -1,20 +1,14 @@
-import { SchemaDefinitionProperty } from "mongoose";
-
 export interface IUserData {
   username: string;
   email: string;
   password: string;
   _id: string;
-  createdAt:
-    | SchemaDefinitionProperty<DateConstructor | StringConstructor>
-    | undefined;
+  createdAt: number;
 }
 
 // ---------------- task ------------------
 export interface ITask {
-  createdAt:
-    | SchemaDefinitionProperty<DateConstructor | StringConstructor>
-    | undefined;
+  createdAt: number;
   importance: string;
   parentFolderId: string;
   groupName: string;
@@ -41,6 +35,11 @@ export enum SortType {
   deadline = 3,
   importance = 4,
   addedToDayly = 5,
+}
+
+export enum Importance {
+  normal = "Normal",
+  high = "High",
 }
 
 // ---------------- list ------------------

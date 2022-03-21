@@ -32,11 +32,6 @@ export enum SideMenuType {
 
 export type AppColorType = 'grey' | 'blue' | 'red' | 'green';
 
-export enum Importance {
-	normal = 'Normal',
-	high = 'High',
-}
-
 export enum SortType {
 	draggedItem = 0,
 	createdAt = 'createdAt',
