@@ -1,4 +1,4 @@
-import { IUserData } from '@kkrawczyk/common/types';
+import { IUserData } from '@kkrawczyk/common/src/types';
 import { Schema, model } from 'mongoose';
 
 const userSchema = new Schema<IUserData>({

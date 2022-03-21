@@ -6,7 +6,7 @@ import { Loader } from '../Loader/Loader';
 import { http, HttpResponse } from '../../utils/http';
 import * as api from '../../services';
 import { useQuery } from 'react-query';
-import { IList } from '@kkrawczyk/common/types';
+import { IList } from '@kkrawczyk/common/src/types';
 
 const Wrapper = styled.div`
 	display: flex;

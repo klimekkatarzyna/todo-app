@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 import { useAuthorization } from './hooks/useAuthorization';
 import { IIUserDataResponse } from './interfaces/app';
 import { HttpResponse } from './utils/http';
-import { IUserData } from '@kkrawczyk/common/types';
+import { IUserData } from '@kkrawczyk/common/src/types';
 
 export interface AuthContextType {
 	isCheckSessionLoading: boolean;

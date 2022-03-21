@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import Task from '../models/task';
 import { List } from '../models/list';
 import { taskSocket } from '../utils/socketsEvents';
-import { Importance } from '@kkrawczyk/common/types';
+import { Importance } from '@kkrawczyk/common/src/types';
 
 const tasks = express.Router();
 

@@ -1,4 +1,4 @@
-import { IUserData } from '@kkrawczyk/common/types';
+import { IUserData } from '@kkrawczyk/common/src/types';
 
 export interface IIUserDataResponse {
 	user: IUserData;

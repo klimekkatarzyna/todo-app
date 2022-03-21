@@ -5,7 +5,7 @@ import { Button } from '../Button/Button';
 import { ArrowLeft } from '@styled-icons/feather/ArrowLeft';
 import { http } from '../../utils/http';
 import * as api from '../../services';
-import { IList } from '@kkrawczyk/common/types';
+import { IList } from '@kkrawczyk/common/src/types';
 import { useMutation, useQueryClient } from 'react-query';
 import { Loader } from '../Loader/Loader';
 

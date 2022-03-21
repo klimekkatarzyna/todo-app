@@ -1,6 +1,8 @@
 {
   "private": true,
   "workspaces": [
-    "common"
+    "@kkrawczyk/todo-ui",
+    "@kkrawczyk/todo-backend",
+    "@kkrawczyk/common"
   ]
 }

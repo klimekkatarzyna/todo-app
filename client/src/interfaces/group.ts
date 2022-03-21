@@ -1,4 +1,4 @@
-import { IGroup } from '@kkrawczyk/common/types';
+import { IGroup } from '@kkrawczyk/common/src/types';
 
 export interface IGroupsResponse {
 	groups: IGroup[];

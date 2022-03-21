@@ -1,6 +1,6 @@
 import React, { FC, useContext } from 'react';
 import { ContextualMenuOpion } from '../../enums';
-import { IGroup } from '@kkrawczyk/common/types';
+import { IGroup } from '@kkrawczyk/common/src/types';
 import { Modal } from '../Modal/Modal';
 import { Group } from './Group';
 import { useGroup } from '../../hooks/useGroup';
