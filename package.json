@@ -1,8 +1,10 @@
 {
+  "name": "root",
+  "version": "0.0.1",
   "private": true,
   "workspaces": [
-    "@kkrawczyk/todo-ui",
-    "@kkrawczyk/todo-backend",
-    "@kkrawczyk/common"
+    "todo-ui",
+    "todo-backend",
+    "common"
   ]
 }

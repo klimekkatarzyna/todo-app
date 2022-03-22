@@ -5,7 +5,7 @@ import { Input } from '../../Input/Input';
 import { COLOURS } from '../../../constants';
 import { handleResertInput, removesWhitespaceFromString } from '../../../utils/utilsFunctions';
 import { http } from '../../../utils/http';
-import { IList } from '@kkrawczyk/common/src/types';
+import { IList } from 'todo-common';
 import * as api from '../../../services';
 import { useMutation, useQueryClient } from 'react-query';
 

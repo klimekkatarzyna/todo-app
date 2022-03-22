@@ -1,4 +1,4 @@
-import { ITask } from '@kkrawczyk/common/src/types';
+import { ITask } from 'todo-common';
 import { Schema, model } from 'mongoose';
 
 const TaskSchema = new Schema<ITask>({

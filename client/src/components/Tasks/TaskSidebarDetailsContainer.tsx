@@ -16,7 +16,7 @@ import { XSquare } from '@styled-icons/feather/XSquare';
 import { addTaskToMyDayAction } from '../../actions/tasks';
 import { useTasks } from '../../hooks/useTasks';
 import { ElementVisibilityContext } from '../../providers/ElementVisibilityProvider';
-import { ITask } from '@kkrawczyk/common/src/types';
+import { ITask } from 'todo-common';
 
 const TaskSidebarDetailsContainer = styled.div`
 	background-color: ${COLOURS.lightGrey};

@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { editTaskAction } from '../../actions/tasks';
-import { ITask } from '@kkrawczyk/common/src/types';
+import { ITask } from 'todo-common';
 import { removesWhitespaceFromString } from '../../utils/utilsFunctions';
 import { Input } from '../Input/Input';
 import { Loader } from '../Loader/Loader';

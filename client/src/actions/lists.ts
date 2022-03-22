@@ -1,5 +1,5 @@
 import { IDeleteListResponse, IListResponse } from '../interfaces/list';
-import { IList } from '@kkrawczyk/common/src/types';
+import { IList } from 'todo-common';
 import { http, HttpResponse } from '../utils/http';
 import { getStringAfterCharacter } from '../utils/utilsFunctions';
 import * as api from '../services';

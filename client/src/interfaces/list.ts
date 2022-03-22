@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import { ContextualMenuOpion } from '../enums';
-import { IList } from '@kkrawczyk/common/src/types';
+import { IList } from 'todo-common';
 
 export interface IMember {
 	[key: string]: string;

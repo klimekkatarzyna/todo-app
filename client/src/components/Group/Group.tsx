@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { ContextMenuTrigger } from 'react-contextmenu';
 import styled from 'styled-components';
 import { Folder } from '@styled-icons/feather/Folder';
-import { IGroup } from '@kkrawczyk/common/src/types';
+import { IGroup } from 'todo-common';
 import { COLOURS, contextualMenuGroupOpion, IconWrapper } from '../../constants';
 import { GroupedLists } from './GroupedLists';
 import { useDropdown } from '../../hooks/useDropdown';

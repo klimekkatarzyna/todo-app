@@ -1,7 +1,12 @@
 {
-  "name": "@kkrawczyk/common",
+  "name": "todo-common",
   "version": "1.0.0",
-  "main": "index.js",
+  "private": true,
+  "files": [
+    "/dist"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "license": "MIT",
   "dependencies": {
     "@types/express": "^4.17.13",
@@ -12,6 +17,7 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "tsc"
+    "start": "tsc",
+    "build-dist": "npx -p typescript tsc src/**/*.ts --declaration --allowJs --emitDeclarationOnly --outDir dist"
   }
 }

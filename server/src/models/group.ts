@@ -1,4 +1,4 @@
-import { IGroup } from '@kkrawczyk/common/src/types';
+import { IGroup } from 'todo-common';
 import { Schema, model } from 'mongoose';
 
 export const GroupSchema = new Schema<IGroup>({

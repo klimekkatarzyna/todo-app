@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { COLOURS } from '../../constants';
 import { ContextualMenuOpion } from '../../enums';
 import { useSharingData } from '../../hooks/useSharingData';
-import { IList } from '@kkrawczyk/common/src/types';
+import { IList } from 'todo-common';
 import { ModalVisibilityContext } from '../../ModalVisibilityProvider';
 import { Button } from '../Button/Button';
 import { Input } from '../Input/Input';

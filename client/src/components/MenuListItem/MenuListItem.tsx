@@ -2,7 +2,7 @@ import { FC, useMemo, memo } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { COLOURS, contextualMenuSecountOpion, contextualMenuSecountOpionMembers, IconWrapper } from '../../constants';
-import { IList } from '@kkrawczyk/common/src/types';
+import { IList } from 'todo-common';
 import { Sun } from '@styled-icons/feather/Sun';
 import { Star } from '@styled-icons/feather/Star';
 import { List } from '@styled-icons/feather/List';

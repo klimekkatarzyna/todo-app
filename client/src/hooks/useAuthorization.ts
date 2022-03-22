@@ -4,7 +4,7 @@ import { AuthContext, AuthContextType } from '../AuthProvider';
 import { IIUserDataResponse } from '../interfaces/app';
 import * as api from '../services';
 import { http } from '../utils/http';
-import { IUserData } from '@kkrawczyk/common/src/types';
+import { IUserData } from 'todo-common';
 
 interface IAuthenticateUser {
 	email: string;

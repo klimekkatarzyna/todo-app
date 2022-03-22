@@ -7,9 +7,10 @@
     "allowJs": true,
     // Generate d.ts files
     "declaration": true,
+    "baseUrl": "./",
     // This compiler run should
     // only output d.ts files
-    "emitDeclarationOnly": true,
+    "emitDeclarationOnly": false,
     // Types should go into this directory.
     // Removing this would place the .d.ts files
     // next to the .js files
@@ -18,6 +19,7 @@
     // "Go to Definition" in VSCode
     "declarationMap": true,
     "noEmit": false,
-    "checkJs": true
+    "checkJs": true,
+    "module": "CommonJS"
   }
 }

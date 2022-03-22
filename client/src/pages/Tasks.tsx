@@ -9,7 +9,7 @@ import { CreateTask } from '../components/Tasks/CreateTask';
 import { TasksList } from '../components/Tasks/Tasks';
 import { Toolbar } from '../components/Toolbar';
 import { IUseParams } from '../interfaces/app';
-import { IList } from '@kkrawczyk/common/src/types';
+import { IList } from 'todo-common';
 
 export const Tasks: FC = () => {
 	const { listId } = useParams<IUseParams>();

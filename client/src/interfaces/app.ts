@@ -1,4 +1,4 @@
-import { IUserData } from '@kkrawczyk/common/src/types';
+import { IUserData } from 'todo-common';
 
 export interface IIUserDataResponse {
 	user: IUserData;
