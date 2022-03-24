@@ -1,5 +1,5 @@
 {
-  "name": "todo-common",
+  "name": "@kkrawczyk/todo-common",
   "version": "1.0.0",
   "private": true,
   "files": [
@@ -17,7 +17,7 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "tsc",
+    "build": "tsc",
     "build-dist": "npx -p typescript tsc src/**/*.ts --declaration --allowJs --emitDeclarationOnly --outDir dist"
   }
 }

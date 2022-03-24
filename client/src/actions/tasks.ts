@@ -11,7 +11,7 @@ import {
 } from '../interfaces/task';
 import { http } from '../utils/http';
 import * as api from '../services';
-import { ITask, Importance } from 'todo-common';
+import { ITask, Importance } from '@kkrawczyk/todo-common';
 
 export const createTaskAction = async ({ title, parentFolderId, importance, themeColor }: ICreateTaskProps) =>
 	await http<ITask>(api.createTask, 'POST', {

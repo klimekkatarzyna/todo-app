@@ -1,4 +1,4 @@
-import { IList } from 'todo-common';
+import { IList } from '@kkrawczyk/todo-common';
 import { Schema, model } from 'mongoose';
 
 export const ListSchema = new Schema<IList>({

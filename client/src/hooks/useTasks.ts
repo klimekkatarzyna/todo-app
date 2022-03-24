@@ -9,7 +9,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { changeTaskImportanceAction, changeTaskStatusAction, deleteTaskAction, getTaskAction, getTasksOfCurrentListAction } from '../actions/tasks';
 import { SocketContext } from '../providers/SocketProvider';
 import { TasksContext } from '../providers/TasksProvider';
-import { ITask } from 'todo-common';
+import { ITask } from '@kkrawczyk/todo-common';
 
 interface SortType {
 	key: SortTaskType;

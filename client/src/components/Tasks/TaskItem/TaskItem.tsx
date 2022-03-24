@@ -7,7 +7,7 @@ import { IinitialDnDState } from '../../../hooks/useDragAndDrop';
 import { ContextualMenu } from '../../ContextualMenu/ContextualMenu';
 import { TaskDetails } from '../TaskDetails';
 import { ElementVisibilityContext } from '../../../providers/ElementVisibilityProvider';
-import { ITask } from 'todo-common';
+import { ITask } from '@kkrawczyk/todo-common';
 
 const TaskItemWrapper = styled.div`
 	display: flex;

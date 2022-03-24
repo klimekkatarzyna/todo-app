@@ -10,7 +10,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { addInvitationTokenToListAction, deleteListAction, getListsAction } from '../../../actions/lists';
 import { HttpResponse } from '../../../utils/http';
 import { ModalVisibilityContext } from '../../../ModalVisibilityProvider';
-import { IList } from 'todo-common';
+import { IList } from '@kkrawczyk/todo-common';
 
 const Wrapper = styled.div`
 	display: flex;

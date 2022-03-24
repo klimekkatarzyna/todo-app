@@ -4,7 +4,7 @@ import { http, HttpResponse } from '../utils/http';
 import * as api from '../services';
 import { IDeleteGroupResponse, IGroupsResponse } from '../interfaces/group';
 import { removesWhitespaceFromString } from '../utils/utilsFunctions';
-import { IGroup } from 'todo-common';
+import { IGroup } from '@kkrawczyk/todo-common';
 
 export const useGroup = () => {
 	const query = useQueryClient();

@@ -11,7 +11,7 @@ import './index.css';
 
 render(
 	<React.StrictMode>
-		<Router history={history as History}>
+		<Router history={history as any}>
 			<App />
 		</Router>
 	</React.StrictMode>,

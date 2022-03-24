@@ -56,4 +56,3 @@ export interface IGroup {
     createdAt?: string;
     userId: string | undefined;
 }
-//# sourceMappingURL=types.d.ts.map

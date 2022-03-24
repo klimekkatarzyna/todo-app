@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.Importance = exports.SortType = exports.ITaskStatus = void 0;
 var ITaskStatus;
 (function (ITaskStatus) {

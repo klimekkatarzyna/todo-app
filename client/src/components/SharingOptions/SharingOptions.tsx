@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useContext, useEffect, useState } from 'react';
 import { ContextualMenuContext } from '../../ContextualMenuProvider';
-import { IList } from 'todo-common';
+import { IList } from '@kkrawczyk/todo-common';
 import { useGenerateInvitationToken } from '../../hooks/useGenerateInvitationToken';
 import { GenerateTokenView } from './GenerateTokenView';
 import { ShareTokenView } from './ShareTokenView';

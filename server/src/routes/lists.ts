@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import { List } from '../models/list';
 import MainList from '../models/mainList';
 import { getSessionUserId } from '../utils/auth';
-import { validateBody, validateParams } from 'todo-common';
+import { validateBody, validateParams } from '../utils/validation';
 import {
 	addInvitationTokenToListSchema,
 	AddInvitationTokenToListType,
@@ -15,7 +15,7 @@ import {
 	ListIdType,
 	removeMemberFromListSchema,
 	RemoveMemberFromListType,
-} from 'todo-common';
+} from '@kkrawczyk/todo-common';
 
 const lists = express.Router();
 

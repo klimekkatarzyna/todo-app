@@ -1,4 +1,4 @@
-import { IUserData } from 'todo-common';
+import { IUserData } from '@kkrawczyk/todo-common';
 import { Schema, model } from 'mongoose';
 
 const userSchema = new Schema<IUserData>({

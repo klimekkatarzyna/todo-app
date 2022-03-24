@@ -1,4 +1,4 @@
-import { IGroup } from 'todo-common';
+import { IGroup } from '@kkrawczyk/todo-common';
 
 export interface IGroupsResponse {
 	groups: IGroup[];

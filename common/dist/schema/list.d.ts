@@ -56,4 +56,3 @@ export declare const createListSchema: import("yup/lib/object").OptionalObjectSc
     members: import("yup").ArraySchema<import("yup").StringSchema<string, import("yup/lib/types").AnyObject, string>, import("yup/lib/types").AnyObject, string[], string[]>;
 }>>;
 export declare type CreateListType = InferType<typeof createListSchema>;
-//# sourceMappingURL=list.d.ts.map

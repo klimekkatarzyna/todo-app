@@ -8,7 +8,7 @@ import { IUseParams } from '../../interfaces/app';
 import { getDay, getDayName, getMonth, parseUTCtoDate } from '../../utils/date';
 import { Checkbox } from '../Checkbox/Checkbox';
 import { ImportanceButton } from '../ImportanceButton/ImportanceButton';
-import { Importance, ITask } from 'todo-common';
+import { Importance, ITask } from '@kkrawczyk/todo-common';
 import { useFocusingHandling } from '../../hooks/useMouseHandling';
 import { EditTaskName } from './EditTaskName';
 

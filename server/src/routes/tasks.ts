@@ -2,7 +2,8 @@ import express, { Request, Response } from 'express';
 import Task from '../models/task';
 import { List } from '../models/list';
 import { taskSocket } from '../utils/socketsEvents';
-import { Importance } from 'todo-common';
+import { Importance, listIdSchema, taskIdSchema } from '@kkrawczyk/todo-common';
+import { validateParams } from '../utils/validation';
 
 const tasks = express.Router();
 
@@ -41,7 +42,7 @@ tasks.post('/createTask', async (req: Request, res: Response) => {
 	}
 });
 
-tasks.get('/getTasks/:listId', async (req: Request, res: Response) => {
+tasks.get('/getTasks/:listId', validateParams(listIdSchema), async (req: Request, res: Response) => {
 	const tasks = await Task.find({ parentFolderId: req.params.listId });
 	try {
 		res.status(200).json({
@@ -50,7 +51,7 @@ tasks.get('/getTasks/:listId', async (req: Request, res: Response) => {
 			},
 		});
 
-		List.findOneAndUpdate({ _id: req.params.listId }, { $set: { taskNumber: tasks.length } }, (err: unknown, list: any) => {});
+		List.findOneAndUpdate({ _id: req.params.listId }, { $set: { taskNumber: tasks?.length } }, (err: unknown, list: any) => {});
 	} catch (err) {
 		res.status(500).json({
 			err,
@@ -111,9 +112,9 @@ tasks.delete('/removeTask', async (req: Request, res: Response) => {
 	}
 });
 
-tasks.get('/getTask/:id', async (req: Request, res: Response) => {
-	const task = await Task.find({ _id: req.params.id });
+tasks.get('/getTask/:id', validateParams(taskIdSchema), async (req: Request, res: Response) => {
 	try {
+		const task = await Task.find({ _id: req.params.id });
 		res.status(200).json({
 			body: task,
 		});
@@ -152,7 +153,6 @@ tasks.patch('/addTaskToMyDay/:taskId', async (req: Request, res: Response) => {
 
 tasks.get('/getImportanceTasks', async (req: Request, res: Response) => {
 	const tasks = await Task.find({ importance: Importance.high });
-
 	try {
 		res.status(200).json({
 			body: {

@@ -54,7 +54,7 @@ router.post('/register', async (req: Request, res: Response, next: NextFunction)
 router.post('/login', async (req: Request<{}, {}, IUser>, res: Response) => {
 	try {
 		const user = await User.findOne({ email: req.body.email });
-		const token = signJwt(user?._id.toString());
+		const token = signJwt(user?._id.toString() || '');
 
 		//Check if password entered is correct
 		// const validPassword = await bcrypt.compare(req.body.password, user.password);

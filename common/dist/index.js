@@ -13,7 +13,15 @@ var __createBinding = (this && this.__createBinding) || (Object.create ? (functi
 var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./types"), exports);
-__exportStar(require("./validation"), exports);
 __exportStar(require("./schema/list"), exports);
+__exportStar(require("./schema/task"), exports);
+console.log("workspace common");
+// in global package.json add workspaces name of folders
+// install common as package dependency on both client and server: yarn add todo-common
+// export all files workspaces in index.ts file
+// use command: yarn workspaces run on client and server
+//
+// main package.json has to know about other packages so other packages (client/server/common) should have package.json file
+//

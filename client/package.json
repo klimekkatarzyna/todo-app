@@ -1,12 +1,8 @@
 {
-	"name": "todo-ui",
-	"version": "0.1.0",
+	"name": "@kkrawczyk/todo-ui",
+	"version": "1.0.0",
 	"private": true,
-	"workspaces": {
-		"nohoist": [
-			"**"
-		]
-	},
+	"author": "Katarzyna Krawczyk",
 	"dependencies": {
 		"@babel/core": "^7.15.5",
 		"@babel/plugin-proposal-nullish-coalescing-operator": "^7.14.5",
@@ -59,7 +55,7 @@
 		"socket.io-client": "^4.4.1",
 		"styled-components": "^5.3.1",
 		"tailwindcss": "^3.0.23",
-		"todo-common": "^1.0.0",
+		"@kkrawczyk/todo-common": "^1.0.0",
 		"typescript": "^4.5.2",
 		"uuid": "^8.3.2",
 		"web-vitals": "^1.0.1"
