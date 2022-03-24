@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import Task from '../models/task';
 import { List } from '../models/list';
 import { taskSocket } from '../utils/socketsEvents';
-import { Importance, listIdSchema, taskIdSchema } from '@kkrawczyk/todo-common';
+import { Importance, listIdForTasksSchema, taskIdSchema } from '@kkrawczyk/todo-common';
 import { validateParams } from '../utils/validation';
 
 const tasks = express.Router();
@@ -42,7 +42,7 @@ tasks.post('/createTask', async (req: Request, res: Response) => {
 	}
 });
 
-tasks.get('/getTasks/:listId', validateParams(listIdSchema), async (req: Request, res: Response) => {
+tasks.get('/getTasks/:listId', validateParams(listIdForTasksSchema), async (req: Request, res: Response) => {
 	const tasks = await Task.find({ parentFolderId: req.params.listId });
 	try {
 		res.status(200).json({
