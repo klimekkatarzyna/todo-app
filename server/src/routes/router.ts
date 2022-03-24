@@ -1,16 +1,9 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { User } from '../models/user';
 import { signJwt, setTokenCookie, passwordHash, deleteTokenCookie, getSessionUserId, authorization } from '../utils/auth';
+import { IUserData } from '@kkrawczyk/todo-common';
 
 const router = express.Router();
-
-interface IUser {
-	_id: string;
-	username: string;
-	email: string;
-	password: string;
-	createdAt: Date;
-}
 
 router.post('/register', async (req: Request, res: Response, next: NextFunction) => {
 	try {
@@ -51,7 +44,7 @@ router.post('/register', async (req: Request, res: Response, next: NextFunction)
 	}
 });
 
-router.post('/login', async (req: Request<{}, {}, IUser>, res: Response) => {
+router.post('/login', async (req: Request<{}, {}, IUserData>, res: Response) => {
 	try {
 		const user = await User.findOne({ email: req.body.email });
 		const token = signJwt(user?._id.toString() || '');
@@ -84,7 +77,7 @@ router.post('/login', async (req: Request<{}, {}, IUser>, res: Response) => {
 	}
 });
 
-router.get('/me', authorization, async (req: Request<{}, {}, IUser>, res: Response) => {
+router.get('/me', authorization, async (req: Request<{}, {}, IUserData>, res: Response) => {
 	try {
 		const userId = getSessionUserId(req);
 		const user = await User.findById(userId);
