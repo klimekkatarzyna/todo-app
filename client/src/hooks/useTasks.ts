@@ -44,7 +44,6 @@ export const useTasks = () => {
 	const { mutate: removeTaskMutation } = useMutation(() => deleteTaskAction(taskId || '', taskData?.parentFolderId), {
 		onSuccess: () => {
 			query.invalidateQueries(['tasksOfCurrentList']);
-			query.invalidateQueries('lists');
 		},
 	});
 

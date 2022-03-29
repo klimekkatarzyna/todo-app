@@ -15,8 +15,6 @@ export const CreateTask = () => {
 	const { mutate: createTaskMutation } = useMutation(createTaskAction, {
 		onSuccess: () => {
 			query.invalidateQueries('tasksOfCurrentList');
-			query.invalidateQueries('getListById');
-			query.invalidateQueries('lists');
 		},
 	});
 

@@ -25,7 +25,6 @@ lists.post('/createList', validateBody<CreateListType>(createListSchema), async 
 		title: req.body.title,
 		themeColor: 'blue',
 		createdAt: Date.now(),
-		taskNumber: req.body.taskNumber,
 		userId: userId,
 		invitationToken: '',
 		owner: '',
@@ -40,7 +39,6 @@ lists.post('/createList', validateBody<CreateListType>(createListSchema), async 
 				title: list.title,
 				themeColor: list.themeColor,
 				createdAt: list.createdAt,
-				taskNumber: list.taskNumber,
 				invitationToken: list.invitationToken,
 				owner: list.owner,
 				members: list.members,
@@ -81,7 +79,6 @@ lists.get('/getList/:id', validateParams(listIdSchema), async (req: Request, res
 			body: {
 				_id: list[0]?._id,
 				title: list[0]?.title,
-				taskNumber: list[0]?.taskNumber,
 				themeColor: list[0]?.themeColor,
 				createdAt: list[0]?.createdAt,
 				userId: list[0]?.userId,

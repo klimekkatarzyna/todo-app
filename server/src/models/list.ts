@@ -6,10 +6,6 @@ export const ListSchema = new Schema<IList>({
 		type: String,
 		required: true,
 	},
-	taskNumber: {
-		type: Number,
-		required: true,
-	},
 	themeColor: {
 		type: String,
 	},

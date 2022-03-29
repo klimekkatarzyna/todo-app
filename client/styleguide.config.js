@@ -20,7 +20,6 @@ module.exports = {
 		'**/components/SortComponent/SortComponent.tsx',
 		'**/components/MainList/useMainList.ts',
 		'**/components/Loader/Loader.tsx',
-		'**/components/List/useList.ts',
 		'**/components/List/Lists/Lists.tsx',
 		'**/components/List/CreateList/CreateList.tsx',
 		'**/components/Header.tsx',

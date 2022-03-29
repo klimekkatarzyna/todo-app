@@ -1,6 +1,5 @@
 import express, { Request, Response } from 'express';
 import Task from '../models/task';
-import { List } from '../models/list';
 import { taskSocket } from '../utils/socketsEvents';
 import { Importance, listIdForTasksSchema, taskIdSchema } from '@kkrawczyk/todo-common';
 import { validateParams } from '../utils/validation';
@@ -50,8 +49,6 @@ tasks.get('/getTasks/:listId', validateParams(listIdForTasksSchema), async (req:
 				tasks,
 			},
 		});
-
-		List.findOneAndUpdate({ _id: req.params.listId }, { $set: { taskNumber: tasks?.length } }, (err: unknown, list: any) => {});
 	} catch (err) {
 		res.status(500).json({
 			err,

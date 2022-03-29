@@ -27,7 +27,7 @@ export const createTaskAction = async ({ title, parentFolderId, importance, them
 export const editTaskAction = async ({ taskId, taskName, parentId }: IEditTaskProps) =>
 	await http(`${api.editTask}`, 'PATCH', { taskId, taskName, parentId });
 
-export const getTasksOfCurrentListAction = async (listId: string) => await http<ITasksResponse>(`${api.getTasks}/${listId}`, 'GET');
+export const getTasksOfCurrentListAction = async (listId: string | undefined) => await http<ITasksResponse>(`${api.getTasks}/${listId}`, 'GET');
 
 export const changeTaskStatusAction = async ({ taskId, taskStatus }: IChangeTaskStatusToCompleteProps) =>
 	await http(`${api.changeTaskStatus}/${taskId}`, 'PATCH', { taskStatus });

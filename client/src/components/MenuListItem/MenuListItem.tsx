@@ -14,6 +14,10 @@ import { SideMenuType } from '../../enums';
 import { ContextMenuTrigger } from 'react-contextmenu';
 import { ContextualMenu } from '../ContextualMenu/ContextualMenu';
 import { useSharingData } from '../../hooks/useSharingData';
+import { useQuery } from 'react-query';
+import { HttpResponse } from '../../utils/http';
+import { ITasksResponse } from '../../interfaces/task';
+import { getTasksOfCurrentListAction } from '../../actions/tasks';
 
 const LinkStyled = styled(Link)`
 	text-decoration: none;
@@ -65,6 +69,7 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed }) => 
 		[listItem]
 	);
 	const { isUserListOwner } = useSharingData(listItem?.members);
+	const { data } = useQuery<HttpResponse<ITasksResponse>>(['tasksOfCurrentList', listItem._id], () => getTasksOfCurrentListAction(listItem._id));
 
 	return (
 		<LinkStyled to={listItem?.isMainList ? `${listItem?.url}` : `/tasks/${listItem?._id}`}>
@@ -72,7 +77,7 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed }) => 
 				<IconWrapper color={listItem?.themeColor || COLOURS.blue}>{icon || <List />}</IconWrapper>
 				<Name isNavClosed={isNavClosed}>{listItem?.title}</Name>
 				{!!listItem.members?.length && <Users />}
-				{!!listItem?.taskNumber && <TasksNumber isNavClosed={isNavClosed}>{listItem?.taskNumber}</TasksNumber>}
+				{!!data?.body?.tasks?.length && <TasksNumber isNavClosed={isNavClosed}>{data?.body?.tasks?.length}</TasksNumber>}
 			</ContextMenuTrigger>
 			<ContextualMenu
 				contextualMenuList={isUserListOwner ? contextualMenuSecountOpionMembers : contextualMenuSecountOpion}

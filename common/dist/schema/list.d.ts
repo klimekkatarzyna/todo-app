@@ -40,7 +40,6 @@ export declare const createListSchema: import("yup/lib/object").OptionalObjectSc
     title: import("yup/lib/string").RequiredStringSchema<string, import("yup/lib/types").AnyObject>;
     themeColor: import("yup").StringSchema<string, import("yup/lib/types").AnyObject, string>;
     createdAt: import("yup").DateSchema<Date, import("yup/lib/types").AnyObject, Date>;
-    taskNumber: import("yup/lib/number").RequiredNumberSchema<number, import("yup/lib/types").AnyObject>;
     userId: import("yup").StringSchema<string, import("yup/lib/types").AnyObject, string>;
     invitationToken: import("yup").StringSchema<string, import("yup/lib/types").AnyObject, string>;
     owner: import("yup").StringSchema<string, import("yup/lib/types").AnyObject, string>;
@@ -49,7 +48,6 @@ export declare const createListSchema: import("yup/lib/object").OptionalObjectSc
     title: import("yup/lib/string").RequiredStringSchema<string, import("yup/lib/types").AnyObject>;
     themeColor: import("yup").StringSchema<string, import("yup/lib/types").AnyObject, string>;
     createdAt: import("yup").DateSchema<Date, import("yup/lib/types").AnyObject, Date>;
-    taskNumber: import("yup/lib/number").RequiredNumberSchema<number, import("yup/lib/types").AnyObject>;
     userId: import("yup").StringSchema<string, import("yup/lib/types").AnyObject, string>;
     invitationToken: import("yup").StringSchema<string, import("yup/lib/types").AnyObject, string>;
     owner: import("yup").StringSchema<string, import("yup/lib/types").AnyObject, string>;

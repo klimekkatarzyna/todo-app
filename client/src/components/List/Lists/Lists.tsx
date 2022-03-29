@@ -1,16 +1,17 @@
 import { FC, memo, useContext } from 'react';
 import styled from 'styled-components';
-import { IListResponse } from '../../../interfaces/list';
 import { MenuListItem } from '../../MenuListItem/MenuListItem';
 import { Loader } from '../../Loader/Loader';
 import { Modal } from '../../Modal/Modal';
 import { ContextualMenuOpion } from '../../../enums';
 import { SharingOptions } from '../../SharingOptions/SharingOptions';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { addInvitationTokenToListAction, deleteListAction, getListsAction } from '../../../actions/lists';
-import { HttpResponse } from '../../../utils/http';
+import { useMutation, useQueryClient } from 'react-query';
+import { addInvitationTokenToListAction } from '../../../actions/lists';
 import { ModalVisibilityContext } from '../../../ModalVisibilityProvider';
 import { IList } from '@kkrawczyk/todo-common';
+import { useList } from '../../../hooks/useList';
+import { useRecoilValue } from 'recoil';
+import { listsState } from '../../../atoms';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -24,18 +25,9 @@ interface ILists {
 
 const ListsComponents: FC<ILists> = ({ isNavClosed }) => {
 	const query = useQueryClient();
-	const {
-		isLoading: getListsLoading,
-		data: listsResponse,
-		error: getListsError,
-	} = useQuery<HttpResponse<IListResponse> | undefined>('lists', getListsAction); // TODO: cache it
 	const { isVisible } = useContext(ModalVisibilityContext);
-
-	const { mutate: removeListMutation } = useMutation(deleteListAction, {
-		onSuccess: () => {
-			query.invalidateQueries(['lists']);
-		},
-	});
+	const { getListsLoading, removeListMutation } = useList();
+	const list = useRecoilValue(listsState);
 
 	const { mutate: addInvitationTokenToListMutation, isLoading: addInvitationTokenToListLoading } = useMutation(addInvitationTokenToListAction, {
 		onSuccess: () => {
@@ -47,7 +39,7 @@ const ListsComponents: FC<ILists> = ({ isNavClosed }) => {
 		<>
 			<Wrapper>
 				{getListsLoading && <Loader />}
-				{listsResponse?.body?.lists?.map((list: IList) => (
+				{list?.map((list: IList) => (
 					<MenuListItem key={list?._id} listItem={list} isNavClosed={isNavClosed} />
 				))}
 			</Wrapper>

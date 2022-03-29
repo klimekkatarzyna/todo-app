@@ -40,7 +40,6 @@ export const createListSchema = object({
   title: string().required(),
   themeColor: string(),
   createdAt: date(),
-  taskNumber: number().required(),
   userId: string(),
   invitationToken: string(),
   owner: string(),

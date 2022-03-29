@@ -6,10 +6,10 @@ import { AuthProvider } from './AuthProvider';
 import BrowserRouter from './Router';
 import { ModalVisibilityProvider } from './ModalVisibilityProvider';
 import { ContextualMenuProvider } from './ContextualMenuProvider';
-import { ListsProvider } from './providers/ListsProviders';
 import { SocketProvider } from './providers/SocketProvider';
 import { TasksProvider } from './providers/TasksProvider';
 import { ElementVisibilityProvider } from './providers/ElementVisibilityProvider';
+import { RecoilRoot } from 'recoil';
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -47,19 +47,19 @@ const App: FC = () => {
 		<QueryClientProvider client={queryClient}>
 			<AuthProvider>
 				<SocketProvider>
-					<ListsProvider>
-						<TasksProvider>
-							<ModalVisibilityProvider>
-								<ContextualMenuProvider>
-									<ElementVisibilityProvider>
+					<TasksProvider>
+						<ModalVisibilityProvider>
+							<ContextualMenuProvider>
+								<ElementVisibilityProvider>
+									<RecoilRoot>
 										{/* <ReactQueryDevtools initialIsOpen /> */}
 										<GlobalStyle />
 										<BrowserRouter />
-									</ElementVisibilityProvider>
-								</ContextualMenuProvider>
-							</ModalVisibilityProvider>
-						</TasksProvider>
-					</ListsProvider>
+									</RecoilRoot>
+								</ElementVisibilityProvider>
+							</ContextualMenuProvider>
+						</ModalVisibilityProvider>
+					</TasksProvider>
 				</SocketProvider>
 			</AuthProvider>
 		</QueryClientProvider>

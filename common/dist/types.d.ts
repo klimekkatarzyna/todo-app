@@ -38,7 +38,6 @@ export declare enum Importance {
 export interface IList {
     isMainList?: boolean;
     title: string;
-    taskNumber: number;
     icon: SVGRectElement;
     themeColor: AppColorType;
     _id?: string;

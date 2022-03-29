@@ -25,7 +25,6 @@ exports.createListSchema = (0, yup_1.object)({
     title: (0, yup_1.string)().required(),
     themeColor: (0, yup_1.string)(),
     createdAt: (0, yup_1.date)(),
-    taskNumber: (0, yup_1.number)().required(),
     userId: (0, yup_1.string)(),
     invitationToken: (0, yup_1.string)(),
     owner: (0, yup_1.string)(),
