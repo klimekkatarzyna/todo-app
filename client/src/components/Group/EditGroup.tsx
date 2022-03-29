@@ -29,7 +29,7 @@ export const EditGroup: FC<IEditGroupProps> = ({ title, groupId }) => {
 		async (event: React.SyntheticEvent): Promise<void> => {
 			event.preventDefault();
 			try {
-				await mutate({ groupId, title: groupName });
+				await mutate({ _id: groupId, title: groupName });
 				setIsInputVisible(false);
 				handleResertInput(setGroupName);
 			} catch {

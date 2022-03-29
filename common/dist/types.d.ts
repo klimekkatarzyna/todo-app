@@ -50,8 +50,8 @@ export interface IList {
 }
 export interface IGroup {
     title: string;
-    themeColor: AppColorType;
+    themeColor?: AppColorType;
     _id: string;
     createdAt?: string;
-    userId: string | undefined;
+    userId?: string | undefined;
 }
