@@ -1,9 +1,11 @@
-import React, { FC, useCallback, useContext, useEffect } from 'react';
+import React, { FC, useCallback, useContext, useEffect, useState } from 'react';
 import { ContextualMenuContext } from '../../ContextualMenuProvider';
 import { ContextualMenuOpion } from '../../enums';
 import { handleResertInput } from '../../utils/utilsFunctions';
 import { Input } from '../Input/Input';
 import { useGroup } from '../../hooks/useGroup';
+import { useMutation, useQueryClient } from 'react-query';
+import { editGroup } from '../../actions/groups';
 
 interface IEditGroupProps {
 	title: string;
@@ -11,14 +13,24 @@ interface IEditGroupProps {
 }
 
 export const EditGroup: FC<IEditGroupProps> = ({ title, groupId }) => {
-	const { editGroupMutate, setIsInputVisible, isInputVisible, groupName, handleChange, setGroupName } = useGroup();
+	const query = useQueryClient();
+
+	const [isInputVisible, setIsInputVisible] = useState(false);
+	const { groupName, handleChange, setGroupName } = useGroup();
 	const { contextualMenu } = useContext(ContextualMenuContext);
+
+	const { mutate, error, isLoading } = useMutation(editGroup, {
+		onSuccess: () => {
+			query.invalidateQueries(['groups']);
+		},
+	});
 
 	const onSubmit = useCallback(
 		async (event: React.SyntheticEvent): Promise<void> => {
 			event.preventDefault();
 			try {
-				await editGroupMutate({ groupId, title: groupName });
+				await mutate({ groupId, title: groupName });
+				setIsInputVisible(false);
 				handleResertInput(setGroupName);
 			} catch {
 				//TODO: handle error & show notificayion

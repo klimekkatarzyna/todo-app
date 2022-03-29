@@ -7,6 +7,8 @@ import { IconButton } from './IconButton';
 import { useGroup } from '../../hooks/useGroup';
 import { Folder } from '@styled-icons/feather/Folder';
 import { IconWrapper } from '../../constants';
+import { useMutation, useQueryClient } from 'react-query';
+import { createGroup } from '../../actions/groups';
 
 const InputWrapper = styled.div`
 	position: absolute;
@@ -27,14 +29,21 @@ const InputWrapper = styled.div`
 `;
 
 export const CreateGroup: FC = () => {
+	const query = useQueryClient();
 	const { elementeReference, toggleDropdown, dropdownOpen } = useDropdown();
-	const { mutateCreateGroup, groupName, handleChange, setGroupName } = useGroup();
+	const { groupName, handleChange, setGroupName } = useGroup();
+
+	const { mutate, error, isLoading } = useMutation(createGroup, {
+		onSuccess: () => {
+			query.invalidateQueries(['groups']);
+		},
+	});
 
 	const onSubmit = useCallback(
 		async (event: React.SyntheticEvent): Promise<void> => {
 			event.preventDefault();
 
-			await mutateCreateGroup(groupName);
+			await mutate(groupName);
 			handleResertInput(setGroupName);
 			toggleDropdown();
 		},

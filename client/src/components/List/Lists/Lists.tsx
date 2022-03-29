@@ -43,7 +43,6 @@ const ListsComponents: FC<ILists> = ({ isNavClosed }) => {
 					<MenuListItem key={list?._id} listItem={list} isNavClosed={isNavClosed} />
 				))}
 			</Wrapper>
-			{/* TODO: react portal for modals ? */}
 			{isVisible && (
 				<Modal title='Czy chcesz usunąć listę?' onHandleAction={removeListMutation} contextualType={ContextualMenuOpion.remove_list} />
 			)}

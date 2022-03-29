@@ -12,6 +12,8 @@ interface IAddInvitationTokenToListActionProps {
 
 const invitationToken = getStringAfterCharacter(sessionStorage.getItem('invitationTokenUrl') || undefined); // TODO: fix me!!
 
+export const createListAction = async (title: string | undefined) => await http<IList>(api.createList, 'POST', { title });
+
 export const getListsAction = async () => await http<IListResponse>(`${api.getLists}/${invitationToken}`, 'GET');
 
 export const getListByIdAction = async (listId: string) => {
