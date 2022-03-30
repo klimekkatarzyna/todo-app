@@ -5,6 +5,7 @@ import { X } from '@styled-icons/feather';
 import { useMutation, useQueryClient } from 'react-query';
 import { Loader } from '../Loader/Loader';
 import { removeMemberAction } from '../../actions/sharing';
+import { useSharingData } from '../../hooks/useSharingData';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -47,10 +48,12 @@ interface IMemberProps {
 
 export const Member: FC<IMemberProps> = ({ member, listId }) => {
 	const query = useQueryClient();
+	const { isUserListOwner } = useSharingData(member);
 
 	const { mutate, isLoading, isError } = useMutation(removeMemberAction, {
 		onSuccess: () => {
 			query.invalidateQueries(['getListById']);
+			query.invalidateQueries(['lists']);
 		},
 	});
 
@@ -58,9 +61,11 @@ export const Member: FC<IMemberProps> = ({ member, listId }) => {
 		<Wrapper>
 			<Dot />
 			<p key={member}>{member}</p>
-			<RemoveButton onClick={() => mutate({ listId, member })}>
-				<X />
-			</RemoveButton>
+			{!isUserListOwner && (
+				<RemoveButton onClick={() => mutate({ listId, member })}>
+					<X />
+				</RemoveButton>
+			)}
 			{isLoading && <Loader />}
 		</Wrapper>
 	);
