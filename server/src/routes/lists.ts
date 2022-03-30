@@ -145,7 +145,7 @@ lists.patch(
 lists.patch('/addUserToMemberOfList', validateBody<AddUserToListType>(addUserToListSchema), async (req: Request, res: Response) => {
 	// fix duplicates in members array
 	try {
-		await List.findOneAndUpdate({ invitationToken: req.body.invitationToken }, { $push: { members: [...new Set([req.body.member])] } });
+		await List.findOneAndUpdate({ invitationToken: req.body.invitationToken }, { $push: { members: req.body.member } });
 		res.status(200).json({ message: 'user has been added to the list' });
 	} catch (err) {
 		res.status(500).json({
