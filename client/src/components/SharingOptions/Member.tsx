@@ -1,15 +1,15 @@
-import React, { FC, useCallback } from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import { COLOURS } from '../../constants';
 import { X } from '@styled-icons/feather';
-import { http } from '../../utils/http';
-import * as api from '../../services';
 import { useMutation, useQueryClient } from 'react-query';
 import { Loader } from '../Loader/Loader';
+import { removeMemberAction } from '../../actions/sharing';
 
 const Wrapper = styled.div`
 	display: flex;
 	align-items: center;
+	margin: 0.5rem 0;
 
 	> button {
 		margin-left: auto;
@@ -27,35 +27,28 @@ export const Dot = styled.div`
 		content: '';
 		position: relative;
 		left: -10px;
-		width: 40px;
-		height: 40px;
+		width: 30px;
+		height: 30px;
 		background-color: ${COLOURS.red};
 		border-radius: 50%;
 	}
 `;
 
-const RemoveButton = styled.button``;
+const RemoveButton = styled.button`
+	svg {
+		width: 20px;
+	}
+`;
 
 interface IMemberProps {
-	member: string;
-	listId: string | undefined;
+	member: any;
+	listId: string;
 }
 
 export const Member: FC<IMemberProps> = ({ member, listId }) => {
 	const query = useQueryClient();
-	const onRemoveMemberAction = useCallback(async () => {
-		const response = await http(`${api.removeMemberFromList}`, 'PATCH', {
-			listId,
-			member,
-		});
-		return response.body;
-	}, [member]);
 
-	const {
-		mutate: onRemoveMemberMutation,
-		isLoading: onRemoveMemberLoading,
-		isError,
-	} = useMutation(onRemoveMemberAction, {
+	const { mutate, isLoading, isError } = useMutation(removeMemberAction, {
 		onSuccess: () => {
 			query.invalidateQueries(['getListById']);
 		},
@@ -65,10 +58,10 @@ export const Member: FC<IMemberProps> = ({ member, listId }) => {
 		<Wrapper>
 			<Dot />
 			<p key={member}>{member}</p>
-			<RemoveButton onClick={() => onRemoveMemberMutation()}>
+			<RemoveButton onClick={() => mutate({ listId, member })}>
 				<X />
 			</RemoveButton>
-			{onRemoveMemberLoading && <Loader />}
+			{isLoading && <Loader />}
 		</Wrapper>
 	);
 };

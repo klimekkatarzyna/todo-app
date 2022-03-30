@@ -10,6 +10,9 @@ interface IGenerateTokenViewProps {
 export const GenerateTokenView: FC<IGenerateTokenViewProps> = ({ isLoading, onGenerateInvitationToken }) => {
 	return (
 		<div>
+			<h2 className='text-center'>
+				<strong>Udostępnij listę</strong>
+			</h2>
 			<p>Zaproś inne osoby. Gdy dołączą zostaną tutaj zaproszone.</p>
 			<Button primary onClick={onGenerateInvitationToken}>
 				{'Utwórz link zaproszenia'}

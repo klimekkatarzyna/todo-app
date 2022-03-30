@@ -28,13 +28,9 @@ export const EditGroup: FC<IEditGroupProps> = ({ title, groupId }) => {
 	const onSubmit = useCallback(
 		async (event: React.SyntheticEvent): Promise<void> => {
 			event.preventDefault();
-			try {
-				await mutate({ _id: groupId, title: groupName });
-				setIsInputVisible(false);
-				handleResertInput(setGroupName);
-			} catch {
-				//TODO: handle error & show notificayion
-			}
+			await mutate({ _id: groupId, title: groupName });
+			setIsInputVisible(false);
+			handleResertInput(setGroupName);
 		},
 		[groupName]
 	);

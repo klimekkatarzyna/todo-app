@@ -47,8 +47,8 @@ export enum Importance {
 export interface IList {
   isMainList?: boolean;
   title: string;
-  icon: SVGRectElement;
-  themeColor: AppColorType;
+  icon?: SVGRectElement;
+  themeColor?: AppColorType;
   _id?: string;
   createdAt?: string;
   url?: string;

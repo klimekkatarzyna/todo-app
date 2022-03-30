@@ -47,7 +47,7 @@ const ListsComponents: FC<ILists> = ({ isNavClosed }) => {
 				<Modal title='Czy chcesz usunąć listę?' onHandleAction={removeListMutation} contextualType={ContextualMenuOpion.remove_list} />
 			)}
 			{isVisible && (
-				<Modal title='Udostępnij listę' onHandleAction={() => {}} contextualType={ContextualMenuOpion.sharing_options}>
+				<Modal title='' onHandleAction={() => {}} contextualType={ContextualMenuOpion.sharing_options} isActionButtonHidden>
 					<SharingOptions
 						addInvitationTokenToListLoading={addInvitationTokenToListLoading}
 						addInvitationTokenToListMutation={addInvitationTokenToListMutation}

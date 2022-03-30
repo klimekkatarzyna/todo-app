@@ -8,6 +8,7 @@ import * as api from '../../services';
 import { IList } from '@kkrawczyk/todo-common';
 import { useMutation, useQueryClient } from 'react-query';
 import { Loader } from '../Loader/Loader';
+import { removeInvitationAction } from '../../actions/sharing';
 
 const Wrapper = styled.div`
 	h3 {
@@ -29,6 +30,9 @@ const BackButton = styled.button`
 	cursor: pointer;
 	position: absolute;
 	top: 20px;
+	svg {
+		width: 20px;
+	}
 `;
 
 interface IAccessManagementProps {
@@ -38,18 +42,8 @@ interface IAccessManagementProps {
 
 export const AccessManagement: FC<IAccessManagementProps> = ({ listDataResponse, onPrevStep }) => {
 	const query = useQueryClient();
-	const removeInvitationAction = useCallback(async () => {
-		const response = await http(`${api.removeInvitation}`, 'PATCH', {
-			listId: listDataResponse?._id,
-		});
-		return response;
-	}, [listDataResponse]);
 
-	const {
-		mutate: removeInvitationMutation,
-		isLoading: removeInvitationLoading,
-		isError,
-	} = useMutation(removeInvitationAction, {
+	const { mutate, isLoading, isError } = useMutation(removeInvitationAction, {
 		onSuccess: () => {
 			query.invalidateQueries(['getListById']);
 		},
@@ -60,11 +54,14 @@ export const AccessManagement: FC<IAccessManagementProps> = ({ listDataResponse,
 			<BackButton onClick={onPrevStep}>
 				<ArrowLeft />
 			</BackButton>
+			<h2 className='text-center'>
+				<strong>Zarządzanie dostępem</strong>
+			</h2>
 			<h3>{'Link do zapraszania'}</h3>
 			<div>{`${process.env.REACT_APP_CONFIG_API}/tasks/sharing?invitationToken=${listDataResponse?.invitationToken}`}</div>
-			<Button secondary onClick={() => removeInvitationMutation()}>
+			<Button secondary onClick={() => mutate(listDataResponse?._id)}>
 				{'Zatrzymaj udostępnianie'}
-				{removeInvitationLoading && <Loader />}
+				{isLoading && <Loader />}
 			</Button>
 		</Wrapper>
 	);

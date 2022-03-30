@@ -80,12 +80,15 @@ export const ShareTokenView: FC<IShareTokenViewProps> = ({ onNextStep, listDataR
 
 	return (
 		<Wrapper>
+			<h2 className='text-center'>
+				<strong>Udostępnij listę</strong>
+			</h2>
 			<h3>Członkowie listy</h3>
 			<div>
 				<Dot /> {listDataResponse?.owner} <span>{'Właściciel'}</span>
 			</div>
 			{listDataResponse?.members?.map(member => (
-				<Member key={member} member={member} listId={listDataResponse._id} />
+				<Member key={member} member={member} listId={listDataResponse._id as string} />
 			))}{' '}
 			{/*TODO: display name of user or email*/}
 			<Input

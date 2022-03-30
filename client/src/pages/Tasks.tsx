@@ -14,7 +14,7 @@ import { IList } from '@kkrawczyk/todo-common';
 export const Tasks: FC = () => {
 	const { listId } = useParams<IUseParams>();
 
-	const { data: listDataResponse, isLoading } = useQuery<IList | undefined>(['getListById', listId], () => getListByIdAction(listId));
+	const { data: listDataResponse, isLoading } = useQuery(['getListById', listId], () => getListByIdAction(listId));
 
 	return (
 		<Board>
@@ -22,7 +22,7 @@ export const Tasks: FC = () => {
 				{isLoading ? (
 					<Loader />
 				) : (
-					<Toolbar name={listDataResponse?.title || ''} colorType={listDataResponse?.themeColor}>
+					<Toolbar name={listDataResponse?.body?.title || ''} colorType={listDataResponse?.body?.themeColor}>
 						<ListSettings />
 					</Toolbar>
 				)}

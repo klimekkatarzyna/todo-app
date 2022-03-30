@@ -16,7 +16,7 @@ type ElementId = {
 	elementId: string;
 };
 
-interface IData extends IContextualMenu, ElementId {}
+export interface IData extends IContextualMenu, ElementId {}
 
 interface IContextualMenuProvider {
 	children: React.ReactNode;
