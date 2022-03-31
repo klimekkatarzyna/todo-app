@@ -42,9 +42,9 @@ export const Modal: FC<IModalNEWProps<unknown>> = ({ children, title, contextual
 	}, []);
 
 	const onHandleActionAndClose = useCallback(() => {
-		onHandleAction(contextualMenu?.elementId);
+		onHandleAction();
 		onHide();
-	}, [contextualMenu]);
+	}, []);
 
 	const modal = (
 		<div

@@ -18,7 +18,7 @@ export const getListsAction = async () => await http<IListResponse>(`${api.getLi
 
 export const getListByIdAction = async (listId: string) => await http<IList>(`${api.getListById}/${listId}`, 'GET');
 
-export const deleteListAction = async (listId: string) => await http<IDeleteListResponse>(api.removeList, 'DELETE', { listId });
+export const deleteListAction = async (listId: string | undefined) => await http<IDeleteListResponse>(api.removeList, 'DELETE', { listId });
 
 export const addInvitationTokenToListAction = async ({
 	listId,
