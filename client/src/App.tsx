@@ -7,7 +7,6 @@ import BrowserRouter from './Router';
 import { ModalVisibilityProvider } from './ModalVisibilityProvider';
 import { ContextualMenuProvider } from './ContextualMenuProvider';
 import { SocketProvider } from './providers/SocketProvider';
-import { TasksProvider } from './providers/TasksProvider';
 import { ElementVisibilityProvider } from './providers/ElementVisibilityProvider';
 import { RecoilRoot } from 'recoil';
 
@@ -45,23 +44,21 @@ const GlobalStyle = createGlobalStyle`
 const App: FC = () => {
 	return (
 		<QueryClientProvider client={queryClient}>
-			<AuthProvider>
-				<SocketProvider>
-					<TasksProvider>
+			<RecoilRoot>
+				<AuthProvider>
+					<SocketProvider>
 						<ModalVisibilityProvider>
 							<ContextualMenuProvider>
 								<ElementVisibilityProvider>
-									<RecoilRoot>
-										{/* <ReactQueryDevtools initialIsOpen /> */}
-										<GlobalStyle />
-										<BrowserRouter />
-									</RecoilRoot>
+									{/* <ReactQueryDevtools initialIsOpen /> */}
+									<GlobalStyle />
+									<BrowserRouter />
 								</ElementVisibilityProvider>
 							</ContextualMenuProvider>
 						</ModalVisibilityProvider>
-					</TasksProvider>
-				</SocketProvider>
-			</AuthProvider>
+					</SocketProvider>
+				</AuthProvider>
+			</RecoilRoot>
 		</QueryClientProvider>
 	);
 };

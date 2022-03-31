@@ -8,8 +8,9 @@ import { IUseParams } from '../interfaces/app';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { changeTaskImportanceAction, changeTaskStatusAction, deleteTaskAction, getTaskAction, getTasksOfCurrentListAction } from '../actions/tasks';
 import { SocketContext } from '../providers/SocketProvider';
-import { TasksContext } from '../providers/TasksProvider';
 import { ITask } from '@kkrawczyk/todo-common';
+import { useRecoilState } from 'recoil';
+import { completedTasksListState, inCompletedTasksListState } from '../atoms/tasks';
 
 interface SortType {
 	key: SortTaskType;
@@ -23,7 +24,8 @@ export const useTasks = () => {
 	const query = useQueryClient();
 	const { listId, taskId } = useParams<IUseParams>();
 	const { socket } = useContext(SocketContext);
-	const { inCompletedTaskslist, completedTaskslist, setInCompletedTasksList, setComplitedTasksList } = useContext(TasksContext);
+	const [inCompletedTaskslist, setInCompletedTasksList] = useRecoilState(inCompletedTasksListState);
+	const [completedTaskslist, setComplitedTasksList] = useRecoilState(completedTasksListState);
 
 	const { data: tasksOfCurrentList } = useQuery<HttpResponse<ITasksResponse> | undefined>(['tasksOfCurrentList', listId], () =>
 		getTasksOfCurrentListAction(listId)
