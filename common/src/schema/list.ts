@@ -7,8 +7,8 @@ export const listIdRequiredSchema = object({
 export type ListIdType = InferType<typeof listIdRequiredSchema>;
 
 export const removeMemberFromListSchema = object({
-  listId: string().required(),
-  member: string().required(),
+  listId: string().required() || undefined,
+  member: string().required() || undefined,
 });
 
 export type RemoveMemberFromListType = InferType<

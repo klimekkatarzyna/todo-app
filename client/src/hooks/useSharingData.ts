@@ -1,13 +1,13 @@
-import { useContext } from 'react';
+import { useContext, useMemo } from 'react';
 import { AuthContext, AuthContextType } from '../AuthProvider';
 
-export const useSharingData = (membersIds: string[] | string | undefined) => {
+export const useSharingData = (member: string | undefined) => {
 	const { authData } = useContext<AuthContextType>(AuthContext);
 
-	const isUserListOwner = typeof membersIds === 'string' ? membersIds === authData?._id : membersIds?.some(owner => owner === authData?._id);
+	const isOwner = useMemo(() => member === authData?._id, [member, authData]);
 
 	return {
+		isOwner,
 		authData,
-		isUserListOwner,
 	};
 };

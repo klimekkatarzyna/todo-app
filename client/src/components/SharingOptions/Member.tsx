@@ -6,6 +6,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { Loader } from '../Loader/Loader';
 import { removeMemberAction } from '../../actions/sharing';
 import { useSharingData } from '../../hooks/useSharingData';
+import { IList } from '@kkrawczyk/todo-common';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -42,13 +43,13 @@ const RemoveButton = styled.button`
 `;
 
 interface IMemberProps {
-	member: any;
-	listId: string;
+	listDataResponse: IList;
+	member: string;
 }
 
-export const Member: FC<IMemberProps> = ({ member, listId }) => {
+export const Member: FC<IMemberProps> = ({ listDataResponse, member }) => {
 	const query = useQueryClient();
-	const { isUserListOwner } = useSharingData(member);
+	const { isOwner } = useSharingData(listDataResponse?.userId);
 
 	const { mutate, isLoading, isError } = useMutation(removeMemberAction, {
 		onSuccess: () => {
@@ -61,8 +62,8 @@ export const Member: FC<IMemberProps> = ({ member, listId }) => {
 		<Wrapper>
 			<Dot />
 			<p key={member}>{member}</p>
-			{!isUserListOwner && (
-				<RemoveButton onClick={() => mutate({ listId, member })}>
+			{isOwner && (
+				<RemoveButton onClick={() => mutate({ listId: listDataResponse?._id, member })}>
 					<X />
 				</RemoveButton>
 			)}

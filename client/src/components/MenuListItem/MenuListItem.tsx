@@ -68,7 +68,7 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed }) => 
 			(listItem.url === SideMenuType.inbox && <Home />),
 		[listItem]
 	);
-	const { isUserListOwner } = useSharingData(listItem?.members);
+	const { isOwner } = useSharingData(listItem?.userId);
 	const { data } = useQuery<HttpResponse<ITasksResponse>>(['tasksOfCurrentList', listItem._id], () => getTasksOfCurrentListAction(listItem._id));
 
 	return (
@@ -80,7 +80,7 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed }) => 
 				{!!data?.body?.tasks?.length && <TasksNumber isNavClosed={isNavClosed}>{data?.body?.tasks?.length}</TasksNumber>}
 			</ContextMenuTrigger>
 			<ContextualMenu
-				contextualMenuList={isUserListOwner ? contextualMenuSecountOpionMembers : contextualMenuSecountOpion}
+				contextualMenuList={isOwner ? contextualMenuSecountOpion : contextualMenuSecountOpionMembers}
 				elementId={listItem?._id || ''}
 			/>
 		</LinkStyled>

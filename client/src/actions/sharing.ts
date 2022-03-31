@@ -4,7 +4,9 @@ import { IList, RemoveMemberFromListType } from '@kkrawczyk/todo-common';
 
 export const removeInvitationAction = async (listId: string | undefined) => await http(`${api.removeInvitation}`, 'PATCH', { listId: listId });
 
-export const removeMemberAction = async ({ listId, member }: RemoveMemberFromListType) =>
+export const removeMemberAction = async (
+	{ listId, member }: any // TODO: fix me!
+) =>
 	await http(`${api.removeMemberFromList}`, 'PATCH', {
 		listId,
 		member,

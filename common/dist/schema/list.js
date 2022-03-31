@@ -6,8 +6,8 @@ exports.listIdRequiredSchema = (0, yup_1.object)({
     listId: (0, yup_1.string)().required(),
 });
 exports.removeMemberFromListSchema = (0, yup_1.object)({
-    listId: (0, yup_1.string)().required(),
-    member: (0, yup_1.string)().required(),
+    listId: (0, yup_1.string)().required() || undefined,
+    member: (0, yup_1.string)().required() || undefined,
 });
 exports.addUserToListSchema = (0, yup_1.object)({
     invitationToken: (0, yup_1.string)().required(),
