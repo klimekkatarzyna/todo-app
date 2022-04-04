@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createListSchema = exports.listIdSchema = exports.addInvitationTokenToListSchema = exports.addUserToListSchema = exports.removeMemberFromListSchema = exports.listIdRequiredSchema = void 0;
+exports.createList = exports.createListSchema = exports.listIdSchema = exports.addInvitationTokenToListSchema = exports.addUserToListSchema = exports.removeMemberFromListSchema = exports.listIdRequiredSchema = void 0;
 const yup_1 = require("yup");
 exports.listIdRequiredSchema = (0, yup_1.object)({
     listId: (0, yup_1.string)().required(),
@@ -29,4 +29,7 @@ exports.createListSchema = (0, yup_1.object)({
     invitationToken: (0, yup_1.string)(),
     owner: (0, yup_1.string)(),
     members: (0, yup_1.array)().of((0, yup_1.string)()),
+});
+exports.createList = (0, yup_1.object)({
+    title: (0, yup_1.string)().max(10, "Too Long!").required("Required"),
 });

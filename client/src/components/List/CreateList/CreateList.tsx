@@ -1,11 +1,12 @@
-import React, { FC, useCallback, useState } from 'react';
+import { FC, useCallback } from 'react';
 import styled from 'styled-components';
-import { InputVersion } from '../../../enums';
-import { Input } from '../../Input/Input';
 import { COLOURS } from '../../../constants';
-import { handleResertInput, removesWhitespaceFromString } from '../../../utils/utilsFunctions';
+import { isStringContainsWhitespace } from '../../../utils/utilsFunctions';
 import { useMutation, useQueryClient } from 'react-query';
 import { createListAction } from '../../../actions/lists';
+import { Formik, Form } from 'formik';
+import { createListSchema } from '@kkrawczyk/todo-common';
+import { Input } from '../../../formik/Input';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -17,7 +18,6 @@ const Wrapper = styled.div`
 
 export const CreateList: FC = () => {
 	const query = useQueryClient();
-	const [listName, setListName] = useState<string | undefined>(undefined);
 
 	const { mutate, isLoading, error } = useMutation(createListAction, {
 		onSuccess: () => {
@@ -25,34 +25,27 @@ export const CreateList: FC = () => {
 		},
 	});
 
-	const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-		const clearStr = removesWhitespaceFromString(event.target?.value);
-		setListName(clearStr);
+	const onSubmit = useCallback(async (values: ICreateListValue, { resetForm }) => {
+		await mutate(!isStringContainsWhitespace(values.title) ? values.title : 'Lista bez tytułu');
+		resetForm();
+		//TODO: redirect on created list
 	}, []);
 
-	const onSubmit = useCallback(
-		async (event: React.SyntheticEvent): Promise<void> => {
-			event.preventDefault();
+	interface ICreateListValue {
+		title: string;
+	}
 
-			await mutate(listName);
-			handleResertInput(setListName);
-			//TODO: redirect on created list
-		},
-		[listName]
-	);
+	const initialValues: ICreateListValue = { title: '' };
 
 	return (
 		<Wrapper>
-			<form onSubmit={onSubmit}>
-				<Input
-					name='newList'
-					isIcon
-					colorType={InputVersion.primary}
-					placeholder={'Nowa lista'}
-					value={listName as string}
-					onChange={handleChange}
-				/>
-			</form>
+			<Formik initialValues={initialValues} validationSchema={createListSchema} onSubmit={onSubmit}>
+				{props => (
+					<Form>
+						<Input name='title' placeholder={'Nowa lista'} isIcon {...props} isLoading={isLoading} />
+					</Form>
+				)}
+			</Formik>
 		</Wrapper>
 	);
 };

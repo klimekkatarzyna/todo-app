@@ -24,3 +24,8 @@ export interface LoginForm {
 	email: string;
 	password: string;
 }
+
+export enum InputType {
+	text = 'text',
+	password = 'password',
+}

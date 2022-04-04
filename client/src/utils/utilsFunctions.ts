@@ -10,6 +10,8 @@ export const handleResertInput = (functionName: Function) => functionName(' ');
 
 export const getStringAfterCharacter = (str: string | undefined | Storage) => str?.substring(str.indexOf('=') + 1);
 
+export const isStringContainsWhitespace = (str: string) => /\s/.test(str);
+
 // will scroll the browser to the top of the page
 const goToTop = () => window.scrollTo(0, 0);
 

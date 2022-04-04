@@ -54,3 +54,8 @@ export declare const createListSchema: import("yup/lib/object").OptionalObjectSc
     members: import("yup").ArraySchema<import("yup").StringSchema<string, import("yup/lib/types").AnyObject, string>, import("yup/lib/types").AnyObject, string[], string[]>;
 }>>;
 export declare type CreateListType = InferType<typeof createListSchema>;
+export declare const createList: import("yup/lib/object").OptionalObjectSchema<{
+    title: import("yup/lib/string").RequiredStringSchema<string, import("yup/lib/types").AnyObject>;
+}, import("yup/lib/object").AnyObject, import("yup/lib/object").TypeOfShape<{
+    title: import("yup/lib/string").RequiredStringSchema<string, import("yup/lib/types").AnyObject>;
+}>>;

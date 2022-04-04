@@ -26,6 +26,7 @@ export const useAuthorization = () => {
 			return response;
 		} catch (err) {
 			console.error(err);
+			history.push('/login');
 		}
 	}, []);
 

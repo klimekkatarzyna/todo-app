@@ -37,7 +37,7 @@ export const listIdSchema = object({
 });
 
 export const createListSchema = object({
-  title: string().required(),
+  title: string().max(10, "Too Long!").required("Podaj tytuł listy"),
   themeColor: string(),
   createdAt: date(),
   userId: string(),

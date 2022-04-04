@@ -4,7 +4,7 @@ import { Input } from './Input/Input';
 import { InputEye } from '../components/InputEye/InputEye';
 import { InputVersion } from '../enums';
 import { useTogglePasswordVisibility } from '../hooks/useTogglePasswordVisibility';
-import { LoginForm } from '../interfaces/app';
+import { InputType, LoginForm } from '../interfaces/app';
 
 export const InputWrapper = styled.div`
 	display: flex;
@@ -24,7 +24,7 @@ export const PasswordInput: FC<IPasswordInputProps> = ({ loginData, handleChange
 			<Input
 				name='password'
 				colorType={InputVersion.primary}
-				type={!showPassword ? 'password' : 'text'}
+				type={!showPassword ? InputType.password : InputType.text}
 				placeholder={'Password'}
 				value={loginData.password}
 				onChange={handleChange}

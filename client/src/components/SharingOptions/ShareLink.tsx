@@ -22,7 +22,6 @@ export const ShareLink: FC<IShareLink> = ({ listDataResponse }) => {
 	return (
 		<>
 			<Input
-				type='text'
 				value={`${process.env.REACT_APP_CONFIG_API}/tasks/sharing?invitationToken=${listDataResponse?.invitationToken}`}
 				inputRef={inputRef}
 				readOnly
