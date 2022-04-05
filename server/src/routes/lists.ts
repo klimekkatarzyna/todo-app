@@ -8,8 +8,8 @@ import {
 	AddInvitationTokenToListType,
 	addUserToListSchema,
 	AddUserToListType,
-	createListSchema,
-	CreateListType,
+	createEditListSchema,
+	CreateEditListType,
 	listIdRequiredSchema,
 	listIdSchema,
 	ListIdType,
@@ -19,7 +19,7 @@ import {
 
 const lists = express.Router();
 
-lists.post('/createList', validateBody<CreateListType>(createListSchema), async (req: Request, res: Response) => {
+lists.post('/createList', validateBody<CreateEditListType>(createEditListSchema), async (req: Request, res: Response) => {
 	const userId = getSessionUserId(req);
 	const newList = new List({
 		title: req.body.title,
@@ -59,9 +59,7 @@ lists.get('/getLists/:invitationToken', async (req: Request, res: Response) => {
 		const ownLists = await List.find({ userId });
 		const membersLists = await List.find({ $and: [{ members: userId }] });
 		res.status(200).json({
-			body: {
-				lists: [...new Set([...ownLists, ...membersLists])],
-			},
+			body: [...new Set([...ownLists, ...membersLists])],
 		});
 	} catch (error) {
 		res.status(500).json({
@@ -70,9 +68,9 @@ lists.get('/getLists/:invitationToken', async (req: Request, res: Response) => {
 	}
 });
 
-lists.get('/getList/:id', validateParams(listIdSchema), async (req: Request, res: Response) => {
+lists.get('/getList/:_id', validateParams(listIdSchema), async (req: Request, res: Response) => {
 	try {
-		const list = await List.find({ _id: req.params.id });
+		const list = await List.find({ _id: req.params._id });
 		const members = [...new Set(list[0]?.members)];
 
 		res.status(200).json({
@@ -96,7 +94,7 @@ lists.get('/getList/:id', validateParams(listIdSchema), async (req: Request, res
 
 lists.delete('/removeList', validateBody<ListIdType>(listIdRequiredSchema), async (req: Request, res: Response) => {
 	try {
-		await List.deleteOne({ _id: req.body.listId });
+		await List.deleteOne({ _id: req.body._id });
 
 		res.status(200).json({ message: 'list has been deleted' });
 	} catch (error) {
@@ -125,7 +123,7 @@ lists.patch(
 	async (req: Request, res: Response) => {
 		try {
 			await List.updateMany(
-				{ _id: req.body.listId },
+				{ _id: req.body._id },
 				{
 					$set: {
 						invitationToken: req.body.invitationToken,
@@ -156,7 +154,7 @@ lists.patch('/addUserToMemberOfList', validateBody<AddUserToListType>(addUserToL
 
 lists.patch('/removeMemberFromList', validateBody<RemoveMemberFromListType>(removeMemberFromListSchema), async (req: Request, res: Response) => {
 	try {
-		await List.findOneAndUpdate({ _id: req.body.listId }, { $pull: { members: { $in: req.body.member } } });
+		await List.findOneAndUpdate({ _id: req.body._id }, { $pull: { members: { $in: req.body.member } } });
 		res.status(200).json({ message: 'member has been deleted' });
 	} catch (err) {
 		res.status(500).json({
@@ -167,7 +165,7 @@ lists.patch('/removeMemberFromList', validateBody<RemoveMemberFromListType>(remo
 
 lists.patch('/removeInvitation', validateBody<ListIdType>(listIdRequiredSchema), async (req: Request, res: Response) => {
 	try {
-		await List.findOneAndUpdate({ _id: req.body.listId }, { $set: { members: [], invitationToken: '' } });
+		await List.findOneAndUpdate({ _id: req.body._id }, { $set: { members: [], invitationToken: '' } });
 		res.status(200).json({ message: 'invitation has been deleted' });
 	} catch (err) {
 		res.status(500).json({

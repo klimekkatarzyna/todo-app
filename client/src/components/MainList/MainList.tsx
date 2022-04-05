@@ -1,7 +1,6 @@
 import { FC, useCallback, memo } from 'react';
 import styled from 'styled-components';
 import { MenuListItem } from '../MenuListItem/MenuListItem';
-import { IMainListResponse } from '../../interfaces/list';
 import { Loader } from '../Loader/Loader';
 import { http, HttpResponse } from '../../utils/http';
 import * as api from '../../services';
@@ -13,6 +12,10 @@ const Wrapper = styled.div`
 	flex-direction: column;
 	margin-bottom: 2rem;
 `;
+
+export interface IMainListResponse {
+	mainLists: IList[];
+}
 
 interface IMainList {
 	isNavClosed: boolean;

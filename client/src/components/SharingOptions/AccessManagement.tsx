@@ -59,7 +59,7 @@ export const AccessManagement: FC<IAccessManagementProps> = ({ listDataResponse,
 			</h2>
 			<h3>{'Link do zapraszania'}</h3>
 			<div>{`${process.env.REACT_APP_CONFIG_API}/tasks/sharing?invitationToken=${listDataResponse?.invitationToken}`}</div>
-			<Button secondary onClick={() => mutate(listDataResponse?._id)}>
+			<Button secondary onClick={() => mutate({ _id: listDataResponse?._id })}>
 				{'Zatrzymaj udostępnianie'}
 				{isLoading && <Loader />}
 			</Button>

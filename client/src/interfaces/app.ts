@@ -1,4 +1,6 @@
 import { IUserData } from '@kkrawczyk/todo-common';
+import { ReactElement } from 'react';
+import { ContextualMenuOpion } from '../enums';
 
 export interface IIUserDataResponse {
 	user: IUserData;
@@ -28,4 +30,11 @@ export interface LoginForm {
 export enum InputType {
 	text = 'text',
 	password = 'password',
+}
+
+export interface IContextualMenu {
+	type: ContextualMenuOpion;
+	icon: ReactElement;
+	name: string;
+	target?: ReactElement;
 }

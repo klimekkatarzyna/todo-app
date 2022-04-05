@@ -63,7 +63,7 @@ export const Member: FC<IMemberProps> = ({ listDataResponse, member }) => {
 			<Dot />
 			<p key={member}>{member}</p>
 			{isOwner && (
-				<RemoveButton onClick={() => mutate({ listId: listDataResponse?._id, member })}>
+				<RemoveButton onClick={() => mutate({ _id: listDataResponse?._id, member })}>
 					<X />
 				</RemoveButton>
 			)}

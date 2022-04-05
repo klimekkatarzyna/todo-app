@@ -1,28 +1,23 @@
-import { IDeleteListResponse, IListResponse } from '../interfaces/list';
 import { IList } from '@kkrawczyk/todo-common';
-import { http, HttpResponse } from '../utils/http';
+import { http } from '../utils/http';
 import { getStringAfterCharacter } from '../utils/utilsFunctions';
 import * as api from '../services';
 
-interface IAddInvitationTokenToListActionProps {
-	listId: string;
-	invitationToken: string;
-	owner: string;
-}
-
 const invitationToken = getStringAfterCharacter(sessionStorage.getItem('invitationTokenUrl') || undefined); // TODO: fix me!!
 
-export const createListAction = async (title: string | undefined) => await http<IList>(api.createList, 'POST', { title });
+export const createListAction = async ({ title }: IList) => await http<IList>(api.createList, 'POST', { title });
 
-export const getListsAction = async () => await http<IListResponse>(`${api.getLists}/${invitationToken}`, 'GET');
+export const getListsAction = async () => {
+	const response = await http<IList[]>(`${api.getLists}/${invitationToken}`, 'GET');
+	return response.body;
+};
 
-export const getListByIdAction = async (listId: string) => await http<IList>(`${api.getListById}/${listId}`, 'GET');
+export const getListByIdAction = async ({ _id }: IList) => {
+	const response = await http<IList>(`${api.getListById}/${_id}`, 'GET');
+	return response.body;
+};
 
-export const deleteListAction = async (listId: string | undefined) => await http<IDeleteListResponse>(api.removeList, 'DELETE', { listId });
+export const deleteListAction = async ({ _id }: IList) => await http(api.removeList, 'DELETE', { _id });
 
-export const addInvitationTokenToListAction = async ({
-	listId,
-	invitationToken,
-	owner,
-}: IAddInvitationTokenToListActionProps): Promise<HttpResponse<unknown>> =>
-	await http(api.addInvitationTokenToList, 'PATCH', { listId, invitationToken, owner });
+export const addInvitationTokenToListAction = async ({ _id, invitationToken, owner }: IList) =>
+	await http(api.addInvitationTokenToList, 'PATCH', { _id, invitationToken, owner });

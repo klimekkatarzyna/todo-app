@@ -1,13 +1,23 @@
-import { object, string, number, InferType, date, array } from "yup";
+import {
+  object,
+  string,
+  mixed,
+  InferType,
+  date,
+  array,
+  boolean,
+  SchemaOf,
+} from "yup";
+import { AppColorTypeEnum, IList } from "../types";
 
 export const listIdRequiredSchema = object({
-  listId: string().required(),
+  _id: string().required(),
 });
 
 export type ListIdType = InferType<typeof listIdRequiredSchema>;
 
 export const removeMemberFromListSchema = object({
-  listId: string().required() || undefined,
+  _id: string().required() || undefined,
   member: array().of(string()).required() || undefined,
 });
 
@@ -23,7 +33,7 @@ export const addUserToListSchema = object({
 export type AddUserToListType = InferType<typeof addUserToListSchema>;
 
 export const addInvitationTokenToListSchema = object({
-  listId: string().required(),
+  _id: string().required(),
   invitationToken: string().required(),
   owner: string().required(),
 });
@@ -33,17 +43,23 @@ export type AddInvitationTokenToListType = InferType<
 >;
 
 export const listIdSchema = object({
-  id: string().required(),
+  _id: string().required(),
 });
 
-export const createListSchema = object({
+export const createEditListSchema: SchemaOf<IList> = object({
   title: string().max(20, "Too Long!").required("Podaj tytuł listy"),
-  themeColor: string(),
-  createdAt: date(),
-  userId: string(),
-  invitationToken: string(),
-  owner: string(),
-  members: array().of(string()),
+  themeColor: mixed<AppColorTypeEnum>()
+    .oneOf(Object.values(AppColorTypeEnum) as AppColorTypeEnum[])
+    .optional(),
+  createdAt: date().optional(),
+  userId: string().optional(),
+  invitationToken: string().optional(),
+  owner: string().optional(),
+  members: array().of(string()).optional(),
+  member: string(),
+  _id: string().optional(),
+  url: string().optional(),
+  isMainList: boolean().optional(),
 });
 
-export type CreateListType = InferType<typeof createListSchema>;
+export type CreateEditListType = InferType<typeof createEditListSchema>;

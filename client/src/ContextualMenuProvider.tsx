@@ -2,7 +2,7 @@ import React, { FC, useCallback, useContext, useMemo, useState } from 'react';
 
 import { createContext } from 'react';
 import { ContextualMenuOpion } from './enums';
-import { IContextualMenu } from './interfaces/list';
+import { IContextualMenu } from './interfaces/app';
 import { ModalVisibilityContext } from './ModalVisibilityProvider';
 
 export interface ContextualMenuType {

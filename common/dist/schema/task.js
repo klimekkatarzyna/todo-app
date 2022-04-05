@@ -25,7 +25,6 @@ exports.createEditTaskSchema = (0, yup_1.object)({
     taskStatus: (0, yup_1.string)().optional(),
     deadline: (0, yup_1.string)().optional(),
     isMyDay: (0, yup_1.boolean)().optional(),
-    // sortType: object().optional(),
     sortType: (0, yup_1.mixed)()
         .oneOf(Object.values(types_1.SortType))
         .optional(),

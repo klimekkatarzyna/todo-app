@@ -53,15 +53,15 @@ export enum Importance {
 
 export interface IList {
   isMainList?: boolean;
-  title: string;
-  icon?: SVGRectElement;
+  title?: string;
   themeColor?: AppColorType;
   _id?: string;
-  createdAt?: string;
+  createdAt?: Date;
   url?: string;
   invitationToken?: string;
   owner?: string;
   members?: string[];
+  member?: string;
   userId?: string;
 }
 

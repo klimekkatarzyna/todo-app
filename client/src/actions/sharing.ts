@@ -1,15 +1,16 @@
 import { http } from '../utils/http';
 import * as api from '../services';
-import { IList, RemoveMemberFromListType } from '@kkrawczyk/todo-common';
+import { IList } from '@kkrawczyk/todo-common';
 
-export const removeInvitationAction = async (listId: string | undefined) => await http(`${api.removeInvitation}`, 'PATCH', { listId: listId });
+export const removeInvitationAction = async ({ _id }: IList) => await http(`${api.removeInvitation}`, 'PATCH', { _id });
 
-export const removeMemberAction = async (
-	{ listId, member }: any // TODO: fix me!
-) =>
+export const removeMemberAction = async ({ _id, member }: IList) =>
 	await http(`${api.removeMemberFromList}`, 'PATCH', {
-		listId,
+		_id,
 		member,
 	});
 
-export const getListByIdAction = async (elementId: string | undefined) => await http<IList>(`${api.getListById}/${elementId}`, 'GET');
+export const getListByIdAction = async ({ _id }: IList) => {
+	const response = await http<IList | undefined>(`${api.getListById}/${_id}`, 'GET');
+	return response.body;
+};

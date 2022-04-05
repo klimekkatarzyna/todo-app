@@ -56,7 +56,7 @@ export const RemoveMember: FC<IRemoveMember> = ({ listDataResponse, onNextStep }
 	});
 
 	const onRemoveMember = useCallback(() => {
-		mutate({ listId: listDataResponse?._id, member: authData?._id });
+		mutate({ _id: listDataResponse?._id, member: authData?._id });
 	}, [listDataResponse, authData]);
 
 	return (

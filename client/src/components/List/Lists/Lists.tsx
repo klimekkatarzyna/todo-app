@@ -41,7 +41,7 @@ const ListsComponents: FC<ILists> = ({ isNavClosed }) => {
 	});
 
 	const removeList = useCallback(() => {
-		removeListMutation(contextualMenu?.elementId);
+		removeListMutation({ _id: contextualMenu?.elementId });
 	}, [contextualMenu]);
 
 	const { mutate, isLoading, isError } = useMutation(removeMemberAction, {
@@ -52,7 +52,7 @@ const ListsComponents: FC<ILists> = ({ isNavClosed }) => {
 	});
 
 	const onRemoveMember = useCallback(() => {
-		mutate({ listId: contextualMenu?.elementId, member: authData?._id });
+		mutate({ _id: contextualMenu?.elementId, member: authData?._id });
 	}, [contextualMenu, authData]);
 
 	return (

@@ -4,7 +4,7 @@ List item
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Sun } from '@styled-icons/feather/Sun';
 import { COLOURS } from '../../constants';
-import { IListItem, IListItemType } from '../../interfaces/list';
+import { IListItem } from '../../interfaces/list';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 const queryClient = new QueryClient();
@@ -31,7 +31,7 @@ Item with number
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Sun } from '@styled-icons/feather/Sun';
 import { COLOURS } from '../../constants';
-import { IListItem, IListItemType } from '../../interfaces/list';
+import { IListItem } from '../../interfaces/list';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 const queryClient = new QueryClient();
@@ -59,7 +59,7 @@ Item with custom icon and color
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { COLOURS } from '../../constants';
 import { Sun } from '@styled-icons/feather/Sun';
-import { IListItem, IListItemType } from '../../interfaces/list';
+import { IListItem } from '../../interfaces/list';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 const queryClient = new QueryClient();

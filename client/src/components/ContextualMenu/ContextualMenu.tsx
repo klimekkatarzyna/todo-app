@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import styled from 'styled-components';
 import { COLOURS } from '../../constants';
-import { IContextualMenu } from '../../interfaces/list';
+import { IContextualMenu } from '../../interfaces/app';
 import { ContextualMenuItem } from './ContextualMenuItem';
 import { ContextMenu } from 'react-contextmenu';
 

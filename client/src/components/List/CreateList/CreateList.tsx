@@ -3,7 +3,7 @@ import { isStringContainsWhitespace } from '../../../utils/utilsFunctions';
 import { useMutation, useQueryClient } from 'react-query';
 import { createListAction } from '../../../actions/lists';
 import { Formik, Form } from 'formik';
-import { createListSchema } from '@kkrawczyk/todo-common';
+import { createEditListSchema } from '@kkrawczyk/todo-common';
 import { Input } from '../../../formik/Input';
 import { ErrorMessageComponent } from '../../../formik/ErrorMessageComponent';
 
@@ -17,7 +17,8 @@ export const CreateList: FC = () => {
 	});
 
 	const onSubmit = useCallback(async (values: ICreateListValue, { resetForm }) => {
-		await mutate(!isStringContainsWhitespace(values.title) ? values.title : 'Lista bez tytułu');
+		const title = !isStringContainsWhitespace(values.title) ? values.title : 'Lista bez tytułu';
+		await mutate({ title });
 		resetForm();
 		//TODO: redirect on created list
 	}, []);
@@ -30,7 +31,7 @@ export const CreateList: FC = () => {
 
 	return (
 		<div className='flex flex-col bg-light-grey transition ease-in-out delay-150 width w-52'>
-			<Formik initialValues={initialValues} validationSchema={createListSchema} onSubmit={onSubmit}>
+			<Formik initialValues={initialValues} validationSchema={createEditListSchema} onSubmit={onSubmit}>
 				{({ errors, touched, ...props }) => (
 					<Form>
 						<Input name='title' placeholder={'Nowa lista'} isIcon {...props} isLoading={isLoading} />

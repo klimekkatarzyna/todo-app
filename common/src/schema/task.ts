@@ -1,13 +1,4 @@
-import {
-  object,
-  string,
-  boolean,
-  InferType,
-  date,
-  array,
-  SchemaOf,
-  mixed,
-} from "yup";
+import { object, string, boolean, InferType, date, SchemaOf, mixed } from "yup";
 import { ITask, SortType, AppColorTypeEnum } from "../types";
 
 export const taskIdSchema = object({
@@ -34,7 +25,6 @@ export const createEditTaskSchema: SchemaOf<ITask> = object({
   taskStatus: string().optional(),
   deadline: string().optional(),
   isMyDay: boolean().optional(),
-  // sortType: object().optional(),
   sortType: mixed<SortType>()
     .oneOf(Object.values(SortType) as SortType[])
     .optional(),
