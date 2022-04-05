@@ -1,19 +1,9 @@
 import { SortType } from '../enums';
-import {
-	IAddTaskToMyDayProps,
-	IChangeTaskImportanceProps,
-	IChangeTaskStatusToCompleteProps,
-	ICreateTaskProps,
-	IDeleteTaskResponse,
-	ITasksResponse,
-	ITaskStatus,
-	IEditTaskProps,
-} from '../interfaces/task';
 import { http } from '../utils/http';
 import * as api from '../services';
-import { ITask, Importance } from '@kkrawczyk/todo-common';
+import { ITask, Importance, ITaskStatus } from '@kkrawczyk/todo-common';
 
-export const createTaskAction = async ({ title, parentFolderId, importance, themeColor }: ICreateTaskProps) =>
+export const createTaskAction = async ({ title, parentFolderId, importance, themeColor }: ITask) =>
 	await http<ITask>(api.createTask, 'POST', {
 		title,
 		importance: importance || Importance.normal,
@@ -24,28 +14,31 @@ export const createTaskAction = async ({ title, parentFolderId, importance, them
 		isMyDay: false,
 	});
 
-export const editTaskAction = async ({ taskId, taskName, parentId }: IEditTaskProps) =>
-	await http(`${api.editTask}`, 'PATCH', { taskId, taskName, parentId });
+export const editTaskAction = async ({ _id, title, parentFolderId }: ITask) => await http(`${api.editTask}`, 'PATCH', { _id, title, parentFolderId });
 
-export const getTasksOfCurrentListAction = async (listId: string | undefined) => await http<ITasksResponse>(`${api.getTasks}/${listId}`, 'GET');
-
-export const changeTaskStatusAction = async ({ taskId, taskStatus }: IChangeTaskStatusToCompleteProps) =>
-	await http(`${api.changeTaskStatus}/${taskId}`, 'PATCH', { taskStatus });
-
-export const deleteTaskAction = async (taskId: string, parentFolderId: string | undefined) =>
-	await http<IDeleteTaskResponse>(api.removeTask, 'DELETE', { taskId, parentFolderId });
-
-export const getTaskAction = async (taskId: string) => {
-	const response = await http<ITask[]>(`${api.getTask}/${taskId}`, 'GET');
-	return response.body?.[0];
+export const getTasksOfCurrentListAction = async ({ parentFolderId }: ITask) => {
+	const response = await http<ITask[]>(`${api.getTasks}/${parentFolderId}`, 'GET');
+	return response.body;
 };
 
-export const changeTaskImportanceAction = async ({ listId, taskId, importance }: IChangeTaskImportanceProps) =>
-	await http(`${api.changeTaskImportance}/${listId}/${taskId}`, 'PATCH', {
+export const changeTaskStatusAction = async ({ _id, taskStatus }: ITask) => await http(`${api.changeTaskStatus}/${_id}`, 'PATCH', { taskStatus });
+
+export const deleteTaskAction = async ({ _id, parentFolderId }: ITask) => await http(api.removeTask, 'DELETE', { _id, parentFolderId });
+
+export const getTaskAction = async ({ _id }: ITask) => {
+	const response = await http<ITask>(`${api.getTask}/${_id}`, 'GET');
+	return response.body;
+};
+
+export const changeTaskImportanceAction = async ({ parentFolderId, _id, importance }: ITask) =>
+	await http(`${api.changeTaskImportance}/${parentFolderId}/${_id}`, 'PATCH', {
 		importance,
 	});
 
-export const addTaskToMyDayAction = async ({ listId, taskId, isMyDay }: IAddTaskToMyDayProps) =>
-	await http(`${api.addTaskToMyDay}/${listId}/${taskId}`, 'PATCH', { isMyDay });
+export const addTaskToMyDayAction = async ({ parentFolderId, _id, isMyDay }: ITask) =>
+	await http(`${api.addTaskToMyDay}/${parentFolderId}/${_id}`, 'PATCH', { isMyDay });
 
-export const onGetImportanceTasksAction = async () => await http<ITasksResponse>(`${api.getImportanceTasks}`, 'GET');
+export const onGetImportanceTasksAction = async () => {
+	const response = await http<ITask[]>(`${api.getImportanceTasks}`, 'GET');
+	return response.body;
+};

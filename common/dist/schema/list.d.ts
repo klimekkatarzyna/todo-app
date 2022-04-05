@@ -7,10 +7,10 @@ export declare const listIdRequiredSchema: import("yup/lib/object").OptionalObje
 export declare type ListIdType = InferType<typeof listIdRequiredSchema>;
 export declare const removeMemberFromListSchema: import("yup/lib/object").OptionalObjectSchema<{
     listId: import("yup/lib/string").RequiredStringSchema<string, import("yup/lib/types").AnyObject>;
-    member: import("yup/lib/string").RequiredStringSchema<string, import("yup/lib/types").AnyObject>;
+    member: import("yup/lib/array").RequiredArraySchema<import("yup").StringSchema<string, import("yup/lib/types").AnyObject, string>, import("yup/lib/types").AnyObject, string[]>;
 }, import("yup/lib/object").AnyObject, import("yup/lib/object").TypeOfShape<{
     listId: import("yup/lib/string").RequiredStringSchema<string, import("yup/lib/types").AnyObject>;
-    member: import("yup/lib/string").RequiredStringSchema<string, import("yup/lib/types").AnyObject>;
+    member: import("yup/lib/array").RequiredArraySchema<import("yup").StringSchema<string, import("yup/lib/types").AnyObject, string>, import("yup/lib/types").AnyObject, string[]>;
 }>>;
 export declare type RemoveMemberFromListType = InferType<typeof removeMemberFromListSchema>;
 export declare const addUserToListSchema: import("yup/lib/object").OptionalObjectSchema<{
@@ -54,8 +54,3 @@ export declare const createListSchema: import("yup/lib/object").OptionalObjectSc
     members: import("yup").ArraySchema<import("yup").StringSchema<string, import("yup/lib/types").AnyObject, string>, import("yup/lib/types").AnyObject, string[], string[]>;
 }>>;
 export declare type CreateListType = InferType<typeof createListSchema>;
-export declare const createList: import("yup/lib/object").OptionalObjectSchema<{
-    title: import("yup/lib/string").RequiredStringSchema<string, import("yup/lib/types").AnyObject>;
-}, import("yup/lib/object").AnyObject, import("yup/lib/object").TypeOfShape<{
-    title: import("yup/lib/string").RequiredStringSchema<string, import("yup/lib/types").AnyObject>;
-}>>;

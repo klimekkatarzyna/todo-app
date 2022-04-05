@@ -1,14 +1,12 @@
 import { useCallback, useEffect, useMemo, useState, useContext } from 'react';
 import { SortTaskType } from '../enums';
-import { ITasksResponse, ITaskStatus } from '../interfaces/task';
 import { useSort } from './useSort';
-import { HttpResponse } from '../utils/http';
 import { useParams } from 'react-router-dom';
 import { IUseParams } from '../interfaces/app';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { changeTaskImportanceAction, changeTaskStatusAction, deleteTaskAction, getTaskAction, getTasksOfCurrentListAction } from '../actions/tasks';
 import { SocketContext } from '../providers/SocketProvider';
-import { ITask } from '@kkrawczyk/todo-common';
+import { ITask, ITaskStatus } from '@kkrawczyk/todo-common';
 import { useRecoilState } from 'recoil';
 import { completedTasksListState, inCompletedTasksListState } from '../atoms/tasks';
 
@@ -27,10 +25,6 @@ export const useTasks = () => {
 	const [inCompletedTaskslist, setInCompletedTasksList] = useRecoilState(inCompletedTasksListState);
 	const [completedTaskslist, setComplitedTasksList] = useRecoilState(completedTasksListState);
 
-	const { data: tasksOfCurrentList } = useQuery<HttpResponse<ITasksResponse> | undefined>(['tasksOfCurrentList', listId], () =>
-		getTasksOfCurrentListAction(listId)
-	);
-
 	const { mutate: changeTaskImportanceMutation } = useMutation(changeTaskImportanceAction, {
 		onSuccess: () => {
 			query.invalidateQueries('getImportanceTasks');
@@ -39,20 +33,19 @@ export const useTasks = () => {
 		},
 	});
 
-	const { isLoading: getTasksOfCurrentListLoading } = useQuery(['tasksOfCurrentList', listId], () => getTasksOfCurrentListAction(listId));
+	const { data: tasksOfCurrentList, isLoading: getTasksOfCurrentListLoading } = useQuery<ITask[] | undefined>(['tasksOfCurrentList', listId], () =>
+		getTasksOfCurrentListAction({ parentFolderId: listId })
+	);
 
-	const { data: taskData, isLoading: taskDataLoading } = useQuery(['getTask', taskId], () => getTaskAction(taskId));
+	const { data: taskData, isLoading: taskDataLoading } = useQuery<ITask | undefined>(['getTask', taskId], () => getTaskAction({ _id: taskId }));
 
-	const { mutate: removeTaskMutation } = useMutation(() => deleteTaskAction(taskId || '', taskData?.parentFolderId), {
+	const { mutate: removeTaskMutation } = useMutation(() => deleteTaskAction({ _id: taskId || '', parentFolderId: taskData?.parentFolderId }), {
 		onSuccess: () => {
 			query.invalidateQueries(['tasksOfCurrentList']);
 		},
 	});
 
-	const comletedTasks = useMemo(
-		() => (tasksOfCurrentList?.body?.tasks || []).filter(task => task.taskStatus === ITaskStatus.complete),
-		[tasksOfCurrentList]
-	);
+	const comletedTasks = useMemo(() => (tasksOfCurrentList || []).filter(task => task.taskStatus === ITaskStatus.complete), [tasksOfCurrentList]);
 
 	const [sort, setSort] = useState<SortType>({ key: SortTaskType.title, direction: 'asc', keyType: 'string' });
 
@@ -65,7 +58,7 @@ export const useTasks = () => {
 
 	const sortedTasks = useMemo(
 		() => [
-			...(tasksOfCurrentList?.body?.tasks || [])
+			...(tasksOfCurrentList || [])
 				.sort(sorter[sort.keyType](sort.key, sort.direction))
 				.filter(task => task.taskStatus === ITaskStatus.inComplete),
 		],
@@ -88,27 +81,27 @@ export const useTasks = () => {
 		},
 	});
 
-	const onMarkTaskAsCompleted = useCallback((taskId: string | undefined): void => {
+	const onMarkTaskAsCompleted = useCallback((_id: string | undefined): void => {
 		changeTaskStatusMutation({
-			taskId: taskId,
+			_id: _id,
 			taskStatus: ITaskStatus.complete,
 		});
 	}, []);
 
-	const onMarkTaskAsInCompleted = useCallback((taskId: string | undefined): void => {
+	const onMarkTaskAsInCompleted = useCallback((_id: string | undefined): void => {
 		changeTaskStatusMutation({
-			taskId: taskId,
+			_id: _id,
 			taskStatus: ITaskStatus.inComplete,
 		});
 	}, []);
 
 	const onHandleChangeTaskStatus = useCallback(() => {
-		taskData?.taskStatus === ITaskStatus.inComplete && onMarkTaskAsCompleted(taskData._id);
-		taskData?.taskStatus === ITaskStatus.complete && onMarkTaskAsInCompleted(taskData._id);
+		taskData?.taskStatus === ITaskStatus.inComplete && onMarkTaskAsCompleted(taskData?._id);
+		taskData?.taskStatus === ITaskStatus.complete && onMarkTaskAsInCompleted(taskData?._id);
 	}, [taskData]);
 
 	useEffect(() => {
-		[...(tasksOfCurrentList?.body?.tasks || [])]
+		[...(tasksOfCurrentList || [])]
 			.sort(sorter[sort.keyType](sort.key, sort.direction))
 			.filter((task: ITask) => task.taskStatus === ITaskStatus.inComplete);
 	}, [tasksOfCurrentList]);

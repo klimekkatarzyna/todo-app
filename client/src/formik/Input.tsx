@@ -8,7 +8,6 @@ import { Circle } from '@styled-icons/feather/Circle';
 import { useFocusingHandling } from '../hooks/useMouseHandling';
 import { Loader } from '../components/Loader/Loader';
 import { InputType } from '../interfaces/app';
-import { ErrorMessageComponent } from './ErrorMessageComponent';
 
 interface IWrapper {
 	type: InputVersion;
@@ -122,7 +121,6 @@ export const Input: FC<IInput> = ({
 				isTaskInput={isTaskInput}
 				{...rest}
 			/>
-			<ErrorMessageComponent name={name} />
 		</Wrapper>
 	);
 };

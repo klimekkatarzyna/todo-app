@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useContext, useEffect, useState } from 'react';
 import { ContextualMenuContext } from '../../ContextualMenuProvider';
 import { ContextualMenuOpion } from '../../enums';
-import { handleResertInput } from '../../utils/utilsFunctions';
+// import { handleResertInput } from '../../utils/utilsFunctions';
 import { Input } from '../Input/Input';
 import { useGroup } from '../../hooks/useGroup';
 import { useMutation, useQueryClient } from 'react-query';
@@ -30,7 +30,7 @@ export const EditGroup: FC<IEditGroupProps> = ({ title, groupId }) => {
 			event.preventDefault();
 			await mutate({ _id: groupId, title: groupName });
 			setIsInputVisible(false);
-			handleResertInput(setGroupName);
+			// handleResertInput(setGroupName);
 		},
 		[groupName]
 	);

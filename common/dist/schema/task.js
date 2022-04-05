@@ -1,10 +1,32 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.listIdForTasksSchema = exports.taskIdSchema = void 0;
+exports.createEditTaskSchema = exports.listIdForTasksSchema = exports.taskIdSchema = void 0;
 const yup_1 = require("yup");
+const types_1 = require("../types");
 exports.taskIdSchema = (0, yup_1.object)({
-    id: (0, yup_1.string)().required(),
+    _id: (0, yup_1.string)().required(),
 });
 exports.listIdForTasksSchema = (0, yup_1.object)({
-    listId: (0, yup_1.string)().required(),
+    parentFolderId: (0, yup_1.string)().required(),
+});
+exports.createEditTaskSchema = (0, yup_1.object)({
+    createdAt: (0, yup_1.date)().optional(),
+    importance: (0, yup_1.string)().optional(),
+    parentFolderId: (0, yup_1.string)().optional(),
+    groupName: (0, yup_1.string)().optional(),
+    title: (0, yup_1.string)()
+        .min(3, "Too short!")
+        .max(20, "Too Long!")
+        .required("Dodaj nazwę zadania"),
+    themeColor: (0, yup_1.mixed)()
+        .oneOf(Object.values(types_1.AppColorTypeEnum))
+        .optional(),
+    _id: (0, yup_1.string)().optional(),
+    taskStatus: (0, yup_1.string)().optional(),
+    deadline: (0, yup_1.string)().optional(),
+    isMyDay: (0, yup_1.boolean)().optional(),
+    // sortType: object().optional(),
+    sortType: (0, yup_1.mixed)()
+        .oneOf(Object.values(types_1.SortType))
+        .optional(),
 });

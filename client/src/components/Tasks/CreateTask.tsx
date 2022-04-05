@@ -1,65 +1,49 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
-import { useHistory, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { createTaskAction } from '../../actions/tasks';
-import { InputVersion } from '../../enums';
 import { IUseParams } from '../../interfaces/app';
-import { handleResertInput, removesWhitespaceFromString } from '../../utils/utilsFunctions';
-import { Input } from '../Input/Input';
+import { Input } from '../../formik/Input';
+import { Formik, Form } from 'formik';
+import { ITask, createEditTaskSchema, CreateEditTaskType, AppColorTypeEnum } from '@kkrawczyk/todo-common';
+import { isStringContainsWhitespace } from '../../utils/utilsFunctions';
+import { ErrorMessageComponent } from '../../formik/ErrorMessageComponent';
 
 export const CreateTask = () => {
 	const query = useQueryClient();
-	const history = useHistory();
 	const { listId } = useParams<IUseParams>();
 
-	const { mutate: createTaskMutation } = useMutation(createTaskAction, {
+	const { mutate, isLoading } = useMutation(createTaskAction, {
 		onSuccess: () => {
 			query.invalidateQueries('tasksOfCurrentList');
 		},
 	});
 
-	useEffect(() => {
-		history.listen(() => setTaskName(''));
-	}, [history]);
-
-	const [taskName, setTaskName] = useState<string | undefined>(undefined);
-
-	const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-		const clearStr = removesWhitespaceFromString(event.target.value);
-		setTaskName(clearStr);
-	}, []);
+	const initialValues: ITask = { title: '' };
 
 	const onSubmit = useCallback(
-		async (event: React.SyntheticEvent) => {
-			event.preventDefault();
-			try {
-				createTaskMutation({
-					title: taskName,
-					parentFolderId: listId,
-					themeColor: 'blue',
-				}); // TODO: async await?
-				handleResertInput(setTaskName);
-			} catch {
-				// TODO: handle error
-			}
+		async (values: CreateEditTaskType, { resetForm }) => {
+			if (isStringContainsWhitespace(values.title)) return;
+			await mutate({
+				title: values.title,
+				parentFolderId: listId,
+				themeColor: AppColorTypeEnum.blue,
+			});
+			resetForm();
 		},
-		[taskName, listId]
+		[listId]
 	);
 
 	return (
-		<div>
-			<form onSubmit={onSubmit}>
-				<Input
-					isIcon
-					name='taskName'
-					colorType={InputVersion.primary}
-					isTaskInput
-					placeholder={'Dodaj zadanie'}
-					value={taskName}
-					autoFocus
-					onChange={handleChange}
-				/>
-			</form>
+		<div className='relative'>
+			<Formik initialValues={initialValues as CreateEditTaskType} validationSchema={createEditTaskSchema} onSubmit={onSubmit}>
+				{({ errors, touched, ...props }) => (
+					<Form>
+						<Input name='title' placeholder={'Dodaj zadanie'} isIcon {...props} isLoading={isLoading} />
+						{errors.title && touched.title ? <ErrorMessageComponent name='title' /> : null}
+					</Form>
+				)}
+			</Formik>
 		</div>
 	);
 };

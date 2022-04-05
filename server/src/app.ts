@@ -73,9 +73,11 @@ io.on('connection', socket => {
 
 	const socketHandShake = socket.handshake.headers.cookie || '';
 
+	if (socketHandShake === '') return;
+
 	const parsedSocketHandShake = parse(socketHandShake as string);
 	const SECRET = '.Ge~!!Wcv|vREPrmRrm.p3m$pm.5.$';
-	const connectionToken = jwt.verify(parsedSocketHandShake.access_token, SECRET) as any;
+	const connectionToken = jwt?.verify(parsedSocketHandShake.access_token, SECRET) as any;
 
 	allSocketConnections.push({
 		socketId: socket.id,

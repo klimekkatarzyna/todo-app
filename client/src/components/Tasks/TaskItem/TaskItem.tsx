@@ -2,7 +2,6 @@ import { FC, useCallback, useContext, useMemo } from 'react';
 import styled from 'styled-components';
 import { ContextMenuTrigger } from 'react-contextmenu';
 import { COLOURS, contextualMenuFirstOpion } from '../../../constants';
-import { IChangeTaskImportanceProps } from '../../../interfaces/task';
 import { IinitialDnDState } from '../../../hooks/useDragAndDrop';
 import { ContextualMenu } from '../../ContextualMenu/ContextualMenu';
 import { TaskDetails } from '../TaskDetails';
@@ -55,7 +54,7 @@ interface ITaskItem {
 	onDragOver?: (event: React.DragEvent<HTMLDivElement>, index: number) => void;
 	onDrop?: (event: React.DragEvent<HTMLDivElement>) => void;
 	onDragLeave?: () => void;
-	changeTaskImportance: ({ listId, taskId, importance }: IChangeTaskImportanceProps) => void;
+	changeTaskImportance: ({ parentFolderId: listId, _id: taskId, importance }: ITask) => void;
 }
 
 export const TaskItem: FC<ITaskItem> = ({

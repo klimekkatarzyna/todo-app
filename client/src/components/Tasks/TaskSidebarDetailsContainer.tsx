@@ -1,7 +1,6 @@
 import { FC, useCallback, useContext } from 'react';
 import styled from 'styled-components';
 import { COLOURS, IconWrapper } from '../../constants';
-import { ITaskStatus } from '../../interfaces/task';
 import { getDay, getDayName, getMonth, parseUTCtoDate } from '../../utils/date';
 import { Loader } from '../Loader/Loader';
 import { TaskDetails } from './TaskDetails';
@@ -16,7 +15,7 @@ import { XSquare } from '@styled-icons/feather/XSquare';
 import { addTaskToMyDayAction } from '../../actions/tasks';
 import { useTasks } from '../../hooks/useTasks';
 import { ElementVisibilityContext } from '../../providers/ElementVisibilityProvider';
-import { ITask } from '@kkrawczyk/todo-common';
+import { ITask, ITaskStatus } from '@kkrawczyk/todo-common';
 
 const TaskSidebarDetailsContainer = styled.div`
 	background-color: ${COLOURS.lightGrey};
@@ -80,7 +79,7 @@ export const TaskSidebarDetails: FC = () => {
 	}, []);
 
 	const addTaskToMyDayView = useCallback(() => {
-		addTaskToMyDayAction({ listId, taskId: taskData?._id, isMyDay: true });
+		addTaskToMyDayAction({ parentFolderId: listId, _id: taskData?._id, isMyDay: true });
 	}, [taskData?._id]);
 
 	return (

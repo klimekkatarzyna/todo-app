@@ -2,7 +2,7 @@ import { FC, useMemo, memo } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { COLOURS, contextualMenuSecountOpion, contextualMenuSecountOpionMembers, IconWrapper } from '../../constants';
-import { IList } from '@kkrawczyk/todo-common';
+import { IList, ITask } from '@kkrawczyk/todo-common';
 import { Sun } from '@styled-icons/feather/Sun';
 import { Star } from '@styled-icons/feather/Star';
 import { List } from '@styled-icons/feather/List';
@@ -15,8 +15,6 @@ import { ContextMenuTrigger } from 'react-contextmenu';
 import { ContextualMenu } from '../ContextualMenu/ContextualMenu';
 import { useSharingData } from '../../hooks/useSharingData';
 import { useQuery } from 'react-query';
-import { HttpResponse } from '../../utils/http';
-import { ITasksResponse } from '../../interfaces/task';
 import { getTasksOfCurrentListAction } from '../../actions/tasks';
 
 const LinkStyled = styled(Link)`
@@ -69,7 +67,9 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed }) => 
 		[listItem]
 	);
 	const { isOwner } = useSharingData(listItem?.userId);
-	const { data } = useQuery<HttpResponse<ITasksResponse>>(['tasksOfCurrentList', listItem._id], () => getTasksOfCurrentListAction(listItem._id));
+	const { data } = useQuery<ITask[] | undefined>(['tasksOfCurrentList', listItem._id], () =>
+		getTasksOfCurrentListAction({ parentFolderId: listItem._id })
+	);
 
 	return (
 		<LinkStyled to={listItem?.isMainList ? `${listItem?.url}` : `/tasks/${listItem?._id}`}>
@@ -77,7 +77,7 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed }) => 
 				<IconWrapper color={listItem?.themeColor || COLOURS.blue}>{icon || <List />}</IconWrapper>
 				<Name isNavClosed={isNavClosed}>{listItem?.title}</Name>
 				{!!listItem.members?.length && <Users />}
-				{!!data?.body?.tasks?.length && <TasksNumber isNavClosed={isNavClosed}>{data?.body?.tasks?.length}</TasksNumber>}
+				{!!data?.length && <TasksNumber isNavClosed={isNavClosed}>{data?.length}</TasksNumber>}
 			</ContextMenuTrigger>
 			<ContextualMenu
 				contextualMenuList={isOwner ? contextualMenuSecountOpion : contextualMenuSecountOpionMembers}

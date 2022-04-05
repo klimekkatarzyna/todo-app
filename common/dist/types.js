@@ -1,6 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Importance = exports.SortType = exports.ITaskStatus = void 0;
+exports.Importance = exports.SortType = exports.ITaskStatus = exports.AppColorTypeEnum = void 0;
+var AppColorTypeEnum;
+(function (AppColorTypeEnum) {
+    AppColorTypeEnum["grey"] = "grey";
+    AppColorTypeEnum["blue"] = "blue";
+    AppColorTypeEnum["red"] = "red";
+    AppColorTypeEnum["green"] = "green";
+})(AppColorTypeEnum = exports.AppColorTypeEnum || (exports.AppColorTypeEnum = {}));
 var ITaskStatus;
 (function (ITaskStatus) {
     ITaskStatus["inComplete"] = "inComplete";

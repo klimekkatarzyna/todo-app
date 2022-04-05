@@ -1,10 +1,12 @@
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useCallback } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { editTaskAction } from '../../actions/tasks';
-import { ITask } from '@kkrawczyk/todo-common';
-import { removesWhitespaceFromString } from '../../utils/utilsFunctions';
-import { Input } from '../Input/Input';
+import { ITask, createEditTaskSchema, CreateEditTaskType } from '@kkrawczyk/todo-common';
+import { Input } from '../../formik/Input';
+import { Formik, Form } from 'formik';
+import { ErrorMessageComponent } from '../../formik/ErrorMessageComponent';
 import { Loader } from '../Loader/Loader';
+import { isStringContainsWhitespace } from '../../utils/utilsFunctions';
 
 interface IEditTaskNameProps {
 	taskData: ITask;
@@ -12,12 +14,6 @@ interface IEditTaskNameProps {
 
 export const EditTaskName: FC<IEditTaskNameProps> = ({ taskData }) => {
 	const query = useQueryClient();
-	const [name, setTaskName] = useState<string>(taskData?.title);
-
-	const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-		const clearStr = removesWhitespaceFromString(event.target.value);
-		setTaskName(clearStr);
-	}, []);
 
 	const { mutate, isLoading } = useMutation(editTaskAction, {
 		onSuccess: () => {
@@ -26,20 +22,31 @@ export const EditTaskName: FC<IEditTaskNameProps> = ({ taskData }) => {
 		},
 	});
 
+	const initialValues: ITask = { title: taskData?.title };
+	console.log({ taskData });
 	const onSubmit = useCallback(
-		async (event: React.SyntheticEvent) => {
-			event.preventDefault();
-			await mutate({ taskName: name, taskId: taskData._id, parentId: taskData?.parentFolderId });
+		async (values: CreateEditTaskType, { resetForm }) => {
+			if (isStringContainsWhitespace(values.title)) return;
+			await mutate({ _id: taskData._id, title: values.title, parentFolderId: taskData?.parentFolderId });
+			resetForm();
 		},
-		[name, taskData]
+		[taskData]
 	);
 
 	return (
-		<div>
-			<form onSubmit={onSubmit}>
-				<Input name='taskName' value={name} onChange={handleChange} autoFocus />
-				{isLoading && <Loader />}
-			</form>
+		<div className='relative'>
+			<Formik
+				initialValues={initialValues as CreateEditTaskType}
+				enableReinitialize
+				validationSchema={createEditTaskSchema}
+				onSubmit={onSubmit}>
+				{({ errors, touched, ...props }) => (
+					<Form>
+						{isLoading ? <Loader /> : <Input name='title' placeholder={'Nowa lista'} {...props} />}
+						{errors.title && touched.title && <ErrorMessageComponent name='title' />}
+					</Form>
+				)}
+			</Formik>
 		</div>
 	);
 };

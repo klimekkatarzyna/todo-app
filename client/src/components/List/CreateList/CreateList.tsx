@@ -1,20 +1,11 @@
 import { FC, useCallback } from 'react';
-import styled from 'styled-components';
-import { COLOURS } from '../../../constants';
 import { isStringContainsWhitespace } from '../../../utils/utilsFunctions';
 import { useMutation, useQueryClient } from 'react-query';
 import { createListAction } from '../../../actions/lists';
 import { Formik, Form } from 'formik';
 import { createListSchema } from '@kkrawczyk/todo-common';
 import { Input } from '../../../formik/Input';
-
-const Wrapper = styled.div`
-	display: flex;
-	flex-direction: column;
-	transition: width 180ms ease;
-	background-color: ${COLOURS.lightGrey};
-	width: 210px;
-`;
+import { ErrorMessageComponent } from '../../../formik/ErrorMessageComponent';
 
 export const CreateList: FC = () => {
 	const query = useQueryClient();
@@ -38,14 +29,15 @@ export const CreateList: FC = () => {
 	const initialValues: ICreateListValue = { title: '' };
 
 	return (
-		<Wrapper>
+		<div className='flex flex-col bg-light-grey transition ease-in-out delay-150 width w-52'>
 			<Formik initialValues={initialValues} validationSchema={createListSchema} onSubmit={onSubmit}>
-				{props => (
+				{({ errors, touched, ...props }) => (
 					<Form>
 						<Input name='title' placeholder={'Nowa lista'} isIcon {...props} isLoading={isLoading} />
+						{errors.title && touched.title && <ErrorMessageComponent name='title' />}
 					</Form>
 				)}
 			</Formik>
-		</Wrapper>
+		</div>
 	);
 };

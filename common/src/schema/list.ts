@@ -8,7 +8,7 @@ export type ListIdType = InferType<typeof listIdRequiredSchema>;
 
 export const removeMemberFromListSchema = object({
   listId: string().required() || undefined,
-  member: string().required() || undefined,
+  member: array().of(string()).required() || undefined,
 });
 
 export type RemoveMemberFromListType = InferType<
@@ -37,7 +37,7 @@ export const listIdSchema = object({
 });
 
 export const createListSchema = object({
-  title: string().max(10, "Too Long!").required("Podaj tytuł listy"),
+  title: string().max(20, "Too Long!").required("Podaj tytuł listy"),
   themeColor: string(),
   createdAt: date(),
   userId: string(),

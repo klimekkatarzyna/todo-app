@@ -2,27 +2,19 @@ import { FC, useMemo } from 'react';
 import { useQuery } from 'react-query';
 import { Board } from '../components/Board';
 import { Toolbar } from '../components/Toolbar';
-import { HttpResponse } from '../utils/http';
 import { Loader } from '../components/Loader/Loader';
-import { ITasksResponse, ITaskStatus } from '../interfaces/task';
 import { TaskItem } from '../components/Tasks/TaskItem/TaskItem';
 import { useTasks } from '../hooks/useTasks';
 import { useDragAndDrop } from '../hooks/useDragAndDrop';
 import { onGetImportanceTasksAction } from '../actions/tasks';
+import { ITask, ITaskStatus } from '@kkrawczyk/todo-common';
 
 export const Important: FC = () => {
 	const { inCompletedTaskslist, setInCompletedTasksList, onChangeTaskStatus, changeTaskImportanceMutation } = useTasks();
 	const { onDragStart, onDragOver, onDragLeave, onDrop, dragAndDrop } = useDragAndDrop(inCompletedTaskslist, setInCompletedTasksList);
-	const {
-		data: importanceTasksResponse,
-		isLoading,
-		isError,
-	} = useQuery<HttpResponse<ITasksResponse>>(['getImportanceTasks'], onGetImportanceTasksAction);
+	const { data, isLoading, isError } = useQuery<ITask[] | undefined>(['getImportanceTasks'], onGetImportanceTasksAction);
 
-	const tasksList = useMemo(
-		() => importanceTasksResponse?.body?.tasks?.filter(taskData => taskData?.taskStatus === ITaskStatus.inComplete),
-		[importanceTasksResponse]
-	);
+	const tasksList = useMemo(() => data?.filter(taskData => taskData?.taskStatus === ITaskStatus.inComplete), [data]);
 
 	return (
 		<Board>

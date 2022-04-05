@@ -6,19 +6,25 @@ export interface IUserData {
     createdAt: number;
 }
 export interface ITask {
-    createdAt: any;
-    importance: string;
-    parentFolderId: string;
-    groupName: string;
-    title: string;
-    themeColor: AppColorType | undefined;
+    createdAt?: Date;
+    importance?: string;
+    parentFolderId?: string;
+    groupName?: string;
+    title?: string;
+    themeColor?: AppColorTypeEnum | undefined;
     _id?: string | undefined;
-    taskStatus: string;
+    taskStatus?: string;
     deadline?: string;
     isMyDay?: boolean;
     sortType?: SortType;
 }
 export declare type AppColorType = "grey" | "blue" | "red" | "green";
+export declare enum AppColorTypeEnum {
+    grey = "grey",
+    blue = "blue",
+    red = "red",
+    green = "green"
+}
 export declare enum ITaskStatus {
     inComplete = "inComplete",
     complete = "complete"

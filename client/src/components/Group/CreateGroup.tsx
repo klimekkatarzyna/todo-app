@@ -1,7 +1,7 @@
 import React, { FC, useCallback } from 'react';
 import styled from 'styled-components';
 import { useDropdown } from '../../hooks/useDropdown';
-import { handleResertInput } from '../../utils/utilsFunctions';
+// import { handleResertInput } from '../../utils/utilsFunctions';
 import { Input } from '../Input/Input';
 import { IconButton } from './IconButton';
 import { useGroup } from '../../hooks/useGroup';
@@ -44,7 +44,7 @@ export const CreateGroup: FC = () => {
 			event.preventDefault();
 
 			await mutate(groupName);
-			handleResertInput(setGroupName);
+			// handleResertInput(setGroupName);
 			toggleDropdown();
 		},
 		[groupName]

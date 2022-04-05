@@ -3,12 +3,11 @@ import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router';
 import { COLOURS } from '../../constants';
-import { IChangeTaskImportanceProps, ITaskStatus } from '../../interfaces/task';
 import { IUseParams } from '../../interfaces/app';
 import { getDay, getDayName, getMonth, parseUTCtoDate } from '../../utils/date';
 import { Checkbox } from '../Checkbox/Checkbox';
 import { ImportanceButton } from '../ImportanceButton/ImportanceButton';
-import { Importance, ITask } from '@kkrawczyk/todo-common';
+import { Importance, ITask, ITaskStatus } from '@kkrawczyk/todo-common';
 import { useFocusingHandling } from '../../hooks/useMouseHandling';
 import { EditTaskName } from './EditTaskName';
 
@@ -61,7 +60,7 @@ interface ITaskDetailsProps {
 	taskData: ITask;
 	onChangeTaskStatus?: (taskId: string | undefined) => void;
 	isCompleted?: boolean;
-	changeTaskImportance: ({ listId, taskId, importance }: IChangeTaskImportanceProps) => void;
+	changeTaskImportance: ({ parentFolderId: listId, _id: taskId, importance }: ITask) => void;
 	isTaskDetailsView?: boolean | undefined;
 }
 
@@ -91,7 +90,7 @@ const TaskDetailsComponent: FC<ITaskDetailsProps> = ({
 
 	const onClickImportanceButton = useCallback(() => {
 		setIsImportanceButtonChecked(!isImportanceButtonChecked);
-		changeTaskImportance({ listId: taskData.parentFolderId, taskId: taskData._id, importance: importanceType });
+		changeTaskImportance({ parentFolderId: taskData.parentFolderId, _id: taskData._id, importance: importanceType });
 	}, [isImportanceButtonChecked]);
 
 	const elementRef: RefObject<HTMLInputElement> = useRef(null);
