@@ -9,6 +9,7 @@ import { SocketContext } from '../providers/SocketProvider';
 import { ITask, ITaskStatus } from '@kkrawczyk/todo-common';
 import { useRecoilState } from 'recoil';
 import { completedTasksListState, inCompletedTasksListState } from '../atoms/tasks';
+import { ContextualMenuContext } from '../ContextualMenuProvider';
 
 interface SortType {
 	key: SortTaskType;
@@ -22,6 +23,7 @@ export const useTasks = () => {
 	const query = useQueryClient();
 	const { listId, taskId } = useParams<IUseParams>();
 	const { socket } = useContext(SocketContext);
+	const { contextualMenu } = useContext(ContextualMenuContext);
 	const [inCompletedTaskslist, setInCompletedTasksList] = useRecoilState(inCompletedTasksListState);
 	const [completedTaskslist, setComplitedTasksList] = useRecoilState(completedTasksListState);
 
@@ -39,11 +41,14 @@ export const useTasks = () => {
 
 	const { data: taskData, isLoading: taskDataLoading } = useQuery<ITask | undefined>(['getTask', taskId], () => getTaskAction({ _id: taskId }));
 
-	const { mutate: removeTaskMutation } = useMutation(() => deleteTaskAction({ _id: taskId || '', parentFolderId: taskData?.parentFolderId }), {
-		onSuccess: () => {
-			query.invalidateQueries(['tasksOfCurrentList']);
-		},
-	});
+	const { mutate: removeTaskMutation } = useMutation(
+		() => deleteTaskAction({ _id: contextualMenu?.elementId, parentFolderId: taskData?.parentFolderId }),
+		{
+			onSuccess: () => {
+				query.invalidateQueries(['tasksOfCurrentList']);
+			},
+		}
+	);
 
 	const comletedTasks = useMemo(() => (tasksOfCurrentList || []).filter(task => task.taskStatus === ITaskStatus.complete), [tasksOfCurrentList]);
 
