@@ -1,18 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createEditListSchema = exports.listIdSchema = exports.addInvitationTokenToListSchema = exports.addUserToListSchema = exports.removeMemberFromListSchema = exports.listIdRequiredSchema = void 0;
+exports.createEditListSchema = exports.listIdSchema = exports.addInvitationTokenToListSchema = exports.removeMemberFromListSchema = exports.listIdRequiredSchema = void 0;
 const yup_1 = require("yup");
 const types_1 = require("../types");
 exports.listIdRequiredSchema = (0, yup_1.object)({
     _id: (0, yup_1.string)().required(),
 });
+// export const removeMemberFromListSchema = object({
+//   _id: string().required() || undefined,
+//   member: array().of(string()).required() || undefined,
+// });
 exports.removeMemberFromListSchema = (0, yup_1.object)({
     _id: (0, yup_1.string)().required() || undefined,
-    member: (0, yup_1.array)().of((0, yup_1.string)()).required() || undefined,
-});
-exports.addUserToListSchema = (0, yup_1.object)({
-    invitationToken: (0, yup_1.string)().required(),
-    member: (0, yup_1.string)().required(),
+    member: (0, yup_1.string)().required() || undefined,
 });
 exports.addInvitationTokenToListSchema = (0, yup_1.object)({
     _id: (0, yup_1.string)().required(),

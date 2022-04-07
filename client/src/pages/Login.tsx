@@ -39,7 +39,7 @@ export const Content = styled.div`
 export const Login: FC = () => {
 	const initialValues = { email: '', password: '' };
 	const { loginRequest } = useAuthorization();
-	const { mutateAsync, isLoading, error } = useMutation(loginRequest);
+	const { mutateAsync, isLoading, data } = useMutation(loginRequest);
 
 	const onSubmit = useCallback(async (values: LoginValidationType, { resetForm }) => {
 		await mutateAsync({ email: values.email, password: values.password });
@@ -54,7 +54,7 @@ export const Login: FC = () => {
 					Nie masz masz konta? <Link to='/register'>Rejestruj się!</Link>
 				</p>
 
-				{error && <span>{error as string}</span>}
+				{data?.error && <span>{data?.error as string}</span>}
 
 				<Formik initialValues={initialValues as LoginValidationType} validationSchema={loginValidationSchema} onSubmit={onSubmit}>
 					{({ errors, touched, ...props }) => (

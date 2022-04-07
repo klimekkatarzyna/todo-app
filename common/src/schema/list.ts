@@ -18,7 +18,7 @@ export type ListIdType = InferType<typeof listIdRequiredSchema>;
 
 export const removeMemberFromListSchema = object({
   _id: string().required() || undefined,
-  member: array().of(string()).required() || undefined,
+  member: string().required() || undefined,
 });
 
 export type RemoveMemberFromListType = InferType<

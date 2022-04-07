@@ -3,6 +3,7 @@ import { User } from '../models/user';
 import { signJwt, setTokenCookie, passwordHash, deleteTokenCookie, getSessionUserId, authorization } from '../utils/auth';
 import { registerValidationSchema, RegisterValidationType, loginValidationSchema, LoginValidationType } from '@kkrawczyk/todo-common';
 import { validateBody } from '../utils/validation';
+import bcrypt from 'bcryptjs';
 
 const router = express.Router();
 
@@ -48,15 +49,13 @@ router.post('/register', validateBody<RegisterValidationType>(registerValidation
 router.post('/login', validateBody<LoginValidationType>(loginValidationSchema), async (req: Request, res: Response) => {
 	try {
 		const user = await User.findOne({ email: req.body.email });
-		const token = signJwt(user?._id.toString() || '');
+		if (!user) return res.status(403).json({ error: 'Wrong credentials' });
 
-		//Check if password entered is correct
-		// const validPassword = await bcrypt.compare(req.body.password, user.password);
-		// if (!validPassword) return res.status(400).send("Password is incorrect");
-
+		const token = signJwt(user?._id?.toString());
 		setTokenCookie(res, token);
 
-		if (!token) return res.status(403).send('Unauthorized');
+		const validPassword = await bcrypt.compare(req.body.password, user.password);
+		if (!validPassword) return res.status(400).json({ error: 'Wrong credentials' });
 
 		res.json({
 			body: {
