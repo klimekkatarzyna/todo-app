@@ -1,14 +1,13 @@
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { AuthContext, AuthContextType } from '../AuthProvider';
 import { Button } from '../components/Button/Button';
 import { COLOURS } from '../constants';
-import { http } from '../utils/http';
-import * as api from '../services';
 import { useMutation } from 'react-query';
 import { getStringAfterCharacter } from '../utils/utilsFunctions';
 import { Loader } from '../components/Loader/Loader';
+import { addUserToMemberOfListAction } from '../actions/sharing';
 
 const Wrapper = styled.div`
 	position: absolute;
@@ -34,19 +33,10 @@ export const Sharing = () => {
 	const history = useHistory();
 	const { authData } = useContext<AuthContextType>(AuthContext);
 
-	const addUserToMemberOfListAction = useCallback(async (): Promise<unknown> => {
-		const response = await http(api.addUserToMemberOfList, 'PATCH', {
-			invitationToken: getStringAfterCharacter(history.location.search),
-			member: authData?._id,
-		});
-
-		return response;
-	}, [authData]);
-
 	const { mutate: addUserToMemberOfListMutation, error, isLoading, isSuccess } = useMutation(addUserToMemberOfListAction);
 
 	const addUserToMemberOfList = useCallback(() => {
-		addUserToMemberOfListMutation();
+		addUserToMemberOfListMutation(getStringAfterCharacter(history.location.search));
 		// history.push('/tasks');
 	}, []);
 

@@ -6,8 +6,6 @@ import { validateBody, validateParams } from '../utils/validation';
 import {
 	addInvitationTokenToListSchema,
 	AddInvitationTokenToListType,
-	addUserToListSchema,
-	AddUserToListType,
 	createEditListSchema,
 	CreateEditListType,
 	listIdRequiredSchema,
@@ -140,10 +138,11 @@ lists.patch(
 	}
 );
 
-lists.patch('/addUserToMemberOfList', validateBody<AddUserToListType>(addUserToListSchema), async (req: Request, res: Response) => {
+lists.patch('/addUserToMemberOfList', async (req: Request, res: Response) => {
 	// fix duplicates in members array
+	const userId = getSessionUserId(req);
 	try {
-		await List.findOneAndUpdate({ invitationToken: req.body.invitationToken }, { $push: { members: req.body.member } });
+		await List.findOneAndUpdate({ invitationToken: req.body.invitationToken }, { $push: { members: userId } });
 		res.status(200).json({ message: 'user has been added to the list' });
 	} catch (err) {
 		res.status(500).json({

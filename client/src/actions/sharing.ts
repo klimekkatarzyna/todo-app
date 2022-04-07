@@ -14,3 +14,8 @@ export const getListByIdAction = async ({ _id }: IList) => {
 	const response = await http<IList | undefined>(`${api.getListById}/${_id}`, 'GET');
 	return response.body;
 };
+
+export const addUserToMemberOfListAction = async (invitationToken: string) =>
+	await http(api.addUserToMemberOfList, 'PATCH', {
+		invitationToken,
+	});

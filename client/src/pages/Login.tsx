@@ -1,15 +1,15 @@
-import { FC, useCallback, useState } from 'react';
+import { FC, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { COLOURS } from '../constants';
 import { Button } from '../components/Button/Button';
-import { InputVersion } from '../enums';
-import { Input } from '../components/Input/Input';
-import { removesWhitespaceFromString } from '../utils/utilsFunctions';
 import { useMutation } from 'react-query';
 import { useAuthorization } from '../hooks/useAuthorization';
-import { PasswordInput } from '../components/PasswordInput';
-import { LoginForm } from '../interfaces/app';
+import { InputType } from '../interfaces/app';
+import { ErrorMessageComponent } from '../formik/ErrorMessageComponent';
+import { Input } from '../formik/Input';
+import { Formik, Form } from 'formik';
+import { loginValidationSchema, LoginValidationType } from '@kkrawczyk/todo-common';
 
 export const FormWrapper = styled.div`
 	background-color: ${COLOURS.lightGrey};
@@ -37,34 +37,14 @@ export const Content = styled.div`
 `;
 
 export const Login: FC = () => {
-	const [loginData, setLoginData] = useState<LoginForm>({
-		email: '',
-		password: '',
-	});
-
+	const initialValues = { email: '', password: '' };
 	const { loginRequest } = useAuthorization();
-	const { mutateAsync: login, isLoading, error } = useMutation(loginRequest);
+	const { mutateAsync, isLoading, error } = useMutation(loginRequest);
 
-	const handleChange = useCallback(
-		(event: React.ChangeEvent<HTMLInputElement>): void => {
-			const { name, value } = event.target;
-			const clearStr = removesWhitespaceFromString(value);
-
-			setLoginData({
-				...loginData,
-				[name]: clearStr,
-			});
-		},
-		[loginData]
-	);
-
-	const onSubmit = useCallback(
-		async (event: React.SyntheticEvent): Promise<void> => {
-			event.preventDefault();
-			await login({ email: loginData.email, password: loginData.password });
-		},
-		[loginData]
-	);
+	const onSubmit = useCallback(async (values: LoginValidationType, { resetForm }) => {
+		await mutateAsync({ email: values.email, password: values.password });
+		resetForm();
+	}, []);
 
 	return (
 		<FormWrapper>
@@ -73,26 +53,28 @@ export const Login: FC = () => {
 				<p>
 					Nie masz masz konta? <Link to='/register'>Rejestruj się!</Link>
 				</p>
-				{/* <p>Uzyj konta Google lub Facebook aby się zalogować</p> */}
 
-				{/* {error && (<span>{error}</span>)} */}
+				{error && <span>{error as string}</span>}
 
-				<form onSubmit={onSubmit}>
-					<Input
-						name='email'
-						colorType={InputVersion.primary}
-						placeholder={'Email'}
-						value={loginData.email}
-						autoFocus
-						onChange={handleChange}
-					/>
+				<Formik initialValues={initialValues as LoginValidationType} validationSchema={loginValidationSchema} onSubmit={onSubmit}>
+					{({ errors, touched, ...props }) => (
+						<Form>
+							<div className='relative'>
+								<Input name='email' placeholder={'Email'} {...props} />
+								{errors.email && touched.email ? <ErrorMessageComponent name='email' /> : null}
+							</div>
 
-					<PasswordInput loginData={loginData} handleChange={handleChange} />
+							<div className='relative'>
+								<Input name='password' type={InputType.password} placeholder={'Password'} {...props} />
+								{errors.password && touched.password ? <ErrorMessageComponent name='password' /> : null}
+							</div>
 
-					<Button primary type='submit' margin isLoading={isLoading}>
-						<span>Zaloguj</span>
-					</Button>
-				</form>
+							<Button primary type='submit' margin isLoading={isLoading}>
+								<span>Zaloguj</span>
+							</Button>
+						</Form>
+					)}
+				</Formik>
 			</Content>
 		</FormWrapper>
 	);

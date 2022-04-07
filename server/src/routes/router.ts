@@ -1,11 +1,12 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { User } from '../models/user';
 import { signJwt, setTokenCookie, passwordHash, deleteTokenCookie, getSessionUserId, authorization } from '../utils/auth';
-import { IUserData } from '@kkrawczyk/todo-common';
+import { registerValidationSchema, RegisterValidationType, loginValidationSchema, LoginValidationType } from '@kkrawczyk/todo-common';
+import { validateBody } from '../utils/validation';
 
 const router = express.Router();
 
-router.post('/register', async (req: Request, res: Response, next: NextFunction) => {
+router.post('/register', validateBody<RegisterValidationType>(registerValidationSchema), async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const user = await User.findOne({ email: req.body.email });
 
@@ -44,7 +45,7 @@ router.post('/register', async (req: Request, res: Response, next: NextFunction)
 	}
 });
 
-router.post('/login', async (req: Request<{}, {}, IUserData>, res: Response) => {
+router.post('/login', validateBody<LoginValidationType>(loginValidationSchema), async (req: Request, res: Response) => {
 	try {
 		const user = await User.findOne({ email: req.body.email });
 		const token = signJwt(user?._id.toString() || '');
@@ -68,7 +69,7 @@ router.post('/login', async (req: Request<{}, {}, IUserData>, res: Response) => 
 			message: `login user with email ${req.body.email}`,
 			isSuccess: true,
 		});
-	} catch (err: unknown) {
+	} catch (err) {
 		res.status(500).json({
 			isSuccess: false,
 			errorMessage: `invalid credentials`,
@@ -77,7 +78,7 @@ router.post('/login', async (req: Request<{}, {}, IUserData>, res: Response) => 
 	}
 });
 
-router.get('/me', authorization, async (req: Request<{}, {}, IUserData>, res: Response) => {
+router.get('/me', authorization, async (req: Request, res: Response) => {
 	try {
 		const userId = getSessionUserId(req);
 		const user = await User.findById(userId);
@@ -91,7 +92,7 @@ router.get('/me', authorization, async (req: Request<{}, {}, IUserData>, res: Re
 			},
 			isSuccess: true,
 		});
-	} catch (err: unknown) {
+	} catch (err) {
 		res.status(403).json({
 			isSuccess: false,
 			errorMessage: 'unsuccesful log in',

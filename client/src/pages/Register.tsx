@@ -1,50 +1,24 @@
-import { FC, useCallback, useState } from 'react';
+import { FC, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { Input } from '../components/Input/Input';
-import { InputVersion } from '../enums';
 import { Button } from '../components/Button/Button';
 import { Content, FormWrapper } from './Login';
-import { removesWhitespaceFromString } from '../utils/utilsFunctions';
+import { InputType } from '../interfaces/app';
+import { ErrorMessageComponent } from '../formik/ErrorMessageComponent';
+import { Input } from '../formik/Input';
+import { Formik, Form } from 'formik';
 import { useAuthorization } from '../hooks/useAuthorization';
 import { useMutation } from 'react-query';
-import { PasswordInput } from '../components/PasswordInput';
-
-interface RegisterForm {
-	userName: string;
-	email: string;
-	password: string;
-}
+import { RegisterValidationType, registerValidationSchema } from '@kkrawczyk/todo-common';
 
 export const Register: FC = () => {
-	const [loginData, setLoginData] = useState<RegisterForm>({
-		userName: '',
-		email: '',
-		password: '',
-	});
-
+	const initialValues = { username: '', email: '', password: '' };
 	const { authenticateUserRequest } = useAuthorization();
-	const { mutateAsync: authenticateUser, isLoading, error } = useMutation(authenticateUserRequest);
+	const { mutateAsync, isLoading, error } = useMutation(authenticateUserRequest);
 
-	const handleChange = useCallback(
-		(event: React.ChangeEvent<HTMLInputElement>) => {
-			const { name, value } = event.target;
-			const clearStr = removesWhitespaceFromString(value);
-
-			setLoginData({
-				...loginData,
-				[name]: clearStr,
-			});
-		},
-		[loginData]
-	);
-
-	const onSubmit = useCallback(async (): Promise<void> => {
-		await authenticateUser({
-			username: loginData.userName,
-			email: loginData.email,
-			password: loginData.password,
-		});
-	}, [loginData]);
+	const onSubmit = useCallback(async (values: RegisterValidationType, { resetForm }) => {
+		await mutateAsync({ username: values.username, email: values.email, password: values.password });
+		resetForm();
+	}, []);
 
 	return (
 		<FormWrapper>
@@ -53,27 +27,30 @@ export const Register: FC = () => {
 				<p>
 					Masz konto? <Link to='/login'>Zaloguj się</Link>
 				</p>
-				{/* <p>Uzyj konta Google lub Facebook aby się zalogować</p> */}
 
-				{/* {error && <span>{error}</span>} */}
+				{error && <span>{error as string}</span>}
 
-				<form onSubmit={onSubmit}>
-					<Input
-						name='userName'
-						colorType={InputVersion.primary}
-						placeholder={'User name'}
-						value={loginData.userName}
-						autoFocus
-						onChange={handleChange}
-					/>
-					<Input name='email' colorType={InputVersion.primary} placeholder={'Email'} value={loginData.email} onChange={handleChange} />
-
-					<PasswordInput loginData={loginData} handleChange={handleChange} />
-
-					<Button primary type='submit' margin isLoading={isLoading}>
-						Uwrórz konto
-					</Button>
-				</form>
+				<Formik initialValues={initialValues as RegisterValidationType} validationSchema={registerValidationSchema} onSubmit={onSubmit}>
+					{({ errors, touched, ...props }) => (
+						<Form>
+							<div className='relative'>
+								<Input name='username' placeholder={'User name'} {...props} />
+								{errors.username && touched.username ? <ErrorMessageComponent name='username' /> : null}
+							</div>
+							<div className='relative'>
+								<Input name='email' placeholder={'Email'} {...props} />
+								{errors.email && touched.email ? <ErrorMessageComponent name='email' /> : null}
+							</div>
+							<div className='relative'>
+								<Input name='password' type={InputType.password} placeholder={'Password'} {...props} />
+								{errors.password && touched.password ? <ErrorMessageComponent name='password' /> : null}
+							</div>
+							<Button primary type='submit' margin isLoading={isLoading}>
+								Uwrórz konto
+							</Button>
+						</Form>
+					)}
+				</Formik>
 			</Content>
 		</FormWrapper>
 	);

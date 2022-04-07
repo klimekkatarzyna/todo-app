@@ -35,7 +35,7 @@ export const CreateList: FC = () => {
 				{({ errors, touched, ...props }) => (
 					<Form>
 						<Input name='title' placeholder={'Nowa lista'} isIcon {...props} isLoading={isLoading} />
-						{errors.title && touched.title && <ErrorMessageComponent name='title' />}
+						{errors.title && touched.title && <ErrorMessageComponent name='title' margin />}
 					</Form>
 				)}
 			</Formik>

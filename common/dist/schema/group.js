@@ -8,7 +8,7 @@ exports.createEditGroupSchema = (0, yup_1.object)({
     title: (0, yup_1.string)()
         .min(3, "Too short!")
         .max(20, "Too Long!")
-        .required("Dodaj nazwę zadania"),
+        .required("Dodaj nazwę grupy"),
     themeColor: (0, yup_1.mixed)()
         .oneOf(Object.values(types_1.AppColorTypeEnum))
         .optional(),

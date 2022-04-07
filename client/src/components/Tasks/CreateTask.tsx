@@ -40,7 +40,7 @@ export const CreateTask = () => {
 				{({ errors, touched, ...props }) => (
 					<Form>
 						<Input name='title' placeholder={'Dodaj zadanie'} isIcon {...props} isLoading={isLoading} />
-						{errors.title && touched.title ? <ErrorMessageComponent name='title' /> : null}
+						{errors.title && touched.title ? <ErrorMessageComponent name='title' margin /> : null}
 					</Form>
 				)}
 			</Formik>

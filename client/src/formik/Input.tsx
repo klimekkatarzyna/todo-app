@@ -8,6 +8,8 @@ import { Circle } from '@styled-icons/feather/Circle';
 import { useFocusingHandling } from '../hooks/useMouseHandling';
 import { Loader } from '../components/Loader/Loader';
 import { InputType } from '../interfaces/app';
+import { useTogglePasswordVisibility } from '../hooks/useTogglePasswordVisibility';
+import { InputEye } from '../components/InputEye/InputEye';
 
 interface IWrapper {
 	type: InputVersion;
@@ -99,6 +101,7 @@ export const Input: FC<IInput> = ({
 }) => {
 	const { onFocus, onBlur, isFocused } = useFocusingHandling();
 	const iconColor: string = useMemo(() => (colorType === InputVersion.primary && !isFocused ? COLOURS.blue : COLOURS.fontColor), [type, isFocused]);
+	const { showPassword, handledSetPassword } = useTogglePasswordVisibility();
 
 	return (
 		<Wrapper type={colorType} inputFocused={isFocused} isIcon={isIcon} isTaskInput={isTaskInput}>
@@ -110,7 +113,7 @@ export const Input: FC<IInput> = ({
 			)}
 			<InputStyled
 				name={name}
-				type={type}
+				type={!showPassword && type === InputType.password ? InputType.password : InputType.text}
 				readOnly={readOnly}
 				colorType={colorType}
 				placeholder={placeholder}
@@ -121,6 +124,7 @@ export const Input: FC<IInput> = ({
 				isTaskInput={isTaskInput}
 				{...rest}
 			/>
+			{type === InputType.password && <InputEye showPassword={showPassword} handledSetPassword={handledSetPassword} />}
 		</Wrapper>
 	);
 };

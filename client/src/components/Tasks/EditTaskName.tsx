@@ -43,7 +43,7 @@ export const EditTaskName: FC<IEditTaskNameProps> = ({ taskData }) => {
 				{({ errors, touched, ...props }) => (
 					<Form>
 						{isLoading ? <Loader /> : <Input name='title' placeholder={'Nowa lista'} {...props} />}
-						{errors.title && touched.title && <ErrorMessageComponent name='title' />}
+						{errors.title && touched.title && <ErrorMessageComponent name='title' margin />}
 					</Form>
 				)}
 			</Formik>

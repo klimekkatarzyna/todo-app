@@ -25,13 +25,6 @@ export type RemoveMemberFromListType = InferType<
   typeof removeMemberFromListSchema
 >;
 
-export const addUserToListSchema = object({
-  invitationToken: string().required(),
-  member: string().required(),
-});
-
-export type AddUserToListType = InferType<typeof addUserToListSchema>;
-
 export const addInvitationTokenToListSchema = object({
   _id: string().required(),
   invitationToken: string().required(),
