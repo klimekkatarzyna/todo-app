@@ -1,17 +1,10 @@
 import { FC, useCallback, memo } from 'react';
-import styled from 'styled-components';
 import { MenuListItem } from '../MenuListItem/MenuListItem';
 import { Loader } from '../Loader/Loader';
 import { http, HttpResponse } from '../../utils/http';
 import * as api from '../../services';
 import { useQuery } from 'react-query';
 import { IList } from '@kkrawczyk/todo-common';
-
-const Wrapper = styled.div`
-	display: flex;
-	flex-direction: column;
-	margin-bottom: 2rem;
-`;
 
 export interface IMainListResponse {
 	mainLists: IList[];
@@ -27,7 +20,7 @@ const MainListComponent: FC<IMainList> = ({ isNavClosed }) => {
 	const { data: mainList, isLoading: mainListLoading } = useQuery<HttpResponse<IMainListResponse>>('getMainList', getMainListAction);
 
 	return (
-		<Wrapper>
+		<div className='flex flex-col mb-8'>
 			{mainListLoading ? (
 				<Loader />
 			) : (
@@ -35,7 +28,7 @@ const MainListComponent: FC<IMainList> = ({ isNavClosed }) => {
 					<MenuListItem key={listItem?._id} listItem={listItem} isNavClosed={isNavClosed} />
 				))
 			)}
-		</Wrapper>
+		</div>
 	);
 };
 

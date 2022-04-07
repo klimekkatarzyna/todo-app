@@ -1,5 +1,4 @@
 import { FC, memo, useCallback, useContext } from 'react';
-import styled from 'styled-components';
 import { MenuListItem } from '../../MenuListItem/MenuListItem';
 import { Loader } from '../../Loader/Loader';
 import { Modal } from '../../Modal/Modal';
@@ -15,12 +14,6 @@ import { listsState } from '../../../atoms';
 import { removeMemberAction } from '../../../actions/sharing';
 import { ContextualMenuContext } from '../../../ContextualMenuProvider';
 import { AuthContext } from '../../../AuthProvider';
-
-const Wrapper = styled.div`
-	display: flex;
-	flex-direction: column;
-	font-size: 0.9rem;
-`;
 
 interface ILists {
 	isNavClosed: boolean;
@@ -57,12 +50,12 @@ const ListsComponents: FC<ILists> = ({ isNavClosed }) => {
 
 	return (
 		<>
-			<Wrapper>
+			<div className='flex flex-col text-base'>
 				{getListsLoading && <Loader />}
 				{list?.map((list: IList) => (
 					<MenuListItem key={list?._id} listItem={list} isNavClosed={isNavClosed} />
 				))}
-			</Wrapper>
+			</div>
 			{isVisible && <Modal title='Czy chcesz usunąć listę?' onHandleAction={removeList} contextualType={ContextualMenuOpion.remove_list} />}
 			{isVisible && (
 				<Modal title='' onHandleAction={() => {}} contextualType={ContextualMenuOpion.sharing_options} isActionButtonHidden>

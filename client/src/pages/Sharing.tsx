@@ -1,33 +1,11 @@
 import React, { useCallback, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import styled from 'styled-components';
 import { AuthContext, AuthContextType } from '../AuthProvider';
 import { Button } from '../components/Button/Button';
-import { COLOURS } from '../constants';
 import { useMutation } from 'react-query';
 import { getStringAfterCharacter } from '../utils/utilsFunctions';
 import { Loader } from '../components/Loader/Loader';
 import { addUserToMemberOfListAction } from '../actions/sharing';
-
-const Wrapper = styled.div`
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	width: 100%;
-	height: 100%;
-	background-color: ${COLOURS.white};
-	display: flex;
-	align-items: center;
-	justify-content: center;
-`;
-
-const Body = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-`;
 
 export const Sharing = () => {
 	const history = useHistory();
@@ -41,8 +19,8 @@ export const Sharing = () => {
 	}, []);
 
 	return (
-		<Wrapper>
-			<Body>
+		<div className='absolute top-0 left-0 right-0 w-full h-full bg-white flex items-center justify-center'>
+			<div className='flex items-center justify-center flex-col'>
 				<p>
 					<strong>{`Hej ${authData?.username}!`}</strong>
 				</p>
@@ -61,7 +39,7 @@ export const Sharing = () => {
 					{'Dołącz'}
 					{isLoading && <Loader />}
 				</Button>
-			</Body>
-		</Wrapper>
+			</div>
+		</div>
 	);
 };

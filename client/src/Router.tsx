@@ -1,6 +1,5 @@
 import { FC, useContext } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import styled from 'styled-components';
 import { MyDay } from './pages/MyDay';
 import { Important } from './pages/Important';
 import { Planned } from './pages/Planned';
@@ -18,28 +17,17 @@ import { Loader } from './components/Loader/Loader';
 import { Sharing } from './pages/Sharing';
 import { Redirect } from './pages/Redirect';
 
-const Wrapper = styled.div`
-	display: flex;
-	flex-direction: column;
-	flex: 1 1 0px;
-`;
-
-const Content = styled.div`
-	display: flex;
-	flex: 1 1 0px;
-`;
-
 const BrowserRouter: FC = () => {
 	const { authData, isCheckSessionLoading, sessionChecked } = useContext<AuthContextType>(AuthContext);
 
 	return (
-		<Wrapper>
+		<div className='flex flex-col flex-1'>
 			{isCheckSessionLoading && sessionChecked ? (
 				<Loader />
 			) : (
 				<Router>
 					{authData?._id && sessionChecked && <Header userName={authData?.username || ''} />}
-					<Content>
+					<div className='flex flex-1'>
 						{authData?._id && sessionChecked && <Sidebar />}
 						<Switch>
 							{authData?._id !== undefined && sessionChecked !== undefined ? (
@@ -89,10 +77,10 @@ const BrowserRouter: FC = () => {
 								</>
 							)}
 						</Switch>
-					</Content>
+					</div>
 				</Router>
 			)}
-		</Wrapper>
+		</div>
 	);
 };
 
