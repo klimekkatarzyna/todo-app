@@ -1,10 +1,12 @@
-import { FC } from 'react';
+import { FC, useCallback, useContext } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { COLOURS } from '../constants';
 import { returnsFirstChar, splitChar } from '../utils/utilsFunctions';
 import { Button } from './Button/Button';
-import { useAuthorization } from '../hooks/useAuthorization';
+import { AuthContext, AuthContextType } from '../AuthProvider';
+import { logoutUserAction } from '../actions/user';
+import { useMutation } from 'react-query';
 
 const HraderWrapper = styled.div`
 	padding: 0.5rem 1rem;
@@ -37,8 +39,20 @@ interface IHeader {
 }
 
 export const Header: FC<IHeader> = ({ userName }) => {
-	const { logoutUser } = useAuthorization();
 	const [firstChar, secChar] = splitChar(userName);
+	const history = useHistory();
+	const { setAuthData } = useContext<AuthContextType>(AuthContext);
+
+	const { mutate, isLoading } = useMutation(logoutUserAction);
+	const logoutUser = useCallback(async () => {
+		try {
+			await mutate();
+			setAuthData(undefined);
+			history.push('/login');
+		} catch (error) {
+			console.error(error);
+		}
+	}, []);
 
 	return (
 		<HraderWrapper>
@@ -47,7 +61,7 @@ export const Header: FC<IHeader> = ({ userName }) => {
 				<Name>
 					{returnsFirstChar(firstChar)} {returnsFirstChar(secChar)}
 				</Name>
-				<Button outline onClick={logoutUser}>
+				<Button outline onClick={logoutUser} isLoading={isLoading}>
 					Logout
 				</Button>
 			</DropdownWrapper>

@@ -1,9 +1,9 @@
 export interface IUserData {
-  username: string;
+  username?: string;
   email: string;
   password: string;
-  _id: string;
-  createdAt: number;
+  _id?: string;
+  createdAt?: number;
 }
 
 // ---------------- task ------------------

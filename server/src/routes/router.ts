@@ -11,7 +11,7 @@ router.post('/register', validateBody<RegisterValidationType>(registerValidation
 	try {
 		const user = await User.findOne({ email: req.body.email });
 
-		if (user) return res.status(403).send('User already exist');
+		if (user) return res.status(403).json({ error: 'User already exist' });
 
 		if (!Object.keys(user || []).length) {
 			const user = new User({
@@ -21,7 +21,7 @@ router.post('/register', validateBody<RegisterValidationType>(registerValidation
 				id: req.body._id,
 				createdAt: Date.now(),
 			});
-			const token = signJwt(user?._id.toString());
+			const token = signJwt(user?._id?.toString());
 			setTokenCookie(res, token);
 
 			if (!token) return res.status(403).send('Unauthorized');
@@ -36,6 +36,7 @@ router.post('/register', validateBody<RegisterValidationType>(registerValidation
 				},
 				message: `registered user with email ${req.body.email}`,
 				status: 200,
+				isSuccess: true,
 			});
 		}
 	} catch (err: unknown) {

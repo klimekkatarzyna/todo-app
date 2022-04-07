@@ -6,10 +6,6 @@ const types_1 = require("../types");
 exports.listIdRequiredSchema = (0, yup_1.object)({
     _id: (0, yup_1.string)().required(),
 });
-// export const removeMemberFromListSchema = object({
-//   _id: string().required() || undefined,
-//   member: array().of(string()).required() || undefined,
-// });
 exports.removeMemberFromListSchema = (0, yup_1.object)({
     _id: (0, yup_1.string)().required() || undefined,
     member: (0, yup_1.string)().required() || undefined,
