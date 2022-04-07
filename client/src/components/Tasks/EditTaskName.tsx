@@ -23,7 +23,7 @@ export const EditTaskName: FC<IEditTaskNameProps> = ({ taskData }) => {
 	});
 
 	const initialValues: ITask = { title: taskData?.title };
-	console.log({ taskData });
+
 	const onSubmit = useCallback(
 		async (values: CreateEditTaskType, { resetForm }) => {
 			if (isStringContainsWhitespace(values.title)) return;

@@ -1,22 +1,22 @@
 import React, { FC, useCallback, useContext, useEffect, useState } from 'react';
 import { ContextualMenuContext } from '../../ContextualMenuProvider';
 import { ContextualMenuOpion } from '../../enums';
-// import { handleResertInput } from '../../utils/utilsFunctions';
-import { Input } from '../Input/Input';
-import { useGroup } from '../../hooks/useGroup';
 import { useMutation, useQueryClient } from 'react-query';
 import { editGroup } from '../../actions/groups';
+import { Input } from '../../formik/Input';
+import { Formik, Form } from 'formik';
+import { isStringContainsWhitespace } from '../../utils/utilsFunctions';
+import { ErrorMessageComponent } from '../../formik/ErrorMessageComponent';
+import { createEditGroupSchema, CreateEditGroupType, IGroup } from '@kkrawczyk/todo-common';
 
 interface IEditGroupProps {
-	title: string;
-	groupId: string;
+	title: string | undefined;
+	groupId: string | undefined;
 }
 
 export const EditGroup: FC<IEditGroupProps> = ({ title, groupId }) => {
 	const query = useQueryClient();
-
 	const [isInputVisible, setIsInputVisible] = useState(false);
-	const { groupName, handleChange, setGroupName } = useGroup();
 	const { contextualMenu } = useContext(ContextualMenuContext);
 
 	const { mutate, error, isLoading } = useMutation(editGroup, {
@@ -25,15 +25,14 @@ export const EditGroup: FC<IEditGroupProps> = ({ title, groupId }) => {
 		},
 	});
 
-	const onSubmit = useCallback(
-		async (event: React.SyntheticEvent): Promise<void> => {
-			event.preventDefault();
-			await mutate({ _id: groupId, title: groupName });
-			setIsInputVisible(false);
-			// handleResertInput(setGroupName);
-		},
-		[groupName]
-	);
+	const initialValues: IGroup = { title: title };
+
+	const onSubmit = useCallback(async (values: CreateEditGroupType, { resetForm }) => {
+		if (isStringContainsWhitespace(values.title)) return;
+		await mutate({ _id: groupId, title: values.title });
+		resetForm();
+		setIsInputVisible(false);
+	}, []);
 
 	useEffect(() => {
 		setIsInputVisible(contextualMenu?.type === ContextualMenuOpion.edit_group_name && contextualMenu?.elementId === groupId);
@@ -42,9 +41,20 @@ export const EditGroup: FC<IEditGroupProps> = ({ title, groupId }) => {
 	return (
 		<div>
 			{isInputVisible ? (
-				<form onSubmit={onSubmit}>
-					<Input name='groupName' value={groupName} onChange={handleChange} autoFocus />
-				</form>
+				<div className='relative'>
+					<Formik
+						initialValues={initialValues as CreateEditGroupType}
+						enableReinitialize
+						validationSchema={createEditGroupSchema}
+						onSubmit={onSubmit}>
+						{({ errors, touched, ...props }) => (
+							<Form>
+								<Input name='title' placeholder={'Grupa bez nazwy'} isIcon {...props} isLoading={isLoading} autoFocus />
+								{errors.title && touched.title ? <ErrorMessageComponent name='title' /> : null}
+							</Form>
+						)}
+					</Formik>
+				</div>
 			) : (
 				<p>{title}</p>
 			)}

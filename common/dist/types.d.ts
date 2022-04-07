@@ -55,9 +55,9 @@ export interface IList {
     userId?: string;
 }
 export interface IGroup {
-    title: string;
+    title?: string;
     themeColor?: AppColorType;
-    _id: string;
-    createdAt?: string;
-    userId?: string | undefined;
+    _id?: string;
+    createdAt?: Date;
+    userId?: string;
 }

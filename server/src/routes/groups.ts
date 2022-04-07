@@ -1,10 +1,12 @@
+import { createEditGroupSchema, CreateEditGroupType } from '@kkrawczyk/todo-common';
 import express, { Request, Response } from 'express';
 import { Group } from '../models/group';
 import { getSessionUserId } from '../utils/auth';
+import { validateBody } from '../utils/validation';
 
 const groups = express.Router();
 
-groups.post('/createGroup', async (req: Request, res: Response) => {
+groups.post('/createGroup', validateBody<CreateEditGroupType>(createEditGroupSchema), async (req: Request, res: Response) => {
 	const userId = getSessionUserId(req);
 
 	const newGroup = new Group({
@@ -35,12 +37,10 @@ groups.post('/createGroup', async (req: Request, res: Response) => {
 groups.get('/getGroups', async (req: Request, res: Response) => {
 	const userId = getSessionUserId(req);
 
-	const group = await Group.find({ userId });
+	const groups = await Group.find({ userId });
 	try {
 		res.status(200).json({
-			body: {
-				groups: group,
-			},
+			body: groups,
 		});
 	} catch (err) {
 		res.status(500).json({
@@ -50,12 +50,10 @@ groups.get('/getGroups', async (req: Request, res: Response) => {
 });
 
 groups.delete('/removeGroup', async (req: Request, res: Response) => {
-	const group = await Group.deleteOne({ _id: req.body.groupId });
+	const group = await Group.deleteOne({ _id: req.body._id });
 	try {
 		res.status(200).json({
-			body: {
-				groups: group,
-			},
+			body: group,
 		});
 	} catch (err) {
 		res.status(500).json({
@@ -64,8 +62,8 @@ groups.delete('/removeGroup', async (req: Request, res: Response) => {
 	}
 });
 
-groups.patch('/editGroup', async (req: Request, res: Response) => {
-	await Group.updateOne({ _id: req.body.groupId }, { $set: { title: req.body.title } });
+groups.patch('/editGroup', validateBody<CreateEditGroupType>(createEditGroupSchema), async (req: Request, res: Response) => {
+	await Group.updateOne({ _id: req.body._id }, { $set: { title: req.body.title } });
 	try {
 		res.status(200).json({
 			message: `status changed successfully to ${req.body.title}`,

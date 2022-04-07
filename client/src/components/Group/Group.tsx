@@ -35,7 +35,7 @@ export const Group: FC<IGroupProps> = ({ group, isNavClosed }) => {
 
 	return (
 		<div ref={elementeReference}>
-			<ContextMenuTrigger id={group._id}>
+			<ContextMenuTrigger id={group._id as string}>
 				<Wrapper onClick={toggleDropdown} isNavClosed={isNavClosed}>
 					<IconWrapper color='grey'>
 						<Folder />

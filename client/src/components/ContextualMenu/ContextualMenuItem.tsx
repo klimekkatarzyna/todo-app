@@ -24,7 +24,7 @@ const Item = styled(MenuItem)`
 
 interface IContextualMenuItem {
 	listItem: IContextualMenu;
-	elementId: string;
+	elementId: string | undefined;
 }
 
 export const ContextualMenuItem: FC<IContextualMenuItem> = ({ listItem, elementId }) => {

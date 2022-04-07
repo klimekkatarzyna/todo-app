@@ -1,4 +1,4 @@
-import React, { FC, useContext } from 'react';
+import { FC, useCallback, useContext } from 'react';
 import { ContextualMenuOpion } from '../../enums';
 import { IGroup } from '@kkrawczyk/todo-common';
 import { Modal } from '../Modal/Modal';
@@ -6,8 +6,8 @@ import { Group } from './Group';
 import { ModalVisibilityContext } from '../../ModalVisibilityProvider';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { deleteGroup, getGroups } from '../../actions/groups';
-import { HttpResponse } from '../../utils/http';
-import { IGroupsResponse } from '../../interfaces/group';
+import { Loader } from '../Loader/Loader';
+import { ContextualMenuContext } from '../../ContextualMenuProvider';
 
 interface IGroupsProps {
 	isNavClosed: boolean;
@@ -16,23 +16,29 @@ interface IGroupsProps {
 export const Groups: FC<IGroupsProps> = ({ isNavClosed }) => {
 	const query = useQueryClient();
 	const { isVisible } = useContext(ModalVisibilityContext);
+	const { contextualMenu } = useContext(ContextualMenuContext);
 
-	const { isLoading: getGroupsLoading, data } = useQuery<HttpResponse<IGroupsResponse> | undefined>('groups', getGroups, {
+	const { isLoading: getGroupsLoading, data } = useQuery<IGroup[] | undefined>('groups', getGroups, {
 		useErrorBoundary: true,
 	});
 
-	const { mutate, error, isLoading } = useMutation(deleteGroup, {
+	const { mutate, error } = useMutation(deleteGroup, {
 		onSuccess: () => {
 			query.invalidateQueries(['groups']);
 		},
 	});
 
+	const onRemoveGroup = useCallback(() => {
+		mutate({ _id: contextualMenu?.elementId });
+	}, [contextualMenu]);
+
 	return (
 		<div>
-			{data?.body?.groups?.map((group: IGroup) => (
+			{getGroupsLoading && <Loader />}
+			{data?.map(group => (
 				<Group key={group?._id} group={group} isNavClosed={isNavClosed} />
 			))}
-			{isVisible && <Modal title='Czy chcesz usunąć grupę?' onHandleAction={mutate} contextualType={ContextualMenuOpion.remove_group} />}
+			{isVisible && <Modal title='Czy chcesz usunąć grupę?' onHandleAction={onRemoveGroup} contextualType={ContextualMenuOpion.remove_group} />}
 		</div>
 	);
 };

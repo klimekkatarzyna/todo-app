@@ -1,14 +1,16 @@
 import React, { FC, useCallback } from 'react';
 import styled from 'styled-components';
 import { useDropdown } from '../../hooks/useDropdown';
-// import { handleResertInput } from '../../utils/utilsFunctions';
-import { Input } from '../Input/Input';
 import { IconButton } from './IconButton';
-import { useGroup } from '../../hooks/useGroup';
 import { Folder } from '@styled-icons/feather/Folder';
 import { IconWrapper } from '../../constants';
 import { useMutation, useQueryClient } from 'react-query';
 import { createGroup } from '../../actions/groups';
+import { Input } from '../../formik/Input';
+import { Formik, Form } from 'formik';
+import { isStringContainsWhitespace } from '../../utils/utilsFunctions';
+import { ErrorMessageComponent } from '../../formik/ErrorMessageComponent';
+import { createEditGroupSchema, CreateEditGroupType, IGroup } from '@kkrawczyk/todo-common';
 
 const InputWrapper = styled.div`
 	position: absolute;
@@ -31,7 +33,8 @@ const InputWrapper = styled.div`
 export const CreateGroup: FC = () => {
 	const query = useQueryClient();
 	const { elementeReference, toggleDropdown, dropdownOpen } = useDropdown();
-	const { groupName, handleChange, setGroupName } = useGroup();
+
+	const initialValues: IGroup = { title: '' };
 
 	const { mutate, error, isLoading } = useMutation(createGroup, {
 		onSuccess: () => {
@@ -39,16 +42,12 @@ export const CreateGroup: FC = () => {
 		},
 	});
 
-	const onSubmit = useCallback(
-		async (event: React.SyntheticEvent): Promise<void> => {
-			event.preventDefault();
-
-			await mutate(groupName);
-			// handleResertInput(setGroupName);
-			toggleDropdown();
-		},
-		[groupName]
-	);
+	const onSubmit = useCallback(async (values: CreateEditGroupType, { resetForm }) => {
+		if (isStringContainsWhitespace(values.title)) return;
+		await mutate({ title: values.title });
+		resetForm();
+		toggleDropdown();
+	}, []);
 
 	return (
 		<div ref={elementeReference}>
@@ -58,9 +57,16 @@ export const CreateGroup: FC = () => {
 					<IconWrapper color='grey'>
 						<Folder />
 					</IconWrapper>
-					<form onSubmit={onSubmit}>
-						<Input name='groupName' placeholder='Grupa bez nazwy' value={groupName} onChange={handleChange} autoFocus />
-					</form>
+					<div className='relative'>
+						<Formik initialValues={initialValues as CreateEditGroupType} validationSchema={createEditGroupSchema} onSubmit={onSubmit}>
+							{({ errors, touched, ...props }) => (
+								<Form>
+									<Input name='title' placeholder={'Grupa bez nazwy'} isIcon {...props} isLoading={isLoading} autoFocus />
+									{errors.title && touched.title ? <ErrorMessageComponent name='title' /> : null}
+								</Form>
+							)}
+						</Formik>
+					</div>
 				</InputWrapper>
 			)}
 		</div>
