@@ -31,6 +31,7 @@ export const AuthProvider: FC<IAuthProvider> = ({ children }) => {
 		(async () => {
 			const response = await checkSession();
 			setAuthData(response?.body?.user);
+			if (!response) return;
 			setSessionChecked(true);
 		})();
 	}, []);

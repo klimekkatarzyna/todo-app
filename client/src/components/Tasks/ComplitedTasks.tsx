@@ -1,16 +1,8 @@
 import { FC, memo } from 'react';
-import styled from 'styled-components';
 import { TaskItem } from './TaskItem/TaskItem';
-import { COLOURS } from '../../constants';
 import { Accordion } from '../Accordion/Accordion';
 import { useDragAndDrop } from '../../hooks/useDragAndDrop';
 import { useTasks } from '../../hooks/useTasks';
-
-const TasksNumber = styled.span`
-	margin-left: 1rem;
-	font-size: 1rem;
-	color: ${COLOURS.darkerGrey};
-`;
 
 const ComplitedTasksComponent: FC = () => {
 	const { completedTaskslist, setComplitedTasksList, onChangeTaskStatus, changeTaskImportanceMutation } = useTasks();
@@ -20,7 +12,7 @@ const ComplitedTasksComponent: FC = () => {
 	return (
 		<>
 			{!!completedTaskslist?.length && (
-				<Accordion title={'Wykonane'} details={<TasksNumber>{completedTaskslist?.length}</TasksNumber>}>
+				<Accordion title={'Wykonane'} details={<span className='ml-1 text-base text-darkerGrey'>{completedTaskslist?.length}</span>}>
 					{completedTaskslist?.map((task, index) => (
 						<TaskItem
 							key={task._id}
