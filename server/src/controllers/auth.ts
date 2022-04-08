@@ -1,13 +1,9 @@
-import express, { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { User } from '../models/user';
-import { signJwt, setTokenCookie, passwordHash, deleteTokenCookie, getSessionUserId, authorization } from '../utils/auth';
-import { registerValidationSchema, RegisterValidationType, loginValidationSchema, LoginValidationType } from '@kkrawczyk/todo-common';
-import { validateBody } from '../utils/validation';
+import { signJwt, setTokenCookie, passwordHash, deleteTokenCookie, getSessionUserId } from '../utils/auth';
 import bcrypt from 'bcryptjs';
 
-const router = express.Router();
-
-router.post('/register', validateBody<RegisterValidationType>(registerValidationSchema), async (req: Request, res: Response, next: NextFunction) => {
+export const register = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const user = await User.findOne({ email: req.body.email });
 
@@ -45,9 +41,9 @@ router.post('/register', validateBody<RegisterValidationType>(registerValidation
 			errorMessage: `registration failed`,
 		});
 	}
-});
+};
 
-router.post('/login', validateBody<LoginValidationType>(loginValidationSchema), async (req: Request, res: Response) => {
+export const login = async (req: Request, res: Response) => {
 	try {
 		const user = await User.findOne({ email: req.body.email });
 		if (!user) return res.status(403).json({ error: 'Wrong credentials' });
@@ -76,9 +72,9 @@ router.post('/login', validateBody<LoginValidationType>(loginValidationSchema), 
 			err,
 		});
 	}
-});
+};
 
-router.get('/me', authorization, async (req: Request, res: Response) => {
+export const checkSession = async (req: Request, res: Response) => {
 	try {
 		const userId = getSessionUserId(req);
 		const user = await User.findById(userId);
@@ -98,9 +94,9 @@ router.get('/me', authorization, async (req: Request, res: Response) => {
 			errorMessage: 'unsuccesful log in',
 		});
 	}
-});
+};
 
-router.post('/logout', async (req: Request, res: Response) => {
+export const logout = async (req: Request, res: Response) => {
 	try {
 		deleteTokenCookie(req, res);
 		res.status(200).json({ message: 'User logout' });
@@ -109,6 +105,4 @@ router.post('/logout', async (req: Request, res: Response) => {
 			message: 'something went wrong',
 		});
 	}
-});
-
-export default router;
+};

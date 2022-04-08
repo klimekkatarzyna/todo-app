@@ -1,7 +1,7 @@
 import express, { RequestHandler } from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import router from './routes/router';
+import auth from './routes/auth';
 import lists from './routes/lists';
 import tasks from './routes/tasks';
 import groups from './routes/groups';
@@ -51,7 +51,7 @@ app.listen(process.env.PORT, () => {
 	console.log(`server started on port ${process.env.PORT}, Hello World  🤘`);
 });
 
-app.use('/api', router);
+app.use('/api', auth);
 app.use('/api', lists);
 app.use('/api', tasks);
 app.use('/api', groups);
