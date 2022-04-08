@@ -57,8 +57,13 @@ export const getLists = async (req: Request, res: Response) => {
 	try {
 		const ownLists = await List.find({ userId });
 		const membersLists = await List.find({ $and: [{ members: userId }] });
+		const lists = [...new Set([...ownLists, ...membersLists])];
+
+		if (!lists) {
+			res.status(404).json('There are no lists created yet!');
+		}
 		res.status(200).json({
-			body: [...new Set([...ownLists, ...membersLists])],
+			body: lists,
 		});
 	} catch (error) {
 		res.status(500).json({

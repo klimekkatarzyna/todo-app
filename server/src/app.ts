@@ -5,7 +5,6 @@ import router from './routes/router';
 import lists from './routes/lists';
 import tasks from './routes/tasks';
 import groups from './routes/groups';
-import mainTasks from './routes/mainTasks';
 import { connect } from 'mongoose';
 import cookieParser from 'cookie-parser';
 import { Server } from 'socket.io';
@@ -55,7 +54,6 @@ app.listen(process.env.PORT, () => {
 app.use('/api', router);
 app.use('/api', lists);
 app.use('/api', tasks);
-app.use('/api', mainTasks);
 app.use('/api', groups);
 /* */
 
