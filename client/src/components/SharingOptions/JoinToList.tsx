@@ -17,8 +17,8 @@ export const JoinToList: FC<IJoinToList> = ({ listDataLoading, list }) => {
 
 	const addUserToMemberOfList = useCallback(() => {
 		addUserToMemberOfListMutation(getStringAfterCharacter(history.location.search));
-		history.push('/tasks');
-	}, []);
+		history.push(`/tasks/${list?.listData._id}`);
+	}, [list]);
 
 	return (
 		<>
