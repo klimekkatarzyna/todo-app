@@ -129,7 +129,11 @@ export const addInvitationTokenToList = async (req: Request, res: Response) => {
 export const getListDatatoShare = async (req: Request, res: Response) => {
 	try {
 		const listData = await List.findOne({ invitationToken: req.params.invitationToken });
-		res.json({ body: listData });
+		const userId = getSessionUserId(req);
+		const membersList = listData?.members;
+		const isMemberAddedToList = membersList?.find(member => member === userId) === userId;
+
+		res.json({ body: { isMemberAddedToList, listData } });
 	} catch (err) {
 		res.status(500).json({
 			err,
@@ -140,18 +144,15 @@ export const getListDatatoShare = async (req: Request, res: Response) => {
 export const addUserToMemberOfList = async (req: Request, res: Response) => {
 	// fix duplicates in members array
 	const userId = getSessionUserId(req);
-	const user = await User.findOne({ _d: userId });
 
-	console.log({ user });
-
-	// try {
-	// 	await List.findOneAndUpdate({ invitationToken: req.body.invitationToken }, { $push: { members: userId } });
-	// 	res.status(200).json({ message: 'user has been added to the list' });
-	// } catch (err) {
-	// 	res.status(500).json({
-	// 		err,
-	// 	});
-	// }
+	try {
+		await List.findOneAndUpdate({ invitationToken: req.body.invitationToken }, { $push: { members: userId } });
+		res.status(200).json({ message: 'user has been added to the list' });
+	} catch (err) {
+		res.status(500).json({
+			err,
+		});
+	}
 };
 
 export const removeMemberFromList = async (req: Request, res: Response) => {
