@@ -3,19 +3,13 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { COLOURS, contextualMenuSecountOpion, contextualMenuSecountOpionMembers, IconWrapper } from '../../constants';
 import { IList, ITask } from '@kkrawczyk/todo-common';
-import { Sun } from '@styled-icons/feather/Sun';
-import { Star } from '@styled-icons/feather/Star';
-import { List } from '@styled-icons/feather/List';
-import { Calendar } from '@styled-icons/feather/Calendar';
-import { User } from '@styled-icons/feather/User';
-import { Users } from '@styled-icons/feather/Users';
-import { Home } from '@styled-icons/feather/Home';
 import { SideMenuType } from '../../enums';
 import { ContextMenuTrigger } from 'react-contextmenu';
 import { ContextualMenu } from '../ContextualMenu/ContextualMenu';
 import { useSharingData } from '../../hooks/useSharingData';
 import { useQuery } from 'react-query';
 import { getTasksOfCurrentListAction } from '../../actions/tasks';
+import { Sun, Star, List, Calendar, User, Users, Home } from 'react-feather';
 
 const LinkStyled = styled(Link)`
 	text-decoration: none;
@@ -59,11 +53,11 @@ interface IMenuListItem {
 const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed }) => {
 	const icon = useMemo(
 		() =>
-			(listItem.url === SideMenuType.myDay && <Sun />) ||
-			(listItem.url === SideMenuType.important && <Star />) ||
-			(listItem.url === SideMenuType.planned && <Calendar />) ||
-			(listItem.url === SideMenuType.assigned && <User />) ||
-			(listItem.url === SideMenuType.inbox && <Home />),
+			(listItem.url === SideMenuType.myDay && <Sun stroke-width={1} />) ||
+			(listItem.url === SideMenuType.important && <Star stroke-width={1} />) ||
+			(listItem.url === SideMenuType.planned && <Calendar stroke-width={1} />) ||
+			(listItem.url === SideMenuType.assigned && <User stroke-width={1} />) ||
+			(listItem.url === SideMenuType.inbox && <Home stroke-width={1} />),
 		[listItem]
 	);
 	const { isOwner } = useSharingData(listItem?.userId);
@@ -74,9 +68,9 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed }) => 
 	return (
 		<LinkStyled to={listItem?.isMainList ? `${listItem?.url}` : `/tasks/${listItem?._id}`}>
 			<ContextMenuTrigger id={listItem?._id || ''}>
-				<IconWrapper color={listItem?.themeColor || COLOURS.blue}>{icon || <List />}</IconWrapper>
+				<IconWrapper color={listItem?.themeColor || COLOURS.blue}>{icon || <List stroke-width={1} />}</IconWrapper>
 				<Name isNavClosed={isNavClosed}>{listItem?.title}</Name>
-				{!!listItem.members?.length && <Users />}
+				{!!listItem.members?.length && <Users stroke-width={1} />}
 				{!!data?.length && <TasksNumber isNavClosed={isNavClosed}>{data?.length}</TasksNumber>}
 			</ContextMenuTrigger>
 			<ContextualMenu

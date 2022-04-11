@@ -1,6 +1,6 @@
 import React, { FC, useMemo } from 'react';
 import styled from 'styled-components';
-import { Star } from '@styled-icons/feather/Star';
+import { Star } from 'react-feather';
 import { COLOURS, IconWrapper } from '../../constants';
 import { Tooltip } from '../Tooltip/Tooltip';
 
@@ -29,7 +29,7 @@ export const ImportanceButton: FC<IImportanceButton> = ({ isChecked, onClick }) 
 				<IconWrapper
 					color={COLOURS.blue} // TODO: theme color
 					isChecked={isChecked}>
-					<Star />
+					<Star stroke-width={1} />
 				</IconWrapper>
 			</Tooltip>
 		</ImportanceButtonWrapper>

@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { Button } from '../Button/Button';
-import { Loader } from '../Loader/Loader';
 
 interface IGenerateTokenViewProps {
 	isLoading: boolean;
@@ -14,9 +13,8 @@ export const GenerateTokenView: FC<IGenerateTokenViewProps> = ({ isLoading, onGe
 				<strong>Udostępnij listę</strong>
 			</h2>
 			<p>Zaproś inne osoby. Gdy dołączą zostaną tutaj zaproszone.</p>
-			<Button primary onClick={onGenerateInvitationToken}>
+			<Button primary onClick={onGenerateInvitationToken} isLoading={isLoading}>
 				{'Utwórz link zaproszenia'}
-				{isLoading && <Loader />}
 			</Button>
 		</div>
 	);

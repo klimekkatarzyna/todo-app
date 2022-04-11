@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import styled, { css } from 'styled-components';
 import { COLOURS } from '../../constants';
-import { Loader } from '../Loader/Loader';
+import { Loader } from 'react-feather';
 
 interface IButtonProps {
 	primary?: boolean;
@@ -93,7 +93,7 @@ export const Button: FC<IButton> = ({ primary, children, type = 'submit', second
 				margin={margin}
 				onClick={onClick}>
 				{children}
-				{isLoading && <Loader />}
+				{isLoading && <Loader className='ml-2' />}
 			</ButtonStyled>
 		</>
 	);

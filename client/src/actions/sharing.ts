@@ -15,6 +15,11 @@ export const getListByIdAction = async ({ _id }: IList) => {
 	return response.body;
 };
 
+export const getListDatatoShareAction = async ({ invitationToken }: IList) => {
+	const response = await http<IList | undefined>(`${api.getListDatatoShare}/${invitationToken}`, 'GET');
+	return response.body;
+};
+
 export const addUserToMemberOfListAction = async (invitationToken: string) =>
 	await http(api.addUserToMemberOfList, 'PATCH', {
 		invitationToken,

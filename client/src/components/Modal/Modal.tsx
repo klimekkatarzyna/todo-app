@@ -11,9 +11,10 @@ interface IModalNEWProps<T> {
 	contextualType: ContextualMenuOpion;
 	onHandleAction: any;
 	isActionButtonHidden?: boolean;
+	isLoading?: boolean;
 }
 
-export const Modal: FC<IModalNEWProps<unknown>> = ({ children, title, contextualType, onHandleAction, isActionButtonHidden = false }) => {
+export const Modal: FC<IModalNEWProps<unknown>> = ({ children, title, contextualType, onHandleAction, isActionButtonHidden = false, isLoading }) => {
 	const { contextualMenu } = useContext(ContextualMenuContext);
 	const { onHide, isVisible } = useContext(ModalVisibilityContext);
 
@@ -58,7 +59,7 @@ export const Modal: FC<IModalNEWProps<unknown>> = ({ children, title, contextual
 				{!isActionButtonHidden && (
 					<div className='flex mt-4'>
 						<Button onClick={onHide}>{'Anuluj'}</Button>
-						<Button type='button' secondary onClick={onHandleActionAndClose}>
+						<Button type='button' secondary onClick={onHandleActionAndClose} isLoading={isLoading}>
 							{'Usuń'}
 						</Button>
 					</div>

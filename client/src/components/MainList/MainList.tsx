@@ -1,6 +1,6 @@
 import { FC, useCallback, memo } from 'react';
 import { MenuListItem } from '../MenuListItem/MenuListItem';
-import { Loader } from '../Loader/Loader';
+import { Loader } from 'react-feather';
 import { http, HttpResponse } from '../../utils/http';
 import * as api from '../../services';
 import { useQuery } from 'react-query';
@@ -22,7 +22,7 @@ const MainListComponent: FC<IMainList> = ({ isNavClosed }) => {
 	return (
 		<div className='flex flex-col mb-8'>
 			{mainListLoading ? (
-				<Loader />
+				<Loader className='m-auto' />
 			) : (
 				mainList?.body?.mainLists?.map((listItem: IList) => (
 					<MenuListItem key={listItem?._id} listItem={listItem} isNavClosed={isNavClosed} />

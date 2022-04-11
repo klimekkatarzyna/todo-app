@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { List } from '../models/list';
+import { User } from '../models/user';
 import MainList from '../models/mainList';
 import { getSessionUserId } from '../utils/auth';
 
@@ -125,17 +126,32 @@ export const addInvitationTokenToList = async (req: Request, res: Response) => {
 	}
 };
 
-export const addUserToMemberOfList = async (req: Request, res: Response) => {
-	// fix duplicates in members array
-	const userId = getSessionUserId(req);
+export const getListDatatoShare = async (req: Request, res: Response) => {
 	try {
-		await List.findOneAndUpdate({ invitationToken: req.body.invitationToken }, { $push: { members: userId } });
-		res.status(200).json({ message: 'user has been added to the list' });
+		const listData = await List.findOne({ invitationToken: req.params.invitationToken });
+		res.json({ body: listData });
 	} catch (err) {
 		res.status(500).json({
 			err,
 		});
 	}
+};
+
+export const addUserToMemberOfList = async (req: Request, res: Response) => {
+	// fix duplicates in members array
+	const userId = getSessionUserId(req);
+	const user = await User.findOne({ _d: userId });
+
+	console.log({ user });
+
+	// try {
+	// 	await List.findOneAndUpdate({ invitationToken: req.body.invitationToken }, { $push: { members: userId } });
+	// 	res.status(200).json({ message: 'user has been added to the list' });
+	// } catch (err) {
+	// 	res.status(500).json({
+	// 		err,
+	// 	});
+	// }
 };
 
 export const removeMemberFromList = async (req: Request, res: Response) => {

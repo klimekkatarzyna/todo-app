@@ -42,6 +42,7 @@ export const addInvitationTokenToList = `${process.env.REACT_APP_API_LOCAL_HOST}
 export const addUserToMemberOfList = `${process.env.REACT_APP_API_LOCAL_HOST}/api/addUserToMemberOfList`;
 export const removeMemberFromList = `${process.env.REACT_APP_API_LOCAL_HOST}/api/removeMemberFromList`;
 export const removeInvitation = `${process.env.REACT_APP_API_LOCAL_HOST}/api/removeInvitation`;
+export const getListDatatoShare = `${process.env.REACT_APP_API_LOCAL_HOST}/api/getListDatatoShare`;
 
 // importance tasks
 export const getImportanceTasks = `${process.env.REACT_APP_API_LOCAL_HOST}/api/getImportanceTasks`;

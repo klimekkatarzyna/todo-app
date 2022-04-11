@@ -2,20 +2,12 @@ import { FC, useCallback, useContext } from 'react';
 import styled from 'styled-components';
 import { COLOURS, IconWrapper } from '../../constants';
 import { getDay, getDayName, getMonth, parseUTCtoDate } from '../../utils/date';
-import { Loader } from '../Loader/Loader';
 import { TaskDetails } from './TaskDetails';
-import { Sun } from '@styled-icons/feather/Sun';
-import { Bell } from '@styled-icons/feather/Bell';
-import { Calendar } from '@styled-icons/feather/Calendar';
-import { Repeat } from '@styled-icons/feather/Repeat';
-import { UserPlus } from '@styled-icons/feather/UserPlus';
-import { FilePlus } from '@styled-icons/feather/FilePlus';
-import { Trash2 } from '@styled-icons/feather/Trash2';
-import { XSquare } from '@styled-icons/feather/XSquare';
 import { addTaskToMyDayAction } from '../../actions/tasks';
 import { useTasks } from '../../hooks/useTasks';
 import { ElementVisibilityContext } from '../../providers/ElementVisibilityProvider';
 import { ITask, ITaskStatus } from '@kkrawczyk/todo-common';
+import { Loader, Sun, Bell, Calendar, Repeat, UserPlus, FilePlus, Trash2, XSquare } from 'react-feather';
 
 const TaskSidebarDetailsContainer = styled.div`
 	background-color: ${COLOURS.lightGrey};
@@ -85,7 +77,7 @@ export const TaskSidebarDetails: FC = () => {
 	return (
 		<TaskSidebarDetailsContainer>
 			{taskDataLoading ? (
-				<Loader />
+				<Loader className='m-auto' />
 			) : (
 				<TaskDetailsWrapper>
 					<Container flexRow margin>
@@ -101,7 +93,7 @@ export const TaskSidebarDetails: FC = () => {
 					<Container margin>
 						<Section onClick={addTaskToMyDayView}>
 							<IconWrapper color='grey'>
-								<Sun />
+								<Sun stroke-width={1} />
 							</IconWrapper>
 						</Section>
 					</Container>
@@ -109,7 +101,7 @@ export const TaskSidebarDetails: FC = () => {
 					<Container>
 						<Section>
 							<IconWrapper color='grey'>
-								<Bell />
+								<Bell stroke-width={1} />
 							</IconWrapper>
 							{'Przypomnij'}
 						</Section>
@@ -117,7 +109,7 @@ export const TaskSidebarDetails: FC = () => {
 					<Container>
 						<Section>
 							<IconWrapper color='grey'>
-								<Calendar />
+								<Calendar stroke-width={1} />
 							</IconWrapper>
 							{'Dodaj termin wykonania'}
 						</Section>
@@ -125,7 +117,7 @@ export const TaskSidebarDetails: FC = () => {
 					<Container margin>
 						<Section>
 							<IconWrapper color='grey'>
-								<Repeat />
+								<Repeat stroke-width={1} />
 							</IconWrapper>
 							{'Powtórz'}
 						</Section>
@@ -134,7 +126,7 @@ export const TaskSidebarDetails: FC = () => {
 					<Container margin>
 						<Section>
 							<IconWrapper color='grey'>
-								<UserPlus />
+								<UserPlus stroke-width={1} />
 							</IconWrapper>
 							{'Przydziel do'}
 						</Section>
@@ -147,7 +139,7 @@ export const TaskSidebarDetails: FC = () => {
 					<Container margin>
 						<Section>
 							<IconWrapper color='grey'>
-								<FilePlus />
+								<FilePlus stroke-width={1} />
 							</IconWrapper>
 							{'Dodaj plik'}
 						</Section>
@@ -160,7 +152,7 @@ export const TaskSidebarDetails: FC = () => {
 					<Footer>
 						<button onClick={onClose}>
 							<IconWrapper color='grey'>
-								<XSquare />
+								<XSquare stroke-width={1} />
 							</IconWrapper>
 						</button>
 						{`Utworzone ${getDayName(parseUTCtoDate(taskData?.createdAt || ''))}, ${getDay(
@@ -168,7 +160,7 @@ export const TaskSidebarDetails: FC = () => {
 						)} ${getMonth(parseUTCtoDate(taskData?.createdAt || ''))}`}
 						<button onClick={handleClick}>
 							<IconWrapper color='grey'>
-								<Trash2 />
+								<Trash2 stroke-width={1} />
 							</IconWrapper>
 						</button>
 					</Footer>

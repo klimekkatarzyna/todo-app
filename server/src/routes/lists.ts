@@ -16,6 +16,7 @@ import {
 	addUserToMemberOfList,
 	createList,
 	getList,
+	getListDatatoShare,
 	getLists,
 	getMainList,
 	removeInvitation,
@@ -36,6 +37,8 @@ lists.delete('/removeList', validateBody<ListIdType>(listIdRequiredSchema), remo
 lists.get('/getMainList', getMainList);
 
 lists.patch('/addInvitationTokenToList', validateBody<AddInvitationTokenToListType>(addInvitationTokenToListSchema), addInvitationTokenToList);
+
+lists.get('/getListDatatoShare/:invitationToken', getListDatatoShare);
 
 lists.patch('/addUserToMemberOfList', addUserToMemberOfList);
 

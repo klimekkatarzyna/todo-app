@@ -5,8 +5,8 @@ import { ITask, createEditTaskSchema, CreateEditTaskType } from '@kkrawczyk/todo
 import { Input } from '../../formik/Input';
 import { Formik, Form } from 'formik';
 import { ErrorMessageComponent } from '../../formik/ErrorMessageComponent';
-import { Loader } from '../Loader/Loader';
 import { isStringContainsWhitespace } from '../../utils/utilsFunctions';
+import { Loader } from 'react-feather';
 
 interface IEditTaskNameProps {
 	taskData: ITask;
@@ -42,7 +42,7 @@ export const EditTaskName: FC<IEditTaskNameProps> = ({ taskData }) => {
 				onSubmit={onSubmit}>
 				{({ errors, touched, ...props }) => (
 					<Form>
-						{isLoading ? <Loader /> : <Input name='title' placeholder={'Nowa lista'} {...props} />}
+						{isLoading ? <Loader className='m-auto' /> : <Input name='title' placeholder={'Nowa lista'} {...props} />}
 						{errors.title && touched.title && <ErrorMessageComponent name='title' margin />}
 					</Form>
 				)}

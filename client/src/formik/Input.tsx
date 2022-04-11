@@ -6,7 +6,7 @@ import { InputVersion } from '../enums';
 import { Plus } from '@styled-icons/feather/Plus';
 import { Circle } from '@styled-icons/feather/Circle';
 import { useFocusingHandling } from '../hooks/useMouseHandling';
-import { Loader } from '../components/Loader/Loader';
+import { Loader } from 'react-feather';
 import { InputType } from '../interfaces/app';
 import { useTogglePasswordVisibility } from '../hooks/useTogglePasswordVisibility';
 import { InputEye } from '../components/InputEye/InputEye';

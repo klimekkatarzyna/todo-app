@@ -4,12 +4,12 @@ import { useParams } from 'react-router-dom';
 import { getListByIdAction } from '../actions/lists';
 import { Board } from '../components/Board';
 import { ListSettings } from '../components/ListSettings/ListSettings';
-import { Loader } from '../components/Loader/Loader';
 import { CreateTask } from '../components/Tasks/CreateTask';
 import { TasksList } from '../components/Tasks/Tasks';
 import { Toolbar } from '../components/Toolbar';
 import { IUseParams } from '../interfaces/app';
 import { IList } from '@kkrawczyk/todo-common';
+import { Loader } from 'react-feather';
 
 export const Tasks: FC = () => {
 	const { listId } = useParams<IUseParams>();
@@ -20,7 +20,7 @@ export const Tasks: FC = () => {
 		<Board>
 			<div>
 				{isLoading ? (
-					<Loader />
+					<Loader className='m-auto' />
 				) : (
 					<Toolbar name={data?.title || ''} colorType={data?.themeColor}>
 						<ListSettings />

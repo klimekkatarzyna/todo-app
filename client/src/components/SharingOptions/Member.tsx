@@ -1,9 +1,8 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
 import { COLOURS } from '../../constants';
-import { X } from '@styled-icons/feather';
 import { useMutation, useQueryClient } from 'react-query';
-import { Loader } from '../Loader/Loader';
+import { X, Loader } from 'react-feather';
 import { removeMemberAction } from '../../actions/sharing';
 import { useSharingData } from '../../hooks/useSharingData';
 import { IList } from '@kkrawczyk/todo-common';
@@ -36,12 +35,6 @@ export const Dot = styled.div`
 	}
 `;
 
-const RemoveButton = styled.button`
-	svg {
-		width: 20px;
-	}
-`;
-
 interface IMemberProps {
 	listDataResponse: IList;
 	member: string;
@@ -63,9 +56,9 @@ export const Member: FC<IMemberProps> = ({ listDataResponse, member }) => {
 			<Dot />
 			<p key={member}>{member}</p>
 			{isOwner && (
-				<RemoveButton onClick={() => mutate({ _id: listDataResponse?._id, member })}>
-					<X />
-				</RemoveButton>
+				<button onClick={() => mutate({ _id: listDataResponse?._id, member })}>
+					<X size={20} />
+				</button>
 			)}
 			{isLoading && <Loader />}
 		</Wrapper>

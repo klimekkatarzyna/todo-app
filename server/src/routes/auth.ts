@@ -6,6 +6,11 @@ import { checkSession, login, logout, register } from '../controllers/auth';
 
 const auth = express.Router();
 
+// MVC pattern
+// model => RegisterValidationType
+// view => this file
+// controller => register
+
 auth.post('/register', validateBody<RegisterValidationType>(registerValidationSchema), register);
 
 auth.post('/login', validateBody<LoginValidationType>(loginValidationSchema), login);

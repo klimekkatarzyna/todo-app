@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { ContextMenuTrigger } from 'react-contextmenu';
 import styled from 'styled-components';
-import { Folder } from '@styled-icons/feather/Folder';
+import { Folder } from 'react-feather';
 import { IGroup } from '@kkrawczyk/todo-common';
 import { COLOURS, contextualMenuGroupOpion, IconWrapper } from '../../constants';
 import { GroupedLists } from './GroupedLists';
@@ -38,7 +38,7 @@ export const Group: FC<IGroupProps> = ({ group, isNavClosed }) => {
 			<ContextMenuTrigger id={group._id as string}>
 				<Wrapper onClick={toggleDropdown} isNavClosed={isNavClosed}>
 					<IconWrapper color='grey'>
-						<Folder />
+						<Folder stroke-width={1} />
 					</IconWrapper>
 					<EditGroup title={group.title} groupId={group._id} />
 				</Wrapper>

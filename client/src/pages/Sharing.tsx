@@ -1,17 +1,21 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
-import { AuthContext, AuthContextType } from '../AuthProvider';
 import { Button } from '../components/Button/Button';
-import { useMutation } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { getStringAfterCharacter } from '../utils/utilsFunctions';
-import { Loader } from '../components/Loader/Loader';
-import { addUserToMemberOfListAction } from '../actions/sharing';
+import { addUserToMemberOfListAction, getListDatatoShareAction } from '../actions/sharing';
+import { IList } from '@kkrawczyk/todo-common';
+import { Mail, Loader } from 'react-feather';
 
 export const Sharing = () => {
 	const history = useHistory();
-	const { authData } = useContext<AuthContextType>(AuthContext);
 
 	const { mutate: addUserToMemberOfListMutation, error, isLoading, isSuccess } = useMutation(addUserToMemberOfListAction);
+
+	const invitationTokenUrl = getStringAfterCharacter(sessionStorage.getItem('invitationTokenUrl') || '');
+	const { data, isLoading: listDataLoading } = useQuery<IList | undefined>(['getListDatatoShare', invitationTokenUrl], () =>
+		getListDatatoShareAction({ invitationToken: invitationTokenUrl || '' })
+	);
 
 	const addUserToMemberOfList = useCallback(() => {
 		addUserToMemberOfListMutation(getStringAfterCharacter(history.location.search));
@@ -21,23 +25,18 @@ export const Sharing = () => {
 	return (
 		<div className='absolute top-0 left-0 right-0 w-full h-full bg-white flex items-center justify-center'>
 			<div className='flex items-center justify-center flex-col'>
-				<p>
-					<strong>{`Hej ${authData?.username}!`}</strong>
-				</p>
-				<p>{"Dołącz do listy 'Do zabrania dla synka'"}</p>
-				{/* <p>{'Dołączono już do listy Do zabrania dla synka'}</p> */}
-				{/*TODO: check if user is already invited to the list 
-                - yes => show info about that
-                - no => process of invitation */}
-				{/*TODO: user have account: 
-                - add user to list
-                - redirect to the current one invited list view */}
+				<Mail size={160} color={'#cccccc'} stroke-width={1} />
 
-				{/*TODO: user don't have account: 
-                - redirect to register view */}
+				<h1 className='text-xl font-extralight m-4'>Dołącz do listy</h1>
+
+				<p className='font-extralight'>
+					{listDataLoading ? <Loader className='m-auto' /> : `Użytkownik`} <strong>{data?.owner}</strong> udostępnił Ci listę{' '}
+					<strong>{`${data?.title}`}</strong>
+				</p>
+
 				<Button primary onClick={addUserToMemberOfList}>
-					{'Dołącz'}
-					{isLoading && <Loader />}
+					{'Dołącz do listy'}
+					{isLoading && <Loader className='ml-2' />}
 				</Button>
 			</div>
 		</div>

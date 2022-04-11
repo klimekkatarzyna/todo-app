@@ -13,7 +13,7 @@ import { Header } from './components/Header';
 import { Tasks } from './pages/Tasks';
 import { NotFound } from './pages/NotFound';
 import { AuthContext, AuthContextType } from './AuthProvider';
-import { Loader } from './components/Loader/Loader';
+import { Loader } from 'react-feather';
 import { Sharing } from './pages/Sharing';
 import { Redirect } from './pages/Redirect';
 
@@ -23,7 +23,7 @@ const BrowserRouter: FC = () => {
 	return (
 		<div className='flex flex-col flex-1'>
 			{isCheckSessionLoading && sessionChecked ? (
-				<Loader />
+				<Loader className='m-auto' />
 			) : (
 				<Router>
 					{authData?._id && sessionChecked && <Header userName={authData?.username || ''} />}

@@ -24,7 +24,7 @@ const InputWrapper = styled.div`
 	background-color: #fdfdfd;
 	> input {
 		width: 100%;
-		padding: 0.8rem 0 0.8rem 0.8rem;
+		padding: 0.5rem 0 0.5rem 0.5rem;
 		border: none;
 		outline: none;
 	}

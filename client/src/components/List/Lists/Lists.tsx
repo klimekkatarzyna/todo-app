@@ -1,6 +1,6 @@
 import { FC, memo, useCallback, useContext } from 'react';
 import { MenuListItem } from '../../MenuListItem/MenuListItem';
-import { Loader } from '../../Loader/Loader';
+import { Loader } from 'react-feather';
 import { Modal } from '../../Modal/Modal';
 import { ContextualMenuOpion } from '../../../enums';
 import { SharingOptions } from '../../SharingOptions/SharingOptions';
@@ -51,7 +51,7 @@ const ListsComponents: FC<ILists> = ({ isNavClosed }) => {
 	return (
 		<>
 			<div className='flex flex-col text-base'>
-				{getListsLoading && <Loader />}
+				{getListsLoading && <Loader className='m-auto' />}
 				{list?.map((list: IList) => (
 					<MenuListItem key={list?._id} listItem={list} isNavClosed={isNavClosed} />
 				))}

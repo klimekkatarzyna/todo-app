@@ -5,7 +5,7 @@ import { COLOURS } from '../../constants';
 import { useSharingData } from '../../hooks/useSharingData';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { getListByIdAction, removeMemberAction } from '../../actions/sharing';
-import { Loader } from '../Loader/Loader';
+import { Loader } from 'react-feather';
 
 const ShareButton = styled.button`
 	padding: 1rem;

@@ -1,39 +1,9 @@
-import React, { FC, useCallback, useContext } from 'react';
-import styled from 'styled-components';
-import { COLOURS } from '../../constants';
+import React, { FC } from 'react';
 import { Button } from '../Button/Button';
-import { ArrowLeft } from '@styled-icons/feather/ArrowLeft';
-import { http } from '../../utils/http';
-import * as api from '../../services';
 import { IList } from '@kkrawczyk/todo-common';
 import { useMutation, useQueryClient } from 'react-query';
-import { Loader } from '../Loader/Loader';
+import { ArrowLeft } from 'react-feather';
 import { removeInvitationAction } from '../../actions/sharing';
-
-const Wrapper = styled.div`
-	h3 {
-		color: ${COLOURS.darkerGrey};
-		font-size: 0.9rem;
-	}
-	div {
-		width: 300px;
-		word-break: break-all;
-		text-align: center;
-		margin-bottom: 1rem;
-		font-weight: 300;
-	}
-`;
-
-const BackButton = styled.button`
-	background-color: inherit;
-	border: none;
-	cursor: pointer;
-	position: absolute;
-	top: 20px;
-	svg {
-		width: 20px;
-	}
-`;
 
 interface IAccessManagementProps {
 	listDataResponse: IList;
@@ -50,19 +20,18 @@ export const AccessManagement: FC<IAccessManagementProps> = ({ listDataResponse,
 	});
 
 	return (
-		<Wrapper>
-			<BackButton onClick={onPrevStep}>
-				<ArrowLeft />
-			</BackButton>
+		<div>
+			<button onClick={onPrevStep} className='top-5 absolute cursor-pointer border-none bg-inherit'>
+				<ArrowLeft size={20} />
+			</button>
 			<h2 className='text-center'>
 				<strong>Zarządzanie dostępem</strong>
 			</h2>
-			<h3>{'Link do zapraszania'}</h3>
-			<div>{`${process.env.REACT_APP_CONFIG_API}/tasks/sharing?invitationToken=${listDataResponse?.invitationToken}`}</div>
-			<Button secondary onClick={() => mutate({ _id: listDataResponse?._id })}>
+			<h3 className='text-sm text-darkerGrey'>{'Link do zapraszania'}</h3>
+			<div className='w-80 break-all text-center mb-4 font-extralight'>{`${process.env.REACT_APP_CONFIG_API}/tasks/sharing?invitationToken=${listDataResponse?.invitationToken}`}</div>
+			<Button secondary onClick={() => mutate({ _id: listDataResponse?._id })} isLoading={isLoading}>
 				{'Zatrzymaj udostępnianie'}
-				{isLoading && <Loader />}
 			</Button>
-		</Wrapper>
+		</div>
 	);
 };

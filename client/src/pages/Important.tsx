@@ -2,12 +2,12 @@ import { FC, useMemo } from 'react';
 import { useQuery } from 'react-query';
 import { Board } from '../components/Board';
 import { Toolbar } from '../components/Toolbar';
-import { Loader } from '../components/Loader/Loader';
 import { TaskItem } from '../components/Tasks/TaskItem/TaskItem';
 import { useTasks } from '../hooks/useTasks';
 import { useDragAndDrop } from '../hooks/useDragAndDrop';
 import { onGetImportanceTasksAction } from '../actions/tasks';
 import { ITask, ITaskStatus } from '@kkrawczyk/todo-common';
+import { Loader } from 'react-feather';
 
 export const Important: FC = () => {
 	const { inCompletedTaskslist, setInCompletedTasksList, onChangeTaskStatus, changeTaskImportanceMutation } = useTasks();
@@ -20,7 +20,7 @@ export const Important: FC = () => {
 		<Board>
 			<Toolbar name={'Wazne'} colorType={'blue'} />
 			{isLoading ? (
-				<Loader />
+				<Loader className='m-auto' />
 			) : (
 				tasksList?.map((task, index) => (
 					<TaskItem

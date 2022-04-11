@@ -22,10 +22,6 @@ const HraderWrapper = styled.div`
 	}
 `;
 
-const DropdownWrapper = styled.div`
-	display: flex;
-`;
-
 const Name = styled.div`
 	border: 1px solid ${COLOURS.white};
 	border-radius: 50%;
@@ -57,14 +53,14 @@ export const Header: FC<IHeader> = ({ userName }) => {
 	return (
 		<HraderWrapper>
 			<Link to='/'>{'To Do'}</Link>
-			<DropdownWrapper>
+			<div className='flex'>
 				<Name>
 					{returnsFirstChar(firstChar)} {returnsFirstChar(secChar)}
 				</Name>
 				<Button outline onClick={logoutUser} isLoading={isLoading}>
 					Logout
 				</Button>
-			</DropdownWrapper>
+			</div>
 		</HraderWrapper>
 	);
 };

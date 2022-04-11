@@ -1,27 +1,6 @@
 import React, { FC, useCallback, memo, useState } from 'react';
-import styled from 'styled-components';
 import { IconWrapper } from '../../constants';
-import { ArrowRight } from '@styled-icons/feather/ArrowRight';
-import { ArrowDown } from '@styled-icons/feather/ArrowDown';
-
-const AccordionWrapper = styled.div`
-	> button {
-		border: none;
-		background: inherit;
-		padding: 0;
-		padding: 1rem;
-		display: flex;
-		align-items: center;
-		cursor: pointer;
-	}
-
-	h3 {
-		font-weight: 600;
-		font-size: 1rem;
-		margin: 0;
-		margin-left: 1rem;
-	}
-`;
+import { ArrowRight, ArrowDown } from 'react-feather';
 
 interface IAccordion {
 	title: string;
@@ -37,14 +16,14 @@ const AccordionComponent: FC<IAccordion> = ({ title, details, children }) => {
 	}, [isActive]);
 
 	return (
-		<AccordionWrapper>
-			<button onClick={onToogle}>
+		<div>
+			<button onClick={onToogle} className='flex items-center border-none cursor-pointer bg-inherit p-3'>
 				<IconWrapper color='grey'>{isActive ? <ArrowDown /> : <ArrowRight />}</IconWrapper>
-				<h3>{title}</h3>
+				<h3 className='ml-1 m-0 text-base font-semibold'>{title}</h3>
 				{details}
 			</button>
 			{isActive && <div>{children}</div>}
-		</AccordionWrapper>
+		</div>
 	);
 };
 

@@ -1,10 +1,9 @@
 import { FC, useContext } from 'react';
 import styled from 'styled-components';
 import { ContextualMenuOpion } from '../../enums';
-import { useModalVisibility } from '../../hooks/useModalVisibility';
 import { useTasks } from '../../hooks/useTasks';
 import { ModalVisibilityContext } from '../../ModalVisibilityProvider';
-import { Loader } from '../Loader/Loader';
+import { Loader } from 'react-feather';
 import { Modal } from '../Modal/Modal';
 import { ComplitedTasks } from './ComplitedTasks';
 import { InCompletedTasks } from './InCompletedTasks';
@@ -25,7 +24,7 @@ export const TasksList: FC = () => {
 		<TasksListContainer>
 			<div>
 				{getTasksOfCurrentListLoading ? (
-					<Loader />
+					<Loader className='m-auto' />
 				) : (
 					<>
 						<InCompletedTasks />

@@ -1,19 +1,6 @@
 import React, { FC } from 'react';
-import styled from 'styled-components';
-import { FolderPlus } from '@styled-icons/feather/FolderPlus';
-import { COLOURS, IconWrapper } from '../../constants';
-
-const Wrapper = styled.button`
-	display: flex;
-	flex-direction: column;
-	background-color: ${COLOURS.lightGrey};
-	padding: 0.6rem;
-	cursor: pointer;
-	border: none;
-	&:hover {
-		background-color: ${COLOURS.white};
-	}
-`;
+import { FolderPlus } from 'react-feather';
+import { IconWrapper } from '../../constants';
 
 interface IIconButton {
 	onClick: () => void;
@@ -22,10 +9,10 @@ interface IIconButton {
 export const IconButton: FC<IIconButton> = ({ onClick }) => {
 	// TODO: logic to adding group
 	return (
-		<Wrapper onClick={onClick}>
+		<div onClick={onClick} className='flex flex-col bg-light-grey p-2 cursor-pointer border-none hover:bg-white'>
 			<IconWrapper color={'blue'}>
-				<FolderPlus />
+				<FolderPlus stroke-width={1} />
 			</IconWrapper>
-		</Wrapper>
+		</div>
 	);
 };

@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { useParams } from 'react-router';
 import { COLOURS } from '../../constants';
 import { IUseParams } from '../../interfaces/app';
-import { getDay, getDayName, getMonth, parseUTCtoDate } from '../../utils/date';
 import { Checkbox } from '../Checkbox/Checkbox';
 import { ImportanceButton } from '../ImportanceButton/ImportanceButton';
 import { Importance, ITask, ITaskStatus } from '@kkrawczyk/todo-common';
@@ -109,10 +108,7 @@ const TaskDetailsComponent: FC<ITaskDetailsProps> = ({
 				<TaskName isCompleted={isCompleted} isTaskDetailsView={isTaskDetailsView} ref={elementRef} onClick={onClick}>
 					{isFocused && isTaskDetailsView ? <EditTaskName taskData={taskData} /> : taskData?.title}
 				</TaskName>
-				<div>
-					{taskData?.groupName && <GroupName>{taskData?.groupName}</GroupName>}
-					{/* {taskData?.createdAt && <TaskItemInfo color={taskData?.themeColor}>{`${getDayName(parseUTCtoDate(taskData?.createdAt))}, ${getDay(parseUTCtoDate(taskData?.createdAt))} ${getMonth(parseUTCtoDate(taskData?.createdAt))}`}</TaskItemInfo>} */}
-				</div>
+				<div>{taskData?.groupName && <GroupName>{taskData?.groupName}</GroupName>}</div>
 			</Names>
 			<ImportanceButton isChecked={isImportanceButtonChecked} onClick={onClickImportanceButton} />
 		</>

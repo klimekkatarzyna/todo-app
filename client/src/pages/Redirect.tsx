@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Loader } from '../components/Loader/Loader';
+import { Loader } from 'react-feather';
 
 export const Redirect = () => {
 	const history = useHistory();
@@ -15,5 +15,5 @@ export const Redirect = () => {
 		setIsloading(isLoding);
 	}, []);
 
-	return <div>{isLoding && <Loader />}</div>;
+	return <div>{isLoding && <Loader className='m-auto' />}</div>;
 };

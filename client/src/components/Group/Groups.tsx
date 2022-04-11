@@ -6,7 +6,7 @@ import { Group } from './Group';
 import { ModalVisibilityContext } from '../../ModalVisibilityProvider';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { deleteGroup, getGroups } from '../../actions/groups';
-import { Loader } from '../Loader/Loader';
+import { Loader } from 'react-feather';
 import { ContextualMenuContext } from '../../ContextualMenuProvider';
 
 interface IGroupsProps {
@@ -22,7 +22,7 @@ export const Groups: FC<IGroupsProps> = ({ isNavClosed }) => {
 		useErrorBoundary: true,
 	});
 
-	const { mutate, error } = useMutation(deleteGroup, {
+	const { mutate, error, isLoading } = useMutation(deleteGroup, {
 		onSuccess: () => {
 			query.invalidateQueries(['groups']);
 		},
@@ -38,7 +38,14 @@ export const Groups: FC<IGroupsProps> = ({ isNavClosed }) => {
 			{data?.map(group => (
 				<Group key={group?._id} group={group} isNavClosed={isNavClosed} />
 			))}
-			{isVisible && <Modal title='Czy chcesz usunąć grupę?' onHandleAction={onRemoveGroup} contextualType={ContextualMenuOpion.remove_group} />}
+			{isVisible && (
+				<Modal
+					title='Czy chcesz usunąć grupę?'
+					onHandleAction={onRemoveGroup}
+					contextualType={ContextualMenuOpion.remove_group}
+					isLoading={isLoading}
+				/>
+			)}
 		</div>
 	);
 };
