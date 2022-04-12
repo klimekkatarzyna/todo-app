@@ -93,7 +93,7 @@ export const TaskSidebarDetails: FC = () => {
 					<Container margin>
 						<Section onClick={addTaskToMyDayView}>
 							<IconWrapper color='grey'>
-								<Sun stroke-width={1} />
+								<Sun strokeWidth={1} />
 							</IconWrapper>
 						</Section>
 					</Container>
@@ -101,7 +101,7 @@ export const TaskSidebarDetails: FC = () => {
 					<Container>
 						<Section>
 							<IconWrapper color='grey'>
-								<Bell stroke-width={1} />
+								<Bell strokeWidth={1} />
 							</IconWrapper>
 							{'Przypomnij'}
 						</Section>
@@ -109,7 +109,7 @@ export const TaskSidebarDetails: FC = () => {
 					<Container>
 						<Section>
 							<IconWrapper color='grey'>
-								<Calendar stroke-width={1} />
+								<Calendar strokeWidth={1} />
 							</IconWrapper>
 							{'Dodaj termin wykonania'}
 						</Section>
@@ -117,7 +117,7 @@ export const TaskSidebarDetails: FC = () => {
 					<Container margin>
 						<Section>
 							<IconWrapper color='grey'>
-								<Repeat stroke-width={1} />
+								<Repeat strokeWidth={1} />
 							</IconWrapper>
 							{'Powtórz'}
 						</Section>
@@ -126,7 +126,7 @@ export const TaskSidebarDetails: FC = () => {
 					<Container margin>
 						<Section>
 							<IconWrapper color='grey'>
-								<UserPlus stroke-width={1} />
+								<UserPlus strokeWidth={1} />
 							</IconWrapper>
 							{'Przydziel do'}
 						</Section>
@@ -139,7 +139,7 @@ export const TaskSidebarDetails: FC = () => {
 					<Container margin>
 						<Section>
 							<IconWrapper color='grey'>
-								<FilePlus stroke-width={1} />
+								<FilePlus strokeWidth={1} />
 							</IconWrapper>
 							{'Dodaj plik'}
 						</Section>
@@ -152,7 +152,7 @@ export const TaskSidebarDetails: FC = () => {
 					<Footer>
 						<button onClick={onClose}>
 							<IconWrapper color='grey'>
-								<XSquare stroke-width={1} />
+								<XSquare strokeWidth={1} />
 							</IconWrapper>
 						</button>
 						{`Utworzone ${getDayName(parseUTCtoDate(taskData?.createdAt || ''))}, ${getDay(
@@ -160,7 +160,7 @@ export const TaskSidebarDetails: FC = () => {
 						)} ${getMonth(parseUTCtoDate(taskData?.createdAt || ''))}`}
 						<button onClick={handleClick}>
 							<IconWrapper color='grey'>
-								<Trash2 stroke-width={1} />
+								<Trash2 strokeWidth={1} />
 							</IconWrapper>
 						</button>
 					</Footer>

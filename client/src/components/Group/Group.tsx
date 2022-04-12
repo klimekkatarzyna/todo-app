@@ -20,7 +20,6 @@ const Wrapper = styled.div<{ isNavClosed: boolean }>`
 	> div > p {
 		margin: 0 0.5rem;
 		font-weight: 600;
-		font-size: 0.9rem;
 		display: ${props => (props.isNavClosed ? 'none' : 'flex')};
 	}
 `;
@@ -38,7 +37,7 @@ export const Group: FC<IGroupProps> = ({ group, isNavClosed }) => {
 			<ContextMenuTrigger id={group._id as string}>
 				<Wrapper onClick={toggleDropdown} isNavClosed={isNavClosed}>
 					<IconWrapper color='grey'>
-						<Folder stroke-width={1} />
+						<Folder strokeWidth={1} />
 					</IconWrapper>
 					<EditGroup title={group.title} groupId={group._id} />
 				</Wrapper>

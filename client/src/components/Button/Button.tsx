@@ -85,6 +85,7 @@ export const Button: FC<IButton> = ({ primary, children, type = 'submit', second
 		<>
 			<ButtonStyled
 				{...props}
+				className='text-sm'
 				primary={primary}
 				secondary={secondary}
 				outline={outline}

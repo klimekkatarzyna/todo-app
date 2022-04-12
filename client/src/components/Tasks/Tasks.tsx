@@ -1,5 +1,4 @@
 import { FC, useContext } from 'react';
-import styled from 'styled-components';
 import { ContextualMenuOpion } from '../../enums';
 import { useTasks } from '../../hooks/useTasks';
 import { ModalVisibilityContext } from '../../ModalVisibilityProvider';
@@ -8,20 +7,12 @@ import { Modal } from '../Modal/Modal';
 import { ComplitedTasks } from './ComplitedTasks';
 import { InCompletedTasks } from './InCompletedTasks';
 
-const TasksListContainer = styled.div`
-	box-shadow: inset 0 1px 0 0 #e5e5e5;
-	height: auto;
-	max-height: 550px;
-	overflow: hidden;
-	overflow-y: scroll;
-`;
-
 export const TasksList: FC = () => {
 	const { isVisible } = useContext(ModalVisibilityContext);
 	const { getTasksOfCurrentListLoading, removeTaskMutation } = useTasks();
 
 	return (
-		<TasksListContainer>
+		<div className='h-auto min-h-min overflow-hidden overflow-y-scroll shadow-md'>
 			<div>
 				{getTasksOfCurrentListLoading ? (
 					<Loader className='m-auto' />
@@ -41,6 +32,6 @@ export const TasksList: FC = () => {
 					<span>{'Tej akcji nie można cofnąć'}</span>
 				</Modal>
 			)}
-		</TasksListContainer>
+		</div>
 	);
 };

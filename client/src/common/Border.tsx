@@ -1,14 +1,5 @@
-import React, { FC } from 'react';
-import styled from 'styled-components';
-import { COLOURS } from '../constants';
-
-const BorderStyled = styled.div`
-	display: flex;
-	background-color: ${COLOURS.border};
-	margin: 1rem;
-	height: 1px;
-`;
+import { FC } from 'react';
 
 export const Border: FC = () => {
-	return <BorderStyled />;
+	return <div className='flex bg-border m-4 h-1' />;
 };

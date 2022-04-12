@@ -56,7 +56,7 @@ export const EditGroup: FC<IEditGroupProps> = ({ title, groupId }) => {
 					</Formik>
 				</div>
 			) : (
-				<p>{title}</p>
+				<p className='text-sm'>{title}</p>
 			)}
 		</div>
 	);

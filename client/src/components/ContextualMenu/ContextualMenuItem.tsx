@@ -33,7 +33,7 @@ export const ContextualMenuItem: FC<IContextualMenuItem> = ({ listItem, elementI
 	return (
 		<Item data={{ ...listItem, elementId }} onClick={handleClick}>
 			<IconWrapper color={COLOURS.fontColor}>{listItem.icon}</IconWrapper>
-			<span>{listItem.name}</span>
+			<span className='text-sm'>{listItem.name}</span>
 		</Item>
 	);
 };

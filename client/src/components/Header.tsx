@@ -1,34 +1,10 @@
 import { FC, useCallback, useContext } from 'react';
-import styled from 'styled-components';
 import { Link, useHistory } from 'react-router-dom';
-import { COLOURS } from '../constants';
 import { returnsFirstChar, splitChar } from '../utils/utilsFunctions';
 import { Button } from './Button/Button';
 import { AuthContext, AuthContextType } from '../AuthProvider';
 import { logoutUserAction } from '../actions/user';
 import { useMutation } from 'react-query';
-
-const HraderWrapper = styled.div`
-	padding: 0.5rem 1rem;
-	background-color: ${COLOURS.blue};
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-
-	a {
-		color: ${COLOURS.white};
-		text-decoration: none;
-		font-weight: 600;
-	}
-`;
-
-const Name = styled.div`
-	border: 1px solid ${COLOURS.white};
-	border-radius: 50%;
-	color: ${COLOURS.white};
-	margin-right: 1rem;
-	padding: 0.4rem;
-`;
 
 interface IHeader {
 	userName: string;
@@ -51,16 +27,18 @@ export const Header: FC<IHeader> = ({ userName }) => {
 	}, []);
 
 	return (
-		<HraderWrapper>
-			<Link to='/'>{'To Do'}</Link>
+		<header className='flex justify-between items-center pl-4 pr-4 bg-blue h-12'>
+			<Link to='/' className='no-underline font-semibold text-white'>
+				{'To Do'}
+			</Link>
 			<div className='flex'>
-				<Name>
+				<div className='text-white mr-4 p-2 rounded-full border-solid border-2 border-white w-9 h-9 flex items-center justify-center'>
 					{returnsFirstChar(firstChar)} {returnsFirstChar(secChar)}
-				</Name>
+				</div>
 				<Button outline onClick={logoutUser} isLoading={isLoading}>
 					Logout
 				</Button>
 			</div>
-		</HraderWrapper>
+		</header>
 	);
 };

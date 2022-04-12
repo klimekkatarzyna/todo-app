@@ -1,48 +1,10 @@
 import { FC, useCallback, useState } from 'react';
-import styled from 'styled-components';
-import { COLOURS } from '../constants';
 import { CreateList } from './List/CreateList/CreateList';
 import { Lists } from './List/Lists/Lists';
 import { MainList } from './MainList/MainList';
 import { CreateGroup } from './Group/CreateGroup';
 import { Groups } from './Group/Groups';
-import { Menu } from '@styled-icons/feather/Menu';
-
-const Wrapper = styled.div<{ isNavClosed: boolean }>`
-	display: flex;
-	background-color: ${COLOURS.lightGrey};
-	border-right: 1px solid #f4f4f4;
-	flex-direction: column;
-	height: 100%;
-	padding: 1rem 0;
-	width: ${props => (props.isNavClosed ? '55px' : '250px')};
-	transition: width 180ms ease;
-	height: 618px;
-	transition: width 0.5s;
-`;
-
-const MenuButton = styled.button`
-	border: none;
-	background-color: inherit;
-	text-align: left;
-	padding: 0.6rem;
-	cursor: pointer;
-	svg {
-		width: 30px;
-		stroke: ${COLOURS.blue};
-	}
-`;
-
-const ScrolledWrapper = styled.div`
-	overflow-y: scroll;
-`;
-
-const InputsWrapper = styled.div`
-	display: flex;
-	position: fixed;
-	bottom: 0;
-	border-top: 1px solid ${COLOURS.darkerGrey};
-`;
+import { Menu } from 'react-feather';
 
 export const Sidebar: FC = () => {
 	const [isNavClosed, setIsNavClosed] = useState(false);
@@ -52,19 +14,24 @@ export const Sidebar: FC = () => {
 	}, [isNavClosed]);
 
 	return (
-		<Wrapper isNavClosed={isNavClosed}>
+		<div
+			className={`flex bg-light-grey flex-col border-solid border-2 border-darkerGrey h-2/3 py-4 px-0 ${
+				isNavClosed ? 'w-14' : 'w-64'
+			} transition-width duration-200 ease-in`}>
 			{/*TODO: search*/}
-			<MenuButton onClick={handleClick}>{<Menu />}</MenuButton>
-			<ScrolledWrapper>
+			<button className='border-none bg-inherit text-center p-2' onClick={handleClick}>
+				{<Menu strokeWidth={1} className='stroke-blue w-8' />}
+			</button>
+			<div className='overflow-y-scroll'>
 				<MainList isNavClosed={isNavClosed} />
 
 				<Lists isNavClosed={isNavClosed} />
 				<Groups isNavClosed={isNavClosed} />
-			</ScrolledWrapper>
-			<InputsWrapper>
+			</div>
+			<div className='flex fixed b-0 border-solid border-2 border-darkerGrey'>
 				<CreateList />
 				<CreateGroup />
-			</InputsWrapper>
-		</Wrapper>
+			</div>
+		</div>
 	);
 };

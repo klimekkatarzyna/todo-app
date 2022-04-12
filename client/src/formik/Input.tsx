@@ -85,6 +85,7 @@ interface IInput<T = string | number | undefined> {
 	isTaskInput?: boolean;
 	readOnly?: boolean;
 	isLoading?: boolean;
+	className?: string;
 }
 
 export const Input: FC<IInput> = ({
@@ -97,6 +98,7 @@ export const Input: FC<IInput> = ({
 	isTaskInput,
 	readOnly,
 	isLoading,
+	className,
 	...rest
 }) => {
 	const { onFocus, onBlur, isFocused } = useFocusingHandling();
@@ -112,6 +114,7 @@ export const Input: FC<IInput> = ({
 				</button>
 			)}
 			<InputStyled
+				className={`${className} text-sm`}
 				name={name}
 				type={!showPassword && type === InputType.password ? InputType.password : InputType.text}
 				readOnly={readOnly}

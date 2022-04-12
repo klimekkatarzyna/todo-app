@@ -53,11 +53,11 @@ interface IMenuListItem {
 const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed }) => {
 	const icon = useMemo(
 		() =>
-			(listItem.url === SideMenuType.myDay && <Sun stroke-width={1} />) ||
-			(listItem.url === SideMenuType.important && <Star stroke-width={1} />) ||
-			(listItem.url === SideMenuType.planned && <Calendar stroke-width={1} />) ||
-			(listItem.url === SideMenuType.assigned && <User stroke-width={1} />) ||
-			(listItem.url === SideMenuType.inbox && <Home stroke-width={1} />),
+			(listItem.url === SideMenuType.myDay && <Sun strokeWidth={1} />) ||
+			(listItem.url === SideMenuType.important && <Star strokeWidth={1} />) ||
+			(listItem.url === SideMenuType.planned && <Calendar strokeWidth={1} />) ||
+			(listItem.url === SideMenuType.assigned && <User strokeWidth={1} />) ||
+			(listItem.url === SideMenuType.inbox && <Home strokeWidth={1} />),
 		[listItem]
 	);
 	const { isOwner } = useSharingData(listItem?.userId);
@@ -68,10 +68,16 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed }) => 
 	return (
 		<LinkStyled to={listItem?.isMainList ? `${listItem?.url}` : `/tasks/${listItem?._id}`}>
 			<ContextMenuTrigger id={listItem?._id || ''}>
-				<IconWrapper color={listItem?.themeColor || COLOURS.blue}>{icon || <List stroke-width={1} />}</IconWrapper>
-				<Name isNavClosed={isNavClosed}>{listItem?.title}</Name>
-				{!!listItem.members?.length && <Users stroke-width={1} />}
-				{!!data?.length && <TasksNumber isNavClosed={isNavClosed}>{data?.length}</TasksNumber>}
+				<IconWrapper color={listItem?.themeColor || COLOURS.blue}>{icon || <List strokeWidth={1} />}</IconWrapper>
+				<Name isNavClosed={isNavClosed} className='text-sm'>
+					{listItem?.title}
+				</Name>
+				{!!listItem.members?.length && <Users strokeWidth={1} className='text-sm' />}
+				{!!data?.length && (
+					<TasksNumber className='text-sm' isNavClosed={isNavClosed}>
+						{data?.length}
+					</TasksNumber>
+				)}
 			</ContextMenuTrigger>
 			<ContextualMenu
 				contextualMenuList={isOwner ? contextualMenuSecountOpion : contextualMenuSecountOpionMembers}

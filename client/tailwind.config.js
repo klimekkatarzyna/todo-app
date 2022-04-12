@@ -7,7 +7,11 @@ module.exports = {
 				'light-grey': '#f4f4f4',
 				blue: '#0078D7',
 				red: '#c23732',
-				darkerGrey: '#767678'
+				darkerGrey: '#767678',
+				'input-color': '#fdfdfd',
+				border: '#eaeaea',
+				darkerGrey: '#767678',
+				grey: '#505050',
 			},
 		},
 	},
