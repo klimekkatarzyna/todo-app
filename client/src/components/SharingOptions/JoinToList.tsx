@@ -1,7 +1,7 @@
 import { FC, useCallback } from 'react';
 import { Loader } from 'react-feather';
 import { useHistory } from 'react-router-dom';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { addUserToMemberOfListAction, IShareLitDetails } from '../../actions/sharing';
 import { Button } from '../Button/Button';
 import { getStringAfterCharacter } from '../../utils/utilsFunctions';
@@ -12,8 +12,17 @@ interface IJoinToList {
 }
 
 export const JoinToList: FC<IJoinToList> = ({ listDataLoading, list }) => {
+	const query = useQueryClient();
 	const history = useHistory();
-	const { mutate: addUserToMemberOfListMutation, error, isLoading } = useMutation(addUserToMemberOfListAction);
+	const {
+		mutate: addUserToMemberOfListMutation,
+		error,
+		isLoading,
+	} = useMutation(addUserToMemberOfListAction, {
+		onSuccess: () => {
+			query.invalidateQueries(['checkSession']);
+		},
+	});
 
 	const addUserToMemberOfList = useCallback(() => {
 		addUserToMemberOfListMutation(getStringAfterCharacter(history.location.search));

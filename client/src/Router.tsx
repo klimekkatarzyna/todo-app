@@ -26,9 +26,9 @@ const BrowserRouter: FC = () => {
 				<Loader className='m-auto' />
 			) : (
 				<Router>
-					{authData?._id && sessionChecked && <Header userName={authData?.username || ''} />}
+					{authData?._id && <Header userName={authData?.username || ''} />}
 					<div className='flex flex-1'>
-						{authData?._id && sessionChecked && <Sidebar />}
+						{authData?._id && <Sidebar />}
 						<Switch>
 							{authData?._id !== undefined && sessionChecked !== undefined ? (
 								<>
