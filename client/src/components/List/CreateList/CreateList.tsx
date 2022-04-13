@@ -30,7 +30,7 @@ export const CreateList: FC = () => {
 	const initialValues: ICreateListValue = { title: '' };
 
 	return (
-		<div className='flex flex-col bg-light-grey transition ease-in-out delay-150 width w-52'>
+		<div className='flex flex-col bg-light-grey transition ease-in-out delay-150 width w-full'>
 			<Formik initialValues={initialValues} validationSchema={createEditListSchema} onSubmit={onSubmit}>
 				{({ errors, touched, ...props }) => (
 					<Form>

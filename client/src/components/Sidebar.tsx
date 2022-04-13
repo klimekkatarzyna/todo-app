@@ -14,24 +14,24 @@ export const Sidebar: FC = () => {
 	}, [isNavClosed]);
 
 	return (
-		<div
-			className={`flex bg-light-grey flex-col border-solid border-2 border-darkerGrey h-2/3 py-4 px-0 ${
-				isNavClosed ? 'w-14' : 'w-64'
+		<aside
+			className={`flex relative bg-light-grey flex-col h-[660px] pt-4 pb-14 px-0 ${
+				isNavClosed ? 'w-14' : 'w-72'
 			} transition-width duration-200 ease-in`}>
 			{/*TODO: search*/}
 			<button className='border-none bg-inherit text-center p-2' onClick={handleClick}>
 				{<Menu strokeWidth={1} className='stroke-blue w-8' />}
 			</button>
-			<div className='overflow-y-scroll'>
+			<div className='overflow-y-scroll w-full'>
 				<MainList isNavClosed={isNavClosed} />
 
 				<Lists isNavClosed={isNavClosed} />
 				<Groups isNavClosed={isNavClosed} />
 			</div>
-			<div className='flex fixed b-0 border-solid border-2 border-darkerGrey'>
+			<div className='flex absolute left-0 right-0 bottom-0 border-solid border-2 w-full items-center'>
 				<CreateList />
 				<CreateGroup />
 			</div>
-		</div>
+		</aside>
 	);
 };
