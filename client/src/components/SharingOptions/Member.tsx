@@ -1,39 +1,9 @@
-import React, { FC } from 'react';
-import styled from 'styled-components';
-import { COLOURS } from '../../constants';
+import { FC } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { X, Loader } from 'react-feather';
 import { removeMemberAction } from '../../actions/sharing';
 import { useSharingData } from '../../hooks/useSharingData';
 import { IList } from '@kkrawczyk/todo-common';
-
-const Wrapper = styled.div`
-	display: flex;
-	align-items: center;
-	margin: 0.5rem 0;
-
-	> button {
-		margin-left: auto;
-		cursor: pointer;
-	}
-`;
-
-export const Dot = styled.div`
-	display: flex;
-	align-items: center;
-	position: relative;
-	margin-left: 0.5rem;
-	font-size: 0.9rem;
-	&:before {
-		content: '';
-		position: relative;
-		left: -10px;
-		width: 30px;
-		height: 30px;
-		background-color: ${COLOURS.red};
-		border-radius: 50%;
-	}
-`;
 
 interface IMemberProps {
 	listDataResponse: IList;
@@ -52,15 +22,15 @@ export const Member: FC<IMemberProps> = ({ listDataResponse, member }) => {
 	});
 
 	return (
-		<Wrapper>
-			<Dot />
+		<div className='flex items-center my-2 mx-0'>
+			<div className='flex items-center relative ml-2 text-sm before:contents relative right-[-10px] w-7 h-7 bg-red rounded-full' />
 			<p key={member}>{member}</p>
 			{isOwner && (
-				<button onClick={() => mutate({ _id: listDataResponse?._id, member })}>
+				<button onClick={() => mutate({ _id: listDataResponse?._id, member })} className='ml-auto cursor-pointer'>
 					<X size={20} />
 				</button>
 			)}
 			{isLoading && <Loader />}
-		</Wrapper>
+		</div>
 	);
 };

@@ -1,43 +1,9 @@
-import React, { FC, useCallback } from 'react';
+import { FC, useCallback } from 'react';
 import { IList } from '@kkrawczyk/todo-common';
-import styled from 'styled-components';
-import { COLOURS } from '../../constants';
 import { useSharingData } from '../../hooks/useSharingData';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { getListByIdAction, removeMemberAction } from '../../actions/sharing';
+import { useMutation, useQueryClient } from 'react-query';
+import { removeMemberAction } from '../../actions/sharing';
 import { Loader } from 'react-feather';
-
-const ShareButton = styled.button`
-	padding: 1rem;
-	text-align: center;
-	cursor: pointer;
-	margin: 1rem auto 0;
-	border-top: 1px solid ${COLOURS.border};
-	&:hover {
-		background-color: ${COLOURS.border};
-	}
-	background-color: inherit;
-	border: none;
-	cursor: pointer;
-	color: ${COLOURS.blue};
-	display: flex;
-`;
-
-const LeaveButton = styled.button`
-	padding: 1rem;
-	text-align: center;
-	cursor: pointer;
-	margin: 1rem auto 0;
-	border-top: 1px solid ${COLOURS.border};
-	&:hover {
-		background-color: ${COLOURS.border};
-	}
-	background-color: inherit;
-	border: none;
-	cursor: pointer;
-	color: ${COLOURS.red};
-	display: flex;
-`;
 
 interface IRemoveMember {
 	listDataResponse: IList;
@@ -62,12 +28,20 @@ export const RemoveMember: FC<IRemoveMember> = ({ listDataResponse, onNextStep }
 	return (
 		<>
 			{isOwner ? (
-				!!listDataResponse?.members?.length && <ShareButton onClick={onNextStep}>{'Zarządzaj dostępem'}</ShareButton>
+				!!listDataResponse?.members?.length && (
+					<button
+						onClick={onNextStep}
+						className='flex p4 cursor-pointer text-blue bg-inherit text-center border-none border-y-2 border-solid mt-4 mx-auto mb-0 text-red hover:bg-white hover:border'>
+						{'Zarządzaj dostępem'}
+					</button>
+				)
 			) : (
-				<LeaveButton onClick={onRemoveMember}>
+				<button
+					onClick={onRemoveMember}
+					className='flex p4 cursor-pointer text-blue bg-inherit text-center border-y-2 border-solid mt-4 mx-auto mb-0 hover:bg-white'>
 					{'Opuść listę'}
 					{isLoading && <Loader />}
-				</LeaveButton>
+				</button>
 			)}
 		</>
 	);

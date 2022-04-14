@@ -12,7 +12,6 @@ import { getTasksOfCurrentListAction } from '../../actions/tasks';
 import { Sun, Star, List, Calendar, User, Users, Home } from 'react-feather';
 
 const LinkStyled = styled(Link)`
-	text-decoration: none;
 	> div {
 		display: flex;
 		align-items: center;
@@ -23,26 +22,7 @@ const LinkStyled = styled(Link)`
 		&:hover {
 			background-color: ${COLOURS.white};
 		}
-
-		> svg {
-			margin-left: 0.5rem;
-			width: 18px;
-			stroke: ${COLOURS.fontColor};
-		}
 	}
-`;
-
-const TasksNumber = styled.div<{ isNavClosed: boolean | undefined }>`
-	margin-left: auto;
-	color: ${COLOURS.fontColor};
-	display: ${props => (props.isNavClosed ? 'none' : 'flex')};
-`;
-
-const Name = styled.div<{ isNavClosed: boolean | undefined }>`
-	color: ${COLOURS.fontColor};
-	margin-left: 0.5rem;
-	overflow-wrap: anywhere;
-	display: ${props => (props.isNavClosed ? 'none' : 'flex')};
 `;
 
 interface IMenuListItem {
@@ -66,24 +46,18 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed }) => 
 	);
 
 	return (
-		<LinkStyled to={listItem?.isMainList ? `${listItem?.url}` : `/tasks/${listItem?._id}`}>
-			<ContextMenuTrigger id={listItem?._id || ''}>
-				<IconWrapper color={listItem?.themeColor || COLOURS.blue}>{icon || <List strokeWidth={1} />}</IconWrapper>
-				<Name isNavClosed={isNavClosed} className='text-sm'>
-					{listItem?.title}
-				</Name>
-				{!!listItem.members?.length && <Users strokeWidth={1} className='text-sm' />}
-				{!!data?.length && (
-					<TasksNumber className='text-sm' isNavClosed={isNavClosed}>
-						{data?.length}
-					</TasksNumber>
-				)}
+		<Link to={listItem?.isMainList ? `${listItem?.url}` : `/tasks/${listItem?._id}`} className='no-underline'>
+			<ContextMenuTrigger id={listItem?._id || ''} className='flex items-center'>
+				<IconWrapper color={listItem?.themeColor || COLOURS.blue}>{icon || <List strokeWidth={1} className='ml-2' />}</IconWrapper>
+				<div className={`text-sm text-fontColor ml-2 break-words ${isNavClosed ? 'hidden' : 'flex'}`}>{listItem?.title}</div>
+				{!!listItem.members?.length && <Users strokeWidth={1} className='text-sm ml-2 w-4 stroke-fontColor' />}
+				{!!data?.length && <div className={`text-sm text-fontColor ml-auto ${isNavClosed ? 'hidden' : 'flex'}`}>{data?.length}</div>}
 			</ContextMenuTrigger>
 			<ContextualMenu
 				contextualMenuList={isOwner ? contextualMenuSecountOpion : contextualMenuSecountOpionMembers}
 				elementId={listItem?._id || ''}
 			/>
-		</LinkStyled>
+		</Link>
 	);
 };
 

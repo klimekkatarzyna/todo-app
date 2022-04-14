@@ -10,7 +10,6 @@ module.exports = {
 				darkerGrey: '#767678',
 				'input-color': '#fdfdfd',
 				border: '#eaeaea',
-				darkerGrey: '#767678',
 				grey: '#505050',
 				fontColor: '#34373d',
 			},

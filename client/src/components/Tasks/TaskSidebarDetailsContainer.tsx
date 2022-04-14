@@ -1,6 +1,5 @@
 import { FC, useCallback, useContext } from 'react';
-import styled from 'styled-components';
-import { COLOURS, IconWrapper } from '../../constants';
+import { IconWrapper } from '../../constants';
 import { getDay, getDayName, getMonth, parseUTCtoDate } from '../../utils/date';
 import { TaskDetails } from './TaskDetails';
 import { addTaskToMyDayAction } from '../../actions/tasks';
@@ -8,50 +7,6 @@ import { useTasks } from '../../hooks/useTasks';
 import { ElementVisibilityContext } from '../../providers/ElementVisibilityProvider';
 import { ITask, ITaskStatus } from '@kkrawczyk/todo-common';
 import { Loader, Sun, Bell, Calendar, Repeat, UserPlus, FilePlus, Trash2, XSquare } from 'react-feather';
-
-const TaskSidebarDetailsContainer = styled.div`
-	background-color: ${COLOURS.lightGrey};
-	width: 290px;
-	padding: 1rem;
-	position: relative;
-`;
-
-const TaskDetailsWrapper = styled.div`
-	display: flex;
-	flex-direction: column;
-`;
-
-const Container = styled.div<{ flexRow?: boolean; margin?: boolean }>`
-	display: flex;
-	flex-direction: ${props => (props.flexRow ? 'row' : 'column')};
-	margin-bottom: ${props => props.margin && '0.7rem'};
-	background-color: ${COLOURS.white};
-	padding: 1rem;
-	border: 1px solid ${COLOURS.border};
-`;
-
-const Section = styled.button`
-	display: flex;
-	color: ${COLOURS.darkerGrey};
-	font-size: 0.9rem;
-	svg {
-		margin-right: 0.5rem;
-	}
-`;
-
-const Footer = styled.div`
-	display: flex;
-	align-items: center;
-	position: absolute;
-	bottom: 1rem;
-	color: ${COLOURS.darkerGrey};
-	font-size: 0.8rem;
-	button {
-		border: none;
-		background: inherit;
-		cursor: pointer;
-	}
-`;
 
 export const TaskSidebarDetails: FC = () => {
 	const { onHide } = useContext(ElementVisibilityContext);
@@ -75,12 +30,12 @@ export const TaskSidebarDetails: FC = () => {
 	}, [taskData?._id]);
 
 	return (
-		<TaskSidebarDetailsContainer>
+		<div className='bg-light-grey w-80 p-4 relative'>
 			{taskDataLoading ? (
 				<Loader className='m-auto' />
 			) : (
-				<TaskDetailsWrapper>
-					<Container flexRow margin>
+				<div className='flex flex-col'>
+					<div className='flex p-4 flex-row mb-3 bg-white'>
 						<TaskDetails
 							taskData={taskData as ITask}
 							isCompleted={taskData?.taskStatus === ITaskStatus.complete}
@@ -88,69 +43,69 @@ export const TaskSidebarDetails: FC = () => {
 							changeTaskImportance={changeTaskImportanceMutation}
 							isTaskDetailsView
 						/>
-					</Container>
+					</div>
 
-					<Container margin>
-						<Section onClick={addTaskToMyDayView}>
+					<div className='flex p-4 flex-col mb-3 bg-white'>
+						<div onClick={addTaskToMyDayView}>
 							<IconWrapper color='grey'>
-								<Sun strokeWidth={1} />
+								<Sun strokeWidth={1} className='mr-2' />
 							</IconWrapper>
-						</Section>
-					</Container>
+						</div>
+					</div>
 
-					<Container>
-						<Section>
+					<div className='flex p-4 flex-col bg-white'>
+						<div className='flex text-darkerGrey text-sm'>
 							<IconWrapper color='grey'>
-								<Bell strokeWidth={1} />
+								<Bell strokeWidth={1} className='mr-2' />
 							</IconWrapper>
 							{'Przypomnij'}
-						</Section>
-					</Container>
-					<Container>
-						<Section>
+						</div>
+					</div>
+					<div className='flex p-4 flex-col bg-white'>
+						<div className='flex text-darkerGrey text-sm'>
 							<IconWrapper color='grey'>
-								<Calendar strokeWidth={1} />
+								<Calendar strokeWidth={1} className='mr-2' />
 							</IconWrapper>
 							{'Dodaj termin wykonania'}
-						</Section>
-					</Container>
-					<Container margin>
-						<Section>
+						</div>
+					</div>
+					<div className='flex p-4 flex-col  mb-3 bg-white'>
+						<div className='flex text-darkerGrey text-sm'>
 							<IconWrapper color='grey'>
-								<Repeat strokeWidth={1} />
+								<Repeat strokeWidth={1} className='mr-2' />
 							</IconWrapper>
 							{'Powtórz'}
-						</Section>
-					</Container>
+						</div>
+					</div>
 
-					<Container margin>
-						<Section>
+					<div className='flex p-4 flex-col  mb-3 bg-white'>
+						<div className='flex text-darkerGrey text-sm'>
 							<IconWrapper color='grey'>
-								<UserPlus strokeWidth={1} />
+								<UserPlus strokeWidth={1} className='mr-2' />
 							</IconWrapper>
 							{'Przydziel do'}
-						</Section>
-					</Container>
+						</div>
+					</div>
 
-					<Container margin>
-						<Section>{'Wybierz kategorię'}</Section>
-					</Container>
+					<div className='flex p-4 flex-col  mb-3 bg-white'>
+						<div className='flex text-darkerGrey text-sm'>{'Wybierz kategorię'}</div>
+					</div>
 
-					<Container margin>
-						<Section>
+					<div className='flex p-4 flex-col  mb-3 bg-white'>
+						<div className='flex text-darkerGrey text-sm'>
 							<IconWrapper color='grey'>
-								<FilePlus strokeWidth={1} />
+								<FilePlus strokeWidth={1} className='mr-2' />
 							</IconWrapper>
 							{'Dodaj plik'}
-						</Section>
-					</Container>
+						</div>
+					</div>
 
-					<Container>
+					<div className='flex p-4 flex-col bg-white'>
 						<textarea />
-					</Container>
+					</div>
 
-					<Footer>
-						<button onClick={onClose}>
+					<footer className='flex items-center absolute bottom-4 text-darkerGrey text-sm'>
+						<button onClick={onClose} className='border-none bg-inherit cursor-pointer'>
 							<IconWrapper color='grey'>
 								<XSquare strokeWidth={1} />
 							</IconWrapper>
@@ -158,14 +113,14 @@ export const TaskSidebarDetails: FC = () => {
 						{`Utworzone ${getDayName(parseUTCtoDate(taskData?.createdAt || ''))}, ${getDay(
 							parseUTCtoDate(taskData?.createdAt || '')
 						)} ${getMonth(parseUTCtoDate(taskData?.createdAt || ''))}`}
-						<button onClick={handleClick}>
+						<button onClick={handleClick} className='border-none bg-inherit cursor-pointer'>
 							<IconWrapper color='grey'>
 								<Trash2 strokeWidth={1} />
 							</IconWrapper>
 						</button>
-					</Footer>
-				</TaskDetailsWrapper>
+					</footer>
+				</div>
 			)}
-		</TaskSidebarDetailsContainer>
+		</div>
 	);
 };

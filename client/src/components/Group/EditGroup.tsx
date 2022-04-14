@@ -12,9 +12,10 @@ import { createEditGroupSchema, CreateEditGroupType, IGroup } from '@kkrawczyk/t
 interface IEditGroupProps {
 	title: string | undefined;
 	groupId: string | undefined;
+	isNavClosed?: boolean;
 }
 
-export const EditGroup: FC<IEditGroupProps> = ({ title, groupId }) => {
+export const EditGroup: FC<IEditGroupProps> = ({ title, groupId, isNavClosed }) => {
 	const query = useQueryClient();
 	const [isInputVisible, setIsInputVisible] = useState(false);
 	const { contextualMenu } = useContext(ContextualMenuContext);
@@ -56,7 +57,7 @@ export const EditGroup: FC<IEditGroupProps> = ({ title, groupId }) => {
 					</Formik>
 				</div>
 			) : (
-				<p className='text-sm'>{title}</p>
+				<p className={`text-sm my-0 mx-2 font-semibold ${isNavClosed ? 'hidden' : 'flex'}`}>{title}</p>
 			)}
 		</div>
 	);
