@@ -12,7 +12,7 @@ export const TasksList: FC = () => {
 	const { getTasksOfCurrentListLoading, removeTaskMutation } = useTasks();
 
 	return (
-		<div className='h-auto min-h-min overflow-hidden overflow-y-scroll'>
+		<div className='h-auto overflow-hidden overflow-y-scroll max-h-[550px]'>
 			<div>
 				{getTasksOfCurrentListLoading ? (
 					<Loader className='m-auto' />

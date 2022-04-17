@@ -1,37 +1,6 @@
-import React, { FC } from 'react';
-import styled from 'styled-components';
-import { COLOURS } from '../constants';
+import React, { FC, useMemo } from 'react';
 import { AppColorType } from '../enums';
 import { getDay, getDayName, getMonth } from '../utils/date';
-
-const Wrapper = styled.div`
-	display: flex;
-	flex-direction: row;
-	margin-bottom: 1rem;
-	align-items: center;
-`;
-
-const ToolbarStyled = styled.div<{ colorType: AppColorType }>`
-	display: flex;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	font-size: 1.3rem;
-	font-weight: 600;
-	padding: 0.5rem;
-	color: ${props =>
-		(props.colorType === 'grey' && COLOURS.fontColor) ||
-		(props.colorType === 'blue' && COLOURS.blue) ||
-		(props.colorType === 'red' && COLOURS.red) ||
-		(props.colorType === 'green' && COLOURS.green)};
-`;
-
-const DateToday = styled.div`
-	display: flex;
-	padding-left: 0.5rem;
-	font-size: 0.8rem;
-	color: ${COLOURS.fontColor};
-`;
 
 interface IToolbar {
 	name: string;
@@ -42,12 +11,20 @@ interface IToolbar {
 
 export const Toolbar: FC<IToolbar> = ({ name, colorType = 'grey', isDateVisible, children }) => {
 	const date = new Date();
+	const color = useMemo(
+		() =>
+			(colorType === 'grey' && 'text-fontColor') ||
+			(colorType === 'blue' && 'text-blue') ||
+			(colorType === 'red' && 'text-red') ||
+			(colorType === 'green' && ' text-green'),
+		[colorType]
+	);
 
 	return (
-		<Wrapper>
-			<ToolbarStyled colorType={colorType}>{name}</ToolbarStyled>
-			<DateToday>{isDateVisible && `${getDayName(date)}, ${getDay(date)} ${getMonth(date)}`}</DateToday>
+		<div className='flex flex-row mb-4 items-center'>
+			<div className={`flex p-2 overflow-hidden whitespace-nowrap text-xl font-semibold text-ellipsis ${color}`}>{name}</div>
+			<div className='flex pl-2 text-sm color-fontColor'>{isDateVisible && `${getDayName(date)}, ${getDay(date)} ${getMonth(date)}`}</div>
 			{children}
-		</Wrapper>
+		</div>
 	);
 };

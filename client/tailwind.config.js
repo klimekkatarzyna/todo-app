@@ -12,6 +12,7 @@ module.exports = {
 				border: '#eaeaea',
 				grey: '#505050',
 				fontColor: '#34373d',
+				green: '#5ca52d',
 			},
 		},
 	},

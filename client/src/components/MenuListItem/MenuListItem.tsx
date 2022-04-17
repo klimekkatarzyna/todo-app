@@ -1,6 +1,5 @@
 import { FC, useMemo, memo } from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
 import { COLOURS, contextualMenuSecountOpion, contextualMenuSecountOpionMembers, IconWrapper } from '../../constants';
 import { IList, ITask } from '@kkrawczyk/todo-common';
 import { SideMenuType } from '../../enums';
@@ -10,20 +9,6 @@ import { useSharingData } from '../../hooks/useSharingData';
 import { useQuery } from 'react-query';
 import { getTasksOfCurrentListAction } from '../../actions/tasks';
 import { Sun, Star, List, Calendar, User, Users, Home } from 'react-feather';
-
-const LinkStyled = styled(Link)`
-	> div {
-		display: flex;
-		align-items: center;
-		padding: 0.5rem 1rem;
-		font-size: 0.9rem;
-		cursor: pointer;
-		position: relative;
-		&:hover {
-			background-color: ${COLOURS.white};
-		}
-	}
-`;
 
 interface IMenuListItem {
 	listItem: IList;
@@ -47,11 +32,13 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed }) => 
 
 	return (
 		<Link to={listItem?.isMainList ? `${listItem?.url}` : `/tasks/${listItem?._id}`} className='no-underline'>
-			<ContextMenuTrigger id={listItem?._id || ''} className='flex items-center'>
-				<IconWrapper color={listItem?.themeColor || COLOURS.blue}>{icon || <List strokeWidth={1} className='ml-2' />}</IconWrapper>
-				<div className={`text-sm text-fontColor ml-2 break-words ${isNavClosed ? 'hidden' : 'flex'}`}>{listItem?.title}</div>
-				{!!listItem.members?.length && <Users strokeWidth={1} className='text-sm ml-2 w-4 stroke-fontColor' />}
-				{!!data?.length && <div className={`text-sm text-fontColor ml-auto ${isNavClosed ? 'hidden' : 'flex'}`}>{data?.length}</div>}
+			<ContextMenuTrigger id={listItem?._id || ''}>
+				<div className={'flex align-center px-4 py-2 text-sm hover:bg-white'}>
+					<IconWrapper color={listItem?.themeColor || COLOURS.blue}>{icon || <List strokeWidth={1} className='mr-2' />}</IconWrapper>
+					<div className={`text-sm text-fontColor ml-2 break-words ${isNavClosed ? 'hidden' : 'flex'}`}>{listItem?.title}</div>
+					{!!listItem.members?.length && <Users strokeWidth={1} className='text-sm ml-2 w-4 stroke-fontColor' />}
+					{!!data?.length && <div className={`text-sm text-fontColor ml-auto ${isNavClosed ? 'hidden' : 'flex'}`}>{data?.length}</div>}
+				</div>
 			</ContextMenuTrigger>
 			<ContextualMenu
 				contextualMenuList={isOwner ? contextualMenuSecountOpion : contextualMenuSecountOpionMembers}

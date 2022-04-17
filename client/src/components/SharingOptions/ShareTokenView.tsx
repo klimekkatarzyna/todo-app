@@ -21,8 +21,8 @@ export const ShareTokenView: FC<IShareTokenViewProps> = ({ onNextStep, listDataR
 			</h2>
 			<h3 className='text-darkerGrey text-sm'>Członkowie listy</h3>
 			<div className='flex items-center'>
-				<div className='flex items-center relative ml-2 text-sm before:contents relative right-[-10px] w-7 h-7 bg-red rounded-full' />{' '}
-				{listDataResponse?.owner} <span className='text-darkerGrey ml-auto text-xs'>{'Właściciel'}</span>
+				<div className='flex items-center relative mr-2 text-sm before:contents w-7 h-7 bg-red rounded-full' /> {listDataResponse?.owner}{' '}
+				<span className='text-darkerGrey ml-auto text-xs'>{'Właściciel'}</span>
 			</div>
 			{listDataResponse?.members?.map(member => (
 				<Member key={member} member={member} listDataResponse={listDataResponse} />

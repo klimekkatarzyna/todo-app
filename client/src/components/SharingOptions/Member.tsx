@@ -23,7 +23,7 @@ export const Member: FC<IMemberProps> = ({ listDataResponse, member }) => {
 
 	return (
 		<div className='flex items-center my-2 mx-0'>
-			<div className='flex items-center relative ml-2 text-sm before:contents relative right-[-10px] w-7 h-7 bg-red rounded-full' />
+			<div className='flex items-center relative mr-2 text-sm before:contents w-7 h-7 bg-red rounded-full' />
 			<p key={member}>{member}</p>
 			{isOwner && (
 				<button onClick={() => mutate({ _id: listDataResponse?._id, member })} className='ml-auto cursor-pointer'>
