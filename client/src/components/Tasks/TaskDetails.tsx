@@ -1,59 +1,12 @@
 import { FC, useCallback, useEffect, useMemo, useState, RefObject, useRef, memo } from 'react';
-import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router';
-import { COLOURS } from '../../constants';
 import { IUseParams } from '../../interfaces/app';
 import { Checkbox } from '../Checkbox/Checkbox';
 import { ImportanceButton } from '../ImportanceButton/ImportanceButton';
 import { Importance, ITask, ITaskStatus } from '@kkrawczyk/todo-common';
 import { useFocusingHandling } from '../../hooks/useMouseHandling';
 import { EditTaskName } from './EditTaskName';
-
-const Names = styled(Link)`
-	display: flex;
-	flex-direction: column;
-	flex: 1;
-	text-align: left;
-	margin-left: 1rem;
-	margin-right: auto;
-	border: none;
-	background-color: inherit;
-	outline: none;
-	cursor: pointer;
-	text-decoration: none;
-`;
-
-const TaskName = styled.div<{ isCompleted: boolean; isTaskDetailsView: boolean | undefined }>`
-	color: ${COLOURS.fontColor};
-	cursor: pointer;
-	${props =>
-		props.isCompleted &&
-		css`
-			text-decoration: line-through;
-			color: ${COLOURS.darkerGrey};
-		`};
-
-	${props =>
-		props.isTaskDetailsView &&
-		css`
-			&:hover {
-				background-color: ${COLOURS.lightGrey};
-			}
-		`};
-`;
-
-const GroupName = styled.span`
-	display: inline-flex;
-	color: ${COLOURS.darkerGrey};
-	font-size: 0.8rem;
-	margin-right: 1rem;
-`;
-
-const TaskItemInfo = styled.span<{ color: string }>`
-	color: ${props => (props.color ? `${COLOURS[props.color]}` : `${COLOURS.fontColor}`)};
-	font-size: 0.8rem;
-`;
 
 interface ITaskDetailsProps {
 	taskData: ITask;
@@ -104,12 +57,20 @@ const TaskDetailsComponent: FC<ITaskDetailsProps> = ({
 				onChange={onHandleChange}
 				tooltipText={tooltipText}
 			/>
-			<Names to={`/tasks/${listId}/${taskData?._id}`} draggable>
-				<TaskName isCompleted={isCompleted} isTaskDetailsView={isTaskDetailsView} ref={elementRef} onClick={onClick}>
+			<Link
+				to={`/tasks/${listId}/${taskData?._id}`}
+				draggable
+				className='flex flex-col flex-1 text-left ml-4 mr-auto border-none bg-inherit outline-none cursor-pointer no-underline'>
+				<div
+					className={`cursor-pointer ${isCompleted && 'line-through'} ${isCompleted ? 'text-darkerGrey' : 'text-fontColor'} ${
+						isTaskDetailsView && 'hover:bg-lightGrey'
+					}`}
+					ref={elementRef}
+					onClick={onClick}>
 					{isFocused && isTaskDetailsView ? <EditTaskName taskData={taskData} /> : taskData?.title}
-				</TaskName>
-				<div>{taskData?.groupName && <GroupName>{taskData?.groupName}</GroupName>}</div>
-			</Names>
+				</div>
+				<div>{taskData?.groupName && <span className='inline-flex text-sm mr-4 text-darkerGrey'>{taskData?.groupName}</span>}</div>
+			</Link>
 			<ImportanceButton isChecked={isImportanceButtonChecked} onClick={onClickImportanceButton} />
 		</>
 	);

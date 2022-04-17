@@ -11,22 +11,6 @@ interface CheckboxWrapperProps {
 }
 
 const CheckboxWrapper = styled.div<CheckboxWrapperProps>`
-	position: relative;
-	display: flex;
-	${props =>
-		props.disabled &&
-		css`
-			opacity: 0.5;
-		`}
-
-	label {
-		position: relative;
-		cursor: pointer;
-		line-height: 1.3rem;
-		display: flex;
-		align-items: center;
-	}
-
 	input {
 		position: absolute;
 		opacity: 0;
@@ -105,16 +89,6 @@ const CheckboxWrapper = styled.div<CheckboxWrapperProps>`
 	}
 `;
 
-const Label = styled.div`
-	font-size: 0.9rem;
-	margin-left: 0.5rem;
-
-	span {
-		position: relative;
-		border: none;
-	}
-`;
-
 interface CheckboxProps {
 	onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	checked?: boolean;
@@ -129,11 +103,11 @@ interface CheckboxProps {
 export const Checkbox: FC<CheckboxProps> = ({ round, color, disabled, checked, onChange, id, key, children, tooltipText }) => {
 	return (
 		<Tooltip position={'left'} text={tooltipText}>
-			<CheckboxWrapper round={round} color={color || 'blue'} disabled={disabled}>
-				<label>
+			<CheckboxWrapper round={round} color={color || 'blue'} disabled={disabled} className={`relative flex ${disabled && 'opacity-50'}`}>
+				<label className='relative cursor-pointer flex items-center leading-5'>
 					<input type='checkbox' checked={!!checked} onChange={onChange} id={id} key={key} disabled={disabled} />
 					<span />
-					{children && <Label>{children}</Label>}
+					{children && <div className='text-sm ml-2'>{children}</div>}
 				</label>
 			</CheckboxWrapper>
 		</Tooltip>

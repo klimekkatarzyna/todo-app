@@ -9,21 +9,6 @@ import { ElementVisibilityContext } from '../../../providers/ElementVisibilityPr
 import { ITask } from '@kkrawczyk/todo-common';
 
 const TaskItemWrapper = styled.div`
-	display: flex;
-	align-items: center;
-	padding: 0.6rem;
-	min-height: 34px;
-	cursor: pointer;
-	box-shadow: 0 17px 0 -16px #e5e5e5;
-
-	&:hover {
-		background-color: ${COLOURS.lightGrey};
-	}
-
-	&:active {
-		background-color: ${COLOURS.lightBlue};
-	}
-
 	&.dropArea {
 		background: white !important;
 		position: relative;
@@ -83,6 +68,7 @@ export const TaskItem: FC<ITaskItem> = ({
 		<>
 			<ContextMenuTrigger id={task?._id as string}>
 				<TaskItemWrapper
+					className={`${dragAndDropClass} flex items-center p-2 min-h-[34px] cursor-pointer shadow-sm hover:bg-lightGrey active:bg-lightBlue`}
 					key={index}
 					draggable
 					data-position={index}
@@ -90,8 +76,7 @@ export const TaskItem: FC<ITaskItem> = ({
 					onDragOver={onDragOver as any} // TODO: fix
 					onDrop={onDrop}
 					onDragLeave={onDragLeave}
-					onClick={onSelectTask}
-					className={dragAndDropClass}>
+					onClick={onSelectTask}>
 					<TaskDetails
 						taskData={task}
 						onChangeTaskStatus={onChangeTaskStatus}
