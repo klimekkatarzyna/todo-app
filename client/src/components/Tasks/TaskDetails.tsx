@@ -72,7 +72,7 @@ const TaskDetailsComponent: FC<ITaskDetailsProps> = ({
 }) => {
 	const { listId } = useParams<IUseParams>();
 	const tooltipText = useMemo(
-		() => (taskData?.importance === ITaskStatus.complete ? 'oznacz jako niewykonane' : 'oznacz jako wykonane'),
+		() => (taskData?.taskStatus === ITaskStatus.complete ? 'oznacz jako niewykonane' : 'oznacz jako wykonane'),
 		[taskData]
 	);
 
