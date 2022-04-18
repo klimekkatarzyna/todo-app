@@ -58,7 +58,9 @@ export const Modal: FC<IModalNEWProps<unknown>> = ({ children, title, contextual
 				<div className='text-sm pt-4'>{children}</div>
 				{!isActionButtonHidden && (
 					<div className='flex mt-4'>
-						<Button onClick={onHide}>{'Anuluj'}</Button>
+						<Button onClick={onHide} outline>
+							{'Anuluj'}
+						</Button>
 						<Button type='button' secondary onClick={onHandleActionAndClose} isLoading={isLoading}>
 							{'Usuń'}
 						</Button>

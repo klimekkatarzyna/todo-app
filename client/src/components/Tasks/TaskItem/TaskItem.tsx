@@ -1,33 +1,11 @@
 import { FC, useCallback, useContext, useMemo } from 'react';
-import styled from 'styled-components';
 import { ContextMenuTrigger } from 'react-contextmenu';
-import { COLOURS, contextualMenuFirstOpion } from '../../../constants';
+import { contextualMenuFirstOpion } from '../../../constants';
 import { IinitialDnDState } from '../../../hooks/useDragAndDrop';
 import { ContextualMenu } from '../../ContextualMenu/ContextualMenu';
 import { TaskDetails } from '../TaskDetails';
 import { ElementVisibilityContext } from '../../../providers/ElementVisibilityProvider';
 import { ITask } from '@kkrawczyk/todo-common';
-
-const TaskItemWrapper = styled.div`
-	&.dropArea {
-		background: white !important;
-		position: relative;
-
-		&::before {
-			content: '';
-			color: ${COLOURS.blue};
-			font-size: 0.5em;
-			text-transform: uppercase;
-			width: 100%;
-			height: 100%;
-			border-bottom: 2px solid ${COLOURS.blue};
-			position: absolute;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-		}
-	}
-`;
 
 interface ITaskItem {
 	task: ITask;
@@ -55,10 +33,7 @@ export const TaskItem: FC<ITaskItem> = ({
 	changeTaskImportance,
 }) => {
 	const { onShow } = useContext(ElementVisibilityContext);
-	const dragAndDropClass = useMemo(
-		() => (dragAndDrop?.draggedTo !== 0 && dragAndDrop?.draggedTo === Number(index) ? 'dropArea' : ''),
-		[dragAndDrop]
-	);
+	const isDragAndDrop = useMemo(() => (dragAndDrop?.draggedTo !== 0 && dragAndDrop?.draggedTo === Number(index) ? true : false), [dragAndDrop]);
 
 	const onSelectTask = useCallback((): void => {
 		onShow();
@@ -67,8 +42,10 @@ export const TaskItem: FC<ITaskItem> = ({
 	return (
 		<>
 			<ContextMenuTrigger id={task?._id as string}>
-				<TaskItemWrapper
-					className={`${dragAndDropClass} flex items-center p-2 min-h-[34px] cursor-pointer shadow-sm hover:bg-lightGrey active:bg-lightBlue`}
+				<div
+					className={`${
+						isDragAndDrop && `relative bg-sky-200`
+					} flex items-center p-[0.9rem] cursor-pointer shadow-sm hover:bg-lightBlue active:bg-lightBlue`}
 					key={index}
 					draggable
 					data-position={index}
@@ -83,7 +60,7 @@ export const TaskItem: FC<ITaskItem> = ({
 						isCompleted={isCompleted}
 						changeTaskImportance={changeTaskImportance}
 					/>
-				</TaskItemWrapper>
+				</div>
 			</ContextMenuTrigger>
 			<ContextualMenu contextualMenuList={contextualMenuFirstOpion} elementId={task?._id || ''} />
 		</>

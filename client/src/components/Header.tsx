@@ -35,7 +35,7 @@ export const Header: FC<IHeader> = ({ userName }) => {
 				<div className='text-white mr-4 p-2 rounded-full border-solid border-2 border-white w-9 h-9 flex items-center justify-center'>
 					{returnsFirstChar(firstChar)} {returnsFirstChar(secChar)}
 				</div>
-				<Button outline onClick={logoutUser} isLoading={isLoading}>
+				<Button outlineWhite onClick={logoutUser} isLoading={isLoading}>
 					Logout
 				</Button>
 			</div>

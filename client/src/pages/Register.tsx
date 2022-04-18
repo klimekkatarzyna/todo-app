@@ -59,7 +59,7 @@ export const Register: FC = () => {
 								<Input name='password' type={InputType.password} placeholder={'Password'} {...props} />
 								{errors.password && touched.password ? <ErrorMessageComponent name='password' /> : null}
 							</div>
-							<Button primary type='submit' margin isLoading={isLoading}>
+							<Button primary type='submit' isLoading={isLoading}>
 								Uwrórz konto
 							</Button>
 						</Form>

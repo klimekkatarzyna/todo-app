@@ -14,6 +14,7 @@ module.exports = {
 				fontColor: '#34373d',
 				green: '#5ca52d',
 				lightBlue: '#f4f6ff',
+				white: '#ffffff',
 			},
 		},
 	},

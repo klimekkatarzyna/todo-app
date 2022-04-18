@@ -64,7 +64,7 @@ export const Login: FC = () => {
 								{errors.password && touched.password ? <ErrorMessageComponent name='password' /> : null}
 							</div>
 
-							<Button primary type='submit' margin isLoading={isLoading}>
+							<Button primary type='submit' isLoading={isLoading}>
 								<span>Zaloguj</span>
 							</Button>
 						</Form>
