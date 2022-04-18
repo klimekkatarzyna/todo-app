@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { addUserToMemberOfListAction, IShareLitDetails } from '../../actions/sharing';
 import { Button } from '../Button/Button';
 import { getStringAfterCharacter } from '../../utils/utilsFunctions';
+import { QueryKey } from '../../enums';
 
 interface IJoinToList {
 	listDataLoading: boolean;
@@ -20,7 +21,7 @@ export const JoinToList: FC<IJoinToList> = ({ listDataLoading, list }) => {
 		isLoading,
 	} = useMutation(addUserToMemberOfListAction, {
 		onSuccess: () => {
-			query.invalidateQueries(['checkSession']);
+			query.invalidateQueries([QueryKey.checkSession]);
 		},
 	});
 

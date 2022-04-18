@@ -1,5 +1,5 @@
 import { FC, useCallback, useContext } from 'react';
-import { ContextualMenuOpion } from '../../enums';
+import { ContextualMenuOpion, QueryKey } from '../../enums';
 import { IGroup } from '@kkrawczyk/todo-common';
 import { Modal } from '../Modal/Modal';
 import { Group } from './Group';
@@ -18,7 +18,7 @@ export const Groups: FC<IGroupsProps> = ({ isNavClosed }) => {
 	const { isVisible } = useContext(ModalVisibilityContext);
 	const { contextualMenu } = useContext(ContextualMenuContext);
 
-	const { isLoading: getGroupsLoading, data } = useQuery<IGroup[] | undefined>('groups', getGroups, {
+	const { isLoading: getGroupsLoading, data } = useQuery<IGroup[] | undefined>(QueryKey.groups, getGroups, {
 		useErrorBoundary: true,
 	});
 

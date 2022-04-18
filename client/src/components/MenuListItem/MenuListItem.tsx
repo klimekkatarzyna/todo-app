@@ -2,7 +2,7 @@ import { FC, useMemo, memo } from 'react';
 import { Link } from 'react-router-dom';
 import { COLOURS, contextualMenuSecountOpion, contextualMenuSecountOpionMembers, IconWrapper } from '../../constants';
 import { IList, ITask } from '@kkrawczyk/todo-common';
-import { SideMenuType } from '../../enums';
+import { QueryKey, SideMenuType } from '../../enums';
 import { ContextMenuTrigger } from 'react-contextmenu';
 import { ContextualMenu } from '../ContextualMenu/ContextualMenu';
 import { useSharingData } from '../../hooks/useSharingData';
@@ -26,7 +26,7 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed }) => 
 		[listItem]
 	);
 	const { isOwner } = useSharingData(listItem?.userId);
-	const { data } = useQuery<ITask[] | undefined>(['tasksOfCurrentList', listItem._id], () =>
+	const { data } = useQuery<ITask[] | undefined>([QueryKey.tasksOfCurrentList, listItem._id], () =>
 		getTasksOfCurrentListAction({ parentFolderId: listItem._id })
 	);
 

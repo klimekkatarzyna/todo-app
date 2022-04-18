@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState, useContext } from 'react';
-import { SortTaskType } from '../enums';
+import { QueryKey, SortTaskType } from '../enums';
 import { useSort } from './useSort';
 import { useParams } from 'react-router-dom';
 import { IUseParams } from '../interfaces/app';
@@ -35,11 +35,14 @@ export const useTasks = () => {
 		},
 	});
 
-	const { data: tasksOfCurrentList, isLoading: getTasksOfCurrentListLoading } = useQuery<ITask[] | undefined>(['tasksOfCurrentList', listId], () =>
-		getTasksOfCurrentListAction({ parentFolderId: listId })
+	const { data: tasksOfCurrentList, isLoading: getTasksOfCurrentListLoading } = useQuery<ITask[] | undefined>(
+		[QueryKey.tasksOfCurrentList, listId],
+		() => getTasksOfCurrentListAction({ parentFolderId: listId })
 	);
 
-	const { data: taskData, isLoading: taskDataLoading } = useQuery<ITask | undefined>(['getTask', taskId], () => getTaskAction({ _id: taskId }));
+	const { data: taskData, isLoading: taskDataLoading } = useQuery<ITask | undefined>([QueryKey.getTask, taskId], () =>
+		getTaskAction({ _id: taskId })
+	);
 
 	const { mutate: removeTaskMutation } = useMutation(
 		() => deleteTaskAction({ _id: contextualMenu?.elementId, parentFolderId: taskData?.parentFolderId }),

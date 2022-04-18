@@ -8,11 +8,12 @@ import { useDragAndDrop } from '../hooks/useDragAndDrop';
 import { onGetImportanceTasksAction } from '../actions/tasks';
 import { ITask, ITaskStatus } from '@kkrawczyk/todo-common';
 import { Loader } from 'react-feather';
+import { QueryKey } from '../enums';
 
 export const Important: FC = () => {
 	const { inCompletedTaskslist, setInCompletedTasksList, onChangeTaskStatus, changeTaskImportanceMutation } = useTasks();
 	const { onDragStart, onDragOver, onDragLeave, onDrop, dragAndDrop } = useDragAndDrop(inCompletedTaskslist, setInCompletedTasksList);
-	const { data, isLoading, isError } = useQuery<ITask[] | undefined>(['getImportanceTasks'], onGetImportanceTasksAction);
+	const { data, isLoading, isError } = useQuery<ITask[] | undefined>([QueryKey.getImportanceTasks], onGetImportanceTasksAction);
 
 	const tasksList = useMemo(() => data?.filter(taskData => taskData?.taskStatus === ITaskStatus.inComplete), [data]);
 

@@ -4,6 +4,7 @@ import { useAuthorization } from './hooks/useAuthorization';
 import { IIUserDataResponse } from './interfaces/app';
 import { HttpResponse } from './utils/http';
 import { IUserData } from '@kkrawczyk/todo-common';
+import { QueryKey } from './enums';
 
 export interface AuthContextType {
 	isCheckSessionLoading: boolean;
@@ -25,7 +26,7 @@ export const AuthProvider: FC<IAuthProvider> = ({ children }) => {
 	const [sessionChecked, setSessionChecked] = useState<boolean>(false);
 
 	const { checkSession } = useAuthorization();
-	const { isLoading: isCheckSessionLoading } = useQuery<HttpResponse<IIUserDataResponse> | undefined>('checkSession', checkSession);
+	const { isLoading: isCheckSessionLoading } = useQuery<HttpResponse<IIUserDataResponse> | undefined>(QueryKey.checkSession, checkSession);
 
 	useEffect(() => {
 		(async () => {

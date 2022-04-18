@@ -47,3 +47,15 @@ export enum SortTaskType {
 	importance = 'importance',
 	deadline = 'deadline',
 }
+
+export enum QueryKey {
+	checkSession = 'checkSession',
+	getListById = 'getListById',
+	getListDatatoShare = 'getListDatatoShare',
+	getImportanceTasks = 'getImportanceTasks',
+	tasksOfCurrentList = 'tasksOfCurrentList',
+	getTask = 'getTask',
+	lists = 'lists',
+	getMainList = 'getMainList',
+	groups = 'groups',
+}

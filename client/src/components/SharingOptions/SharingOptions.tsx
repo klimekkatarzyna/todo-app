@@ -8,6 +8,7 @@ import { AuthContext, AuthContextType } from '../../AuthProvider';
 import { AccessManagement } from './AccessManagement';
 import { getListByIdAction } from '../../actions/sharing';
 import { IList } from '@kkrawczyk/todo-common';
+import { QueryKey } from '../../enums';
 
 interface ISharingOptionsProps {
 	addInvitationTokenToListLoading: boolean;
@@ -20,7 +21,7 @@ export const SharingOptions: FC<ISharingOptionsProps> = ({ addInvitationTokenToL
 	const { invitationToken, onGenerateInvitationToken } = useGenerateInvitationToken();
 	const [step, setStep] = useState<number>(1);
 
-	const { data, isLoading, error } = useQuery<IList | undefined>(['getListById', contextualMenu?.elementId], () =>
+	const { data, isLoading, error } = useQuery<IList | undefined>([QueryKey.getListById, contextualMenu?.elementId], () =>
 		getListByIdAction({ _id: contextualMenu?.elementId })
 	);
 

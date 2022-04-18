@@ -10,11 +10,12 @@ import { Toolbar } from '../components/Toolbar';
 import { IUseParams } from '../interfaces/app';
 import { IList } from '@kkrawczyk/todo-common';
 import { Loader } from 'react-feather';
+import { QueryKey } from '../enums';
 
 export const Tasks: FC = () => {
 	const { listId } = useParams<IUseParams>();
 
-	const { data, isLoading } = useQuery<IList | undefined>(['getListById', listId], () => getListByIdAction({ _id: listId }));
+	const { data, isLoading } = useQuery<IList | undefined>([QueryKey.getListById, listId], () => getListByIdAction({ _id: listId }));
 
 	return (
 		<Board>

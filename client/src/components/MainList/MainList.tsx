@@ -5,6 +5,7 @@ import { http, HttpResponse } from '../../utils/http';
 import * as api from '../../services';
 import { useQuery } from 'react-query';
 import { IList } from '@kkrawczyk/todo-common';
+import { QueryKey } from '../../enums';
 
 export interface IMainListResponse {
 	mainLists: IList[];
@@ -17,7 +18,7 @@ interface IMainList {
 const MainListComponent: FC<IMainList> = ({ isNavClosed }) => {
 	// TODO: endpomt to update tasksNumber
 	const getMainListAction = useCallback(async () => await http<IMainListResponse>(api.getMainList, 'GET'), []);
-	const { data: mainList, isLoading: mainListLoading } = useQuery<HttpResponse<IMainListResponse>>('getMainList', getMainListAction);
+	const { data: mainList, isLoading: mainListLoading } = useQuery<HttpResponse<IMainListResponse>>(QueryKey.getMainList, getMainListAction);
 
 	return (
 		<div className='flex flex-col mb-8'>

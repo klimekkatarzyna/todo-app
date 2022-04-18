@@ -70,11 +70,6 @@ const InputStyled = styled(Field)<{
 	}
 `;
 
-const ErrorStyled = styled(ErrorMessage)`
-	font-size: 0.8rem;
-	color: ${COLOURS.red};
-`;
-
 interface IInput<T = string | number | undefined> {
 	name: string;
 	placeholder?: string;
