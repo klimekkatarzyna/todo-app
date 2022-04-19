@@ -19,7 +19,7 @@ export const useList = () => {
 
 	const { mutate: removeListMutation } = useMutation(deleteListAction, {
 		onSuccess: () => {
-			query.invalidateQueries(['lists']);
+			query.invalidateQueries([QueryKey.lists]);
 		},
 	});
 

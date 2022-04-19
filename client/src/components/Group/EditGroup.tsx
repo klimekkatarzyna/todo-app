@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useContext, useEffect, useState } from 'react';
 import { ContextualMenuContext } from '../../ContextualMenuProvider';
-import { ContextualMenuOpion } from '../../enums';
+import { ContextualMenuOpion, QueryKey } from '../../enums';
 import { useMutation, useQueryClient } from 'react-query';
 import { editGroup } from '../../actions/groups';
 import { Input } from '../../formik/Input';
@@ -22,7 +22,7 @@ export const EditGroup: FC<IEditGroupProps> = ({ title, groupId, isNavClosed }) 
 
 	const { mutate, error, isLoading } = useMutation(editGroup, {
 		onSuccess: () => {
-			query.invalidateQueries(['groups']);
+			query.invalidateQueries([QueryKey.groups]);
 		},
 	});
 

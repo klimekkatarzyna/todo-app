@@ -9,6 +9,7 @@ import { Formik, Form } from 'formik';
 import { isStringContainsWhitespace } from '../../utils/utilsFunctions';
 import { ErrorMessageComponent } from '../../formik/ErrorMessageComponent';
 import { createEditGroupSchema, CreateEditGroupType, IGroup } from '@kkrawczyk/todo-common';
+import { QueryKey } from '../../enums';
 
 export const CreateGroup: FC = () => {
 	const query = useQueryClient();
@@ -18,7 +19,7 @@ export const CreateGroup: FC = () => {
 
 	const { mutate, error, isLoading } = useMutation(createGroup, {
 		onSuccess: () => {
-			query.invalidateQueries(['groups']);
+			query.invalidateQueries([QueryKey.groups]);
 		},
 	});
 

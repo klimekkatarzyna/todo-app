@@ -4,6 +4,7 @@ import { X, Loader } from 'react-feather';
 import { removeMemberAction } from '../../actions/sharing';
 import { useSharingData } from '../../hooks/useSharingData';
 import { IList } from '@kkrawczyk/todo-common';
+import { QueryKey } from '../../enums';
 
 interface IMemberProps {
 	listDataResponse: IList;
@@ -16,8 +17,8 @@ export const Member: FC<IMemberProps> = ({ listDataResponse, member }) => {
 
 	const { mutate, isLoading, isError } = useMutation(removeMemberAction, {
 		onSuccess: () => {
-			query.invalidateQueries(['getListById']);
-			query.invalidateQueries(['lists']);
+			query.invalidateQueries([QueryKey.getListById]);
+			query.invalidateQueries([QueryKey.lists]);
 		},
 	});
 

@@ -24,7 +24,7 @@ export const Groups: FC<IGroupsProps> = ({ isNavClosed }) => {
 
 	const { mutate, error, isLoading } = useMutation(deleteGroup, {
 		onSuccess: () => {
-			query.invalidateQueries(['groups']);
+			query.invalidateQueries([QueryKey.groups]);
 		},
 	});
 

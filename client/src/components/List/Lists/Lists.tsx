@@ -2,7 +2,7 @@ import { FC, memo, useCallback, useContext } from 'react';
 import { MenuListItem } from '../../MenuListItem/MenuListItem';
 import { Loader } from 'react-feather';
 import { Modal } from '../../Modal/Modal';
-import { ContextualMenuOpion } from '../../../enums';
+import { ContextualMenuOpion, QueryKey } from '../../../enums';
 import { SharingOptions } from '../../SharingOptions/SharingOptions';
 import { useMutation, useQueryClient } from 'react-query';
 import { addInvitationTokenToListAction } from '../../../actions/lists';
@@ -29,7 +29,7 @@ const ListsComponents: FC<ILists> = ({ isNavClosed }) => {
 
 	const { mutate: addInvitationTokenToListMutation, isLoading: addInvitationTokenToListLoading } = useMutation(addInvitationTokenToListAction, {
 		onSuccess: () => {
-			query.invalidateQueries(['getListById']);
+			query.invalidateQueries([QueryKey.getListById]);
 		},
 	});
 
@@ -39,8 +39,8 @@ const ListsComponents: FC<ILists> = ({ isNavClosed }) => {
 
 	const { mutate, isLoading, isError } = useMutation(removeMemberAction, {
 		onSuccess: () => {
-			query.invalidateQueries(['getListById']);
-			query.invalidateQueries(['lists']);
+			query.invalidateQueries([QueryKey.getListById]);
+			query.invalidateQueries([QueryKey.lists]);
 		},
 	});
 

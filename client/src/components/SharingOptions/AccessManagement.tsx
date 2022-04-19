@@ -4,6 +4,7 @@ import { IList } from '@kkrawczyk/todo-common';
 import { useMutation, useQueryClient } from 'react-query';
 import { ArrowLeft } from 'react-feather';
 import { removeInvitationAction } from '../../actions/sharing';
+import { QueryKey } from '../../enums';
 
 interface IAccessManagementProps {
 	listDataResponse: IList;
@@ -15,7 +16,7 @@ export const AccessManagement: FC<IAccessManagementProps> = ({ listDataResponse,
 
 	const { mutate, isLoading, isError } = useMutation(removeInvitationAction, {
 		onSuccess: () => {
-			query.invalidateQueries(['getListById']);
+			query.invalidateQueries([QueryKey.getListById]);
 		},
 	});
 

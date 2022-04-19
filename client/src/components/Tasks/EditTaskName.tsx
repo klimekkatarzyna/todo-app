@@ -7,6 +7,7 @@ import { Formik, Form } from 'formik';
 import { ErrorMessageComponent } from '../../formik/ErrorMessageComponent';
 import { isStringContainsWhitespace } from '../../utils/utilsFunctions';
 import { Loader } from 'react-feather';
+import { QueryKey } from '../../enums';
 
 interface IEditTaskNameProps {
 	taskData: ITask;
@@ -17,8 +18,8 @@ export const EditTaskName: FC<IEditTaskNameProps> = ({ taskData }) => {
 
 	const { mutate, isLoading } = useMutation(editTaskAction, {
 		onSuccess: () => {
-			query.invalidateQueries('getTask');
-			query.invalidateQueries('tasksOfCurrentList');
+			query.invalidateQueries(QueryKey.getTask);
+			query.invalidateQueries(QueryKey.tasksOfCurrentList);
 		},
 	});
 

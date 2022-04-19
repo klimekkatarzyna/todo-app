@@ -4,6 +4,7 @@ import { useSharingData } from '../../hooks/useSharingData';
 import { useMutation, useQueryClient } from 'react-query';
 import { removeMemberAction } from '../../actions/sharing';
 import { Loader } from 'react-feather';
+import { QueryKey } from '../../enums';
 
 interface IRemoveMember {
 	listDataResponse: IList;
@@ -16,8 +17,8 @@ export const RemoveMember: FC<IRemoveMember> = ({ listDataResponse, onNextStep }
 
 	const { mutate, isLoading, isError } = useMutation(removeMemberAction, {
 		onSuccess: () => {
-			query.invalidateQueries(['getListById']);
-			query.invalidateQueries(['lists']);
+			query.invalidateQueries([QueryKey.getListById]);
+			query.invalidateQueries([QueryKey.lists]);
 		},
 	});
 

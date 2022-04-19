@@ -6,13 +6,14 @@ import { Formik, Form } from 'formik';
 import { createEditListSchema } from '@kkrawczyk/todo-common';
 import { Input } from '../../../formik/Input';
 import { ErrorMessageComponent } from '../../../formik/ErrorMessageComponent';
+import { QueryKey } from '../../../enums';
 
 export const CreateList: FC = () => {
 	const query = useQueryClient();
 
 	const { mutate, isLoading, error } = useMutation(createListAction, {
 		onSuccess: () => {
-			query.invalidateQueries(['lists']);
+			query.invalidateQueries([QueryKey.lists]);
 		},
 	});
 
