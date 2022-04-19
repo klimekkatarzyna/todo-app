@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { MoreHorizontal } from '@styled-icons/feather/MoreHorizontal';
+import { MoreHorizontal } from 'react-feather';
 
 export const ListSettings = () => {
 	return (

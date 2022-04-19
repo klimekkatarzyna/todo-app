@@ -1,8 +1,7 @@
 import React, { FC, useCallback } from 'react';
 import { useDropdown } from '../../hooks/useDropdown';
 import { IconButton } from './IconButton';
-import { Folder } from '@styled-icons/feather/Folder';
-import { IconWrapper } from '../../constants';
+import { Folder } from 'react-feather';
 import { useMutation, useQueryClient } from 'react-query';
 import { createGroup } from '../../actions/groups';
 import { Input } from '../../formik/Input';
@@ -35,9 +34,9 @@ export const CreateGroup: FC = () => {
 			<IconButton onClick={toggleDropdown} />
 			{dropdownOpen && (
 				<div className='absolute bottom-11 left-0 right-0 w-full flex items-center py-0 px-4 bg-input-color'>
-					<IconWrapper color='grey'>
-						<Folder />
-					</IconWrapper>
+					<div>
+						<Folder className='icon-style text-grey' />
+					</div>
 					<div className='relative'>
 						<Formik initialValues={initialValues as CreateEditGroupType} validationSchema={createEditGroupSchema} onSubmit={onSubmit}>
 							{({ errors, touched, ...props }) => (

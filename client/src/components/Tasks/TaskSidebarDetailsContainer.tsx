@@ -1,5 +1,4 @@
 import { FC, useCallback, useContext } from 'react';
-import { IconWrapper } from '../../constants';
 import { getDay, getDayName, getMonth, parseUTCtoDate } from '../../utils/date';
 import { TaskDetails } from './TaskDetails';
 import { addTaskToMyDayAction } from '../../actions/tasks';
@@ -47,42 +46,42 @@ export const TaskSidebarDetails: FC = () => {
 
 					<div className='flex p-4 flex-col mb-3 bg-white'>
 						<div onClick={addTaskToMyDayView}>
-							<IconWrapper color='grey'>
-								<Sun strokeWidth={1} className='mr-2' />
-							</IconWrapper>
+							<div className='icon-style text-fontColor'>
+								<Sun className='mr-2 icon-style' />
+							</div>
 						</div>
 					</div>
 
 					<div className='flex p-4 flex-col bg-white'>
 						<div className='flex text-darkerGrey text-sm'>
-							<IconWrapper color='grey'>
-								<Bell strokeWidth={1} className='mr-2' />
-							</IconWrapper>
+							<div className='icon-style text-fontColor'>
+								<Bell className='mr-2 icon-style' />
+							</div>
 							{'Przypomnij'}
 						</div>
 					</div>
 					<div className='flex p-4 flex-col bg-white'>
 						<div className='flex text-darkerGrey text-sm'>
-							<IconWrapper color='grey'>
-								<Calendar strokeWidth={1} className='mr-2' />
-							</IconWrapper>
+							<div className='icon-style text-fontColor'>
+								<Calendar className='mr-2 icon-style' />
+							</div>
 							{'Dodaj termin wykonania'}
 						</div>
 					</div>
 					<div className='flex p-4 flex-col  mb-3 bg-white'>
 						<div className='flex text-darkerGrey text-sm'>
-							<IconWrapper color='grey'>
-								<Repeat strokeWidth={1} className='mr-2' />
-							</IconWrapper>
+							<div className='icon-style text-fontColor'>
+								<Repeat className='mr-2 icon-style' />
+							</div>
 							{'Powtórz'}
 						</div>
 					</div>
 
 					<div className='flex p-4 flex-col  mb-3 bg-white'>
 						<div className='flex text-darkerGrey text-sm'>
-							<IconWrapper color='grey'>
-								<UserPlus strokeWidth={1} className='mr-2' />
-							</IconWrapper>
+							<div className='icon-style text-fontColor'>
+								<UserPlus className='mr-2 icon-style' />
+							</div>
 							{'Przydziel do'}
 						</div>
 					</div>
@@ -93,9 +92,9 @@ export const TaskSidebarDetails: FC = () => {
 
 					<div className='flex p-4 flex-col  mb-3 bg-white'>
 						<div className='flex text-darkerGrey text-sm'>
-							<IconWrapper color='grey'>
-								<FilePlus strokeWidth={1} className='mr-2' />
-							</IconWrapper>
+							<div className='icon-style text-fontColor'>
+								<FilePlus className='mr-2 icon-style' />
+							</div>
 							{'Dodaj plik'}
 						</div>
 					</div>
@@ -106,17 +105,17 @@ export const TaskSidebarDetails: FC = () => {
 
 					<footer className='flex items-center absolute bottom-4 text-darkerGrey text-sm'>
 						<button onClick={onClose} className='border-none bg-inherit cursor-pointer'>
-							<IconWrapper color='grey'>
-								<XSquare strokeWidth={1} />
-							</IconWrapper>
+							<div className='icon-style text-fontColor'>
+								<XSquare />
+							</div>
 						</button>
 						{`Utworzone ${getDayName(parseUTCtoDate(taskData?.createdAt || ''))}, ${getDay(
 							parseUTCtoDate(taskData?.createdAt || '')
 						)} ${getMonth(parseUTCtoDate(taskData?.createdAt || ''))}`}
 						<button onClick={handleClick} className='border-none bg-inherit cursor-pointer'>
-							<IconWrapper color='grey'>
-								<Trash2 strokeWidth={1} />
-							</IconWrapper>
+							<div className='icon-style text-fontColor'>
+								<Trash2 />
+							</div>
 						</button>
 					</footer>
 				</div>

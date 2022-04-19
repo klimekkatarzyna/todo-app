@@ -1,6 +1,6 @@
 import { FC, useMemo, memo } from 'react';
 import { Link } from 'react-router-dom';
-import { COLOURS, contextualMenuSecountOpion, contextualMenuSecountOpionMembers, IconWrapper } from '../../constants';
+import { contextualMenuSecountOpion, contextualMenuSecountOpionMembers } from '../../constants';
 import { IList, ITask } from '@kkrawczyk/todo-common';
 import { QueryKey, SideMenuType } from '../../enums';
 import { ContextMenuTrigger } from 'react-contextmenu';
@@ -18,11 +18,11 @@ interface IMenuListItem {
 const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed }) => {
 	const icon = useMemo(
 		() =>
-			(listItem.url === SideMenuType.myDay && <Sun strokeWidth={1} />) ||
-			(listItem.url === SideMenuType.important && <Star strokeWidth={1} />) ||
-			(listItem.url === SideMenuType.planned && <Calendar strokeWidth={1} />) ||
-			(listItem.url === SideMenuType.assigned && <User strokeWidth={1} />) ||
-			(listItem.url === SideMenuType.inbox && <Home strokeWidth={1} />),
+			(listItem.url === SideMenuType.myDay && <Sun className='icon-style' />) ||
+			(listItem.url === SideMenuType.important && <Star className='icon-style' />) ||
+			(listItem.url === SideMenuType.planned && <Calendar className='icon-style stroke-blue' />) ||
+			(listItem.url === SideMenuType.assigned && <User className='icon-style stroke-green' />) ||
+			(listItem.url === SideMenuType.inbox && <Home className='icon-style stroke-red' />),
 		[listItem]
 	);
 	const { isOwner } = useSharingData(listItem?.userId);
@@ -34,9 +34,9 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed }) => 
 		<Link to={listItem?.isMainList ? `${listItem?.url}` : `/tasks/${listItem?._id}`} className='no-underline'>
 			<ContextMenuTrigger id={listItem?._id || ''}>
 				<div className={'flex align-center px-4 py-2 text-sm hover:bg-white'}>
-					<IconWrapper color={listItem?.themeColor || COLOURS.blue}>{icon || <List strokeWidth={1} className='mr-2' />}</IconWrapper>
+					<div>{icon || <List className='mr-2 stroke-blue icon-style' />}</div>
 					<div className={`text-sm text-fontColor ml-2 break-words ${isNavClosed ? 'hidden' : 'flex'}`}>{listItem?.title}</div>
-					{!!listItem.members?.length && <Users strokeWidth={1} className='text-sm ml-2 w-4 stroke-fontColor' />}
+					{!!listItem.members?.length && <Users className='ml-2 icon-style' />}
 					{!!data?.length && <div className={`text-sm text-fontColor ml-auto ${isNavClosed ? 'hidden' : 'flex'}`}>{data?.length}</div>}
 				</div>
 			</ContextMenuTrigger>

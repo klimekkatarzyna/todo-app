@@ -1,74 +1,11 @@
 import { FC, useMemo } from 'react';
-import { Field, ErrorMessage } from 'formik';
-import styled, { css } from 'styled-components';
-import { COLOURS, IconWrapper } from '../constants';
+import { Field } from 'formik';
 import { InputVersion } from '../enums';
-import { Plus } from '@styled-icons/feather/Plus';
-import { Circle } from '@styled-icons/feather/Circle';
+import { Plus, Circle, Loader } from 'react-feather';
 import { useFocusingHandling } from '../hooks/useMouseHandling';
-import { Loader } from 'react-feather';
 import { InputType } from '../interfaces/app';
 import { useTogglePasswordVisibility } from '../hooks/useTogglePasswordVisibility';
 import { InputEye } from '../components/InputEye/InputEye';
-
-interface IWrapper {
-	type: InputVersion;
-	inputFocused: boolean;
-	isIcon: boolean;
-	isTaskInput?: boolean;
-	readOnly?: boolean | undefined;
-}
-
-const Wrapper = styled.div<IWrapper>`
-	display: flex;
-	align-items: center;
-	border-radius: 0.3rem;
-	padding: 0 0.7rem;
-	background-color: ${props => (props.type === InputVersion.primary ? `inherit` : `${COLOURS.white}`)};
-	cursor: pointer;
-	border-right: 1px solid ${COLOURS.lightGrey};
-	border-top: 1px solid ${COLOURS.white};
-	width: 100%;
-
-	${props =>
-		!props.isIcon &&
-		css`
-			border-bottom: 1px solid ${COLOURS.darkerGrey};
-			border-right: none;
-			border-radius: inherit;
-			padding: 0;
-		`};
-
-	${props =>
-		props.isTaskInput &&
-		props.inputFocused &&
-		css`
-			border-bottom: 1px solid ${COLOURS.blue};
-			border-radius: inherit;
-			border-right: none;
-		`};
-
-	> button {
-		border: none;
-		background-color: inherit;
-	}
-`;
-
-const InputStyled = styled(Field)<{
-	inputFocused: boolean;
-	colorType: InputVersion;
-	isTaskInput?: boolean;
-}>`
-	width: 100%;
-	padding: ${props => (!props.isTaskInput ? '0.8rem' : '1.2rem')};
-	border: none;
-	color: ${props => (props.colorType === InputVersion.primary ? `${COLOURS.blue}` : `${COLOURS.white}`)};
-	outline: none;
-	background-color: ${props => (props.colorType === InputVersion.primary ? `inherit` : `${COLOURS.grey}`)};
-	::placeholder {
-		color: ${props => (props.colorType === InputVersion.primary && !props.inputFocused ? `${COLOURS.blue}` : `${COLOURS.darkerGrey}`)};
-	}
-`;
 
 interface IInput<T = string | number | undefined> {
 	name: string;
@@ -97,32 +34,31 @@ export const Input: FC<IInput> = ({
 	...rest
 }) => {
 	const { onFocus, onBlur, isFocused } = useFocusingHandling();
-	const iconColor: string = useMemo(() => (colorType === InputVersion.primary && !isFocused ? COLOURS.blue : COLOURS.fontColor), [type, isFocused]);
+	const iconColor: string = useMemo(() => (colorType === InputVersion.primary && !isFocused ? 'text-blue' : 'text-fontColor'), [type, isFocused]);
 	const { showPassword, handledSetPassword } = useTogglePasswordVisibility();
 
 	return (
-		<Wrapper type={colorType} inputFocused={isFocused} isIcon={isIcon} isTaskInput={isTaskInput}>
+		<div className='flex items-center rounded px-3 py-0 cursor-pointer w-full'>
 			{isIcon && (
-				<button type='submit'>
-					<IconWrapper color={iconColor}>{isFocused ? <Circle /> : <Plus />}</IconWrapper>
+				<button type='submit' className='bg-inherit border-none'>
+					<div>{isFocused ? <Circle className={`icon-style ${iconColor}`} /> : <Plus className={`icon-style ${iconColor}`} />}</div>
 					{isLoading && <Loader />}
 				</button>
 			)}
-			<InputStyled
-				className={`${className} text-sm`}
+			<Field
+				className={`${className} w-full border-none outline-none text-sm ${colorType === InputVersion.primary ? `bg-inherit` : 'bg-grey'} ${
+					colorType === InputVersion.primary ? 'text-blue' : 'text-white'
+				}`}
 				name={name}
 				type={!showPassword && type === InputType.password ? InputType.password : InputType.text}
 				readOnly={readOnly}
-				colorType={colorType}
 				placeholder={placeholder}
 				autoFocus={autoFocus}
 				onFocus={onFocus}
 				onBlur={onBlur}
-				inputFocused={isFocused}
-				isTaskInput={isTaskInput}
 				{...rest}
 			/>
 			{type === InputType.password && <InputEye showPassword={showPassword} handledSetPassword={handledSetPassword} />}
-		</Wrapper>
+		</div>
 	);
 };

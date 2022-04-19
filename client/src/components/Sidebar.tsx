@@ -20,7 +20,7 @@ export const Sidebar: FC = () => {
 			} transition-width duration-200 ease-in`}>
 			{/*TODO: search*/}
 			<button className='border-none bg-inherit text-center p-2' onClick={handleClick}>
-				{<Menu strokeWidth={1} className='stroke-blue w-8' />}
+				{<Menu className='stroke-blue icon-style' />}
 			</button>
 			<div className='overflow-y-scroll w-full'>
 				<MainList isNavClosed={isNavClosed} />

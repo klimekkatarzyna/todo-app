@@ -1,6 +1,5 @@
 import React, { FC, useMemo } from 'react';
 import { Star } from 'react-feather';
-import { COLOURS, IconWrapper } from '../../constants';
 import { Tooltip } from '../Tooltip/Tooltip';
 
 interface IImportanceButton {
@@ -15,11 +14,9 @@ export const ImportanceButton: FC<IImportanceButton> = ({ isChecked, onClick }) 
 		<button onClick={onClick} className='relative border-none bg-inherit'>
 			<input type='checkbox' checked={isChecked} onChange={() => {}} className='hidden' />
 			<Tooltip position={'right'} text={tooltipText}>
-				<IconWrapper
-					color={COLOURS.blue} // TODO: theme color
-					isChecked={isChecked}>
-					<Star strokeWidth={1} />
-				</IconWrapper>
+				<div>
+					<Star className={`icon-style stroke-blue ${isChecked && 'fill-blue'}`} />
+				</div>
 			</Tooltip>
 		</button>
 	);

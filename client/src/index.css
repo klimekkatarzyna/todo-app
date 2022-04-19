@@ -12,6 +12,7 @@
 		font-size: 0.9rem;
 		height: 100%;
 		overflow: hidden;
+		color: #34373d;
 	}
 
 	#root {
@@ -23,5 +24,9 @@
 
 	code {
 		font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+	}
+
+	.icon-style {
+		@apply stroke-1 w-5 h-5 checked:fill-fontColor stroke-fontColor;
 	}
 }

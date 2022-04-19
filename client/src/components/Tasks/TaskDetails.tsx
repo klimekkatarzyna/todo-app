@@ -51,7 +51,6 @@ const TaskDetailsComponent: FC<ITaskDetailsProps> = ({
 	return (
 		<>
 			<Checkbox
-				round
 				checked={taskData?.taskStatus === ITaskStatus.complete}
 				color={taskData?.themeColor}
 				onChange={onHandleChange}

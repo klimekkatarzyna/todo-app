@@ -1,5 +1,4 @@
 import React, { FC, useCallback, memo, useState } from 'react';
-import { IconWrapper } from '../../constants';
 import { ArrowRight, ArrowDown } from 'react-feather';
 
 interface IAccordion {
@@ -18,7 +17,7 @@ const AccordionComponent: FC<IAccordion> = ({ title, details, children }) => {
 	return (
 		<div>
 			<button onClick={onToogle} className='flex items-center text-sm border-none cursor-pointer bg-inherit p-3'>
-				<IconWrapper color='grey'>{isActive ? <ArrowDown /> : <ArrowRight />}</IconWrapper>
+				<div>{isActive ? <ArrowDown className='icon-style text-grey' /> : <ArrowRight className='icon-style text-grey' />}</div>
 				<h3 className='ml-1 m-0 font-semibold text-sm'>{title}</h3>
 				{details}
 			</button>

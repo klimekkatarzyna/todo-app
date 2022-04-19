@@ -1,7 +1,5 @@
 import { FC } from 'react';
-import { Eye } from '@styled-icons/feather/Eye';
-import { EyeOff } from '@styled-icons/feather/EyeOff';
-import { IconWrapperStyled } from '../../constants';
+import { EyeOff, Eye } from 'react-feather';
 
 interface IInputEye {
 	showPassword: boolean;
@@ -12,13 +10,13 @@ export const InputEye: FC<IInputEye> = ({ showPassword, handledSetPassword }) =>
 	return (
 		<>
 			{!showPassword ? (
-				<IconWrapperStyled color={'grey'}>
-					<Eye onClick={handledSetPassword} />
-				</IconWrapperStyled>
+				<div>
+					<Eye onClick={handledSetPassword} className='icon-style text-fontColor absolute right-3' />
+				</div>
 			) : (
-				<IconWrapperStyled color={'grey'}>
-					<EyeOff onClick={handledSetPassword} />
-				</IconWrapperStyled>
+				<div>
+					<EyeOff onClick={handledSetPassword} className='icon-style text-fontColor absolute right-3' />
+				</div>
 			)}
 		</>
 	);
