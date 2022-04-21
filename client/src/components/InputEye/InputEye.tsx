@@ -10,13 +10,9 @@ export const InputEye: FC<IInputEye> = ({ showPassword, handledSetPassword }) =>
 	return (
 		<>
 			{!showPassword ? (
-				<div>
-					<Eye onClick={handledSetPassword} className='icon-style text-fontColor absolute right-3' />
-				</div>
+				<Eye onClick={handledSetPassword} className='icon-style text-fontColor absolute right-5' />
 			) : (
-				<div>
-					<EyeOff onClick={handledSetPassword} className='icon-style text-fontColor absolute right-3' />
-				</div>
+				<EyeOff onClick={handledSetPassword} className='icon-style text-fontColor absolute right-5' />
 			)}
 		</>
 	);

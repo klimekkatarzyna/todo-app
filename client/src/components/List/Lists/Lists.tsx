@@ -11,7 +11,7 @@ import { IList } from '@kkrawczyk/todo-common';
 import { useList } from '../../../hooks/useList';
 import { useRecoilValue } from 'recoil';
 import { listsState } from '../../../atoms';
-import { removeMemberAction } from '../../../actions/sharing';
+import { updateMembersList } from '../../../actions/sharing';
 import { ContextualMenuContext } from '../../../ContextualMenuProvider';
 import { AuthContext } from '../../../AuthProvider';
 
@@ -37,14 +37,14 @@ const ListsComponents: FC<ILists> = ({ isNavClosed }) => {
 		removeListMutation({ _id: contextualMenu?.elementId });
 	}, [contextualMenu]);
 
-	const { mutate, isLoading, isError } = useMutation(removeMemberAction, {
+	const { mutate, isLoading, isError } = useMutation(updateMembersList, {
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.getListById]);
 			query.invalidateQueries([QueryKey.lists]);
 		},
 	});
 
-	const onRemoveMember = useCallback(() => {
+	const onUpdateMembersList = useCallback(() => {
 		mutate({ _id: contextualMenu?.elementId, member: authData?._id });
 	}, [contextualMenu, authData]);
 
@@ -66,7 +66,7 @@ const ListsComponents: FC<ILists> = ({ isNavClosed }) => {
 				</Modal>
 			)}
 			{isVisible && (
-				<Modal title='Czy chcesz opuścić tę listę?' onHandleAction={onRemoveMember} contextualType={ContextualMenuOpion.leave_list} />
+				<Modal title='Czy chcesz opuścić tę listę?' onHandleAction={onUpdateMembersList} contextualType={ContextualMenuOpion.leave_list} />
 			)}
 		</>
 	);

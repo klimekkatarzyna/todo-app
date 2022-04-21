@@ -7,10 +7,10 @@ export interface IShareLitDetails {
 	isMemberAddedToList: boolean;
 }
 
-export const removeInvitationAction = async ({ _id }: IList) => await http(`${api.removeInvitation}`, 'PATCH', { _id });
+export const removeInvitationAction = async ({ _id }: IList) => await http(`${api.changeInvitation}`, 'PATCH', { _id });
 
-export const removeMemberAction = async ({ _id, member }: IList) =>
-	await http(`${api.removeMemberFromList}`, 'PATCH', {
+export const updateMembersList = async ({ _id, member }: IList) =>
+	await http(`${api.updateMembersList}`, 'PATCH', {
 		_id,
 		member,
 	});
@@ -26,6 +26,6 @@ export const getListDatatoShareAction = async ({ invitationToken }: IList) => {
 };
 
 export const addUserToMemberOfListAction = async (invitationToken: string) =>
-	await http(api.addUserToMemberOfList, 'PATCH', {
+	await http(api.addUserToMemberOfList, 'POST', {
 		invitationToken,
 	});

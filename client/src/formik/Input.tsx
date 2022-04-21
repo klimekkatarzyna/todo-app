@@ -38,7 +38,7 @@ export const Input: FC<IInput> = ({
 	const { showPassword, handledSetPassword } = useTogglePasswordVisibility();
 
 	return (
-		<div className='flex items-center rounded px-3 py-0 cursor-pointer w-full'>
+		<div className='flex items-center rounded px-3 py-0 cursor-pointer w-full relative'>
 			{isIcon && (
 				<button type='submit' className='bg-inherit border-none'>
 					<div>{isFocused ? <Circle className={`icon-style ${iconColor}`} /> : <Plus className={`icon-style ${iconColor}`} />}</div>

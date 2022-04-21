@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { X, Loader } from 'react-feather';
-import { removeMemberAction } from '../../actions/sharing';
+import { updateMembersList } from '../../actions/sharing';
 import { useSharingData } from '../../hooks/useSharingData';
 import { IList } from '@kkrawczyk/todo-common';
 import { QueryKey } from '../../enums';
@@ -15,7 +15,7 @@ export const Member: FC<IMemberProps> = ({ listDataResponse, member }) => {
 	const query = useQueryClient();
 	const { isOwner } = useSharingData(listDataResponse?.userId);
 
-	const { mutate, isLoading, isError } = useMutation(removeMemberAction, {
+	const { mutate, isLoading, isError } = useMutation(updateMembersList, {
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.getListById]);
 			query.invalidateQueries([QueryKey.lists]);

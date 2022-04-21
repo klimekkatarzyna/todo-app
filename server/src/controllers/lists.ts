@@ -155,7 +155,7 @@ export const addUserToMemberOfList = async (req: Request, res: Response) => {
 	}
 };
 
-export const removeMemberFromList = async (req: Request, res: Response) => {
+export const updateMembersList = async (req: Request, res: Response) => {
 	try {
 		await List.findOneAndUpdate({ _id: req.body._id }, { $pull: { members: { $in: req.body.member } } });
 		res.status(200).json({ message: 'member has been deleted' });
@@ -166,7 +166,7 @@ export const removeMemberFromList = async (req: Request, res: Response) => {
 	}
 };
 
-export const removeInvitation = async (req: Request, res: Response) => {
+export const changeInvitation = async (req: Request, res: Response) => {
 	try {
 		await List.findOneAndUpdate({ _id: req.body._id }, { $set: { members: [], invitationToken: '' } });
 		res.status(200).json({ message: 'invitation has been deleted' });

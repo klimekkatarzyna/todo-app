@@ -19,31 +19,31 @@ import {
 	getListDatatoShare,
 	getLists,
 	getMainList,
-	removeInvitation,
+	changeInvitation,
 	removeList,
-	removeMemberFromList,
+	updateMembersList,
 } from '../controllers/lists';
 
 const lists = express.Router();
 
-lists.post('/createList', validateBody<CreateEditListType>(createEditListSchema), createList);
+lists.post('/lists', validateBody<CreateEditListType>(createEditListSchema), createList);
 
-lists.get('/getLists/:invitationToken', getLists);
+lists.get('/lists/:invitationToken', getLists);
 
-lists.get('/getList/:_id', validateParams(listIdSchema), getList);
+lists.get('/getList/:_id', validateParams(listIdSchema), getList); // TODO: fix me!
 
-lists.delete('/removeList', validateBody<ListIdType>(listIdRequiredSchema), removeList);
+lists.delete('/lists', validateBody<ListIdType>(listIdRequiredSchema), removeList);
 
-lists.get('/getMainList', getMainList);
+lists.get('/mainList', getMainList);
 
-lists.patch('/addInvitationTokenToList', validateBody<AddInvitationTokenToListType>(addInvitationTokenToListSchema), addInvitationTokenToList);
+lists.post('/invitationToken', validateBody<AddInvitationTokenToListType>(addInvitationTokenToListSchema), addInvitationTokenToList);
 
-lists.get('/getListDatatoShare/:invitationToken', getListDatatoShare);
+lists.get('/listsDatatoShare/:invitationToken', getListDatatoShare);
 
-lists.patch('/addUserToMemberOfList', addUserToMemberOfList);
+lists.post('/members', addUserToMemberOfList);
 
-lists.patch('/removeMemberFromList', validateBody<RemoveMemberFromListType>(removeMemberFromListSchema), removeMemberFromList);
+lists.patch('/members', validateBody<RemoveMemberFromListType>(removeMemberFromListSchema), updateMembersList);
 
-lists.patch('/removeInvitation', validateBody<ListIdType>(listIdRequiredSchema), removeInvitation);
+lists.patch('/invitations', validateBody<ListIdType>(listIdRequiredSchema), changeInvitation);
 
 export default lists;

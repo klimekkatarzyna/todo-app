@@ -15,18 +15,15 @@ interface IJoinToList {
 export const JoinToList: FC<IJoinToList> = ({ listDataLoading, list }) => {
 	const query = useQueryClient();
 	const history = useHistory();
-	const {
-		mutate: addUserToMemberOfListMutation,
-		error,
-		isLoading,
-	} = useMutation(addUserToMemberOfListAction, {
+	const { mutate, error, isLoading } = useMutation(addUserToMemberOfListAction, {
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.checkSession]);
+			query.invalidateQueries([QueryKey.lists]);
 		},
 	});
 
 	const addUserToMemberOfList = useCallback(() => {
-		addUserToMemberOfListMutation(getStringAfterCharacter(history.location.search));
+		mutate(getStringAfterCharacter(history.location.search));
 		history.push(`/tasks/${list?.listData._id}`);
 	}, [list]);
 

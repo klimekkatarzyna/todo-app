@@ -9,6 +9,7 @@ import { ITask, createEditTaskSchema, CreateEditTaskType, AppColorTypeEnum } fro
 import { isStringContainsWhitespace } from '../../utils/utilsFunctions';
 import { ErrorMessageComponent } from '../../formik/ErrorMessageComponent';
 import { QueryKey } from '../../enums';
+import toast from 'react-hot-toast';
 
 export const CreateTask = () => {
 	const query = useQueryClient();
@@ -16,7 +17,11 @@ export const CreateTask = () => {
 
 	const { mutate, isLoading } = useMutation(createTaskAction, {
 		onSuccess: () => {
-			query.invalidateQueries(QueryKey.tasksOfCurrentList);
+			query.invalidateQueries([QueryKey.tasksOfCurrentList]);
+			toast.success('Zadanie dodane');
+		},
+		onError: error => {
+			toast.error(`Coś poszlo nie tak: ${error}`);
 		},
 	});
 

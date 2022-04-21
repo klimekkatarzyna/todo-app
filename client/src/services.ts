@@ -12,14 +12,14 @@ export const me = `${process.env.REACT_APP_API_LOCAL_HOST}/api/me`;
 export const logout = `${process.env.REACT_APP_API_LOCAL_HOST}/api/logout`;
 
 // main list
-export const getMainList = `${process.env.REACT_APP_API_LOCAL_HOST}/api/getMainList`;
+export const getMainList = `${process.env.REACT_APP_API_LOCAL_HOST}/api/mainList`;
 
 // list
-export const getLists = `${process.env.REACT_APP_API_LOCAL_HOST}/api/getLists`;
+export const getLists = `${process.env.REACT_APP_API_LOCAL_HOST}/api/lists`;
 export const getListById = `${process.env.REACT_APP_API_LOCAL_HOST}/api/getList`;
-export const createList = `${process.env.REACT_APP_API_LOCAL_HOST}/api/createList`;
-export const editList = `${process.env.REACT_APP_API_LOCAL_HOST}/api/editList`;
-export const removeList = `${process.env.REACT_APP_API_LOCAL_HOST}/api/removeList`;
+export const createList = `${process.env.REACT_APP_API_LOCAL_HOST}/api/lists`;
+export const editList = `${process.env.REACT_APP_API_LOCAL_HOST}/api/lists`;
+export const removeList = `${process.env.REACT_APP_API_LOCAL_HOST}/api/lists`;
 
 // task
 export const createTask = `${process.env.REACT_APP_API_LOCAL_HOST}/api/createTask`;
@@ -38,11 +38,11 @@ export const removeGroup = `${process.env.REACT_APP_API_LOCAL_HOST}/api/removeGr
 export const editGroup = `${process.env.REACT_APP_API_LOCAL_HOST}/api/editGroup`;
 
 // sharing
-export const addInvitationTokenToList = `${process.env.REACT_APP_API_LOCAL_HOST}/api/addInvitationTokenToList`;
-export const addUserToMemberOfList = `${process.env.REACT_APP_API_LOCAL_HOST}/api/addUserToMemberOfList`;
-export const removeMemberFromList = `${process.env.REACT_APP_API_LOCAL_HOST}/api/removeMemberFromList`;
-export const removeInvitation = `${process.env.REACT_APP_API_LOCAL_HOST}/api/removeInvitation`;
-export const getListDatatoShare = `${process.env.REACT_APP_API_LOCAL_HOST}/api/getListDatatoShare`;
+export const addInvitationTokenToList = `${process.env.REACT_APP_API_LOCAL_HOST}/api/invitationToken`;
+export const addUserToMemberOfList = `${process.env.REACT_APP_API_LOCAL_HOST}/api/members`;
+export const updateMembersList = `${process.env.REACT_APP_API_LOCAL_HOST}/api/members`;
+export const changeInvitation = `${process.env.REACT_APP_API_LOCAL_HOST}/api/invitations`;
+export const getListDatatoShare = `${process.env.REACT_APP_API_LOCAL_HOST}/api/listsDatatoShare`;
 
 // importance tasks
 export const getImportanceTasks = `${process.env.REACT_APP_API_LOCAL_HOST}/api/getImportanceTasks`;

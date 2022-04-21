@@ -20,4 +20,4 @@ export const getListByIdAction = async ({ _id }: IList) => {
 export const deleteListAction = async ({ _id }: IList) => await http(api.removeList, 'DELETE', { _id });
 
 export const addInvitationTokenToListAction = async ({ _id, invitationToken, owner }: IList) =>
-	await http(api.addInvitationTokenToList, 'PATCH', { _id, invitationToken, owner });
+	await http(api.addInvitationTokenToList, 'POST', { _id, invitationToken, owner });

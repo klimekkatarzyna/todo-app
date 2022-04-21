@@ -46,42 +46,32 @@ export const TaskSidebarDetails: FC = () => {
 
 					<div className='flex p-4 flex-col mb-3 bg-white'>
 						<div onClick={addTaskToMyDayView}>
-							<div className='icon-style text-fontColor'>
-								<Sun className='mr-2 icon-style' />
-							</div>
+							<Sun className='mr-2 icon-style' />
 						</div>
 					</div>
 
 					<div className='flex p-4 flex-col bg-white'>
 						<div className='flex text-darkerGrey text-sm'>
-							<div className='icon-style text-fontColor'>
-								<Bell className='mr-2 icon-style' />
-							</div>
+							<Bell className='mr-2 icon-style' />
 							{'Przypomnij'}
 						</div>
 					</div>
 					<div className='flex p-4 flex-col bg-white'>
 						<div className='flex text-darkerGrey text-sm'>
-							<div className='icon-style text-fontColor'>
-								<Calendar className='mr-2 icon-style' />
-							</div>
+							<Calendar className='mr-2 icon-style' />
 							{'Dodaj termin wykonania'}
 						</div>
 					</div>
 					<div className='flex p-4 flex-col  mb-3 bg-white'>
 						<div className='flex text-darkerGrey text-sm'>
-							<div className='icon-style text-fontColor'>
-								<Repeat className='mr-2 icon-style' />
-							</div>
+							<Repeat className='mr-2 icon-style' />
 							{'Powtórz'}
 						</div>
 					</div>
 
 					<div className='flex p-4 flex-col  mb-3 bg-white'>
 						<div className='flex text-darkerGrey text-sm'>
-							<div className='icon-style text-fontColor'>
-								<UserPlus className='mr-2 icon-style' />
-							</div>
+							<UserPlus className='mr-2 icon-style' />
 							{'Przydziel do'}
 						</div>
 					</div>
@@ -92,9 +82,7 @@ export const TaskSidebarDetails: FC = () => {
 
 					<div className='flex p-4 flex-col  mb-3 bg-white'>
 						<div className='flex text-darkerGrey text-sm'>
-							<div className='icon-style text-fontColor'>
-								<FilePlus className='mr-2 icon-style' />
-							</div>
+							<FilePlus className='mr-2 icon-style' />
 							{'Dodaj plik'}
 						</div>
 					</div>
@@ -105,17 +93,13 @@ export const TaskSidebarDetails: FC = () => {
 
 					<footer className='flex items-center absolute bottom-4 text-darkerGrey text-sm'>
 						<button onClick={onClose} className='border-none bg-inherit cursor-pointer'>
-							<div className='icon-style text-fontColor'>
-								<XSquare />
-							</div>
+							<XSquare className='icon-style text-fontColor mr-4' />
 						</button>
 						{`Utworzone ${getDayName(parseUTCtoDate(taskData?.createdAt || ''))}, ${getDay(
 							parseUTCtoDate(taskData?.createdAt || '')
 						)} ${getMonth(parseUTCtoDate(taskData?.createdAt || ''))}`}
 						<button onClick={handleClick} className='border-none bg-inherit cursor-pointer'>
-							<div className='icon-style text-fontColor'>
-								<Trash2 />
-							</div>
+							<Trash2 className='icon-style text-fontColor ml-4' />
 						</button>
 					</footer>
 				</div>
