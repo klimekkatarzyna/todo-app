@@ -21,7 +21,7 @@ tasks.put('/tasks', validateBody<CreateEditTaskType>(createEditTaskSchema), edit
 
 tasks.delete('/tasks', removeTask);
 
-tasks.get('/tasks/:parentFolderId', validateParams(listIdForTasksSchema), getTasks);
+tasks.get('/taskDetails/:parentFolderId', validateParams(listIdForTasksSchema), getTasks);
 
 tasks.patch('/taskStatuses/:_id', changeTaskStatus);
 

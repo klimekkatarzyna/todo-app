@@ -78,6 +78,10 @@ export const getList = async (req: Request, res: Response) => {
 		const list = await List.find({ _id: req.params._id });
 		const members = [...new Set(list[0]?.members)];
 
+		if (!list) {
+			res.status(404).json({ message: 'List not found' });
+		}
+
 		res.status(200).json({
 			body: {
 				_id: list[0]?._id,
@@ -99,7 +103,11 @@ export const getList = async (req: Request, res: Response) => {
 
 export const removeList = async (req: Request, res: Response) => {
 	try {
-		await List.deleteOne({ _id: req.body._id });
+		const list = await List.deleteOne({ _id: req.body._id });
+
+		if (!list) {
+			res.status(404).json({ message: 'List not found' });
+		}
 
 		res.status(200).json({ message: 'list has been deleted' });
 	} catch (error) {
@@ -109,7 +117,7 @@ export const removeList = async (req: Request, res: Response) => {
 
 export const addInvitationTokenToList = async (req: Request, res: Response) => {
 	try {
-		await List.updateMany(
+		const list = await List.updateMany(
 			{ _id: req.body._id },
 			{
 				$set: {
@@ -118,6 +126,10 @@ export const addInvitationTokenToList = async (req: Request, res: Response) => {
 				},
 			}
 		);
+		if (!list) {
+			res.status(404).json({ message: 'List not found' });
+		}
+
 		res.status(200).json({ message: 'token has been added' });
 	} catch (err) {
 		res.status(500).json({
@@ -133,6 +145,10 @@ export const getListDatatoShare = async (req: Request, res: Response) => {
 		const membersList = listData?.members;
 		const isMemberAddedToList = membersList?.find(member => member === userId) === userId;
 
+		if (!listData) {
+			res.status(404).json({ message: 'List not found' });
+		}
+
 		res.json({ body: { isMemberAddedToList, listData } });
 	} catch (err) {
 		res.status(500).json({
@@ -146,7 +162,11 @@ export const addUserToMemberOfList = async (req: Request, res: Response) => {
 	const userId = getSessionUserId(req);
 
 	try {
-		await List.findOneAndUpdate({ invitationToken: req.body.invitationToken }, { $push: { members: userId } });
+		const list = await List.findOneAndUpdate({ invitationToken: req.body.invitationToken }, { $push: { members: userId } });
+		if (!list) {
+			res.status(404).json({ message: 'List not found' });
+		}
+
 		res.status(200).json({ message: 'user has been added to the list' });
 	} catch (err) {
 		res.status(500).json({
@@ -157,7 +177,11 @@ export const addUserToMemberOfList = async (req: Request, res: Response) => {
 
 export const updateMembersList = async (req: Request, res: Response) => {
 	try {
-		await List.findOneAndUpdate({ _id: req.body._id }, { $pull: { members: { $in: req.body.member } } });
+		const list = await List.findOneAndUpdate({ _id: req.body._id }, { $pull: { members: { $in: req.body.member } } });
+		if (!list) {
+			res.status(404).json({ message: 'List not found' });
+		}
+
 		res.status(200).json({ message: 'member has been deleted' });
 	} catch (err) {
 		res.status(500).json({
@@ -168,7 +192,11 @@ export const updateMembersList = async (req: Request, res: Response) => {
 
 export const changeInvitation = async (req: Request, res: Response) => {
 	try {
-		await List.findOneAndUpdate({ _id: req.body._id }, { $set: { members: [], invitationToken: '' } });
+		const list = await List.findOneAndUpdate({ _id: req.body._id }, { $set: { members: [], invitationToken: '' } });
+		if (!list) {
+			res.status(404).json({ message: 'List not found' });
+		}
+
 		res.status(200).json({ message: 'invitation has been deleted' });
 	} catch (err) {
 		res.status(500).json({

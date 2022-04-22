@@ -11,6 +11,8 @@ const auth = express.Router();
 // view => this file
 // controller => register
 
+// REDT API principle
+
 auth.post('/register', validateBody<RegisterValidationType>(registerValidationSchema), register);
 
 auth.post('/login', validateBody<LoginValidationType>(loginValidationSchema), login);

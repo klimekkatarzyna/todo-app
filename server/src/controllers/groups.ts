@@ -34,6 +34,9 @@ export const getGroups = async (req: Request, res: Response) => {
 	const userId = getSessionUserId(req);
 
 	const groups = await Group.find({ userId });
+	if (!groups) {
+		res.status(404).json({ message: 'Groups not found' });
+	}
 	try {
 		res.status(200).json({
 			body: groups,
@@ -47,6 +50,10 @@ export const getGroups = async (req: Request, res: Response) => {
 
 export const removeGroup = async (req: Request, res: Response) => {
 	const group = await Group.deleteOne({ _id: req.body._id });
+	if (!group) {
+		res.status(404).json({ message: 'Group not found' });
+	}
+
 	try {
 		res.status(200).json({
 			body: group,
@@ -59,7 +66,11 @@ export const removeGroup = async (req: Request, res: Response) => {
 };
 
 export const editGroup = async (req: Request, res: Response) => {
-	await Group.updateOne({ _id: req.body._id }, { $set: { title: req.body.title } });
+	const group = await Group.updateOne({ _id: req.body._id }, { $set: { title: req.body.title } });
+	if (!group) {
+		res.status(404).json({ message: 'Group not found' });
+	}
+
 	try {
 		res.status(200).json({
 			message: `status changed successfully to ${req.body.title}`,

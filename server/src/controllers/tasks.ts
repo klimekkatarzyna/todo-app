@@ -40,10 +40,12 @@ export const createTask = async (req: Request, res: Response) => {
 
 export const getTasks = async (req: Request, res: Response) => {
 	const tasks = await Task.find({ parentFolderId: req.params.parentFolderId });
+
 	try {
 		res.status(200).json({
 			body: tasks,
 		});
+		if (!tasks) return res.status(404).json({ message: 'Tasks not found' });
 	} catch (err) {
 		res.status(500).json({
 			err,
@@ -52,7 +54,7 @@ export const getTasks = async (req: Request, res: Response) => {
 };
 
 export const editTask = async (req: Request, res: Response) => {
-	await Task.updateOne({ _id: req.body._id }, { $set: { title: req.body.title } });
+	const task = await Task.updateOne({ _id: req.body._id }, { $set: { title: req.body.title } });
 	const updatedTaskData = {
 		_id: req.body._id,
 		title: req.body.title,
@@ -65,6 +67,7 @@ export const editTask = async (req: Request, res: Response) => {
 		res.status(200).json({
 			message: `title changed successfully to ${req.body.title}`,
 		});
+		if (!task) return res.status(404).json({ message: 'Task not found' });
 	} catch (err) {
 		res.status(500).json({
 			err,
@@ -73,7 +76,7 @@ export const editTask = async (req: Request, res: Response) => {
 };
 
 export const changeTaskStatus = async (req: Request, res: Response) => {
-	await Task.updateOne({ _id: req.params._id }, { $set: { taskStatus: req.body.taskStatus } });
+	const task = await Task.updateOne({ _id: req.params._id }, { $set: { taskStatus: req.body.taskStatus } });
 	const updatedTaskData = {
 		_id: req.params._id,
 		taskStatus: req.body.taskStatus,
@@ -86,6 +89,7 @@ export const changeTaskStatus = async (req: Request, res: Response) => {
 		res.status(200).json({
 			message: `status changed successfully to ${req.body.taskStatus}`,
 		});
+		if (!task) return res.status(404).json({ message: 'Task not found' });
 	} catch (err) {
 		res.status(500).json({
 			err,
@@ -105,6 +109,7 @@ export const removeTask = async (req: Request, res: Response) => {
 				tasks: data,
 			},
 		});
+		if (!task) return res.status(404).json({ message: 'Task not found' });
 	} catch (err) {
 		res.status(500).json({
 			err,
@@ -118,6 +123,7 @@ export const getTask = async (req: Request, res: Response) => {
 		res.status(200).json({
 			body: task[0],
 		});
+		if (!task) return res.status(404).json({ message: 'Task not found' });
 	} catch (err) {
 		res.status(500).json({
 			err,
@@ -126,11 +132,15 @@ export const getTask = async (req: Request, res: Response) => {
 };
 
 export const changeTaskImportance = async (req: Request, res: Response) => {
-	await Task.updateOne({ _id: req.params._id, parentFolderId: req.params.parentFolderId }, { $set: { importance: req.body.importance } });
+	const task = await Task.updateOne(
+		{ _id: req.params._id, parentFolderId: req.params.parentFolderId },
+		{ $set: { importance: req.body.importance } }
+	);
 	try {
 		res.status(200).json({
 			message: `importance has been successfully changed to ${req.body.importance}`,
 		});
+		if (!task) return res.status(404).json({ message: 'Task not found' });
 	} catch (err) {
 		res.status(500).json({
 			err,
@@ -139,11 +149,12 @@ export const changeTaskImportance = async (req: Request, res: Response) => {
 };
 
 export const addTaskToMyDay = async (req: Request, res: Response) => {
-	await Task.updateOne({ _id: req.params._id }, { $set: { isMyDay: req.body.isMyDay } });
+	const task = await Task.updateOne({ _id: req.params._id }, { $set: { isMyDay: req.body.isMyDay } });
 	try {
 		res.status(200).json({
 			message: `task has been added to my day`,
 		});
+		if (!task) return res.status(404).json({ message: 'Task not found' });
 	} catch (err) {
 		res.status(500).json({
 			err,
@@ -157,6 +168,7 @@ export const getImportanceTasks = async (req: Request, res: Response) => {
 		res.status(200).json({
 			body: tasks,
 		});
+		if (!tasks) return res.status(404).json({ message: 'Tasks not found' });
 	} catch (error) {
 		res.status(500).json({
 			error,
