@@ -5,12 +5,12 @@ import { validateBody } from '../utils/validation';
 
 const groups = express.Router();
 
-groups.post('/createGroup', validateBody<CreateEditGroupType>(createEditGroupSchema), createGroup);
+groups.post('/groups', validateBody<CreateEditGroupType>(createEditGroupSchema), createGroup);
 
-groups.get('/getGroups', getGroups);
+groups.get('/groups', getGroups);
 
-groups.delete('/removeGroup', removeGroup);
+groups.delete('/groups', removeGroup);
 
-groups.patch('/editGroup', validateBody<CreateEditGroupType>(createEditGroupSchema), editGroup);
+groups.patch('/groups', validateBody<CreateEditGroupType>(createEditGroupSchema), editGroup);
 
 export default groups;

@@ -16,7 +16,7 @@ export const getMainList = `${process.env.REACT_APP_API_LOCAL_HOST}/api/mainList
 
 // list
 export const getLists = `${process.env.REACT_APP_API_LOCAL_HOST}/api/lists`;
-export const getListById = `${process.env.REACT_APP_API_LOCAL_HOST}/api/getList`;
+export const getListById = `${process.env.REACT_APP_API_LOCAL_HOST}/api/listDetails`;
 export const createList = `${process.env.REACT_APP_API_LOCAL_HOST}/api/lists`;
 export const editList = `${process.env.REACT_APP_API_LOCAL_HOST}/api/lists`;
 export const removeList = `${process.env.REACT_APP_API_LOCAL_HOST}/api/lists`;
@@ -32,10 +32,10 @@ export const changeTaskImportance = `${process.env.REACT_APP_API_LOCAL_HOST}/api
 export const addTaskToMyDay = `${process.env.REACT_APP_API_LOCAL_HOST}/api/myDay`;
 
 // group
-export const createGroup = `${process.env.REACT_APP_API_LOCAL_HOST}/api/createGroup`;
-export const getGroups = `${process.env.REACT_APP_API_LOCAL_HOST}/api/getGroups`;
-export const removeGroup = `${process.env.REACT_APP_API_LOCAL_HOST}/api/removeGroup`;
-export const editGroup = `${process.env.REACT_APP_API_LOCAL_HOST}/api/editGroup`;
+export const createGroup = `${process.env.REACT_APP_API_LOCAL_HOST}/api/groups`;
+export const getGroups = `${process.env.REACT_APP_API_LOCAL_HOST}/api/groups`;
+export const removeGroup = `${process.env.REACT_APP_API_LOCAL_HOST}/api/groups`;
+export const editGroup = `${process.env.REACT_APP_API_LOCAL_HOST}/api/groups`;
 
 // sharing
 export const addInvitationTokenToList = `${process.env.REACT_APP_API_LOCAL_HOST}/api/invitationToken`;

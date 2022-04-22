@@ -30,7 +30,7 @@ lists.post('/lists', validateBody<CreateEditListType>(createEditListSchema), cre
 
 lists.get('/lists/:invitationToken', getLists);
 
-lists.get('/getList/:_id', validateParams(listIdSchema), getList); // TODO: fix me!
+lists.get('/listDetails/:_id', validateParams(listIdSchema), getList);
 
 lists.delete('/lists', validateBody<ListIdType>(listIdRequiredSchema), removeList);
 
