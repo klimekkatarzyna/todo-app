@@ -14,14 +14,15 @@ export const createTaskAction = async ({ title, parentFolderId, importance, them
 		isMyDay: false,
 	});
 
-export const editTaskAction = async ({ _id, title, parentFolderId }: ITask) => await http(`${api.editTask}`, 'PATCH', { _id, title, parentFolderId });
+export const editTaskAction = async ({ _id, title, parentFolderId }: ITask) => await http(`${api.editTask}`, 'PUT', { _id, title, parentFolderId });
 
 export const getTasksOfCurrentListAction = async ({ parentFolderId }: ITask) => {
 	const response = await http<ITask[]>(`${api.getTasks}/${parentFolderId}`, 'GET');
 	return response.body;
 };
 
-export const changeTaskStatusAction = async ({ _id, taskStatus }: ITask) => await http(`${api.changeTaskStatus}/${_id}`, 'PATCH', { taskStatus });
+export const changeTaskStatusAction = async ({ _id, taskStatus, parentFolderId }: ITask) =>
+	await http(`${api.changeTaskStatus}/${_id}`, 'PATCH', { taskStatus, parentFolderId });
 
 export const deleteTaskAction = async ({ _id, parentFolderId }: ITask) => await http(api.removeTask, 'DELETE', { _id, parentFolderId });
 
@@ -36,7 +37,7 @@ export const changeTaskImportanceAction = async ({ parentFolderId, _id, importan
 	});
 
 export const addTaskToMyDayAction = async ({ parentFolderId, _id, isMyDay }: ITask) =>
-	await http(`${api.addTaskToMyDay}/${parentFolderId}/${_id}`, 'PATCH', { isMyDay });
+	await http(`${api.addTaskToMyDay}/${parentFolderId}/${_id}`, 'POST', { isMyDay });
 
 export const onGetImportanceTasksAction = async () => {
 	const response = await http<ITask[]>(`${api.getImportanceTasks}`, 'GET');

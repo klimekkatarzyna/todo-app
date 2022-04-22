@@ -22,14 +22,14 @@ export const editList = `${process.env.REACT_APP_API_LOCAL_HOST}/api/lists`;
 export const removeList = `${process.env.REACT_APP_API_LOCAL_HOST}/api/lists`;
 
 // task
-export const createTask = `${process.env.REACT_APP_API_LOCAL_HOST}/api/createTask`;
-export const editTask = `${process.env.REACT_APP_API_LOCAL_HOST}/api/editTask`;
-export const getTasks = `${process.env.REACT_APP_API_LOCAL_HOST}/api/getTasks`;
-export const getTask = `${process.env.REACT_APP_API_LOCAL_HOST}/api/getTask`;
-export const changeTaskStatus = `${process.env.REACT_APP_API_LOCAL_HOST}/api/changeTaskStatus`;
-export const removeTask = `${process.env.REACT_APP_API_LOCAL_HOST}/api/removeTask`;
-export const changeTaskImportance = `${process.env.REACT_APP_API_LOCAL_HOST}/api/changeTaskImportance`;
-export const addTaskToMyDay = `${process.env.REACT_APP_API_LOCAL_HOST}/api/addTaskToMyDay`;
+export const createTask = `${process.env.REACT_APP_API_LOCAL_HOST}/api/tasks`;
+export const editTask = `${process.env.REACT_APP_API_LOCAL_HOST}/api/tasks`;
+export const getTasks = `${process.env.REACT_APP_API_LOCAL_HOST}/api/tasks`;
+export const getTask = `${process.env.REACT_APP_API_LOCAL_HOST}/api/tasks`;
+export const changeTaskStatus = `${process.env.REACT_APP_API_LOCAL_HOST}/api/taskStatuses`;
+export const removeTask = `${process.env.REACT_APP_API_LOCAL_HOST}/api/tasks`;
+export const changeTaskImportance = `${process.env.REACT_APP_API_LOCAL_HOST}/api/taskImportance`;
+export const addTaskToMyDay = `${process.env.REACT_APP_API_LOCAL_HOST}/api/myDay`;
 
 // group
 export const createGroup = `${process.env.REACT_APP_API_LOCAL_HOST}/api/createGroup`;
@@ -45,4 +45,4 @@ export const changeInvitation = `${process.env.REACT_APP_API_LOCAL_HOST}/api/inv
 export const getListDatatoShare = `${process.env.REACT_APP_API_LOCAL_HOST}/api/listsDatatoShare`;
 
 // importance tasks
-export const getImportanceTasks = `${process.env.REACT_APP_API_LOCAL_HOST}/api/getImportanceTasks`;
+export const getImportanceTasks = `${process.env.REACT_APP_API_LOCAL_HOST}/api/importanceTasks`;

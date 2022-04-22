@@ -8,6 +8,7 @@ import { ErrorMessageComponent } from '../../formik/ErrorMessageComponent';
 import { isStringContainsWhitespace } from '../../utils/utilsFunctions';
 import { Loader } from 'react-feather';
 import { QueryKey } from '../../enums';
+import toast from 'react-hot-toast';
 
 interface IEditTaskNameProps {
 	taskData: ITask;
@@ -20,6 +21,10 @@ export const EditTaskName: FC<IEditTaskNameProps> = ({ taskData }) => {
 		onSuccess: () => {
 			query.invalidateQueries(QueryKey.getTask);
 			query.invalidateQueries(QueryKey.tasksOfCurrentList);
+			toast.success('Zadanie zmienione');
+		},
+		onError: error => {
+			toast.error(`Coś poszlo nie tak: ${error}`);
 		},
 	});
 

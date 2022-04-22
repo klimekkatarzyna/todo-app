@@ -74,6 +74,14 @@ export const editTask = async (req: Request, res: Response) => {
 
 export const changeTaskStatus = async (req: Request, res: Response) => {
 	await Task.updateOne({ _id: req.params._id }, { $set: { taskStatus: req.body.taskStatus } });
+	const updatedTaskData = {
+		_id: req.params._id,
+		taskStatus: req.body.taskStatus,
+		parentFolderId: req.body.parentFolderId,
+	};
+
+	taskSocket('change-task-status', req.body.parentFolderId, updatedTaskData);
+
 	try {
 		res.status(200).json({
 			message: `status changed successfully to ${req.body.taskStatus}`,

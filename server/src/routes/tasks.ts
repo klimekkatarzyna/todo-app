@@ -15,22 +15,22 @@ import {
 
 const tasks = express.Router();
 
-tasks.post('/createTask', validateBody<CreateEditTaskType>(createEditTaskSchema), createTask);
+tasks.post('/tasks', validateBody<CreateEditTaskType>(createEditTaskSchema), createTask);
 
-tasks.get('/getTasks/:parentFolderId', validateParams(listIdForTasksSchema), getTasks);
+tasks.put('/tasks', validateBody<CreateEditTaskType>(createEditTaskSchema), editTask);
 
-tasks.patch('/editTask', validateBody<CreateEditTaskType>(createEditTaskSchema), editTask);
+tasks.delete('/tasks', removeTask);
 
-tasks.patch('/changeTaskStatus/:_id', changeTaskStatus);
+tasks.get('/tasks/:parentFolderId', validateParams(listIdForTasksSchema), getTasks);
 
-tasks.delete('/removeTask', removeTask);
+tasks.patch('/taskStatuses/:_id', changeTaskStatus);
 
-tasks.get('/getTask/:_id', validateParams(taskIdSchema), getTask);
+tasks.get('/tasks/:_id', validateParams(taskIdSchema), getTask);
 
-tasks.patch('/changeTaskImportance/:parentFolderId/:_id', changeTaskImportance);
+tasks.patch('/taskImportance/:parentFolderId/:_id', changeTaskImportance);
 
-tasks.patch('/addTaskToMyDay/:_id', addTaskToMyDay);
+tasks.post('/myDay/:_id', addTaskToMyDay);
 
-tasks.get('/getImportanceTasks', getImportanceTasks);
+tasks.get('/importanceTasks', getImportanceTasks);
 
 export default tasks;
