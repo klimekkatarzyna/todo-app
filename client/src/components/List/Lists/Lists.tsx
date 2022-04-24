@@ -14,6 +14,7 @@ import { listsState } from '../../../atoms';
 import { updateMembersList } from '../../../actions/sharing';
 import { ContextualMenuContext } from '../../../ContextualMenuProvider';
 import { AuthContext } from '../../../AuthProvider';
+import toast from 'react-hot-toast';
 
 interface ILists {
 	isNavClosed: boolean;
@@ -34,6 +35,7 @@ const ListsComponents: FC<ILists> = ({ isNavClosed }) => {
 	});
 
 	const removeList = useCallback(() => {
+		if (contextualMenu?.type !== ContextualMenuOpion.remove_list) return;
 		removeListMutation({ _id: contextualMenu?.elementId });
 	}, [contextualMenu]);
 
@@ -41,6 +43,10 @@ const ListsComponents: FC<ILists> = ({ isNavClosed }) => {
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.getListById]);
 			query.invalidateQueries([QueryKey.lists]);
+			toast.success('Opuściłeś listę');
+		},
+		onError: error => {
+			toast.error(`Coś poszlo nie tak: ${error}`);
 		},
 	});
 

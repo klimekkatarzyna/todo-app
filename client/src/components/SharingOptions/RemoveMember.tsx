@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { updateMembersList } from '../../actions/sharing';
 import { Loader } from 'react-feather';
 import { QueryKey } from '../../enums';
+import toast from 'react-hot-toast';
 
 interface IRemoveMember {
 	listDataResponse: IList;
@@ -19,6 +20,10 @@ export const RemoveMember: FC<IRemoveMember> = ({ listDataResponse, onNextStep }
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.getListById]);
 			query.invalidateQueries([QueryKey.lists]);
+			toast.success('Użytkownik usunięty z listy');
+		},
+		onError: error => {
+			toast.error(`Coś poszlo nie tak: ${error}`);
 		},
 	});
 

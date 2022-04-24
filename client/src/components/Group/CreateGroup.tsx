@@ -10,6 +10,7 @@ import { isStringContainsWhitespace } from '../../utils/utilsFunctions';
 import { ErrorMessageComponent } from '../../formik/ErrorMessageComponent';
 import { createEditGroupSchema, CreateEditGroupType, IGroup } from '@kkrawczyk/todo-common';
 import { QueryKey } from '../../enums';
+import toast from 'react-hot-toast';
 
 export const CreateGroup: FC = () => {
 	const query = useQueryClient();
@@ -20,6 +21,10 @@ export const CreateGroup: FC = () => {
 	const { mutate, error, isLoading } = useMutation(createGroup, {
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.groups]);
+			toast.success('Grupa utworzona');
+		},
+		onError: error => {
+			toast.error(`Coś poszlo nie tak: ${error}`);
 		},
 	});
 

@@ -8,6 +8,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { deleteGroup, getGroups } from '../../actions/groups';
 import { Loader } from 'react-feather';
 import { ContextualMenuContext } from '../../ContextualMenuProvider';
+import toast from 'react-hot-toast';
 
 interface IGroupsProps {
 	isNavClosed: boolean;
@@ -25,10 +26,15 @@ export const Groups: FC<IGroupsProps> = ({ isNavClosed }) => {
 	const { mutate, error, isLoading } = useMutation(deleteGroup, {
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.groups]);
+			toast.success('Grupa usunięta');
+		},
+		onError: error => {
+			toast.error(`Coś poszlo nie tak: ${error}`);
 		},
 	});
 
 	const onRemoveGroup = useCallback(() => {
+		if (contextualMenu?.type !== ContextualMenuOpion.remove_group) return;
 		mutate({ _id: contextualMenu?.elementId });
 	}, [contextualMenu]);
 

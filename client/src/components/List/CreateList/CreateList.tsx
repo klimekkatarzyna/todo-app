@@ -7,6 +7,7 @@ import { createEditListSchema } from '@kkrawczyk/todo-common';
 import { Input } from '../../../formik/Input';
 import { ErrorMessageComponent } from '../../../formik/ErrorMessageComponent';
 import { QueryKey } from '../../../enums';
+import toast from 'react-hot-toast';
 
 export const CreateList: FC = () => {
 	const query = useQueryClient();
@@ -14,6 +15,7 @@ export const CreateList: FC = () => {
 	const { mutate, isLoading, error } = useMutation(createListAction, {
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.lists]);
+			toast.success('Lista dodana');
 		},
 	});
 

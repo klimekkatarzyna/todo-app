@@ -5,6 +5,7 @@ import { updateMembersList } from '../../actions/sharing';
 import { useSharingData } from '../../hooks/useSharingData';
 import { IList } from '@kkrawczyk/todo-common';
 import { QueryKey } from '../../enums';
+import toast from 'react-hot-toast';
 
 interface IMemberProps {
 	listDataResponse: IList;
@@ -19,6 +20,10 @@ export const Member: FC<IMemberProps> = ({ listDataResponse, member }) => {
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.getListById]);
 			query.invalidateQueries([QueryKey.lists]);
+			toast.success('Użytkownik usunięty z listy');
+		},
+		onError: error => {
+			toast.error(`Coś poszlo nie tak: ${error}`);
 		},
 	});
 

@@ -8,6 +8,7 @@ import { Formik, Form } from 'formik';
 import { isStringContainsWhitespace } from '../../utils/utilsFunctions';
 import { ErrorMessageComponent } from '../../formik/ErrorMessageComponent';
 import { createEditGroupSchema, CreateEditGroupType, IGroup } from '@kkrawczyk/todo-common';
+import toast from 'react-hot-toast';
 
 interface IEditGroupProps {
 	title: string | undefined;
@@ -23,6 +24,10 @@ export const EditGroup: FC<IEditGroupProps> = ({ title, groupId, isNavClosed }) 
 	const { mutate, error, isLoading } = useMutation(editGroup, {
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.groups]);
+			toast.success('Nazwa grupy zmieniona');
+		},
+		onError: error => {
+			toast.error(`Coś poszlo nie tak: ${error}`);
 		},
 	});
 
