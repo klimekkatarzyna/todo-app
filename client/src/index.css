@@ -29,4 +29,12 @@
 	.icon-style {
 		@apply stroke-1 w-5 h-5 checked:fill-fontColor stroke-fontColor;
 	}
+
+	.task-details-style {
+		@apply flex flex-col mb-3 bg-white hover:bg-hoverColor;
+	}
+
+	.task-details-button-style {
+		@apply flex p-4 text-darkerGrey text-sm cursor-pointer;
+	}
 }

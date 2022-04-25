@@ -29,7 +29,7 @@ export const TaskSidebarDetails: FC = () => {
 	}, [taskData?._id]);
 
 	return (
-		<div className='bg-light-grey w-80 p-4 relative'>
+		<div className='bg-light-grey w-[360px] p-4 relative'>
 			{taskDataLoading ? (
 				<Loader className='m-auto' />
 			) : (
@@ -44,50 +44,51 @@ export const TaskSidebarDetails: FC = () => {
 						/>
 					</div>
 
-					<div className='flex p-4 flex-col mb-3 bg-white'>
-						<div onClick={addTaskToMyDayView}>
+					<div className='task-details-style mb-3'>
+						<button className='task-details-button-style' onClick={addTaskToMyDayView}>
 							<Sun className='mr-2 icon-style' />
-						</div>
+							{'Dodaj do widoku "Mój dzień"'}
+						</button>
 					</div>
 
-					<div className='flex p-4 flex-col bg-white'>
-						<div className='flex text-darkerGrey text-sm'>
+					<div className='task-details-style'>
+						<div className='task-details-button-style'>
 							<Bell className='mr-2 icon-style' />
 							{'Przypomnij'}
 						</div>
 					</div>
-					<div className='flex p-4 flex-col bg-white'>
-						<div className='flex text-darkerGrey text-sm'>
+					<div className='task-details-style'>
+						<div className='task-details-button-style'>
 							<Calendar className='mr-2 icon-style' />
 							{'Dodaj termin wykonania'}
 						</div>
 					</div>
-					<div className='flex p-4 flex-col  mb-3 bg-white'>
-						<div className='flex text-darkerGrey text-sm'>
+					<div className='task-details-style mb-3'>
+						<div className='task-details-button-style'>
 							<Repeat className='mr-2 icon-style' />
 							{'Powtórz'}
 						</div>
 					</div>
 
-					<div className='flex p-4 flex-col  mb-3 bg-white'>
-						<div className='flex text-darkerGrey text-sm'>
+					<div className='task-details-style mb-3'>
+						<div className='task-details-button-style'>
 							<UserPlus className='mr-2 icon-style' />
 							{'Przydziel do'}
 						</div>
 					</div>
 
-					<div className='flex p-4 flex-col  mb-3 bg-white'>
-						<div className='flex text-darkerGrey text-sm'>{'Wybierz kategorię'}</div>
+					<div className='task-details-style mb-3'>
+						<div className='task-details-button-style'>{'Wybierz kategorię'}</div>
 					</div>
 
-					<div className='flex p-4 flex-col  mb-3 bg-white'>
-						<div className='flex text-darkerGrey text-sm'>
+					<div className='task-details-style mb-3'>
+						<div className='task-details-button-style'>
 							<FilePlus className='mr-2 icon-style' />
 							{'Dodaj plik'}
 						</div>
 					</div>
 
-					<div className='flex p-4 flex-col bg-white'>
+					<div className='task-details-style'>
 						<textarea />
 					</div>
 

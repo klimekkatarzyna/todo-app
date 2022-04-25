@@ -19,10 +19,10 @@ export const Sidebar: FC = () => {
 				isNavClosed ? 'w-14' : 'w-72'
 			} transition-width duration-200 ease-in`}>
 			{/*TODO: search*/}
-			<button className='border-none bg-inherit text-center p-2' onClick={handleClick}>
+			<button className='border-none bg-inherit text-center p-2 ml-2' onClick={handleClick}>
 				{<Menu className='stroke-blue icon-style' />}
 			</button>
-			<div className='overflow-y-scroll w-full'>
+			<div className='overflow-y-scroll w-full mt-6'>
 				<MainList isNavClosed={isNavClosed} />
 
 				<Lists isNavClosed={isNavClosed} />
