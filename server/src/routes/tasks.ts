@@ -12,25 +12,26 @@ import {
 	getTasks,
 	removeTask,
 } from '../controllers/tasks';
+import { authorization } from '../utils/auth';
 
 const tasks = express.Router();
 
-tasks.post('/tasks', validateBody<CreateEditTaskType>(createEditTaskSchema), createTask);
+tasks.post('/tasks', authorization, validateBody<CreateEditTaskType>(createEditTaskSchema), createTask);
 
-tasks.put('/tasks', validateBody<CreateEditTaskType>(createEditTaskSchema), editTask);
+tasks.put('/tasks', authorization, validateBody<CreateEditTaskType>(createEditTaskSchema), editTask);
 
-tasks.delete('/tasks', removeTask);
+tasks.delete('/tasks', authorization, removeTask);
 
-tasks.get('/taskDetails/:parentFolderId', validateParams(listIdForTasksSchema), getTasks);
+tasks.get('/taskDetails/:parentFolderId', authorization, validateParams(listIdForTasksSchema), getTasks);
 
-tasks.patch('/taskStatuses/:_id', changeTaskStatus);
+tasks.patch('/taskStatuses/:_id', authorization, changeTaskStatus);
 
-tasks.get('/tasks/:_id', validateParams(taskIdSchema), getTask);
+tasks.get('/tasks/:_id', authorization, validateParams(taskIdSchema), getTask);
 
-tasks.patch('/taskImportance/:parentFolderId/:_id', changeTaskImportance);
+tasks.patch('/taskImportance/:parentFolderId/:_id', authorization, changeTaskImportance);
 
-tasks.post('/myDay/:_id', addTaskToMyDay);
+tasks.post('/myDay/:_id', authorization, addTaskToMyDay);
 
-tasks.get('/importanceTasks', getImportanceTasks);
+tasks.get('/importanceTasks', authorization, getImportanceTasks);
 
 export default tasks;

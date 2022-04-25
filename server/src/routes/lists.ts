@@ -23,27 +23,28 @@ import {
 	removeList,
 	updateMembersList,
 } from '../controllers/lists';
+import { authorization } from '../utils/auth';
 
 const lists = express.Router();
 
-lists.post('/lists', validateBody<CreateEditListType>(createEditListSchema), createList);
+lists.post('/lists', authorization, validateBody<CreateEditListType>(createEditListSchema), createList);
 
-lists.get('/lists/:invitationToken', getLists);
+lists.get('/lists/:invitationToken', authorization, getLists);
 
-lists.get('/listDetails/:_id', validateParams(listIdSchema), getList);
+lists.get('/listDetails/:_id', authorization, validateParams(listIdSchema), getList);
 
-lists.delete('/lists', validateBody<ListIdType>(listIdRequiredSchema), removeList);
+lists.delete('/lists', authorization, validateBody<ListIdType>(listIdRequiredSchema), removeList);
 
-lists.get('/mainList', getMainList);
+lists.get('/mainList', authorization, getMainList);
 
-lists.post('/invitationToken', validateBody<AddInvitationTokenToListType>(addInvitationTokenToListSchema), addInvitationTokenToList);
+lists.post('/invitationToken', authorization, validateBody<AddInvitationTokenToListType>(addInvitationTokenToListSchema), addInvitationTokenToList);
 
-lists.get('/listsDatatoShare/:invitationToken', getListDatatoShare);
+lists.get('/listsDatatoShare/:invitationToken', authorization, getListDatatoShare);
 
-lists.post('/members', addUserToMemberOfList);
+lists.post('/members', authorization, addUserToMemberOfList);
 
-lists.patch('/members', validateBody<RemoveMemberFromListType>(removeMemberFromListSchema), updateMembersList);
+lists.patch('/members', authorization, validateBody<RemoveMemberFromListType>(removeMemberFromListSchema), updateMembersList);
 
-lists.patch('/invitations', validateBody<ListIdType>(listIdRequiredSchema), changeInvitation);
+lists.patch('/invitations', authorization, validateBody<ListIdType>(listIdRequiredSchema), changeInvitation);
 
 export default lists;
