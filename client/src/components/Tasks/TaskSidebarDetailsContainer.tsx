@@ -1,11 +1,11 @@
 import { FC, useCallback, useContext } from 'react';
 import { getDay, getDayName, getMonth, parseUTCtoDate } from '../../utils/date';
 import { TaskDetails } from './TaskDetails';
-import { addTaskToMyDayAction } from '../../actions/tasks';
 import { useTasks } from '../../hooks/useTasks';
 import { ElementVisibilityContext } from '../../providers/ElementVisibilityProvider';
 import { ITask, ITaskStatus } from '@kkrawczyk/todo-common';
-import { Loader, Sun, Bell, Calendar, Repeat, UserPlus, FilePlus, Trash2, XSquare } from 'react-feather';
+import { Loader, Bell, Calendar, Repeat, UserPlus, FilePlus, Trash2, XSquare } from 'react-feather';
+import { AddTaskToMyDay } from './TaskDetails/AddTaskToMyDay';
 
 export const TaskSidebarDetails: FC = () => {
 	const { onHide } = useContext(ElementVisibilityContext);
@@ -24,10 +24,6 @@ export const TaskSidebarDetails: FC = () => {
 		onHide();
 	}, []);
 
-	const addTaskToMyDayView = useCallback(() => {
-		addTaskToMyDayAction({ parentFolderId: listId, _id: taskData?._id, isMyDay: true });
-	}, [taskData?._id]);
-
 	return (
 		<div className='bg-light-grey w-[360px] p-4 relative'>
 			{taskDataLoading ? (
@@ -44,12 +40,7 @@ export const TaskSidebarDetails: FC = () => {
 						/>
 					</div>
 
-					<div className='task-details-style mb-3'>
-						<button className='task-details-button-style' onClick={addTaskToMyDayView}>
-							<Sun className='mr-2 icon-style' />
-							{'Dodaj do widoku "Mój dzień"'}
-						</button>
-					</div>
+					<AddTaskToMyDay taskData={taskData} />
 
 					<div className='task-details-style'>
 						<div className='task-details-button-style'>

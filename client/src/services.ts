@@ -29,7 +29,7 @@ export const getTask = `${process.env.REACT_APP_API_LOCAL_HOST}/api/tasks`;
 export const changeTaskStatus = `${process.env.REACT_APP_API_LOCAL_HOST}/api/taskStatuses`;
 export const removeTask = `${process.env.REACT_APP_API_LOCAL_HOST}/api/tasks`;
 export const changeTaskImportance = `${process.env.REACT_APP_API_LOCAL_HOST}/api/taskImportance`;
-export const addTaskToMyDay = `${process.env.REACT_APP_API_LOCAL_HOST}/api/myDay`;
+export const taskInMyDay = `${process.env.REACT_APP_API_LOCAL_HOST}/api/myDay`;
 
 // group
 export const createGroup = `${process.env.REACT_APP_API_LOCAL_HOST}/api/groups`;
@@ -46,3 +46,6 @@ export const getListDatatoShare = `${process.env.REACT_APP_API_LOCAL_HOST}/api/l
 
 // importance tasks
 export const getImportanceTasks = `${process.env.REACT_APP_API_LOCAL_HOST}/api/importanceTasks`;
+
+// my day tasks
+export const getMyDayTasks = `${process.env.REACT_APP_API_LOCAL_HOST}/api/myDayTasks`;

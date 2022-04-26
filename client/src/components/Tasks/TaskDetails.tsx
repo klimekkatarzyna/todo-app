@@ -7,6 +7,7 @@ import { ImportanceButton } from '../ImportanceButton/ImportanceButton';
 import { Importance, ITask, ITaskStatus } from '@kkrawczyk/todo-common';
 import { useFocusingHandling } from '../../hooks/useMouseHandling';
 import { EditTaskName } from './EditTaskName';
+import { Sun } from 'react-feather';
 
 interface ITaskDetailsProps {
 	taskData: ITask;
@@ -60,6 +61,7 @@ const TaskDetailsComponent: FC<ITaskDetailsProps> = ({
 				to={`/tasks/${listId}/${taskData?._id}`}
 				draggable
 				className='flex flex-col flex-1 text-left ml-4 mr-auto border-none bg-inherit outline-none cursor-pointer no-underline'>
+				{/*TODO: rozbić na mniejsze komponenty*/}
 				<div
 					className={`cursor-pointer ${isCompleted && 'line-through'} ${isCompleted ? 'text-darkerGrey' : 'text-fontColor'} ${
 						isTaskDetailsView && 'hover:bg-lightGrey'
@@ -69,6 +71,12 @@ const TaskDetailsComponent: FC<ITaskDetailsProps> = ({
 					{isFocused && isTaskDetailsView ? <EditTaskName taskData={taskData} /> : taskData?.title}
 				</div>
 				<div>{taskData?.groupName && <span className='inline-flex text-sm mr-4 text-darkerGrey'>{taskData?.groupName}</span>}</div>
+
+				{!isTaskDetailsView && taskData?.isMyDay && (
+					<div className='flex flex-row text-xs items-center'>
+						<Sun className='mr-2 icon-style' /> {'Mój dzień'}
+					</div>
+				)}
 			</Link>
 			<ImportanceButton isChecked={isImportanceButtonChecked} onClick={onClickImportanceButton} />
 		</>

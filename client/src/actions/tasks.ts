@@ -36,10 +36,14 @@ export const changeTaskImportanceAction = async ({ parentFolderId, _id, importan
 		importance,
 	});
 
-export const addTaskToMyDayAction = async ({ parentFolderId, _id, isMyDay }: ITask) =>
-	await http(`${api.addTaskToMyDay}/${parentFolderId}/${_id}`, 'POST', { isMyDay });
+export const taskInMyDayAction = async ({ _id, isMyDay }: ITask) => await http(`${api.taskInMyDay}/${_id}`, 'POST', { isMyDay });
 
 export const onGetImportanceTasksAction = async () => {
 	const response = await http<ITask[]>(`${api.getImportanceTasks}`, 'GET');
+	return response.body;
+};
+
+export const onGetMayDayTasksAction = async () => {
+	const response = await http<ITask[]>(`${api.getMyDayTasks}`, 'GET');
 	return response.body;
 };

@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { ArrowLeft } from 'react-feather';
 import { removeInvitationAction } from '../../actions/sharing';
 import { QueryKey } from '../../enums';
+import toast from 'react-hot-toast';
 
 interface IAccessManagementProps {
 	listDataResponse: IList;
@@ -17,6 +18,10 @@ export const AccessManagement: FC<IAccessManagementProps> = ({ listDataResponse,
 	const { mutate, isLoading, isError } = useMutation(removeInvitationAction, {
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.getListById]);
+			toast.success('Udostępnianie zatrzymane');
+		},
+		onError: error => {
+			toast.error(`Coś poszlo nie tak: ${error}`);
 		},
 	});
 

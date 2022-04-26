@@ -2,7 +2,7 @@ import express from 'express';
 import { listIdForTasksSchema, taskIdSchema, CreateEditTaskType, createEditTaskSchema } from '@kkrawczyk/todo-common';
 import { validateParams, validateBody } from '../utils/validation';
 import {
-	addTaskToMyDay,
+	taskInMyDay,
 	changeTaskImportance,
 	changeTaskStatus,
 	createTask,
@@ -11,6 +11,7 @@ import {
 	getTask,
 	getTasks,
 	removeTask,
+	getMyDayTasks,
 } from '../controllers/tasks';
 import { authorization } from '../utils/auth';
 
@@ -30,8 +31,10 @@ tasks.get('/tasks/:_id', authorization, validateParams(taskIdSchema), getTask);
 
 tasks.patch('/taskImportance/:parentFolderId/:_id', authorization, changeTaskImportance);
 
-tasks.post('/myDay/:_id', authorization, addTaskToMyDay);
+tasks.post('/myDay/:_id', authorization, taskInMyDay);
 
 tasks.get('/importanceTasks', authorization, getImportanceTasks);
+
+tasks.get('/myDayTasks', authorization, getMyDayTasks);
 
 export default tasks;

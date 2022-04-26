@@ -148,11 +148,11 @@ export const changeTaskImportance = async (req: Request, res: Response) => {
 	}
 };
 
-export const addTaskToMyDay = async (req: Request, res: Response) => {
+export const taskInMyDay = async (req: Request, res: Response) => {
 	const task = await Task.updateOne({ _id: req.params._id }, { $set: { isMyDay: req.body.isMyDay } });
 	try {
 		res.status(200).json({
-			message: `task has been added to my day`,
+			message: `task has been changed`,
 		});
 		if (!task) return res.status(404).json({ message: 'Task not found' });
 	} catch (err) {
@@ -164,6 +164,20 @@ export const addTaskToMyDay = async (req: Request, res: Response) => {
 
 export const getImportanceTasks = async (req: Request, res: Response) => {
 	const tasks = await Task.find({ importance: Importance.high });
+	try {
+		res.status(200).json({
+			body: tasks,
+		});
+		if (!tasks) return res.status(404).json({ message: 'Tasks not found' });
+	} catch (error) {
+		res.status(500).json({
+			error,
+		});
+	}
+};
+
+export const getMyDayTasks = async (req: Request, res: Response) => {
+	const tasks = await Task.find({ isMyDay: true });
 	try {
 		res.status(200).json({
 			body: tasks,
