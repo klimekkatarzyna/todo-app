@@ -18,7 +18,7 @@ interface IMenuListItem {
 const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed }) => {
 	const icon = useMemo(
 		() =>
-			(listItem.url === `/${SideMenu.myDay}` && <Sun className='icon-style' />) ||
+			(listItem.url === `${SideMenu.myDay}` && <Sun className='icon-style' />) ||
 			(listItem.url === `/${SideMenu.important}` && <Star className='icon-style' />) ||
 			(listItem.url === `/${SideMenu.planned}` && <Calendar className='icon-style stroke-blue' />) ||
 			(listItem.url === `/${SideMenu.assigned}` && <User className='icon-style stroke-green' />) ||
