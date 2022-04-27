@@ -4,6 +4,7 @@ import { ContextualMenuContext } from '../../ContextualMenuProvider';
 import { ContextualMenuOpion } from '../../enums';
 import { ModalVisibilityContext } from '../../ModalVisibilityProvider';
 import { Button } from '../Button/Button';
+import { X } from 'react-feather';
 
 interface IModalNEWProps<T> {
 	children?: React.ReactNode;
@@ -53,7 +54,9 @@ export const Modal: FC<IModalNEWProps<unknown>> = ({ children, title, contextual
 			<div className={`w-80 h-auto rounded relative bg-white p-4`}>
 				<div className='flex justify-between'>
 					<div className='font-semibold text-sm'>{title}</div>
-					<button onClick={onHide}>X</button>
+					<button onClick={onHide}>
+						<X className='icon-style' />
+					</button>
 				</div>
 				<div className='text-sm pt-4'>{children}</div>
 				{!isActionButtonHidden && (

@@ -3,6 +3,7 @@ import { useDragAndDrop } from '../../hooks/useDragAndDrop';
 import { SortComponent } from '../SortComponent/SortComponent';
 import { TaskItem } from './TaskItem/TaskItem';
 import { useTasks } from '../../hooks/useTasks';
+import { SideMenu } from '../../enums';
 
 const InCompletedTasksComponent: FC = () => {
 	const { inCompletedTaskslist, requestSort, setInCompletedTasksList, onChangeTaskStatus, changeTaskImportanceMutation } = useTasks();
@@ -17,6 +18,7 @@ const InCompletedTasksComponent: FC = () => {
 					key={task._id}
 					task={task}
 					index={index}
+					redirectTo={`/${SideMenu.tasks}/`}
 					dragAndDrop={dragAndDrop}
 					onDragStart={onDragStart}
 					onDragOver={onDragOver}

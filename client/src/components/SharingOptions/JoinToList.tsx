@@ -23,7 +23,7 @@ export const JoinToList: FC<IJoinToList> = ({ listDataLoading, list }) => {
 	});
 
 	const addUserToMemberOfList = useCallback(() => {
-		mutate(getStringAfterCharacter(history.location.search));
+		mutate(getStringAfterCharacter(history.location.search, '='));
 		history.push(`/tasks/${list?.listData._id}`);
 	}, [list]);
 

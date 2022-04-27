@@ -1,7 +1,5 @@
 import { FC, useCallback, useEffect, useMemo, useState, RefObject, useRef, memo } from 'react';
 import { Link } from 'react-router-dom';
-import { useParams } from 'react-router';
-import { IUseParams } from '../../interfaces/app';
 import { Checkbox } from '../Checkbox/Checkbox';
 import { ImportanceButton } from '../ImportanceButton/ImportanceButton';
 import { Importance, ITask, ITaskStatus } from '@kkrawczyk/todo-common';
@@ -15,6 +13,7 @@ interface ITaskDetailsProps {
 	isCompleted?: boolean;
 	changeTaskImportance: ({ parentFolderId: listId, _id: taskId, importance }: ITask) => void;
 	isTaskDetailsView?: boolean | undefined;
+	redirectTo: string;
 }
 
 const TaskDetailsComponent: FC<ITaskDetailsProps> = ({
@@ -23,8 +22,8 @@ const TaskDetailsComponent: FC<ITaskDetailsProps> = ({
 	isCompleted = false,
 	changeTaskImportance,
 	isTaskDetailsView,
+	redirectTo,
 }) => {
-	const { listId } = useParams<IUseParams>();
 	const tooltipText = useMemo(
 		() => (taskData?.taskStatus === ITaskStatus.complete ? 'oznacz jako niewykonane' : 'oznacz jako wykonane'),
 		[taskData]
@@ -58,7 +57,7 @@ const TaskDetailsComponent: FC<ITaskDetailsProps> = ({
 				tooltipText={tooltipText}
 			/>
 			<Link
-				to={`/tasks/${listId}/${taskData?._id}`}
+				to={`${redirectTo}${taskData?.parentFolderId}/${taskData?._id}`}
 				draggable
 				className='flex flex-col flex-1 text-left ml-4 mr-auto border-none bg-inherit outline-none cursor-pointer no-underline'>
 				{/*TODO: rozbić na mniejsze komponenty*/}

@@ -22,12 +22,15 @@ export enum ContextualMenuOpion {
 	// TODO: add more
 }
 
-export enum SideMenuType {
+export enum SideMenu {
 	myDay = '/',
-	planned = '/planned',
-	important = '/important',
-	assigned = '/assigned_to_me',
-	inbox = '/inbox',
+	myDayFull = 'myDay',
+	tasks = 'tasks',
+	planned = 'planned',
+	important = 'important',
+	assigned = 'assigned_to_me',
+	inbox = 'inbox',
+	jointToList = 'jointToList',
 }
 
 export type AppColorType = 'grey' | 'blue' | 'red' | 'green';

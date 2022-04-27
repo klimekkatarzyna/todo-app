@@ -1,4 +1,4 @@
-import { FC, useCallback, useContext } from 'react';
+import { FC, useCallback, useContext, useMemo } from 'react';
 import { getDay, getDayName, getMonth, parseUTCtoDate } from '../../utils/date';
 import { TaskDetails } from './TaskDetails';
 import { useTasks } from '../../hooks/useTasks';
@@ -6,8 +6,10 @@ import { ElementVisibilityContext } from '../../providers/ElementVisibilityProvi
 import { ITask, ITaskStatus } from '@kkrawczyk/todo-common';
 import { Loader, Bell, Calendar, Repeat, UserPlus, FilePlus, Trash2, XSquare } from 'react-feather';
 import { AddTaskToMyDay } from './TaskDetails/AddTaskToMyDay';
+import { useHistory } from 'react-router-dom';
 
 export const TaskSidebarDetails: FC = () => {
+	const history = useHistory();
 	const { onHide } = useContext(ElementVisibilityContext);
 	const { onChangeTaskStatus, taskData, taskDataLoading, removeTaskMutation, listId, changeTaskImportanceMutation } = useTasks();
 
@@ -24,6 +26,8 @@ export const TaskSidebarDetails: FC = () => {
 		onHide();
 	}, []);
 
+	const [, url] = useMemo(() => history.location.pathname.split('/'), [history]);
+
 	return (
 		<div className='bg-light-grey w-[360px] p-4 relative'>
 			{taskDataLoading ? (
@@ -37,6 +41,7 @@ export const TaskSidebarDetails: FC = () => {
 							onChangeTaskStatus={onChangeTaskStatus}
 							changeTaskImportance={changeTaskImportanceMutation}
 							isTaskDetailsView
+							redirectTo={`/${url}/`}
 						/>
 					</div>
 
@@ -66,10 +71,6 @@ export const TaskSidebarDetails: FC = () => {
 							<UserPlus className='mr-2 icon-style' />
 							{'Przydziel do'}
 						</div>
-					</div>
-
-					<div className='task-details-style mb-3'>
-						<div className='task-details-button-style'>{'Wybierz kategorię'}</div>
 					</div>
 
 					<div className='task-details-style mb-3'>

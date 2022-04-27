@@ -2,7 +2,7 @@ import { FC, useMemo, memo } from 'react';
 import { Link } from 'react-router-dom';
 import { contextualMenuSecountOpion, contextualMenuSecountOpionMembers } from '../../constants';
 import { IList, ITask } from '@kkrawczyk/todo-common';
-import { QueryKey, SideMenuType } from '../../enums';
+import { QueryKey, SideMenu } from '../../enums';
 import { ContextMenuTrigger } from 'react-contextmenu';
 import { ContextualMenu } from '../ContextualMenu/ContextualMenu';
 import { useSharingData } from '../../hooks/useSharingData';
@@ -18,11 +18,11 @@ interface IMenuListItem {
 const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed }) => {
 	const icon = useMemo(
 		() =>
-			(listItem.url === SideMenuType.myDay && <Sun className='icon-style' />) ||
-			(listItem.url === SideMenuType.important && <Star className='icon-style' />) ||
-			(listItem.url === SideMenuType.planned && <Calendar className='icon-style stroke-blue' />) ||
-			(listItem.url === SideMenuType.assigned && <User className='icon-style stroke-green' />) ||
-			(listItem.url === SideMenuType.inbox && <Home className='icon-style stroke-red' />),
+			(listItem.url === `/${SideMenu.myDay}` && <Sun className='icon-style' />) ||
+			(listItem.url === `/${SideMenu.important}` && <Star className='icon-style' />) ||
+			(listItem.url === `/${SideMenu.planned}` && <Calendar className='icon-style stroke-blue' />) ||
+			(listItem.url === `/${SideMenu.assigned}` && <User className='icon-style stroke-green' />) ||
+			(listItem.url === `/${SideMenu.inbox}` && <Home className='icon-style stroke-red' />),
 		[listItem]
 	);
 	const { isOwner } = useSharingData(listItem?.userId);

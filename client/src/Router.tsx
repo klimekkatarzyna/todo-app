@@ -16,6 +16,7 @@ import { AuthContext, AuthContextType } from './AuthProvider';
 import { Loader } from 'react-feather';
 import { Sharing } from './pages/Sharing';
 import { Redirect } from './pages/Redirect';
+import { SideMenu } from './enums';
 
 const BrowserRouter: FC = () => {
 	const { authData, isCheckSessionLoading, sessionChecked } = useContext<AuthContextType>(AuthContext);
@@ -32,28 +33,34 @@ const BrowserRouter: FC = () => {
 						<Switch>
 							{authData?._id !== undefined && sessionChecked !== undefined ? (
 								<>
-									<PrivateRoute exact path='/'>
+									<PrivateRoute exact path={SideMenu.myDay}>
 										<MyDay />
 									</PrivateRoute>
-									<PrivateRoute exact path='/important'>
+									<PrivateRoute exact path={`/${SideMenu.myDayFull}/:listId/:taskId`}>
+										<MyDay />
+									</PrivateRoute>
+									<PrivateRoute exact path={`/${SideMenu.important}`}>
 										<Important />
 									</PrivateRoute>
-									<PrivateRoute exact path='/planned'>
+									<PrivateRoute exact path={`/${SideMenu.important}/:listId/:taskId`}>
+										<Important />
+									</PrivateRoute>
+									<PrivateRoute exact path={`/${SideMenu.planned}`}>
 										<Planned />
 									</PrivateRoute>
-									<PrivateRoute exact path='/assigned_to_me'>
+									<PrivateRoute exact path={`/${SideMenu.assigned}`}>
 										<Assigned />
 									</PrivateRoute>
-									<PrivateRoute exact path='/inbox'>
+									<PrivateRoute exact path={`/${SideMenu.inbox}`}>
 										<Inbox />
 									</PrivateRoute>
-									<PrivateRoute exact path='/tasks/:listId'>
+									<PrivateRoute exact path={`/${SideMenu.tasks}/:listId`}>
 										<Tasks />
 									</PrivateRoute>
-									<PrivateRoute exact path='/tasks/:listId/:taskId'>
+									<PrivateRoute exact path={`/${SideMenu.tasks}/:listId/:taskId`}>
 										<Tasks />
 									</PrivateRoute>
-									<PrivateRoute exact path='/jointToList/tasks/sharing'>
+									<PrivateRoute exact path={`/${SideMenu.jointToList}/tasks/sharing`}>
 										<Sharing />
 									</PrivateRoute>
 
@@ -71,7 +78,7 @@ const BrowserRouter: FC = () => {
 									<Route path='/login'>
 										<Login />
 									</Route>
-									<Route path='/tasks/sharing'>
+									<Route path={`/${SideMenu.tasks}/sharing`}>
 										<Redirect />
 									</Route>
 								</>

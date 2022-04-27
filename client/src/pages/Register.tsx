@@ -9,6 +9,7 @@ import { useMutation } from 'react-query';
 import { RegisterValidationType, registerValidationSchema, IUserData } from '@kkrawczyk/todo-common';
 import { registerAction } from '../actions/user';
 import { HttpResponse } from '../utils/http';
+import { SideMenu } from '../enums';
 
 export const Register: FC = () => {
 	const history = useHistory();
@@ -17,7 +18,7 @@ export const Register: FC = () => {
 	const authenticateUserRequest = useCallback(async ({ username, email, password }: IUserData): Promise<HttpResponse<IUserData> | undefined> => {
 		try {
 			const response = await registerAction({ username, email, password });
-			if (response?.isSuccess) history.push('/');
+			if (response?.isSuccess) history.push(SideMenu.myDay);
 			return response;
 		} catch (err) {
 			console.error(err);

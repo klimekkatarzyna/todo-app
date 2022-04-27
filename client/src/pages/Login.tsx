@@ -9,6 +9,7 @@ import { Formik, Form } from 'formik';
 import { loginValidationSchema, LoginValidationType, IUserData } from '@kkrawczyk/todo-common';
 import { loginAction } from '../actions/user';
 import { AuthContext, AuthContextType } from '../AuthProvider';
+import { SideMenu } from '../enums';
 
 export const Login: FC = () => {
 	const history = useHistory();
@@ -21,7 +22,7 @@ export const Login: FC = () => {
 		try {
 			const response = await loginAction({ email, password });
 			if (response.isSuccess && response?.body?._id) {
-				history.push(invitationTokenUrl ? `/jointToList${invitationTokenUrl}` : '/');
+				history.push(invitationTokenUrl ? `/jointToList${invitationTokenUrl}` : SideMenu.myDay);
 				setAuthData(response?.body);
 			}
 

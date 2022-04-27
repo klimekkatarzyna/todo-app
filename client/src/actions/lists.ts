@@ -3,7 +3,7 @@ import { http } from '../utils/http';
 import { getStringAfterCharacter } from '../utils/utilsFunctions';
 import * as api from '../services';
 
-const invitationToken = getStringAfterCharacter(sessionStorage.getItem('invitationTokenUrl') || undefined); // TODO: fix me!!
+const invitationToken = getStringAfterCharacter(sessionStorage.getItem('invitationTokenUrl') || undefined, '='); // TODO: fix me!!
 
 export const createListAction = async ({ title }: IList) => await http<IList>(api.createList, 'POST', { title });
 

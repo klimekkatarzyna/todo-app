@@ -8,7 +8,7 @@ import { RedirectToList } from '../components/SharingOptions/RedirectToList';
 import { QueryKey } from '../enums';
 
 export const Sharing: FC = () => {
-	const invitationTokenUrl = getStringAfterCharacter(sessionStorage.getItem('invitationTokenUrl') || '');
+	const invitationTokenUrl = getStringAfterCharacter(sessionStorage.getItem('invitationTokenUrl') || '', '=');
 	const { data: list, isLoading: listDataLoading } = useQuery<IShareLitDetails | undefined>([QueryKey.getListDatatoShare, invitationTokenUrl], () =>
 		getListDatatoShareAction({ invitationToken: invitationTokenUrl || '' })
 	);

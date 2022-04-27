@@ -5,6 +5,7 @@ import { Button } from './Button/Button';
 import { AuthContext, AuthContextType } from '../AuthProvider';
 import { logoutUserAction } from '../actions/user';
 import { useMutation } from 'react-query';
+import { SideMenu } from '../enums';
 
 interface IHeader {
 	userName: string;
@@ -28,7 +29,7 @@ export const Header: FC<IHeader> = ({ userName }) => {
 
 	return (
 		<header className='flex justify-between items-center pl-4 pr-4 bg-blue h-12'>
-			<Link to='/' className='no-underline font-semibold text-white'>
+			<Link to={SideMenu.myDay} className='no-underline font-semibold text-white'>
 				{'To Do'}
 			</Link>
 			<div className='flex'>

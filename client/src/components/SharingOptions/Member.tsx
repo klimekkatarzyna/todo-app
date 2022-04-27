@@ -33,7 +33,7 @@ export const Member: FC<IMemberProps> = ({ listDataResponse, member }) => {
 			<p key={member}>{member}</p>
 			{isOwner && (
 				<button onClick={() => mutate({ _id: listDataResponse?._id, member })} className='ml-auto cursor-pointer'>
-					<X size={20} />
+					<X className='icon-style' />
 				</button>
 			)}
 			{isLoading && <Loader />}

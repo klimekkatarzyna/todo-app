@@ -8,7 +8,7 @@ import { useDragAndDrop } from '../hooks/useDragAndDrop';
 import { onGetImportanceTasksAction } from '../actions/tasks';
 import { ITask, ITaskStatus } from '@kkrawczyk/todo-common';
 import { Loader } from 'react-feather';
-import { QueryKey } from '../enums';
+import { QueryKey, SideMenu } from '../enums';
 
 export const Important: FC = () => {
 	const { inCompletedTaskslist, setInCompletedTasksList, onChangeTaskStatus, changeTaskImportanceMutation } = useTasks();
@@ -28,6 +28,7 @@ export const Important: FC = () => {
 						key={task._id}
 						task={task}
 						index={index}
+						redirectTo={`/${SideMenu.important}/`}
 						dragAndDrop={dragAndDrop}
 						onDragStart={onDragStart}
 						onDragOver={onDragOver}

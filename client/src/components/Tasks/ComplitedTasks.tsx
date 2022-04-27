@@ -3,6 +3,7 @@ import { TaskItem } from './TaskItem/TaskItem';
 import { Accordion } from '../Accordion/Accordion';
 import { useDragAndDrop } from '../../hooks/useDragAndDrop';
 import { useTasks } from '../../hooks/useTasks';
+import { SideMenu } from '../../enums';
 
 const ComplitedTasksComponent: FC = () => {
 	const { completedTaskslist, setComplitedTasksList, onChangeTaskStatus, changeTaskImportanceMutation } = useTasks();
@@ -20,6 +21,7 @@ const ComplitedTasksComponent: FC = () => {
 							onChangeTaskStatus={onChangeTaskStatus}
 							isCompleted
 							index={index}
+							redirectTo={`/${SideMenu.tasks}/`}
 							onDragStart={onDragStart}
 							onDragOver={onDragOver}
 							onDrop={onDrop}

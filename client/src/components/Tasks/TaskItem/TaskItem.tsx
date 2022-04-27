@@ -18,6 +18,7 @@ interface ITaskItem {
 	onDrop?: (event: React.DragEvent<HTMLDivElement>) => void;
 	onDragLeave?: () => void;
 	changeTaskImportance: ({ parentFolderId: listId, _id: taskId, importance }: ITask) => void;
+	redirectTo: string;
 }
 
 export const TaskItem: FC<ITaskItem> = ({
@@ -31,6 +32,7 @@ export const TaskItem: FC<ITaskItem> = ({
 	onDrop,
 	onDragLeave,
 	changeTaskImportance,
+	redirectTo,
 }) => {
 	const { onShow } = useContext(ElementVisibilityContext);
 	const isDragAndDrop = useMemo(() => (dragAndDrop?.draggedTo !== 0 && dragAndDrop?.draggedTo === Number(index) ? true : false), [dragAndDrop]);
@@ -56,6 +58,7 @@ export const TaskItem: FC<ITaskItem> = ({
 					onClick={onSelectTask}>
 					<TaskDetails
 						taskData={task}
+						redirectTo={redirectTo}
 						onChangeTaskStatus={onChangeTaskStatus}
 						isCompleted={isCompleted}
 						changeTaskImportance={changeTaskImportance}
