@@ -1,7 +1,7 @@
 import { FC, memo, useCallback, useContext } from 'react';
 import { MenuListItem } from '../../MenuListItem/MenuListItem';
 import { Loader } from 'react-feather';
-import { Modal } from '../../Modal/Modal';
+import { ContextualModal } from '../../Modal/ContextualModal';
 import { ContextualMenuOpion, QueryKey } from '../../../enums';
 import { SharingOptions } from '../../SharingOptions/SharingOptions';
 import { useMutation, useQueryClient } from 'react-query';
@@ -62,17 +62,23 @@ const ListsComponents: FC<ILists> = ({ isNavClosed }) => {
 					<MenuListItem key={list?._id} listItem={list} isNavClosed={isNavClosed} />
 				))}
 			</div>
-			{isVisible && <Modal title='Czy chcesz usunąć listę?' onHandleAction={removeList} contextualType={ContextualMenuOpion.remove_list} />}
 			{isVisible && (
-				<Modal title='' onHandleAction={() => {}} contextualType={ContextualMenuOpion.sharing_options} isActionButtonHidden>
+				<ContextualModal title='Czy chcesz usunąć listę?' onHandleAction={removeList} contextualType={ContextualMenuOpion.remove_list} />
+			)}
+			{isVisible && (
+				<ContextualModal title='' onHandleAction={() => {}} contextualType={ContextualMenuOpion.sharing_options} isActionButtonHidden>
 					<SharingOptions
 						addInvitationTokenToListLoading={addInvitationTokenToListLoading}
 						addInvitationTokenToListMutation={addInvitationTokenToListMutation}
 					/>
-				</Modal>
+				</ContextualModal>
 			)}
 			{isVisible && (
-				<Modal title='Czy chcesz opuścić tę listę?' onHandleAction={onUpdateMembersList} contextualType={ContextualMenuOpion.leave_list} />
+				<ContextualModal
+					title='Czy chcesz opuścić tę listę?'
+					onHandleAction={onUpdateMembersList}
+					contextualType={ContextualMenuOpion.leave_list}
+				/>
 			)}
 		</>
 	);

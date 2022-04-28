@@ -10,6 +10,7 @@ export const register = `${process.env.REACT_APP_API_LOCAL_HOST}/api/register`;
 export const login = `${process.env.REACT_APP_API_LOCAL_HOST}/api/login`;
 export const me = `${process.env.REACT_APP_API_LOCAL_HOST}/api/me`;
 export const logout = `${process.env.REACT_APP_API_LOCAL_HOST}/api/logout`;
+export const user = `${process.env.REACT_APP_API_LOCAL_HOST}/api/user`;
 
 // main list
 export const getMainList = `${process.env.REACT_APP_API_LOCAL_HOST}/api/mainList`;

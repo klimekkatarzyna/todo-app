@@ -3,9 +3,9 @@ import { ContextualMenuOpion } from '../../enums';
 import { useTasks } from '../../hooks/useTasks';
 import { ModalVisibilityContext } from '../../ModalVisibilityProvider';
 import { Loader } from 'react-feather';
-import { Modal } from '../Modal/Modal';
 import { ComplitedTasks } from './ComplitedTasks';
 import { InCompletedTasks } from './InCompletedTasks';
+import { ContextualModal } from '../Modal/ContextualModal';
 
 export const TasksList: FC = () => {
 	const { isVisible } = useContext(ModalVisibilityContext);
@@ -25,12 +25,12 @@ export const TasksList: FC = () => {
 			</div>
 
 			{isVisible && (
-				<Modal
+				<ContextualModal
 					title='To zadanie zostanie trwale usunięte'
 					contextualType={ContextualMenuOpion.remove_task}
 					onHandleAction={removeTaskMutation}>
 					<span>{'Tej akcji nie można cofnąć'}</span>
-				</Modal>
+				</ContextualModal>
 			)}
 		</div>
 	);

@@ -4,14 +4,15 @@ import { TaskDetails } from './TaskDetails';
 import { useTasks } from '../../hooks/useTasks';
 import { ElementVisibilityContext } from '../../providers/ElementVisibilityProvider';
 import { ITask, ITaskStatus } from '@kkrawczyk/todo-common';
-import { Loader, Bell, Calendar, Repeat, UserPlus, FilePlus, Trash2, XSquare } from 'react-feather';
+import { Loader, Bell, Calendar, Repeat, FilePlus, Trash2, XSquare } from 'react-feather';
 import { AddTaskToMyDay } from './TaskDetails/AddTaskToMyDay';
 import { useHistory } from 'react-router-dom';
+import { AssignTo } from './TaskDetails/AssignTo';
 
 export const TaskSidebarDetails: FC = () => {
 	const history = useHistory();
 	const { onHide } = useContext(ElementVisibilityContext);
-	const { onChangeTaskStatus, taskData, taskDataLoading, removeTaskMutation, listId, changeTaskImportanceMutation } = useTasks();
+	const { onChangeTaskStatus, taskData, taskDataLoading, removeTaskMutation, changeTaskImportanceMutation } = useTasks();
 
 	const handleClick = useCallback(async (): Promise<void> => {
 		try {
@@ -26,7 +27,7 @@ export const TaskSidebarDetails: FC = () => {
 		onHide();
 	}, []);
 
-	const [, url] = useMemo(() => history.location.pathname.split('/'), [history]);
+	const [, url, listId] = useMemo(() => history.location.pathname.split('/'), [history]);
 
 	return (
 		<div className='bg-light-grey w-[360px] p-4 relative'>
@@ -59,19 +60,14 @@ export const TaskSidebarDetails: FC = () => {
 							{'Dodaj termin wykonania'}
 						</div>
 					</div>
-					<div className='task-details-style mb-3'>
+					<div className='task-details-style mb-6'>
 						<div className='task-details-button-style'>
 							<Repeat className='mr-2 icon-style' />
 							{'Powtórz'}
 						</div>
 					</div>
 
-					<div className='task-details-style mb-3'>
-						<div className='task-details-button-style'>
-							<UserPlus className='mr-2 icon-style' />
-							{'Przydziel do'}
-						</div>
-					</div>
+					<AssignTo listId={listId} />
 
 					<div className='task-details-style mb-3'>
 						<div className='task-details-button-style'>

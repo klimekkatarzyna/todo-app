@@ -31,7 +31,7 @@ export const AddTaskToMyDay: FC<IAddTaskToMyDay> = ({ taskData }) => {
 	}, [taskData?._id, isMyDayTask]);
 
 	return (
-		<div className='task-details-style mb-3'>
+		<div className='task-details-style mb-6'>
 			{isLoading && <Loader />}
 			<button className='task-details-button-style' onClick={onHandleTaskInMyDayView}>
 				<Sun className='mr-2 icon-style' />

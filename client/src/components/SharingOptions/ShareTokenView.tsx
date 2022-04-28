@@ -1,11 +1,14 @@
 import { FC, useContext } from 'react';
-import { ContextualMenuOpion } from '../../enums';
+import { ContextualMenuOpion, QueryKey } from '../../enums';
 import { IList } from '@kkrawczyk/todo-common';
 import { ModalVisibilityContext } from '../../ModalVisibilityProvider';
-import { Modal } from '../Modal/Modal';
+import { ContextualModal } from '../Modal/ContextualModal';
 import { Member } from './Member';
 import { RemoveMember } from './RemoveMember';
 import { ShareLink } from './ShareLink';
+import { useQuery } from 'react-query';
+import { getUserAction } from '../../actions/user';
+import { Loader } from 'react-feather';
 interface IShareTokenViewProps {
 	onNextStep: () => void;
 	listDataResponse: IList;
@@ -13,6 +16,7 @@ interface IShareTokenViewProps {
 
 export const ShareTokenView: FC<IShareTokenViewProps> = ({ onNextStep, listDataResponse }) => {
 	const { isVisible } = useContext(ModalVisibilityContext);
+	const { data, isLoading } = useQuery([QueryKey.getUser, listDataResponse?.userId], () => getUserAction(listDataResponse?.userId));
 
 	return (
 		<div>
@@ -21,16 +25,18 @@ export const ShareTokenView: FC<IShareTokenViewProps> = ({ onNextStep, listDataR
 			</h2>
 			<h3 className='text-darkerGrey text-sm'>Członkowie listy</h3>
 			<div className='flex items-center'>
-				<div className='flex items-center relative mr-2 text-sm before:contents w-7 h-7 bg-red rounded-full' /> {listDataResponse?.owner}{' '}
+				{isLoading && <Loader />}
+				<div className='flex items-center relative mr-2 text-sm before:contents w-7 h-7 bg-red rounded-full' /> {data?.username}{' '}
 				<span className='text-darkerGrey ml-auto text-xs'>{'Właściciel'}</span>
 			</div>
 			{listDataResponse?.members?.map(member => (
 				<Member key={member} member={member} listDataResponse={listDataResponse} />
 			))}{' '}
-			{/*TODO: display name of user or email*/}
 			<ShareLink listDataResponse={listDataResponse} />
 			<RemoveMember onNextStep={onNextStep} listDataResponse={listDataResponse} />
-			{isVisible && <Modal title='Czy chcesz opuścić listę?' onHandleAction={() => {}} contextualType={ContextualMenuOpion.leave_list} />}
+			{isVisible && (
+				<ContextualModal title='Czy chcesz opuścić listę?' onHandleAction={() => {}} contextualType={ContextualMenuOpion.leave_list} />
+			)}
 		</div>
 	);
 };

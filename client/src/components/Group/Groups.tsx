@@ -1,7 +1,7 @@
 import { FC, useCallback, useContext } from 'react';
 import { ContextualMenuOpion, QueryKey } from '../../enums';
 import { IGroup } from '@kkrawczyk/todo-common';
-import { Modal } from '../Modal/Modal';
+import { ContextualModal } from '../Modal/ContextualModal';
 import { Group } from './Group';
 import { ModalVisibilityContext } from '../../ModalVisibilityProvider';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
@@ -45,7 +45,7 @@ export const Groups: FC<IGroupsProps> = ({ isNavClosed }) => {
 				<Group key={group?._id} group={group} isNavClosed={isNavClosed} />
 			))}
 			{isVisible && (
-				<Modal
+				<ContextualModal
 					title='Czy chcesz usunąć grupę?'
 					onHandleAction={onRemoveGroup}
 					contextualType={ContextualMenuOpion.remove_group}

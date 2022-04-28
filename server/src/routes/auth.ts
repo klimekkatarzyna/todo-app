@@ -2,7 +2,7 @@ import express from 'express';
 import { authorization } from '../utils/auth';
 import { registerValidationSchema, RegisterValidationType, loginValidationSchema, LoginValidationType } from '@kkrawczyk/todo-common';
 import { validateBody } from '../utils/validation';
-import { checkSession, login, logout, register } from '../controllers/auth';
+import { checkSession, getUser, login, logout, register } from '../controllers/auth';
 
 const auth = express.Router();
 
@@ -20,5 +20,7 @@ auth.post('/login', validateBody<LoginValidationType>(loginValidationSchema), lo
 auth.get('/me', authorization, checkSession);
 
 auth.post('/logout', logout);
+
+auth.get('/user/:_id', authorization, getUser);
 
 export default auth;

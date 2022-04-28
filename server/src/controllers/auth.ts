@@ -106,3 +106,17 @@ export const logout = async (req: Request, res: Response) => {
 		});
 	}
 };
+
+export const getUser = async (req: Request, res: Response) => {
+	const user = await User.find({ _id: req.params._id });
+	try {
+		res.status(200).json({
+			body: user[0],
+		});
+		if (!user) return res.status(404).json({ message: 'User not found' });
+	} catch (error) {
+		res.status(500).json({
+			error,
+		});
+	}
+};
