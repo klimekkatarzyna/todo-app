@@ -35,6 +35,9 @@ const TaskSchema = new Schema<ITask>({
 	isMyDay: {
 		type: Boolean,
 	},
+	assigned: {
+		type: String,
+	},
 });
 
 export default model<ITask>('task', TaskSchema);

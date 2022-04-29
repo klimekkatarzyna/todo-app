@@ -16,6 +16,7 @@ export interface ITask {
     taskStatus?: string;
     deadline?: string;
     isMyDay?: boolean;
+    assigned?: string;
     sortType?: SortType;
 }
 export declare type AppColorType = "grey" | "blue" | "red" | "green";

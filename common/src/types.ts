@@ -18,6 +18,7 @@ export interface ITask {
   taskStatus?: string;
   deadline?: string;
   isMyDay?: boolean;
+  assigned?: string;
   sortType?: SortType;
 }
 

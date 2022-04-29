@@ -1,8 +1,4 @@
-import { useMemo } from 'react';
-
-export const splitChar = (char: string): string[] => char?.split(' ');
-
-export const returnsFirstChar = (char: string): string => char?.substr(0, 1);
+export const getFirstLetters = (str: string | undefined) => str?.match(/\b(\w)/g);
 
 export const removesWhitespaceFromString = (value: string) => (value === ' ' ? value?.trim() : value);
 

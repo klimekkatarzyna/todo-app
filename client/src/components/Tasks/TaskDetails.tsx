@@ -6,6 +6,7 @@ import { Importance, ITask, ITaskStatus } from '@kkrawczyk/todo-common';
 import { useFocusingHandling } from '../../hooks/useMouseHandling';
 import { EditTaskName } from './EditTaskName';
 import { Sun } from 'react-feather';
+import { IconUserName } from '../IconUserName/IconUserName';
 
 interface ITaskDetailsProps {
 	taskData: ITask;
@@ -77,6 +78,7 @@ const TaskDetailsComponent: FC<ITaskDetailsProps> = ({
 					</div>
 				)}
 			</Link>
+			{!isTaskDetailsView && !!taskData.assigned?.length && <IconUserName member={taskData?.assigned} />}
 			<ImportanceButton isChecked={isImportanceButtonChecked} onClick={onClickImportanceButton} />
 		</>
 	);

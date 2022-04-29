@@ -1,6 +1,6 @@
-import { FC, useCallback, useContext } from 'react';
+import { FC, useCallback, useContext, useMemo } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { returnsFirstChar, splitChar } from '../utils/utilsFunctions';
+import { getFirstLetters } from '../utils/utilsFunctions';
 import { Button } from './Button/Button';
 import { AuthContext, AuthContextType } from '../AuthProvider';
 import { logoutUserAction } from '../actions/user';
@@ -12,7 +12,7 @@ interface IHeader {
 }
 
 export const Header: FC<IHeader> = ({ userName }) => {
-	const [firstChar, secChar] = splitChar(userName);
+	const name = useMemo(() => getFirstLetters(userName), [userName]);
 	const history = useHistory();
 	const { setAuthData } = useContext<AuthContextType>(AuthContext);
 
@@ -34,7 +34,7 @@ export const Header: FC<IHeader> = ({ userName }) => {
 			</Link>
 			<div className='flex'>
 				<div className='text-white mr-4 p-2 rounded-full border-solid border-2 border-white w-9 h-9 flex items-center justify-center'>
-					{returnsFirstChar(firstChar)} {returnsFirstChar(secChar)}
+					{name}
 				</div>
 				<Button outlineWhite onClick={logoutUser} isLoading={isLoading}>
 					Logout

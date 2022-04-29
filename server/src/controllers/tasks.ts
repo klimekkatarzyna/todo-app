@@ -13,6 +13,7 @@ export const createTask = async (req: Request, res: Response) => {
 		createdAt: Date.now(),
 		taskStatus: req.body.taskStatus,
 		sortType: req.body.sortType,
+		assigned: req.body.assigned,
 	});
 
 	taskSocket('add-task', req.body.parentFolderId, task);
@@ -29,6 +30,7 @@ export const createTask = async (req: Request, res: Response) => {
 				createdAt: task.createdAt,
 				taskStatus: task.taskStatus,
 				sortType: task.sortType,
+				assigned: task.assigned,
 			},
 		});
 	} catch (err) {
@@ -186,6 +188,28 @@ export const getMyDayTasks = async (req: Request, res: Response) => {
 	} catch (error) {
 		res.status(500).json({
 			error,
+		});
+	}
+};
+
+export const assignUserToTask = async (req: Request, res: Response) => {
+	try {
+		const task = await Task.findOneAndUpdate(
+			{ _id: req.body._id },
+			{
+				$set: {
+					assigned: req.body.assigned,
+				},
+			}
+		);
+		if (!task) {
+			res.status(404).json({ message: 'Task not found' });
+		}
+		console.log(task);
+		res.status(200).json({ body: task, message: 'user assigned to task' });
+	} catch (err) {
+		res.status(500).json({
+			err,
 		});
 	}
 };

@@ -47,3 +47,5 @@ export const onGetMayDayTasksAction = async () => {
 	const response = await http<ITask[]>(`${api.getMyDayTasks}`, 'GET');
 	return response.body;
 };
+
+export const assignUserToTask = async ({ _id, assigned }: ITask) => await http<ITask>(`${api.assignMemberToTask}`, 'POST', { _id, assigned });

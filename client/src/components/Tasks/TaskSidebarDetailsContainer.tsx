@@ -7,7 +7,7 @@ import { ITask, ITaskStatus } from '@kkrawczyk/todo-common';
 import { Loader, Bell, Calendar, Repeat, FilePlus, Trash2, XSquare } from 'react-feather';
 import { AddTaskToMyDay } from './TaskDetails/AddTaskToMyDay';
 import { useHistory } from 'react-router-dom';
-import { AssignTo } from './TaskDetails/AssignTo';
+import { AssignComponent } from './TaskDetails/AssignComponent';
 
 export const TaskSidebarDetails: FC = () => {
 	const history = useHistory();
@@ -27,7 +27,7 @@ export const TaskSidebarDetails: FC = () => {
 		onHide();
 	}, []);
 
-	const [, url, listId] = useMemo(() => history.location.pathname.split('/'), [history]);
+	const [, url, listId, taskId] = useMemo(() => history.location.pathname.split('/'), [history]);
 
 	return (
 		<div className='bg-light-grey w-[360px] p-4 relative'>
@@ -67,7 +67,7 @@ export const TaskSidebarDetails: FC = () => {
 						</div>
 					</div>
 
-					<AssignTo listId={listId} />
+					<AssignComponent listId={listId} taskId={taskId} taskData={taskData} />
 
 					<div className='task-details-style mb-3'>
 						<div className='task-details-button-style'>

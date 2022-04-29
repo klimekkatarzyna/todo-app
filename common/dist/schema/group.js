@@ -5,10 +5,7 @@ const yup_1 = require("yup");
 const types_1 = require("../types");
 exports.createEditGroupSchema = (0, yup_1.object)({
     createdAt: (0, yup_1.date)().optional(),
-    title: (0, yup_1.string)()
-        .min(3, "Too short!")
-        .max(20, "Too Long!")
-        .required("Dodaj nazwę grupy"),
+    title: (0, yup_1.string)().max(20, "Too Long!").required("Dodaj nazwę grupy"),
     themeColor: (0, yup_1.mixed)()
         .oneOf(Object.values(types_1.AppColorTypeEnum))
         .optional(),

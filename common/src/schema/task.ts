@@ -25,6 +25,7 @@ export const createEditTaskSchema: SchemaOf<ITask> = object({
   taskStatus: string().optional(),
   deadline: string().optional(),
   isMyDay: boolean().optional(),
+  assigned: string().optional(),
   sortType: mixed<SortType>()
     .oneOf(Object.values(SortType) as SortType[])
     .optional(),
