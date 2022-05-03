@@ -52,4 +52,4 @@ export const getImportanceTasks = `${process.env.REACT_APP_API_LOCAL_HOST}/api/i
 export const getMyDayTasks = `${process.env.REACT_APP_API_LOCAL_HOST}/api/myDayTasks`;
 
 // assinged tasks
-export const assignMemberToTask = `${process.env.REACT_APP_API_LOCAL_HOST}/api/assignTask`;
+export const membersTask = `${process.env.REACT_APP_API_LOCAL_HOST}/api/membersTask`;

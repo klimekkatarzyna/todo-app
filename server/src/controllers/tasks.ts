@@ -205,8 +205,28 @@ export const assignUserToTask = async (req: Request, res: Response) => {
 		if (!task) {
 			res.status(404).json({ message: 'Task not found' });
 		}
-		console.log(task);
 		res.status(200).json({ body: task, message: 'user assigned to task' });
+	} catch (err) {
+		res.status(500).json({
+			err,
+		});
+	}
+};
+
+export const removeUserFromTask = async (req: Request, res: Response) => {
+	try {
+		const task = await Task.findOneAndUpdate(
+			{ _id: req.body._id },
+			{
+				$set: {
+					assigned: null,
+				},
+			}
+		);
+		if (!task) {
+			res.status(404).json({ message: 'Task not found' });
+		}
+		res.status(200).json({ body: task, message: 'remove assigment' });
 	} catch (err) {
 		res.status(500).json({
 			err,
