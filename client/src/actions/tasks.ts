@@ -48,6 +48,11 @@ export const onGetMayDayTasksAction = async () => {
 	return response.body;
 };
 
-export const assignUserToTask = async ({ _id, assigned }: ITask) => await http<ITask>(`${api.membersTask}`, 'POST', { _id, assigned });
+export const assignUserToTaskAction = async ({ _id, assigned }: ITask) => await http<ITask>(`${api.membersTask}`, 'POST', { _id, assigned });
 
-export const removenUserFromTask = async ({ _id }: ITask) => await http<ITask>(`${api.membersTask}`, 'DELETE', { _id });
+export const removenUserFromTaskAction = async ({ _id }: ITask) => await http<ITask>(`${api.membersTask}`, 'DELETE', { _id });
+
+export const getAssignedTasksAction = async ({ assigned }: ITask) => {
+	const response = await http<ITask[]>(`${api.assignedTasks}/${assigned}`, 'GET');
+	return response.body;
+};

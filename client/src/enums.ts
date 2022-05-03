@@ -63,4 +63,5 @@ export enum QueryKey {
 	groups = 'groups',
 	getMyDayTasks = 'getMyDayTasks',
 	getUser = 'getUser',
+	getAssignedTasks = 'getAssignedTasks',
 }

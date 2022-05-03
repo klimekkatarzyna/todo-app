@@ -233,3 +233,17 @@ export const removeUserFromTask = async (req: Request, res: Response) => {
 		});
 	}
 };
+
+export const getAssignedTasks = async (req: Request, res: Response) => {
+	try {
+		const tasks = await Task.find({ assigned: req.params.assigned });
+		if (!tasks) {
+			res.status(404).json({ message: 'Tasks not found' });
+		}
+		res.status(200).json({ body: tasks });
+	} catch (err) {
+		res.status(500).json({
+			err,
+		});
+	}
+};

@@ -53,3 +53,4 @@ export const getMyDayTasks = `${process.env.REACT_APP_API_LOCAL_HOST}/api/myDayT
 
 // assinged tasks
 export const membersTask = `${process.env.REACT_APP_API_LOCAL_HOST}/api/membersTask`;
+export const assignedTasks = `${process.env.REACT_APP_API_LOCAL_HOST}/api/assignedTasks`;

@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { ITask } from '@kkrawczyk/todo-common';
 import { IconUserName } from '../../IconUserName/IconUserName';
 import { useMutation, useQueryClient } from 'react-query';
-import { removenUserFromTask } from '../../../actions/tasks';
+import { removenUserFromTaskAction } from '../../../actions/tasks';
 import { QueryKey } from '../../../enums';
 import toast from 'react-hot-toast';
 import { Loader, X } from 'react-feather';
@@ -14,10 +14,11 @@ interface IRemoveAssignmentProps {
 export const RemoveAssignment: FC<IRemoveAssignmentProps> = ({ taskData }) => {
 	const query = useQueryClient();
 
-	const { mutate, isLoading } = useMutation(removenUserFromTask, {
+	const { mutate, isLoading } = useMutation(removenUserFromTaskAction, {
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.tasksOfCurrentList]);
 			query.invalidateQueries([QueryKey.getTask]);
+			query.invalidateQueries([QueryKey.getAssignedTasks]);
 			toast.success('Przypisanie usunięte');
 		},
 		onError: error => {

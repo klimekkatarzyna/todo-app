@@ -10,7 +10,7 @@ import { modalVisibilityState } from '../../../atoms/modal';
 import { DisplayMember } from '../../SharingOptions/DisplayMember';
 import { AuthContext, AuthContextType } from '../../../AuthProvider';
 import toast from 'react-hot-toast';
-import { assignUserToTask } from '../../../actions/tasks';
+import { assignUserToTaskAction } from '../../../actions/tasks';
 import { RemoveAssignment } from './RemoveAssignment';
 import { AssignUser } from './AssignUser';
 
@@ -26,10 +26,11 @@ export const AssignComponent: FC<IAssignComponentrops> = ({ listId, taskId, task
 	const [isVisible, setIsVisible] = useRecoilState(modalVisibilityState);
 	const { authData } = useContext<AuthContextType>(AuthContext);
 
-	const { mutate, isLoading: assignLoading } = useMutation(assignUserToTask, {
+	const { mutate, isLoading: assignLoading } = useMutation(assignUserToTaskAction, {
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.tasksOfCurrentList]);
 			query.invalidateQueries([QueryKey.getTask]);
+			query.invalidateQueries([QueryKey.getAssignedTasks]);
 			toast.success('Zadanie przypisane');
 		},
 		onError: error => {

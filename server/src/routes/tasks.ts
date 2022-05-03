@@ -14,6 +14,7 @@ import {
 	getMyDayTasks,
 	assignUserToTask,
 	removeUserFromTask,
+	getAssignedTasks,
 } from '../controllers/tasks';
 import { authorization } from '../utils/auth';
 
@@ -42,5 +43,7 @@ tasks.get('/myDayTasks', authorization, getMyDayTasks);
 tasks.post('/membersTask', authorization, assignUserToTask);
 
 tasks.delete('/membersTask', authorization, removeUserFromTask);
+
+tasks.get('/assignedTasks/:assigned', authorization, getAssignedTasks);
 
 export default tasks;

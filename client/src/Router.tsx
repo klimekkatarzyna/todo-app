@@ -51,6 +51,9 @@ const BrowserRouter: FC = () => {
 									<PrivateRoute exact path={`/${SideMenu.assigned}`}>
 										<Assigned />
 									</PrivateRoute>
+									<PrivateRoute exact path={`/${SideMenu.assigned}/:listId/:taskId`}>
+										<Assigned />
+									</PrivateRoute>
 									<PrivateRoute exact path={`/${SideMenu.inbox}`}>
 										<Inbox />
 									</PrivateRoute>
