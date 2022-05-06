@@ -1,5 +1,5 @@
 import { FC, useContext } from 'react';
-import { ContextualMenuOpion } from '../../enums';
+import { ContextMenuOpion } from '../../enums';
 import { IList } from '@kkrawczyk/todo-common';
 import { ModalVisibilityContext } from '../../ModalVisibilityProvider';
 import { ContextualModal } from '../Modal/ContextualModal';
@@ -31,7 +31,7 @@ export const ShareTokenView: FC<IShareTokenViewProps> = ({ onNextStep, listDataR
 			<ShareLink listDataResponse={listDataResponse} />
 			<RemoveMember onNextStep={onNextStep} listDataResponse={listDataResponse} />
 			{isVisible && (
-				<ContextualModal title='Czy chcesz opuścić listę?' onHandleAction={() => {}} contextualType={ContextualMenuOpion.leave_list} />
+				<ContextualModal title='Czy chcesz opuścić listę?' onHandleAction={() => {}} contextualType={ContextMenuOpion.leave_list} />
 			)}
 		</div>
 	);

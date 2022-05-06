@@ -15,7 +15,7 @@ export const IconUserName: FC<IIconUserNameProps> = ({ member, isFullNameVisible
 	const name = useMemo(() => getFirstLetters(data?.username), [data?.username]);
 
 	return (
-		<div className='flex items-center task-details-button-style'>
+		<div className='flex items-center p-0 task-details-button-style'>
 			<div className='flex flex-row text-xs items-center w-7 h-7 bg-red rounded-full mr-2'>
 				{isLoading && <Loader />}
 				<span className='text-white m-auto font-semibold'>{name}</span>

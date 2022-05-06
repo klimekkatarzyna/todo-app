@@ -4,7 +4,7 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { AuthProvider } from './AuthProvider';
 import BrowserRouter from './Router';
 import { ModalVisibilityProvider } from './ModalVisibilityProvider';
-import { ContextualMenuProvider } from './ContextualMenuProvider';
+import { ContextMenuProvider } from './ContextMenuProvider';
 import { SocketProvider } from './providers/SocketProvider';
 import { ElementVisibilityProvider } from './providers/ElementVisibilityProvider';
 import { RecoilRoot } from 'recoil';
@@ -25,7 +25,7 @@ const App: FC = () => {
 				<AuthProvider>
 					<SocketProvider>
 						<ModalVisibilityProvider>
-							<ContextualMenuProvider>
+							<ContextMenuProvider>
 								<ElementVisibilityProvider>
 									{/* <ReactQueryDevtools initialIsOpen /> */}
 									<BrowserRouter />
@@ -35,7 +35,7 @@ const App: FC = () => {
 										}}
 									/>
 								</ElementVisibilityProvider>
-							</ContextualMenuProvider>
+							</ContextMenuProvider>
 						</ModalVisibilityProvider>
 					</SocketProvider>
 				</AuthProvider>

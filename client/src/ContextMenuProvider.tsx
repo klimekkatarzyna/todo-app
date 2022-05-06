@@ -1,28 +1,27 @@
 import React, { FC, useCallback, useContext, useMemo, useState } from 'react';
-
 import { createContext } from 'react';
-import { ContextualMenuOpion } from './enums';
-import { IContextualMenu } from './interfaces/app';
+import { ContextMenuOpion } from './enums';
+import { IContextMenu } from './interfaces/app';
 import { ModalVisibilityContext } from './ModalVisibilityProvider';
 
-export interface ContextualMenuType {
+export interface ContextMenuType {
 	contextualMenu: IData | undefined;
 	handleClick: (event: React.ChangeEvent<HTMLInputElement>, data: any) => void;
 }
 
-export const ContextualMenuContext = createContext<ContextualMenuType>({} as ContextualMenuType);
+export const ContextMenuContext = createContext<ContextMenuType>({} as ContextMenuType);
 
 type ElementId = {
 	elementId: string;
 };
 
-export interface IData extends IContextualMenu, ElementId {}
+export interface IData extends IContextMenu, ElementId {}
 
-interface IContextualMenuProvider {
+interface IContextMenuProvider {
 	children: React.ReactNode;
 }
 
-export const ContextualMenuProvider: FC<IContextualMenuProvider> = ({ children }) => {
+export const ContextMenuProvider: FC<IContextMenuProvider> = ({ children }) => {
 	const [contextualMenu, setContextualMenu] = useState<IData | undefined>();
 	const { onShow } = useContext(ModalVisibilityContext);
 
@@ -31,22 +30,31 @@ export const ContextualMenuProvider: FC<IContextualMenuProvider> = ({ children }
 		onShow();
 
 		switch (data?.type) {
-			case ContextualMenuOpion.remove_list:
+			case ContextMenuOpion.remove_list:
 				setContextualMenu(data);
 				break;
-			case ContextualMenuOpion.remove_group:
+			case ContextMenuOpion.remove_group:
 				setContextualMenu(data);
 				break;
-			case ContextualMenuOpion.remove_task:
+			case ContextMenuOpion.remove_task:
 				setContextualMenu(data);
 				break;
-			case ContextualMenuOpion.edit_group_name:
+			case ContextMenuOpion.add_to_myday:
 				setContextualMenu(data);
 				break;
-			case ContextualMenuOpion.sharing_options:
+			case ContextMenuOpion.mark_as_important:
 				setContextualMenu(data);
 				break;
-			case ContextualMenuOpion.leave_list:
+			case ContextMenuOpion.mark_as_complete:
+				setContextualMenu(data);
+				break;
+			case ContextMenuOpion.edit_group_name:
+				setContextualMenu(data);
+				break;
+			case ContextMenuOpion.sharing_options:
+				setContextualMenu(data);
+				break;
+			case ContextMenuOpion.leave_list:
 				setContextualMenu(data);
 				break;
 			default:
@@ -64,5 +72,5 @@ export const ContextualMenuProvider: FC<IContextualMenuProvider> = ({ children }
 
 	console.log({ contextualMenu });
 
-	return <ContextualMenuContext.Provider value={value}>{children}</ContextualMenuContext.Provider>;
+	return <ContextMenuContext.Provider value={value}>{children}</ContextMenuContext.Provider>;
 };

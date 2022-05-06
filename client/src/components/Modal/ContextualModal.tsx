@@ -1,14 +1,14 @@
 import React, { FC, useContext } from 'react';
 import { createPortal } from 'react-dom';
-import { ContextualMenuContext } from '../../ContextualMenuProvider';
-import { ContextualMenuOpion } from '../../enums';
+import { ContextMenuContext } from '../../ContextMenuProvider';
+import { ContextMenuOpion } from '../../enums';
 import { ModalVisibilityContext } from '../../ModalVisibilityProvider';
 import { ModalComponent } from './ModalComponent';
 
 interface IContextualModalProps<T> {
 	children?: React.ReactNode;
 	title: string;
-	contextualType?: ContextualMenuOpion;
+	contextualType?: ContextMenuOpion;
 	onHandleAction: any;
 	isActionButtonHidden?: boolean;
 	isLoading?: boolean;
@@ -22,7 +22,7 @@ export const ContextualModal: FC<IContextualModalProps<unknown>> = ({
 	isActionButtonHidden = false,
 	isLoading,
 }) => {
-	const { contextualMenu } = useContext(ContextualMenuContext);
+	const { contextualMenu } = useContext(ContextMenuContext);
 	const { isVisible, onHide } = useContext(ModalVisibilityContext);
 
 	const modal = (

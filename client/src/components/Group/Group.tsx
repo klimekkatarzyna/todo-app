@@ -5,7 +5,7 @@ import { IGroup } from '@kkrawczyk/todo-common';
 import { contextualMenuGroupOpion } from '../../constants';
 import { GroupedLists } from './GroupedLists';
 import { useDropdown } from '../../hooks/useDropdown';
-import { ContextualMenu } from '../ContextualMenu/ContextualMenu';
+import { ContextMenuComponent } from '../ContextMenu/ContextMenuComponent';
 import { EditGroup } from './EditGroup';
 
 interface IGroupProps {
@@ -27,7 +27,7 @@ export const Group: FC<IGroupProps> = ({ group, isNavClosed }) => {
 				</button>
 			</ContextMenuTrigger>
 			{dropdownOpen && <GroupedLists />}
-			<ContextualMenu contextualMenuList={contextualMenuGroupOpion} elementId={group?._id} />
+			<ContextMenuComponent contextMenuList={contextualMenuGroupOpion} elementId={group?._id} />
 		</div>
 	);
 };

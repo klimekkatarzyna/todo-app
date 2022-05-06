@@ -1,5 +1,5 @@
 import { FC, useCallback, useContext, useEffect, useState } from 'react';
-import { ContextualMenuContext } from '../../ContextualMenuProvider';
+import { ContextMenuContext } from '../../ContextMenuProvider';
 import { useGenerateInvitationToken } from '../../hooks/useGenerateInvitationToken';
 import { GenerateTokenView } from './GenerateTokenView';
 import { ShareTokenView } from './ShareTokenView';
@@ -17,7 +17,7 @@ interface ISharingOptionsProps {
 
 export const SharingOptions: FC<ISharingOptionsProps> = ({ addInvitationTokenToListLoading, addInvitationTokenToListMutation }) => {
 	const { authData } = useContext<AuthContextType>(AuthContext);
-	const { contextualMenu } = useContext(ContextualMenuContext);
+	const { contextualMenu } = useContext(ContextMenuContext);
 	const { invitationToken, onGenerateInvitationToken } = useGenerateInvitationToken();
 	const [step, setStep] = useState<number>(1);
 

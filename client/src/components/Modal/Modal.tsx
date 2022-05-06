@@ -1,6 +1,6 @@
 import React, { FC, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import { ContextualMenuOpion } from '../../enums';
+import { ContextMenuOpion } from '../../enums';
 import { ModalComponent } from './ModalComponent';
 import { useRecoilState } from 'recoil';
 import { modalVisibilityState } from '../../atoms/modal';
@@ -8,7 +8,7 @@ import { modalVisibilityState } from '../../atoms/modal';
 interface IModalNEWProps<T> {
 	children?: React.ReactNode;
 	title: string;
-	contextualType?: ContextualMenuOpion;
+	contextualType?: ContextMenuOpion;
 	onHandleAction: any;
 	isActionButtonHidden?: boolean;
 	isLoading?: boolean;

@@ -4,7 +4,7 @@ import { contextualMenuSecountOpion, contextualMenuSecountOpionMembers } from '.
 import { IList, ITask } from '@kkrawczyk/todo-common';
 import { QueryKey, SideMenu } from '../../enums';
 import { ContextMenuTrigger } from 'react-contextmenu';
-import { ContextualMenu } from '../ContextualMenu/ContextualMenu';
+import { ContextMenuComponent } from '../ContextMenu/ContextMenuComponent';
 import { useSharingData } from '../../hooks/useSharingData';
 import { useQuery } from 'react-query';
 import { getTasksOfCurrentListAction } from '../../actions/tasks';
@@ -40,8 +40,8 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed }) => 
 					{!!data?.length && <div className={`text-sm text-fontColor ml-auto ${isNavClosed ? 'hidden' : 'flex'}`}>{data?.length}</div>}
 				</div>
 			</ContextMenuTrigger>
-			<ContextualMenu
-				contextualMenuList={isOwner ? contextualMenuSecountOpion : contextualMenuSecountOpionMembers}
+			<ContextMenuComponent
+				contextMenuList={isOwner ? contextualMenuSecountOpion : contextualMenuSecountOpionMembers}
 				elementId={listItem?._id || ''}
 			/>
 		</Link>

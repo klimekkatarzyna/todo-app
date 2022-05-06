@@ -1,15 +1,12 @@
-import { FC, useContext } from 'react';
-import { ContextualMenuOpion } from '../../enums';
+import { FC } from 'react';
 import { useTasks } from '../../hooks/useTasks';
-import { ModalVisibilityContext } from '../../ModalVisibilityProvider';
 import { Loader } from 'react-feather';
 import { ComplitedTasks } from './ComplitedTasks';
 import { InCompletedTasks } from './InCompletedTasks';
-import { ContextualModal } from '../Modal/ContextualModal';
+import { TasksContextualMenuActions } from './TasksContextualMenuActions';
 
 export const TasksList: FC = () => {
-	const { isVisible } = useContext(ModalVisibilityContext);
-	const { getTasksOfCurrentListLoading, removeTaskMutation } = useTasks();
+	const { getTasksOfCurrentListLoading } = useTasks();
 
 	return (
 		<div className='h-auto overflow-hidden overflow-y-scroll max-h-[550px]'>
@@ -24,14 +21,7 @@ export const TasksList: FC = () => {
 				)}
 			</div>
 
-			{isVisible && (
-				<ContextualModal
-					title='To zadanie zostanie trwale usunięte'
-					contextualType={ContextualMenuOpion.remove_task}
-					onHandleAction={removeTaskMutation}>
-					<span>{'Tej akcji nie można cofnąć'}</span>
-				</ContextualModal>
-			)}
+			<TasksContextualMenuActions />
 		</div>
 	);
 };

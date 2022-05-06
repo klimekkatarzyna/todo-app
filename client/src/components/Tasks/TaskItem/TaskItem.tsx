@@ -1,11 +1,11 @@
 import { FC, useCallback, useContext, useMemo } from 'react';
 import { ContextMenuTrigger } from 'react-contextmenu';
-import { contextualMenuFirstOpion } from '../../../constants';
 import { IinitialDnDState } from '../../../hooks/useDragAndDrop';
-import { ContextualMenu } from '../../ContextualMenu/ContextualMenu';
+import { ContextMenuComponent } from '../../ContextMenu/ContextMenuComponent';
 import { TaskDetails } from '../TaskDetails';
 import { ElementVisibilityContext } from '../../../providers/ElementVisibilityProvider';
 import { ITask } from '@kkrawczyk/todo-common';
+import { useBuidContextTaskMenu } from '../../../hooks/useBuildContextTaskMenu';
 
 interface ITaskItem {
 	task: ITask;
@@ -36,6 +36,7 @@ export const TaskItem: FC<ITaskItem> = ({
 }) => {
 	const { onShow } = useContext(ElementVisibilityContext);
 	const isDragAndDrop = useMemo(() => (dragAndDrop?.draggedTo !== 0 && dragAndDrop?.draggedTo === Number(index) ? true : false), [dragAndDrop]);
+	const { taskMenuListItems } = useBuidContextTaskMenu(task);
 
 	const onSelectTask = useCallback((): void => {
 		onShow();
@@ -65,7 +66,7 @@ export const TaskItem: FC<ITaskItem> = ({
 					/>
 				</div>
 			</ContextMenuTrigger>
-			<ContextualMenu contextualMenuList={contextualMenuFirstOpion} elementId={task?._id || ''} />
+			<ContextMenuComponent contextMenuList={taskMenuListItems} elementId={task?._id || ''} />
 		</>
 	);
 };

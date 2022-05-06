@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useContext, useEffect, useState } from 'react';
-import { ContextualMenuContext } from '../../ContextualMenuProvider';
-import { ContextualMenuOpion, QueryKey } from '../../enums';
+import { ContextMenuContext } from '../../ContextMenuProvider';
+import { ContextMenuOpion, QueryKey } from '../../enums';
 import { useMutation, useQueryClient } from 'react-query';
 import { editGroup } from '../../actions/groups';
 import { Input } from '../../formik/Input';
@@ -19,7 +19,7 @@ interface IEditGroupProps {
 export const EditGroup: FC<IEditGroupProps> = ({ title, groupId, isNavClosed }) => {
 	const query = useQueryClient();
 	const [isInputVisible, setIsInputVisible] = useState(false);
-	const { contextualMenu } = useContext(ContextualMenuContext);
+	const { contextualMenu } = useContext(ContextMenuContext);
 
 	const { mutate, error, isLoading } = useMutation(editGroup, {
 		onSuccess: () => {
@@ -41,7 +41,7 @@ export const EditGroup: FC<IEditGroupProps> = ({ title, groupId, isNavClosed }) 
 	}, []);
 
 	useEffect(() => {
-		setIsInputVisible(contextualMenu?.type === ContextualMenuOpion.edit_group_name && contextualMenu?.elementId === groupId);
+		setIsInputVisible(contextualMenu?.type === ContextMenuOpion.edit_group_name && contextualMenu?.elementId === groupId);
 	}, [contextualMenu]);
 
 	return (

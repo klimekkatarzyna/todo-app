@@ -1,5 +1,5 @@
 import { FC, useCallback, useContext } from 'react';
-import { ContextualMenuOpion, QueryKey } from '../../enums';
+import { ContextMenuOpion, QueryKey } from '../../enums';
 import { IGroup } from '@kkrawczyk/todo-common';
 import { ContextualModal } from '../Modal/ContextualModal';
 import { Group } from './Group';
@@ -7,7 +7,7 @@ import { ModalVisibilityContext } from '../../ModalVisibilityProvider';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { deleteGroup, getGroups } from '../../actions/groups';
 import { Loader } from 'react-feather';
-import { ContextualMenuContext } from '../../ContextualMenuProvider';
+import { ContextMenuContext } from '../../ContextMenuProvider';
 import toast from 'react-hot-toast';
 
 interface IGroupsProps {
@@ -17,7 +17,7 @@ interface IGroupsProps {
 export const Groups: FC<IGroupsProps> = ({ isNavClosed }) => {
 	const query = useQueryClient();
 	const { isVisible } = useContext(ModalVisibilityContext);
-	const { contextualMenu } = useContext(ContextualMenuContext);
+	const { contextualMenu } = useContext(ContextMenuContext);
 
 	const { isLoading: getGroupsLoading, data } = useQuery<IGroup[] | undefined>(QueryKey.groups, getGroups, {
 		useErrorBoundary: true,
@@ -34,7 +34,7 @@ export const Groups: FC<IGroupsProps> = ({ isNavClosed }) => {
 	});
 
 	const onRemoveGroup = useCallback(() => {
-		if (contextualMenu?.type !== ContextualMenuOpion.remove_group) return;
+		if (contextualMenu?.type !== ContextMenuOpion.remove_group) return;
 		mutate({ _id: contextualMenu?.elementId });
 	}, [contextualMenu]);
 
@@ -48,7 +48,7 @@ export const Groups: FC<IGroupsProps> = ({ isNavClosed }) => {
 				<ContextualModal
 					title='Czy chcesz usunąć grupę?'
 					onHandleAction={onRemoveGroup}
-					contextualType={ContextualMenuOpion.remove_group}
+					contextualType={ContextMenuOpion.remove_group}
 					isLoading={isLoading}
 				/>
 			)}

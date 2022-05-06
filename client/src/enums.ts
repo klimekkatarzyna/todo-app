@@ -3,9 +3,13 @@ export enum InputVersion {
 	secondary = 'secondary',
 }
 
-export enum ContextualMenuOpion {
-	add_new_task = 'add_new_task',
-	mark_as_done = 'mark_as_done',
+export enum ContextMenuOpion {
+	add_to_myday = 'add_to_myday',
+	remove_from_myday = 'remove_from_myday',
+	mark_as_important = 'mark_as_important',
+	remove_importance = 'remove_importance',
+	mark_as_complete = 'mark_as_complete',
+	mark_as_incomplete = 'mark_as_incomplete',
 	date_today = 'date_today',
 	date_tomorrow = 'date_tomorrow',
 	move_task = 'move_task',

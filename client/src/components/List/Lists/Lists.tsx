@@ -2,7 +2,7 @@ import { FC, memo, useCallback, useContext } from 'react';
 import { MenuListItem } from '../../MenuListItem/MenuListItem';
 import { Loader } from 'react-feather';
 import { ContextualModal } from '../../Modal/ContextualModal';
-import { ContextualMenuOpion, QueryKey } from '../../../enums';
+import { ContextMenuOpion, QueryKey } from '../../../enums';
 import { SharingOptions } from '../../SharingOptions/SharingOptions';
 import { useMutation, useQueryClient } from 'react-query';
 import { addInvitationTokenToListAction } from '../../../actions/lists';
@@ -12,7 +12,7 @@ import { useList } from '../../../hooks/useList';
 import { useRecoilValue } from 'recoil';
 import { listsState } from '../../../atoms';
 import { updateMembersList } from '../../../actions/sharing';
-import { ContextualMenuContext } from '../../../ContextualMenuProvider';
+import { ContextMenuContext } from '../../../ContextMenuProvider';
 import { AuthContext } from '../../../AuthProvider';
 import toast from 'react-hot-toast';
 
@@ -25,7 +25,7 @@ const ListsComponents: FC<ILists> = ({ isNavClosed }) => {
 	const { isVisible } = useContext(ModalVisibilityContext);
 	const { getListsLoading, removeListMutation } = useList();
 	const list = useRecoilValue(listsState);
-	const { contextualMenu } = useContext(ContextualMenuContext);
+	const { contextualMenu } = useContext(ContextMenuContext);
 	const { authData } = useContext(AuthContext);
 
 	const { mutate: addInvitationTokenToListMutation, isLoading: addInvitationTokenToListLoading } = useMutation(addInvitationTokenToListAction, {
@@ -35,7 +35,7 @@ const ListsComponents: FC<ILists> = ({ isNavClosed }) => {
 	});
 
 	const removeList = useCallback(() => {
-		if (contextualMenu?.type !== ContextualMenuOpion.remove_list) return;
+		if (contextualMenu?.type !== ContextMenuOpion.remove_list) return;
 		removeListMutation({ _id: contextualMenu?.elementId });
 	}, [contextualMenu]);
 
@@ -63,10 +63,10 @@ const ListsComponents: FC<ILists> = ({ isNavClosed }) => {
 				))}
 			</div>
 			{isVisible && (
-				<ContextualModal title='Czy chcesz usunąć listę?' onHandleAction={removeList} contextualType={ContextualMenuOpion.remove_list} />
+				<ContextualModal title='Czy chcesz usunąć listę?' onHandleAction={removeList} contextualType={ContextMenuOpion.remove_list} />
 			)}
 			{isVisible && (
-				<ContextualModal title='' onHandleAction={() => {}} contextualType={ContextualMenuOpion.sharing_options} isActionButtonHidden>
+				<ContextualModal title='' onHandleAction={() => {}} contextualType={ContextMenuOpion.sharing_options} isActionButtonHidden>
 					<SharingOptions
 						addInvitationTokenToListLoading={addInvitationTokenToListLoading}
 						addInvitationTokenToListMutation={addInvitationTokenToListMutation}
@@ -77,7 +77,7 @@ const ListsComponents: FC<ILists> = ({ isNavClosed }) => {
 				<ContextualModal
 					title='Czy chcesz opuścić tę listę?'
 					onHandleAction={onUpdateMembersList}
-					contextualType={ContextualMenuOpion.leave_list}
+					contextualType={ContextMenuOpion.leave_list}
 				/>
 			)}
 		</>

@@ -1,15 +1,15 @@
 import { FC, useContext } from 'react';
-import { IContextualMenu } from '../../interfaces/app';
+import { IContextMenu } from '../../interfaces/app';
 import { MenuItem } from 'react-contextmenu';
-import { ContextualMenuContext } from '../../ContextualMenuProvider';
+import { ContextMenuContext } from '../../ContextMenuProvider';
 
-interface IContextualMenuItem {
-	listItem: IContextualMenu;
+interface IContextMenuItem {
+	listItem: IContextMenu;
 	elementId: string | undefined;
 }
 
-export const ContextualMenuItem: FC<IContextualMenuItem> = ({ listItem, elementId }) => {
-	const { handleClick } = useContext(ContextualMenuContext);
+export const ContextMenuItem: FC<IContextMenuItem> = ({ listItem, elementId }) => {
+	const { handleClick } = useContext(ContextMenuContext);
 
 	return (
 		<MenuItem
