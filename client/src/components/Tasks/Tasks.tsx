@@ -3,7 +3,6 @@ import { useTasks } from '../../hooks/useTasks';
 import { Loader } from 'react-feather';
 import { ComplitedTasks } from './ComplitedTasks';
 import { InCompletedTasks } from './InCompletedTasks';
-import { TasksContextualMenuActions } from './TasksContextualMenuActions';
 
 export const TasksList: FC = () => {
 	const { getTasksOfCurrentListLoading } = useTasks();
@@ -20,8 +19,6 @@ export const TasksList: FC = () => {
 					</>
 				)}
 			</div>
-
-			<TasksContextualMenuActions />
 		</div>
 	);
 };

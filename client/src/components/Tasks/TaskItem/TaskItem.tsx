@@ -66,7 +66,7 @@ export const TaskItem: FC<ITaskItem> = ({
 					/>
 				</div>
 			</ContextMenuTrigger>
-			<ContextMenuComponent contextMenuList={taskMenuListItems} elementId={task?._id || ''} />
+			<ContextMenuComponent contextMenuList={taskMenuListItems} elementId={task?._id || ''} listId={task?.parentFolderId} />
 		</>
 	);
 };

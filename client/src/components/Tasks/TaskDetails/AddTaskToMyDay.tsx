@@ -18,6 +18,7 @@ export const AddTaskToMyDay: FC<IAddTaskToMyDay> = ({ taskData }) => {
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.tasksOfCurrentList]);
 			query.invalidateQueries([QueryKey.getTask]);
+			query.invalidateQueries([QueryKey.getMyDayTasks]);
 			toast.success(taskData?.isMyDay ? 'Zadanie usunięte z widoku "Mój dzień"' : 'Zadanie dodane do "Mój dzień');
 		},
 		onError: error => {

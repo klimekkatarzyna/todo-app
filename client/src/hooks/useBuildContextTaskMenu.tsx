@@ -55,8 +55,8 @@ export const useBuidContextTaskMenu = (task: ITask) => {
 
 	const DateTomorrowContextMenuItem: IContextMenu = {
 		icon: <Calendar className='icon-style' />,
-		name: 'Termin wykonania: dzisiaj',
-		type: ContextMenuOpion.date_today,
+		name: 'Termin wykonania: jutro',
+		type: ContextMenuOpion.date_tomorrow,
 	};
 
 	const MoveTaskContextMenuItem: IContextMenu = {
