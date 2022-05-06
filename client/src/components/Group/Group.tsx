@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 import { ContextMenuTrigger } from 'react-contextmenu';
 import { Folder } from 'react-feather';
 import { IGroup } from '@kkrawczyk/todo-common';
@@ -7,6 +7,7 @@ import { GroupedLists } from './GroupedLists';
 import { useDropdown } from '../../hooks/useDropdown';
 import { ContextMenuComponent } from '../ContextMenu/ContextMenuComponent';
 import { EditGroup } from './EditGroup';
+import { ContextMenuContext } from '../../ContextMenuProvider';
 
 interface IGroupProps {
 	group: IGroup;
@@ -14,6 +15,7 @@ interface IGroupProps {
 }
 
 export const Group: FC<IGroupProps> = ({ group, isNavClosed }) => {
+	const { handleClick } = useContext(ContextMenuContext);
 	const { elementeReference, toggleDropdown, dropdownOpen } = useDropdown();
 
 	return (
@@ -27,7 +29,7 @@ export const Group: FC<IGroupProps> = ({ group, isNavClosed }) => {
 				</button>
 			</ContextMenuTrigger>
 			{dropdownOpen && <GroupedLists />}
-			<ContextMenuComponent contextMenuList={contextualMenuGroupOpion} elementId={group?._id} />
+			<ContextMenuComponent contextMenuList={contextualMenuGroupOpion} elementId={group?._id} handleClick={handleClick} />
 		</div>
 	);
 };

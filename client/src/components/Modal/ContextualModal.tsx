@@ -22,7 +22,7 @@ export const ContextualModal: FC<IContextualModalProps<unknown>> = ({
 	isActionButtonHidden = false,
 	isLoading,
 }) => {
-	const { contextualMenu } = useContext(ContextMenuContext);
+	const { contextualMenu, setContextMenu } = useContext(ContextMenuContext);
 	const { isVisible, onHide } = useContext(ModalVisibilityContext);
 
 	const modal = (
@@ -33,6 +33,7 @@ export const ContextualModal: FC<IContextualModalProps<unknown>> = ({
 			isActionButtonHidden={isActionButtonHidden}
 			isLoading={isLoading}
 			onHide={onHide}
+			setContextMenu={setContextMenu}
 		/>
 	);
 

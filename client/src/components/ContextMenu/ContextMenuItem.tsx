@@ -1,17 +1,15 @@
-import { FC, useContext } from 'react';
+import { FC } from 'react';
 import { IContextMenu } from '../../interfaces/app';
 import { MenuItem } from 'react-contextmenu';
-import { ContextMenuContext } from '../../ContextMenuProvider';
 
 interface IContextMenuItem {
 	listItem: IContextMenu;
 	elementId: string | undefined;
 	listId: string | undefined;
+	handleClick: (event: React.ChangeEvent<HTMLInputElement>, data: any) => void;
 }
 
-export const ContextMenuItem: FC<IContextMenuItem> = ({ listItem, elementId, listId }) => {
-	const { handleClick } = useContext(ContextMenuContext);
-
+export const ContextMenuItem: FC<IContextMenuItem> = ({ listItem, elementId, listId, handleClick }) => {
 	return (
 		<MenuItem
 			data={{ ...listItem, elementId, listId }}

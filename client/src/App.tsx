@@ -9,6 +9,7 @@ import { SocketProvider } from './providers/SocketProvider';
 import { ElementVisibilityProvider } from './providers/ElementVisibilityProvider';
 import { RecoilRoot } from 'recoil';
 import { Toaster } from 'react-hot-toast';
+import { TasksContextMenuProvider } from './providers/TasksContextMenuProvider';
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -26,15 +27,17 @@ const App: FC = () => {
 					<SocketProvider>
 						<ModalVisibilityProvider>
 							<ContextMenuProvider>
-								<ElementVisibilityProvider>
-									{/* <ReactQueryDevtools initialIsOpen /> */}
-									<BrowserRouter />
-									<Toaster
-										toastOptions={{
-											className: 'p-4 text-fontColor',
-										}}
-									/>
-								</ElementVisibilityProvider>
+								<TasksContextMenuProvider>
+									<ElementVisibilityProvider>
+										{/* <ReactQueryDevtools initialIsOpen /> */}
+										<BrowserRouter />
+										<Toaster
+											toastOptions={{
+												className: 'p-4 text-fontColor',
+											}}
+										/>
+									</ElementVisibilityProvider>
+								</TasksContextMenuProvider>
 							</ContextMenuProvider>
 						</ModalVisibilityProvider>
 					</SocketProvider>

@@ -1,4 +1,4 @@
-import { FC, useMemo, memo } from 'react';
+import { FC, useMemo, memo, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { contextualMenuSecountOpion, contextualMenuSecountOpionMembers } from '../../constants';
 import { IList, ITask } from '@kkrawczyk/todo-common';
@@ -9,6 +9,7 @@ import { useSharingData } from '../../hooks/useSharingData';
 import { useQuery } from 'react-query';
 import { getTasksOfCurrentListAction } from '../../actions/tasks';
 import { Sun, Star, List, Calendar, User, Users, Home } from 'react-feather';
+import { ContextMenuContext } from '../../ContextMenuProvider';
 
 interface IMenuListItem {
 	listItem: IList;
@@ -16,6 +17,7 @@ interface IMenuListItem {
 }
 
 const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed }) => {
+	const { handleClick } = useContext(ContextMenuContext);
 	const icon = useMemo(
 		() =>
 			(listItem.url === `${SideMenu.myDay}` && <Sun className='icon-style' />) ||
@@ -43,6 +45,7 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed }) => 
 			<ContextMenuComponent
 				contextMenuList={isOwner ? contextualMenuSecountOpion : contextualMenuSecountOpionMembers}
 				elementId={listItem?._id || ''}
+				handleClick={handleClick}
 			/>
 		</Link>
 	);

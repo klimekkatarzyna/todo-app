@@ -6,6 +6,7 @@ import { TaskDetails } from '../TaskDetails';
 import { ElementVisibilityContext } from '../../../providers/ElementVisibilityProvider';
 import { ITask } from '@kkrawczyk/todo-common';
 import { useBuidContextTaskMenu } from '../../../hooks/useBuildContextTaskMenu';
+import { TasksContextMenuContext } from '../../../providers/TasksContextMenuProvider';
 
 interface ITaskItem {
 	task: ITask;
@@ -34,6 +35,7 @@ export const TaskItem: FC<ITaskItem> = ({
 	changeTaskImportance,
 	redirectTo,
 }) => {
+	const { handleClick } = useContext(TasksContextMenuContext);
 	const { onShow } = useContext(ElementVisibilityContext);
 	const isDragAndDrop = useMemo(() => (dragAndDrop?.draggedTo !== 0 && dragAndDrop?.draggedTo === Number(index) ? true : false), [dragAndDrop]);
 	const { taskMenuListItems } = useBuidContextTaskMenu(task);
@@ -66,7 +68,12 @@ export const TaskItem: FC<ITaskItem> = ({
 					/>
 				</div>
 			</ContextMenuTrigger>
-			<ContextMenuComponent contextMenuList={taskMenuListItems} elementId={task?._id || ''} listId={task?.parentFolderId} />
+			<ContextMenuComponent
+				contextMenuList={taskMenuListItems}
+				elementId={task?._id || ''}
+				listId={task?.parentFolderId}
+				handleClick={handleClick}
+			/>
 		</>
 	);
 };
