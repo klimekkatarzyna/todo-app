@@ -1,8 +1,9 @@
-import React, { FC, useContext } from 'react';
+import React, { FC, useContext, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { ContextMenuContext } from '../../ContextMenuProvider';
 import { ContextMenuOpion } from '../../enums';
 import { ModalVisibilityContext } from '../../ModalVisibilityProvider';
+import { TasksContextMenuContext } from '../../providers/TasksContextMenuProvider';
 import { ModalComponent } from './ModalComponent';
 
 interface IContextualModalProps<T> {
@@ -23,7 +24,10 @@ export const ContextualModal: FC<IContextualModalProps<unknown>> = ({
 	isLoading,
 }) => {
 	const { contextualMenu, setContextMenu } = useContext(ContextMenuContext);
+	const { tasksContextlMenu, setTasksContextMenu } = useContext(TasksContextMenuContext);
 	const { isVisible, onHide } = useContext(ModalVisibilityContext);
+
+	const isTaskAction = useMemo(() => contextualType === ContextMenuOpion.remove_task, [contextualType]);
 
 	const modal = (
 		<ModalComponent
@@ -33,9 +37,11 @@ export const ContextualModal: FC<IContextualModalProps<unknown>> = ({
 			isActionButtonHidden={isActionButtonHidden}
 			isLoading={isLoading}
 			onHide={onHide}
-			setContextMenu={setContextMenu}
+			setContextMenu={isTaskAction ? setTasksContextMenu : setContextMenu}
 		/>
 	);
 
-	return isVisible && contextualType === contextualMenu?.type ? createPortal(modal, document.body) : null;
+	return isVisible && contextualType === (isTaskAction ? tasksContextlMenu?.type : contextualMenu?.type)
+		? createPortal(modal, document.body)
+		: null;
 };

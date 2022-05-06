@@ -11,6 +11,7 @@ import { useTasks } from '../hooks/useTasks';
 
 export interface TasksContextMenuContextType {
 	tasksContextlMenu: IData | undefined;
+	setTasksContextMenu: React.Dispatch<React.SetStateAction<IData | undefined>>;
 	handleClick: (event: React.ChangeEvent<HTMLInputElement>, data: any) => void;
 }
 
@@ -102,6 +103,7 @@ export const TasksContextMenuProvider: FC<ITasksContextMenuProvider> = ({ childr
 	const value = useMemo(() => {
 		return {
 			tasksContextlMenu,
+			setTasksContextMenu,
 			handleClick,
 		};
 	}, [tasksContextlMenu, handleClick]);
