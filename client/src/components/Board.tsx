@@ -1,6 +1,7 @@
-import React, { FC, useContext } from 'react';
+import React, { FC, useContext, Suspense } from 'react';
 import { ElementVisibilityContext } from '../providers/ElementVisibilityProvider';
 import { TaskSidebarDetails } from './Tasks/TaskSidebarDetailsContainer';
+import { Loader } from 'react-feather';
 interface IBoard {
 	children: React.ReactNode;
 }
@@ -19,7 +20,7 @@ export const Board: FC<IBoard> = ({ children }) => {
 				{children}
 				<div className='m-0 flex-1 h-full shadow-sm bg-[length:100%_53px] bg-gradient-to-b from-white-400 to-blue-500;' />
 			</div>
-			{isVisible && <TaskSidebarDetails />}
+			<Suspense fallback={<Loader className='m-auto' />}>{isVisible && <TaskSidebarDetails />}</Suspense>
 		</div>
 	);
 };
