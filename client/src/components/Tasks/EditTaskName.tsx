@@ -2,13 +2,10 @@ import React, { FC, useCallback } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { editTaskAction } from '../../actions/tasks';
 import { ITask, createEditTaskSchema, CreateEditTaskType } from '@kkrawczyk/todo-common';
-import { Input } from '../../formik/Input';
-import { Formik, Form } from 'formik';
-import { ErrorMessageComponent } from '../../formik/ErrorMessageComponent';
 import { isStringContainsWhitespace } from '../../utils/utilsFunctions';
-import { Loader } from 'react-feather';
 import { QueryKey } from '../../enums';
 import toast from 'react-hot-toast';
+import { TitleForm } from '../TitleForm';
 
 interface IEditTaskNameProps {
 	taskData: ITask;
@@ -42,20 +39,5 @@ export const EditTaskName: FC<IEditTaskNameProps> = ({ taskData }) => {
 		[taskData]
 	);
 
-	return (
-		<div className='relative'>
-			<Formik
-				initialValues={initialValues as CreateEditTaskType}
-				enableReinitialize
-				validationSchema={createEditTaskSchema}
-				onSubmit={onSubmit}>
-				{({ errors, touched, ...props }) => (
-					<Form>
-						{isLoading ? <Loader className='m-auto' /> : <Input name='title' placeholder={'Nowa lista'} {...props} />}
-						{errors.title && touched.title && <ErrorMessageComponent name='title' margin />}
-					</Form>
-				)}
-			</Formik>
-		</div>
-	);
+	return <TitleForm isLoading={isLoading} initialValues={initialValues} validationSchema={createEditTaskSchema} onSubmit={onSubmit} />;
 };

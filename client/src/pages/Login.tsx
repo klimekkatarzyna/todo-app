@@ -56,7 +56,7 @@ export const Login: FC = () => {
 					{({ errors, touched, ...props }) => (
 						<Form className='w-full mt-2'>
 							<div className='relative'>
-								<Input name='email' placeholder={'Email'} {...props} autoFocus />
+								<Input name='email' placeholder={'Email'} {...props} />
 								{errors.email && touched.email ? <ErrorMessageComponent name='email' /> : null}
 							</div>
 

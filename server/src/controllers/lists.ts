@@ -51,6 +51,19 @@ export const createList = async (req: Request, res: Response) => {
 	}
 };
 
+export const editList = async (req: Request, res: Response) => {
+	const list = await List.updateOne({ _id: req.body._id }, { $set: { title: req.body.title } });
+
+	try {
+		res.status(200).json({ body: req.body.title });
+		if (!list) return res.status(404).json({ message: 'List not found' });
+	} catch (err) {
+		res.status(500).json({
+			err,
+		});
+	}
+};
+
 export const getLists = async (req: Request, res: Response) => {
 	const userId = getSessionUserId(req);
 	if (!userId) return;

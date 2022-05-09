@@ -3,7 +3,6 @@ import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import { getListByIdAction } from '../actions/lists';
 import { Board } from '../components/Board';
-import { ListSettings } from '../components/ListSettings/ListSettings';
 import { CreateTask } from '../components/Tasks/CreateTask';
 import { TasksList } from '../components/Tasks/Tasks';
 import { Toolbar } from '../components/Toolbar';
@@ -20,13 +19,7 @@ export const Tasks: FC = () => {
 	return (
 		<Board>
 			<div>
-				{isLoading ? (
-					<Loader className='m-auto' />
-				) : (
-					<Toolbar name={data?.title || ''} colorType={data?.themeColor}>
-						<ListSettings />
-					</Toolbar>
-				)}
+				{isLoading ? <Loader className='m-auto' /> : <Toolbar name={data?.title || ''} colorType={data?.themeColor} />}
 
 				<div>
 					<CreateTask />

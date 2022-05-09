@@ -22,12 +22,15 @@ import {
 	changeInvitation,
 	removeList,
 	updateMembersList,
+	editList,
 } from '../controllers/lists';
 import { authorization } from '../utils/auth';
 
 const lists = express.Router();
 
 lists.post('/lists', authorization, validateBody<CreateEditListType>(createEditListSchema), createList);
+
+lists.put('/lists', authorization, validateBody<CreateEditListType>(createEditListSchema), editList);
 
 lists.get('/lists/:invitationToken', authorization, getLists);
 

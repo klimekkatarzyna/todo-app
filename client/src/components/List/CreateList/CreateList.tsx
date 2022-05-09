@@ -2,12 +2,10 @@ import { FC, useCallback } from 'react';
 import { isStringContainsWhitespace } from '../../../utils/utilsFunctions';
 import { useMutation, useQueryClient } from 'react-query';
 import { createListAction } from '../../../actions/lists';
-import { Formik, Form } from 'formik';
 import { createEditListSchema } from '@kkrawczyk/todo-common';
-import { Input } from '../../../formik/Input';
-import { ErrorMessageComponent } from '../../../formik/ErrorMessageComponent';
 import { QueryKey } from '../../../enums';
 import toast from 'react-hot-toast';
+import { TitleForm } from '../../TitleForm';
 
 export const CreateList: FC = () => {
 	const query = useQueryClient();
@@ -34,14 +32,14 @@ export const CreateList: FC = () => {
 
 	return (
 		<div className='flex flex-col bg-light-grey transition ease-in-out delay-150 width w-full'>
-			<Formik initialValues={initialValues} validationSchema={createEditListSchema} onSubmit={onSubmit}>
-				{({ errors, touched, ...props }) => (
-					<Form>
-						<Input name='title' placeholder={'Nowa lista'} isIcon {...props} isLoading={isLoading} />
-						{errors.title && touched.title && <ErrorMessageComponent name='title' margin />}
-					</Form>
-				)}
-			</Formik>
+			<TitleForm
+				placeholder={'Nowa lista'}
+				isIcon
+				isLoading={isLoading}
+				initialValues={initialValues}
+				validationSchema={createEditListSchema}
+				onSubmit={onSubmit}
+			/>
 		</div>
 	);
 };

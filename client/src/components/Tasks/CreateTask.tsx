@@ -3,13 +3,11 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useParams } from 'react-router';
 import { createTaskAction } from '../../actions/tasks';
 import { IUseParams } from '../../interfaces/app';
-import { Input } from '../../formik/Input';
-import { Formik, Form } from 'formik';
 import { ITask, createEditTaskSchema, CreateEditTaskType, AppColorTypeEnum } from '@kkrawczyk/todo-common';
 import { isStringContainsWhitespace } from '../../utils/utilsFunctions';
-import { ErrorMessageComponent } from '../../formik/ErrorMessageComponent';
 import { QueryKey } from '../../enums';
 import toast from 'react-hot-toast';
+import { TitleForm } from '../TitleForm';
 
 export const CreateTask = () => {
 	const query = useQueryClient();
@@ -41,15 +39,13 @@ export const CreateTask = () => {
 	);
 
 	return (
-		<div className='relative'>
-			<Formik initialValues={initialValues as CreateEditTaskType} validationSchema={createEditTaskSchema} onSubmit={onSubmit}>
-				{({ errors, touched, ...props }) => (
-					<Form>
-						<Input name='title' placeholder={'Dodaj zadanie'} isIcon {...props} isLoading={isLoading} />
-						{errors.title && touched.title ? <ErrorMessageComponent name='title' margin /> : null}
-					</Form>
-				)}
-			</Formik>
-		</div>
+		<TitleForm
+			isLoading={isLoading}
+			placeholder={'Dodaj zadanie'}
+			initialValues={initialValues as CreateEditTaskType}
+			validationSchema={createEditTaskSchema}
+			onSubmit={onSubmit}
+			isIcon
+		/>
 	);
 };

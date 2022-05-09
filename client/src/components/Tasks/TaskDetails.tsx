@@ -47,7 +47,7 @@ const TaskDetailsComponent: FC<ITaskDetailsProps> = ({
 	}, [isImportanceButtonChecked]);
 
 	const elementRef: RefObject<HTMLInputElement> = useRef(null);
-	const { isFocused, onClick } = useFocusingHandling(elementRef);
+	const { isFocused, onClick, onBlur } = useFocusingHandling(elementRef);
 
 	return (
 		<>
@@ -67,7 +67,8 @@ const TaskDetailsComponent: FC<ITaskDetailsProps> = ({
 						isTaskDetailsView && 'hover:bg-lightGrey'
 					}`}
 					ref={elementRef}
-					onClick={onClick}>
+					onClick={onClick}
+					onBlur={onBlur}>
 					{isFocused && isTaskDetailsView ? <EditTaskName taskData={taskData} /> : taskData?.title}
 				</div>
 				<div>{taskData?.groupName && <span className='inline-flex text-sm mr-4 text-darkerGrey'>{taskData?.groupName}</span>}</div>

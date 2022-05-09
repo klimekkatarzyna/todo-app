@@ -13,7 +13,6 @@ interface IInput<T = string | number | undefined> {
 	isIcon?: boolean;
 	colorType?: InputVersion;
 	type?: InputType;
-	autoFocus?: boolean;
 	isTaskInput?: boolean;
 	readOnly?: boolean;
 	isLoading?: boolean;
@@ -26,7 +25,6 @@ export const Input: FC<IInput> = ({
 	placeholder = '',
 	colorType = InputVersion.primary,
 	type = InputType.text,
-	autoFocus = false,
 	isTaskInput,
 	readOnly,
 	isLoading,
@@ -53,7 +51,7 @@ export const Input: FC<IInput> = ({
 				type={!showPassword && type === InputType.password ? InputType.password : InputType.text}
 				readOnly={readOnly}
 				placeholder={placeholder}
-				autoFocus={autoFocus}
+				autoFocus
 				onFocus={onFocus}
 				onBlur={onBlur}
 				{...rest}

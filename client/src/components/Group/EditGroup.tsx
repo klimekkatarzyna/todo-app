@@ -9,6 +9,7 @@ import { isStringContainsWhitespace } from '../../utils/utilsFunctions';
 import { ErrorMessageComponent } from '../../formik/ErrorMessageComponent';
 import { createEditGroupSchema, CreateEditGroupType, IGroup } from '@kkrawczyk/todo-common';
 import toast from 'react-hot-toast';
+import { TitleForm } from '../TitleForm';
 
 interface IEditGroupProps {
 	title: string | undefined;
@@ -47,20 +48,28 @@ export const EditGroup: FC<IEditGroupProps> = ({ title, groupId, isNavClosed }) 
 	return (
 		<div>
 			{isInputVisible ? (
-				<div className='relative'>
-					<Formik
-						initialValues={initialValues as CreateEditGroupType}
-						enableReinitialize
-						validationSchema={createEditGroupSchema}
-						onSubmit={onSubmit}>
-						{({ errors, touched, ...props }) => (
-							<Form>
-								<Input name='title' placeholder={'Grupa bez nazwy'} isIcon {...props} isLoading={isLoading} autoFocus />
-								{errors.title && touched.title ? <ErrorMessageComponent name='title' /> : null}
-							</Form>
-						)}
-					</Formik>
-				</div>
+				// <div className='relative'>
+				// 	<Formik
+				// 		initialValues={initialValues as CreateEditGroupType}
+				// 		enableReinitialize
+				// 		validationSchema={createEditGroupSchema}
+				// 		onSubmit={onSubmit}>
+				// 		{({ errors, touched, ...props }) => (
+				// 			<Form>
+				// 				<Input name='title' placeholder={'Grupa bez nazwy'} isIcon {...props} isLoading={isLoading} autoFocus />
+				// 				{errors.title && touched.title ? <ErrorMessageComponent name='title' /> : null}
+				// 			</Form>
+				// 		)}
+				// 	</Formik>
+				// </div>
+				<TitleForm
+					placeholder={'Grupa bez nazwy'}
+					isIcon
+					isLoading={isLoading}
+					initialValues={initialValues as CreateEditGroupType}
+					validationSchema={createEditGroupSchema}
+					onSubmit={onSubmit}
+				/>
 			) : (
 				<p className={`text-sm my-0 mx-2 font-semibold ${isNavClosed ? 'hidden' : 'flex'}`}>{title}</p>
 			)}

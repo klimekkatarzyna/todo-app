@@ -49,7 +49,7 @@ export const Register: FC = () => {
 					{({ errors, touched, ...props }) => (
 						<Form className='w-full mt-2'>
 							<div className='relative'>
-								<Input name='username' placeholder={'User name'} {...props} autoFocus />
+								<Input name='username' placeholder={'User name'} {...props} />
 								{errors.username && touched.username ? <ErrorMessageComponent name='username' /> : null}
 							</div>
 							<div className='relative'>

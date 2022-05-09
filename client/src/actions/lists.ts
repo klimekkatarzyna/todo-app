@@ -7,6 +7,8 @@ const invitationToken = getStringAfterCharacter(sessionStorage.getItem('invitati
 
 export const createListAction = async ({ title }: IList) => await http<IList>(api.createList, 'POST', { title });
 
+export const editListAction = async ({ _id, title }: IList) => await http(`${api.editList}`, 'PUT', { _id, title });
+
 export const getListsAction = async () => {
 	const response = await http<IList[]>(`${api.getLists}/${invitationToken}`, 'GET');
 	return response.body;
