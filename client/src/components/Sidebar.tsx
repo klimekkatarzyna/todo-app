@@ -15,9 +15,9 @@ export const Sidebar: FC = () => {
 
 	return (
 		<aside
-			className={`flex relative bg-light-grey flex-col h-[660px] pt-4 pb-14 px-0 ${
-				isNavClosed ? 'w-14' : 'w-72'
-			} transition-width duration-200 ease-in`}>
+			className={`flex bg-light-grey flex-col pt-4 pb-14 px-0 ${
+				isNavClosed ? 'w-14' : 'w-80 md:w-72'
+			} transition-width duration-200 ease-in absolute z-10 left-0 bottom-0 top-[45px] h-auto md:relative md:h-[660px] md:top-0`}>
 			{/*TODO: search*/}
 			<button className='border-none bg-inherit text-center p-2 ml-2' onClick={handleClick}>
 				{<Menu className='stroke-blue icon-style' />}

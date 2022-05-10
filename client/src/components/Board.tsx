@@ -16,7 +16,7 @@ export const Board: FC<IBoard> = ({ children }) => {
 
 	return (
 		<div className='flex flex-row flex-1'>
-			<div className='flex flex-col flex-1 relative mt-4 mb-0 ml-2 mr-2'>
+			<div className='flex flex-col flex-1 relative mt-4 mb-0 ml-16 md:ml-2'>
 				{children}
 				<div className='m-0 flex-1 h-full shadow-sm bg-[length:100%_53px] bg-gradient-to-b from-white-400 to-blue-500;' />
 			</div>
