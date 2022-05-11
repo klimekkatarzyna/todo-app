@@ -48,7 +48,7 @@ export const Input: FC<IInput> = ({
 					colorType === InputVersion.primary ? 'text-blue' : 'text-white'
 				}`}
 				name={name}
-				type={!showPassword && type === InputType.password ? InputType.password : InputType.text}
+				type={!showPassword && type === InputType.password ? InputType.password : type}
 				readOnly={readOnly}
 				placeholder={placeholder}
 				autoFocus

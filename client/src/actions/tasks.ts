@@ -21,6 +21,11 @@ export const getTasksOfCurrentListAction = async ({ parentFolderId }: ITask) => 
 	return response.body;
 };
 
+export const getTasksAction = async () => {
+	const response = await http<ITask[]>(api.getAllTasks, 'GET');
+	return response.body;
+};
+
 export const changeTaskStatusAction = async ({ _id, taskStatus, parentFolderId }: ITask) =>
 	await http(`${api.changeTaskStatus}/${_id}`, 'PATCH', { taskStatus, parentFolderId });
 

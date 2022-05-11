@@ -26,6 +26,7 @@ export const removeList = `${process.env.REACT_APP_API_LOCAL_HOST}/api/lists`;
 export const createTask = `${process.env.REACT_APP_API_LOCAL_HOST}/api/tasks`;
 export const editTask = `${process.env.REACT_APP_API_LOCAL_HOST}/api/tasks`;
 export const getTasks = `${process.env.REACT_APP_API_LOCAL_HOST}/api/taskDetails`;
+export const getAllTasks = `${process.env.REACT_APP_API_LOCAL_HOST}/api/tasks`;
 export const getTask = `${process.env.REACT_APP_API_LOCAL_HOST}/api/tasks`;
 export const changeTaskStatus = `${process.env.REACT_APP_API_LOCAL_HOST}/api/taskStatuses`;
 export const removeTask = `${process.env.REACT_APP_API_LOCAL_HOST}/api/tasks`;

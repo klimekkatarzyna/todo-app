@@ -55,6 +55,21 @@ export const getTasks = async (req: Request, res: Response) => {
 	}
 };
 
+export const getAllTasks = async (req: Request, res: Response) => {
+	const tasks = await Task.find();
+
+	try {
+		res.status(200).json({
+			body: tasks,
+		});
+		if (!tasks) return res.status(404).json({ message: 'Tasks not found' });
+	} catch (err) {
+		res.status(500).json({
+			err,
+		});
+	}
+};
+
 export const editTask = async (req: Request, res: Response) => {
 	const task = await Task.updateOne({ _id: req.body._id }, { $set: { title: req.body.title } });
 	const updatedTaskData = {

@@ -30,6 +30,7 @@ export interface LoginForm {
 export enum InputType {
 	text = 'text',
 	password = 'password',
+	search = 'search',
 }
 
 export interface IContextMenu {

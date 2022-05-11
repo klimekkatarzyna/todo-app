@@ -15,6 +15,7 @@ import {
 	assignUserToTask,
 	removeUserFromTask,
 	getAssignedTasks,
+	getAllTasks,
 } from '../controllers/tasks';
 import { authorization } from '../utils/auth';
 
@@ -31,6 +32,8 @@ tasks.get('/taskDetails/:parentFolderId', authorization, validateParams(listIdFo
 tasks.patch('/taskStatuses/:_id', authorization, changeTaskStatus);
 
 tasks.get('/tasks/:_id', authorization, validateParams(taskIdSchema), getTask);
+
+tasks.get('/tasks', authorization, getAllTasks);
 
 tasks.patch('/taskImportance/:parentFolderId/:_id', authorization, changeTaskImportance);
 

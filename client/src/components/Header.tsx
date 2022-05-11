@@ -6,6 +6,7 @@ import { AuthContext, AuthContextType } from '../AuthProvider';
 import { logoutUserAction } from '../actions/user';
 import { useMutation } from 'react-query';
 import { SideMenu } from '../enums';
+import { SearchInput } from '../formik/SearchInput';
 
 interface IHeader {
 	userName: string;
@@ -32,6 +33,7 @@ export const Header: FC<IHeader> = ({ userName }) => {
 			<Link to={SideMenu.myDay} className='no-underline font-semibold text-white'>
 				{'To Do'}
 			</Link>
+			<SearchInput />
 			<div className='flex'>
 				<div className='text-white mr-4 p-2 rounded-full border-solid border-2 border-white w-9 h-9 flex items-center justify-center'>
 					{name}

@@ -18,6 +18,7 @@ const BrowserRouter: FC = () => {
 	const Sharing = lazy(() => import('./pages/Sharing').then(module => ({ default: module.Sharing })));
 	const Redirect = lazy(() => import('./pages/Redirect').then(module => ({ default: module.Redirect })));
 	const Register = lazy(() => import('./pages/Register').then(module => ({ default: module.Register })));
+	const Searching = lazy(() => import('./pages/Searching').then(module => ({ default: module.Searching })));
 
 	const { authData, isCheckSessionLoading, sessionChecked } = useContext<AuthContextType>(AuthContext);
 
@@ -67,7 +68,12 @@ const BrowserRouter: FC = () => {
 										<PrivateRoute exact path={`/${SideMenu.jointToList}/tasks/sharing`}>
 											<Sharing />
 										</PrivateRoute>
-
+										<PrivateRoute exact path={`/${SideMenu.search}`}>
+											<Searching />
+										</PrivateRoute>
+										<PrivateRoute exact path={`/${SideMenu.search}/:listId/:taskId`}>
+											<Searching />
+										</PrivateRoute>
 										{/* <Route render={(routeProps) => {
                                 return (
                                     <NotFound />

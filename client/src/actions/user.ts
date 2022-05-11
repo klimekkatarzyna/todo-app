@@ -21,6 +21,6 @@ export const loginAction = async ({ email, password }: IUserData) =>
 export const logoutUserAction = async () => await http(api.logout, 'POST');
 
 export const getUserAction = async (_id: string | undefined) => {
-	const response = await http<IUserData>(`${api.user}/${_id}`, 'GET');
+	const response = await http<IUserData | undefined>(`${api.user}/${_id}`, 'GET');
 	return response.body;
 };

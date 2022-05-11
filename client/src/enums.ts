@@ -35,6 +35,7 @@ export enum SideMenu {
 	assigned = 'assigned_to_me',
 	inbox = 'inbox',
 	jointToList = 'jointToList',
+	search = 'search',
 }
 
 export type AppColorType = 'grey' | 'blue' | 'red' | 'green';
@@ -68,4 +69,5 @@ export enum QueryKey {
 	getMyDayTasks = 'getMyDayTasks',
 	getUser = 'getUser',
 	getAssignedTasks = 'getAssignedTasks',
+	tasksList = 'tasksList',
 }

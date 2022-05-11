@@ -4,6 +4,7 @@ import { getUserAction } from '../../actions/user';
 import { QueryKey } from '../../enums';
 import { Loader } from 'react-feather';
 import { getFirstLetters } from '../../utils/utilsFunctions';
+import { IUserData } from '@kkrawczyk/todo-common';
 
 interface IIconUserNameProps {
 	member: string | undefined;
@@ -11,7 +12,7 @@ interface IIconUserNameProps {
 }
 
 export const IconUserName: FC<IIconUserNameProps> = ({ member, isFullNameVisible }) => {
-	const { data, isLoading } = useQuery([QueryKey.getUser, member], () => getUserAction(member));
+	const { data, isLoading } = useQuery<IUserData | undefined>([QueryKey.getUser, member], () => getUserAction(member));
 	const name = useMemo(() => getFirstLetters(data?.username), [data?.username]);
 
 	return (
