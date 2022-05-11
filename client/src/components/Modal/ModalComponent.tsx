@@ -55,7 +55,7 @@ export const ModalComponent: FC<IModalComponentProps<unknown>> = ({
 
 	return (
 		<div
-			className={`w-full h-full fixed p-4 left-0 top-0 right-0 flex items-center justify-center opacity-100 visible transition-all delay-200 ease-out bg-black-rgba`}>
+			className={`w-full h-full fixed z-30 p-4 left-0 top-0 right-0 flex items-center justify-center opacity-100 visible transition-all delay-200 ease-out bg-black-rgba`}>
 			<div className={`w-80 h-auto rounded relative bg-white p-4`}>
 				<div className='flex justify-between'>
 					<div className='font-semibold text-sm'>{title}</div>

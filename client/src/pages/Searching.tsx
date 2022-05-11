@@ -30,7 +30,7 @@ export const Searching: FC = () => {
 							key={task._id}
 							task={task}
 							index={index}
-							redirectTo={`/${SideMenu.search} `}
+							redirectTo={`/${SideMenu.search}/ `}
 							dragAndDrop={dragAndDrop}
 							onDragStart={onDragStart}
 							onDragOver={onDragOver}

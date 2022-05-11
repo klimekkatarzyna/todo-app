@@ -21,6 +21,7 @@ export const EditTaskName: FC<IEditTaskNameProps> = ({ taskData }) => {
 			query.invalidateQueries(QueryKey.getImportanceTasks);
 			query.invalidateQueries(QueryKey.getMyDayTasks);
 			query.invalidateQueries(QueryKey.getAssignedTasks);
+			query.invalidateQueries(QueryKey.tasksList);
 			toast.success('Zadanie zmienione');
 		},
 		onError: error => {

@@ -31,6 +31,7 @@ export const AssignComponent: FC<IAssignComponentrops> = ({ listId, taskId, task
 			query.invalidateQueries([QueryKey.tasksOfCurrentList]);
 			query.invalidateQueries([QueryKey.getTask]);
 			query.invalidateQueries([QueryKey.getAssignedTasks]);
+			query.invalidateQueries([QueryKey.tasksList]);
 			toast.success('Zadanie przypisane');
 		},
 		onError: error => {
