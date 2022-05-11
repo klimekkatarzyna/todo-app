@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+	html,
+	body {
+		margin: 0;
+		font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		font-size: 0.9rem;
+		height: 100%;
+		overflow: hidden;
+		color: #34373d;
+	}
+
+	#root {
+		height: 100%;
+		min-height: 100%;
+		display: flex;
+		flex-direction: column;
+	}
+
+	code {
+		font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+	}
+
+	.icon-style {
+		@apply stroke-1 w-5 h-5 checked:fill-fontColor stroke-fontColor;
+	}
+
+	.task-details-style {
+		@apply flex flex-col mb-3 bg-white hover:bg-hoverColor;
+	}
+
+	.task-details-button-style {
+		@apply flex p-4 text-darkerGrey text-sm cursor-pointer;
+	}
+}
