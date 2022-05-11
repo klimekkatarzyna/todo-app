@@ -9,7 +9,8 @@ import { SocketContext } from '../providers/SocketProvider';
 import { ITask, ITaskStatus } from '@kkrawczyk/todo-common';
 import { useRecoilState } from 'recoil';
 import { completedTasksListState, inCompletedTasksListState } from '../atoms/tasks';
-import { ContextualMenuContext } from '../ContextualMenuProvider';
+import toast from 'react-hot-toast';
+import { TasksContextMenuContext } from '../providers/TasksContextMenuProvider';
 
 interface SortType {
 	key: SortTaskType;
@@ -23,15 +24,22 @@ export const useTasks = () => {
 	const query = useQueryClient();
 	const { listId, taskId } = useParams<IUseParams>();
 	const { socket } = useContext(SocketContext);
-	const { contextualMenu } = useContext(ContextualMenuContext);
+	const { tasksContextlMenu } = useContext(TasksContextMenuContext);
 	const [inCompletedTaskslist, setInCompletedTasksList] = useRecoilState(inCompletedTasksListState);
 	const [completedTaskslist, setComplitedTasksList] = useRecoilState(completedTasksListState);
+	const { sorter } = useSort<ITask>();
 
 	const { mutate: changeTaskImportanceMutation } = useMutation(changeTaskImportanceAction, {
 		onSuccess: () => {
-			query.invalidateQueries('getImportanceTasks');
-			query.invalidateQueries('tasksOfCurrentList');
-			query.invalidateQueries('getTask');
+			query.invalidateQueries(QueryKey.getImportanceTasks);
+			query.invalidateQueries(QueryKey.tasksOfCurrentList);
+			query.invalidateQueries(QueryKey.getTask);
+			query.invalidateQueries(QueryKey.getMyDayTasks);
+			query.invalidateQueries(QueryKey.getAssignedTasks);
+			toast.success('Ważność zadanie zmieniona');
+		},
+		onError: error => {
+			toast.error(`Coś poszlo nie tak: ${error}`);
 		},
 	});
 
@@ -39,53 +47,53 @@ export const useTasks = () => {
 		[QueryKey.tasksOfCurrentList, listId],
 		() => getTasksOfCurrentListAction({ parentFolderId: listId })
 	);
+	// useEffect(() => {
+	// 	setInCompletedTasksList(tasksOfCurrentList || []);
+	// }, []);
 
 	const { data: taskData, isLoading: taskDataLoading } = useQuery<ITask | undefined>([QueryKey.getTask, taskId], () =>
 		getTaskAction({ _id: taskId })
 	);
 
 	const { mutate: removeTaskMutation } = useMutation(
-		() => deleteTaskAction({ _id: contextualMenu?.elementId, parentFolderId: taskData?.parentFolderId }),
+		() => deleteTaskAction({ _id: tasksContextlMenu?.elementId, parentFolderId: taskData?.parentFolderId }),
 		{
 			onSuccess: () => {
-				query.invalidateQueries(['tasksOfCurrentList']);
+				query.invalidateQueries(QueryKey.getImportanceTasks);
+				query.invalidateQueries(QueryKey.tasksOfCurrentList);
+				query.invalidateQueries(QueryKey.getTask);
+				query.invalidateQueries(QueryKey.getMyDayTasks);
+				query.invalidateQueries(QueryKey.getAssignedTasks);
+				toast.success('Zadanie usunięte');
+			},
+			onError: error => {
+				toast.error(`Coś poszlo nie tak: ${error}`);
 			},
 		}
 	);
 
-	const comletedTasks = useMemo(() => (tasksOfCurrentList || []).filter(task => task.taskStatus === ITaskStatus.complete), [tasksOfCurrentList]);
-
 	const [sort, setSort] = useState<SortType>({ key: SortTaskType.title, direction: 'asc', keyType: 'string' });
+	const sortedTasks = useMemo(
+		() => [...(tasksOfCurrentList || []).sort(sorter[sort.keyType](sort.key, sort.direction))],
+		[tasksOfCurrentList, sort]
+	);
 
 	const requestSort = useCallback(event => {
 		const property = event.target.value.split(',');
 		setSort(state => ({ ...state, key: property[0], keyType: property[1] }));
 	}, []);
 
-	const { sorter } = useSort<ITask>();
-
-	const sortedTasks = useMemo(
-		() => [
-			...(tasksOfCurrentList || [])
-				.sort(sorter[sort.keyType](sort.key, sort.direction))
-				.filter(task => task.taskStatus === ITaskStatus.inComplete),
-		],
-		[tasksOfCurrentList, sort]
-	);
-
-	useEffect(() => {
-		setInCompletedTasksList(sortedTasks);
-	}, [tasksOfCurrentList, sort]);
-
-	useEffect(() => {
-		setComplitedTasksList(comletedTasks);
-	}, [tasksOfCurrentList, sort]);
-
 	const { mutate: changeTaskStatusMutation } = useMutation(changeTaskStatusAction, {
 		onSuccess: () => {
-			query.invalidateQueries(['tasksOfCurrentList']);
-			query.invalidateQueries(['getImportanceTasks']);
-			query.invalidateQueries(['getTask']);
+			query.invalidateQueries([QueryKey.tasksOfCurrentList]);
+			query.invalidateQueries([QueryKey.getImportanceTasks]);
+			query.invalidateQueries([QueryKey.getTask]);
+			query.invalidateQueries(QueryKey.getMyDayTasks);
+			query.invalidateQueries(QueryKey.getAssignedTasks);
+			toast.success('Status zadania zmieniony');
+		},
+		onError: error => {
+			toast.error(`Coś poszlo nie tak: ${error}`);
 		},
 	});
 
@@ -93,6 +101,7 @@ export const useTasks = () => {
 		changeTaskStatusMutation({
 			_id: _id,
 			taskStatus: ITaskStatus.complete,
+			parentFolderId: listId,
 		});
 	}, []);
 
@@ -100,6 +109,7 @@ export const useTasks = () => {
 		changeTaskStatusMutation({
 			_id: _id,
 			taskStatus: ITaskStatus.inComplete,
+			parentFolderId: listId,
 		});
 	}, []);
 
@@ -109,38 +119,36 @@ export const useTasks = () => {
 	}, [taskData]);
 
 	useEffect(() => {
-		[...(tasksOfCurrentList || [])]
-			.sort(sorter[sort.keyType](sort.key, sort.direction))
-			.filter((task: ITask) => task.taskStatus === ITaskStatus.inComplete);
-	}, [tasksOfCurrentList]);
-
-	useEffect(() => {
 		const taskListener = (newTask: ITask) =>
-			listId === newTask?.parentFolderId && setInCompletedTasksList([...[...(inCompletedTaskslist || []), newTask]]);
+			listId === newTask?.parentFolderId && query.setQueryData(QueryKey.tasksOfCurrentList, [...(tasksOfCurrentList || []), newTask]);
+		// listId === newTask?.parentFolderId && setInCompletedTasksList([...(tasksOfCurrentList || []), newTask]);
+
 		socket?.on('add-task', taskListener);
+		console.log({ tasksOfCurrentList });
 
 		return () => {
 			socket?.off('add-task', taskListener);
 		};
-	}, [inCompletedTaskslist]);
+	}, [query]);
 
 	useEffect(() => {
 		// TODO: powtarza sie kod wiec to nie jest programowanie rekreatywne!! wydzielic do osobnej funkcji
 		const taskListener = (newTask: ITask) =>
 			listId === newTask?.parentFolderId &&
-			setInCompletedTasksList([...[...(inCompletedTaskslist || [])].filter((task: ITask) => task._id !== newTask._id)]);
+			query.setQueryData(QueryKey.tasksOfCurrentList, [...[...(sortedTasks || [])].filter((task: ITask) => task._id !== newTask._id)]);
+		// setInCompletedTasksList([...[...(inCompletedTaskslist || [])].filter((task: ITask) => task._id !== newTask._id)]);
 		socket?.on('remove-task', taskListener);
 
 		return () => {
 			socket?.off('remove-task', taskListener);
 		};
-	}, [inCompletedTaskslist]);
+	}, [sortedTasks]);
 
 	useEffect(() => {
 		const taskListener = (newTask: ITask) => {
 			listId === newTask?.parentFolderId &&
-				setInCompletedTasksList([
-					...(inCompletedTaskslist || []).map((task: ITask) => (task._id === newTask._id ? { ...task, title: newTask.title } : task)),
+				query.setQueryData(QueryKey.tasksOfCurrentList, [
+					...(sortedTasks || []).map((task: ITask) => (task._id === newTask._id ? { ...task, title: newTask.title } : task)),
 				]);
 		};
 
@@ -149,18 +157,38 @@ export const useTasks = () => {
 		return () => {
 			socket?.off('edit-task', taskListener);
 		};
-	}, [inCompletedTaskslist]);
+	}, [sortedTasks]);
 
 	const onChangeTaskStatus = useMemo(
 		() => (taskData?.taskStatus === ITaskStatus.complete ? onMarkTaskAsInCompleted : onMarkTaskAsCompleted),
 		[taskData]
 	);
 
+	useEffect(() => {
+		const taskListener = (newTask: ITask) =>
+			listId === newTask?.parentFolderId &&
+			query.setQueryData(QueryKey.tasksOfCurrentList, [
+				...(sortedTasks || []).map((task: ITask) => (task._id === newTask._id ? { ...task, taskStatus: newTask.taskStatus } : task)),
+			]);
+
+		socket?.on('change-task-status', taskListener);
+
+		return () => {
+			socket?.off('change-task-status', taskListener);
+		};
+	}, [sortedTasks]);
+
+	const incomletedTasks = useMemo(
+		() => (tasksOfCurrentList || []).filter(task => task.taskStatus === ITaskStatus.inComplete),
+		[tasksOfCurrentList]
+	);
+	const comletedTasks = useMemo(() => (tasksOfCurrentList || []).filter(task => task.taskStatus === ITaskStatus.complete), [tasksOfCurrentList]);
+
 	return {
-		inCompletedTaskslist,
+		inCompletedTaskslist: incomletedTasks,
 		setInCompletedTasksList,
 		changeTaskImportanceMutation,
-		completedTaskslist,
+		completedTaskslist: comletedTasks,
 		setComplitedTasksList,
 		requestSort,
 		onMarkTaskAsCompleted,

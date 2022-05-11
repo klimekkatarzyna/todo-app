@@ -60,6 +60,10 @@ export const SearchInput: FC = () => {
 
 	const initialValues: ITask = { title: '' };
 
+	// TODO:
+	// - refrest list after some changes on task details
+	// - add search query to url
+
 	return (
 		<div className='bg-light-grey w-96'>
 			<Formik initialValues={initialValues} onSubmit={onSearch}>
