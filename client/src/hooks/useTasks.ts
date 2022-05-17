@@ -45,17 +45,20 @@ export const useTasks = () => {
 
 	const { data: tasksOfCurrentList, isLoading: getTasksOfCurrentListLoading } = useQuery<ITask[] | undefined>(
 		[QueryKey.tasksOfCurrentList, listId],
-		() => getTasksOfCurrentListAction({ parentFolderId: listId })
+		() => getTasksOfCurrentListAction({ parentFolderId: listId }),
+		{ enabled: !!listId }
 	);
 	// useEffect(() => {
 	// 	setInCompletedTasksList(tasksOfCurrentList || []);
 	// }, []);
 
-	const { data: taskData, isLoading: taskDataLoading } = useQuery<ITask | undefined>([QueryKey.getTask, taskId], () =>
-		getTaskAction({ _id: taskId })
+	const { data: taskData, isLoading: taskDataLoading } = useQuery<ITask | undefined>(
+		[QueryKey.getTask, taskId],
+		() => getTaskAction({ _id: taskId }),
+		{ enabled: !!taskId }
 	);
 
-	const { mutate: removeTaskMutation } = useMutation(
+	const { mutate: removeTaskMutation, isError } = useMutation(
 		() => deleteTaskAction({ _id: tasksContextlMenu?.elementId, parentFolderId: taskData?.parentFolderId }),
 		{
 			onSuccess: () => {
@@ -124,7 +127,6 @@ export const useTasks = () => {
 		// listId === newTask?.parentFolderId && setInCompletedTasksList([...(tasksOfCurrentList || []), newTask]);
 
 		socket?.on('add-task', taskListener);
-		console.log({ tasksOfCurrentList });
 
 		return () => {
 			socket?.off('add-task', taskListener);

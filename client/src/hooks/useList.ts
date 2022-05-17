@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { deleteListAction, getListsAction } from '../actions/lists';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { listsState } from '../atoms';
 import { IList } from '@kkrawczyk/todo-common';
 import { QueryKey } from '../enums';
@@ -12,7 +12,7 @@ export const useList = () => {
 
 	const { isLoading: getListsLoading, data, error } = useQuery<IList[] | undefined>(QueryKey.lists, getListsAction);
 
-	const [list, setList] = useRecoilState(listsState);
+	const setList = useSetRecoilState(listsState);
 
 	useEffect(() => {
 		setList(data);

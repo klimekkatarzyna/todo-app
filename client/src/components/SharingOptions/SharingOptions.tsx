@@ -21,8 +21,10 @@ export const SharingOptions: FC<ISharingOptionsProps> = ({ addInvitationTokenToL
 	const { invitationToken, onGenerateInvitationToken } = useGenerateInvitationToken();
 	const [step, setStep] = useState<number>(1);
 
-	const { data, isLoading, error } = useQuery<IList | undefined>([QueryKey.getListById, contextualMenu?.elementId], () =>
-		getListByIdAction({ _id: contextualMenu?.elementId })
+	const { data, isLoading, error } = useQuery<IList | undefined>(
+		[QueryKey.getListById, contextualMenu?.elementId],
+		() => getListByIdAction({ _id: contextualMenu?.elementId }),
+		{ enabled: !!contextualMenu?.elementId }
 	);
 
 	useEffect(() => {

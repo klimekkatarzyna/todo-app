@@ -108,7 +108,5 @@ export const TasksContextMenuProvider: FC<ITasksContextMenuProvider> = ({ childr
 		};
 	}, [tasksContextlMenu, handleClick]);
 
-	console.log({ tasksContextlMenu });
-
 	return <TasksContextMenuContext.Provider value={value}>{children}</TasksContextMenuContext.Provider>;
 };

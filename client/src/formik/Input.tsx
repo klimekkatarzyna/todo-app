@@ -54,7 +54,6 @@ export const Input: FC<IInput> = ({
 				autoFocus
 				onFocus={onFocus}
 				onBlur={onBlur}
-				{...rest}
 			/>
 			{type === InputType.password && <InputEye showPassword={showPassword} handledSetPassword={handledSetPassword} />}
 		</div>

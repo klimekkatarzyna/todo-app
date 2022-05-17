@@ -29,8 +29,10 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed }) => 
 		[listItem]
 	);
 	const { isOwner } = useSharingData(listItem?.userId);
-	const { data } = useQuery<ITask[] | undefined>([QueryKey.tasksOfCurrentList, listItem._id], () =>
-		getTasksOfCurrentListAction({ parentFolderId: listItem._id })
+	const { data } = useQuery<ITask[] | undefined>(
+		[QueryKey.tasksOfCurrentList, listItem._id],
+		() => getTasksOfCurrentListAction({ parentFolderId: listItem._id }),
+		{ enabled: !!listItem._id }
 	);
 
 	const redirectUrl = useMemo(

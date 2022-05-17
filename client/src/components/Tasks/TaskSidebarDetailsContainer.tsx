@@ -15,12 +15,8 @@ export const TaskSidebarDetails: FC = () => {
 	const { onChangeTaskStatus, taskData, taskDataLoading, removeTaskMutation, changeTaskImportanceMutation } = useTasks();
 
 	const handleClick = useCallback(async (): Promise<void> => {
-		try {
-			await removeTaskMutation();
-			onClose();
-		} catch {
-			//TODO: handle error & show notificayion
-		}
+		await removeTaskMutation();
+		onClose();
 	}, [taskData?._id]);
 
 	const onClose = useCallback((): void => {

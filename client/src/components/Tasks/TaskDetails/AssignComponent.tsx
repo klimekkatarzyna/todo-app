@@ -22,7 +22,9 @@ interface IAssignComponentrops {
 
 export const AssignComponent: FC<IAssignComponentrops> = ({ listId, taskId, taskData }) => {
 	const query = useQueryClient();
-	const { data, isLoading } = useQuery<IList | undefined>([QueryKey.getListById, listId], () => getListByIdAction({ _id: listId }));
+	const { data, isLoading } = useQuery<IList | undefined>([QueryKey.getListById, listId], () => getListByIdAction({ _id: listId }), {
+		enabled: !!listId,
+	});
 	const [isVisible, setIsVisible] = useRecoilState(modalVisibilityState);
 	const { authData } = useContext<AuthContextType>(AuthContext);
 

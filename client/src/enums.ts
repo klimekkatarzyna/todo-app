@@ -23,7 +23,6 @@ export enum ContextMenuOpion {
 	remove_group = 'remove_group',
 	edit_group_name = 'edit_group_name',
 	leave_list = 'leave_list',
-	// TODO: add more
 }
 
 export enum ROUTE {
@@ -43,7 +42,7 @@ export enum ROUTE {
 	sharing = '/sharing',
 }
 
-export enum SideMenu { // TODO: use to menu
+export enum SideMenu {
 	myDay = '/',
 	myDayFull = 'myDay',
 	tasks = 'tasks',

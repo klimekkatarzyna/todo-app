@@ -3,8 +3,6 @@
 export interface Config {
 	api: string;
 }
-// TODO: create evniroments configs
-// port the as as in app.use.cors
 
 export const register = `${process.env.REACT_APP_API_LOCAL_HOST}/api/register`;
 export const login = `${process.env.REACT_APP_API_LOCAL_HOST}/api/login`;

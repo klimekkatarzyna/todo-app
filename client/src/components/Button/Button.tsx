@@ -31,6 +31,7 @@ export const Button: FC<IButton> = ({
 		<>
 			<button
 				{...props}
+				type={type}
 				className={`text-sm p-2 rounded cursor-pointer flex direction-row items-center ${
 					disabled && 'disabled:bg-lightBlue cursor-not-allowed'
 				} ${outline && 'bg-none text-fontColor border border-grey'} ${outlineWhite && 'bg-none text-white border border-white'} ${

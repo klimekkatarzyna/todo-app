@@ -61,7 +61,6 @@ const TaskDetailsComponent: FC<ITaskDetailsProps> = ({
 				to={`${redirectTo}${taskData?.parentFolderId}/${taskData?._id}`}
 				draggable
 				className='flex flex-col flex-1 text-left ml-4 mr-auto border-none bg-inherit outline-none cursor-pointer no-underline'>
-				{/*TODO: rozbić na mniejsze komponenty*/}
 				<div
 					className={`cursor-pointer ${isCompleted && 'line-through'} ${isCompleted ? 'text-darkerGrey' : 'text-fontColor'} ${
 						isTaskDetailsView && 'hover:bg-lightGrey'

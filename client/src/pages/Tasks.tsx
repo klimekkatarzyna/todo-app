@@ -14,7 +14,9 @@ import { QueryKey } from '../enums';
 export const Tasks: FC = () => {
 	const { listId } = useParams<IUseParams>();
 
-	const { data, isLoading } = useQuery<IList | undefined>([QueryKey.getListById, listId], () => getListByIdAction({ _id: listId }));
+	const { data, isLoading } = useQuery<IList | undefined>([QueryKey.getListById, listId], () => getListByIdAction({ _id: listId }), {
+		enabled: !!listId,
+	});
 
 	return (
 		<Board>
