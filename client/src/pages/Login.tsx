@@ -1,4 +1,4 @@
-import { FC, useCallback, useContext } from 'react';
+import { FC, useCallback, useContext, useMemo } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Button } from '../components/Button/Button';
 import { useMutation } from 'react-query';
@@ -9,12 +9,13 @@ import { Formik, Form } from 'formik';
 import { loginValidationSchema, LoginValidationType, IUserData } from '@kkrawczyk/todo-common';
 import { loginAction } from '../actions/user';
 import { AuthContext, AuthContextType } from '../AuthProvider';
-import { SideMenu } from '../enums';
+import { ROUTE } from '../enums';
 
 export const Login: FC = () => {
 	const history = useHistory();
 	const invitationTokenUrl = sessionStorage.getItem('invitationTokenUrl');
 	const { setAuthData } = useContext<AuthContextType>(AuthContext);
+	const redirectUrl = useMemo(() => (invitationTokenUrl ? `${ROUTE.jointToList}${invitationTokenUrl}` : ROUTE.home), [invitationTokenUrl]);
 
 	const initialValues = { email: '', password: '' };
 
@@ -22,7 +23,7 @@ export const Login: FC = () => {
 		try {
 			const response = await loginAction({ email, password });
 			if (response.isSuccess && response?.body?._id) {
-				history.push(invitationTokenUrl ? `/jointToList${invitationTokenUrl}` : SideMenu.myDay);
+				history.push(redirectUrl);
 				setAuthData(response?.body);
 			}
 

@@ -3,6 +3,8 @@ import { useHistory } from 'react-router-dom';
 import { Loader } from 'react-feather';
 import { Button } from '../Button/Button';
 import { IShareLitDetails } from '../../actions/sharing';
+import { buildUrl } from '../../utils/paths';
+import { ROUTE } from '../../enums';
 
 interface IRedirectToList {
 	list: IShareLitDetails | undefined;
@@ -13,7 +15,7 @@ export const RedirectToList: FC<IRedirectToList> = ({ list, listDataLoading }) =
 	const history = useHistory();
 
 	const redirectToList = useCallback(() => {
-		history.push(`/tasks/${list?.listData._id}`);
+		history.push(buildUrl(ROUTE.listsDetails, { listId: list?.listData._id || '' }));
 	}, [list]);
 
 	return (

@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Board } from '../components/Board';
 import { Toolbar } from '../components/Toolbar';
-import { SideMenu } from '../enums';
+import { ROUTE } from '../enums';
 import { Loader } from 'react-feather';
 import { TaskItem } from '../components/Tasks/TaskItem/TaskItem';
 import { useTasks } from '../hooks/useTasks';
@@ -30,7 +30,7 @@ export const Searching: FC = () => {
 							key={task._id}
 							task={task}
 							index={index}
-							redirectTo={`/${SideMenu.search}/ `}
+							redirectTo={`${ROUTE.search}/`}
 							dragAndDrop={dragAndDrop}
 							onDragStart={onDragStart}
 							onDragOver={onDragOver}

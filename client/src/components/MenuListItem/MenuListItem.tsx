@@ -2,7 +2,7 @@ import { FC, useMemo, memo, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { contextualMenuSecountOpion, contextualMenuSecountOpionMembers } from '../../constants';
 import { IList, ITask } from '@kkrawczyk/todo-common';
-import { QueryKey, SideMenu } from '../../enums';
+import { ROUTE, QueryKey, SideMenu } from '../../enums';
 import { ContextMenuTrigger } from 'react-contextmenu';
 import { ContextMenuComponent } from '../ContextMenu/ContextMenuComponent';
 import { useSharingData } from '../../hooks/useSharingData';
@@ -10,6 +10,7 @@ import { useQuery } from 'react-query';
 import { getTasksOfCurrentListAction } from '../../actions/tasks';
 import { Sun, Star, List, Calendar, User, Users, Home } from 'react-feather';
 import { ContextMenuContext } from '../../ContextMenuProvider';
+import { buildUrl } from '../../utils/paths';
 
 interface IMenuListItem {
 	listItem: IList;
@@ -32,8 +33,14 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed }) => 
 		getTasksOfCurrentListAction({ parentFolderId: listItem._id })
 	);
 
+	const redirectUrl = useMemo(
+		() => (listItem?.isMainList ? listItem?.url : buildUrl(ROUTE.listsDetails, { listId: listItem?._id || '' })),
+		[listItem]
+	) as string;
+	const contextMenuList = useMemo(() => (isOwner ? contextualMenuSecountOpion : contextualMenuSecountOpionMembers), [isOwner]);
+
 	return (
-		<Link to={listItem?.isMainList ? `${listItem?.url}` : `/tasks/${listItem?._id}`} className='no-underline'>
+		<Link to={redirectUrl} className='no-underline'>
 			<ContextMenuTrigger id={listItem?._id || ''}>
 				<div className={'flex align-center px-4 py-2 text-sm hover:bg-white'}>
 					<div>{icon || <List className='mr-2 stroke-blue icon-style' />}</div>
@@ -42,11 +49,7 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed }) => 
 					{!!data?.length && <div className={`text-sm text-fontColor ml-auto ${isNavClosed ? 'hidden' : 'flex'}`}>{data?.length}</div>}
 				</div>
 			</ContextMenuTrigger>
-			<ContextMenuComponent
-				contextMenuList={isOwner ? contextualMenuSecountOpion : contextualMenuSecountOpionMembers}
-				elementId={listItem?._id || ''}
-				handleClick={handleClick}
-			/>
+			<ContextMenuComponent contextMenuList={contextMenuList} elementId={listItem?._id || ''} handleClick={handleClick} />
 		</Link>
 	);
 };

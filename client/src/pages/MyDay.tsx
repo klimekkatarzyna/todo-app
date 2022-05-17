@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 import { onGetMayDayTasksAction } from '../actions/tasks';
 import { Board } from '../components/Board';
 import { Toolbar } from '../components/Toolbar';
-import { QueryKey, SideMenu } from '../enums';
+import { ROUTE, QueryKey } from '../enums';
 import { Loader } from 'react-feather';
 import { TaskItem } from '../components/Tasks/TaskItem/TaskItem';
 import { useDragAndDrop } from '../hooks/useDragAndDrop';
@@ -26,7 +26,7 @@ export const MyDay: FC = () => {
 						key={task._id}
 						task={task}
 						index={index}
-						redirectTo={`/${SideMenu.myDayFull}/`}
+						redirectTo={`${ROUTE.myDay}/`}
 						dragAndDrop={dragAndDrop}
 						onDragStart={onDragStart}
 						onDragOver={onDragOver}

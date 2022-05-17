@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { PrivateRoute } from './PrivateRoute';
 import { AuthContext, AuthContextType } from './AuthProvider';
 import { Loader } from 'react-feather';
-import { SideMenu } from './enums';
+import { ROUTE, SideMenu } from './enums';
 
 const BrowserRouter: FC = () => {
 	const MyDay = lazy(() => import('./pages/MyDay').then(module => ({ default: module.MyDay })));
@@ -35,43 +35,43 @@ const BrowserRouter: FC = () => {
 							<Switch>
 								{authData?._id !== undefined && sessionChecked !== undefined ? (
 									<>
-										<PrivateRoute exact path={SideMenu.myDay}>
+										<PrivateRoute exact path={ROUTE.home}>
 											<MyDay />
 										</PrivateRoute>
-										<PrivateRoute exact path={`/${SideMenu.myDayFull}/:listId/:taskId`}>
+										<PrivateRoute exact path={`${ROUTE.myDay}/:listId/:taskId`}>
 											<MyDay />
 										</PrivateRoute>
-										<PrivateRoute exact path={`/${SideMenu.important}`}>
+										<PrivateRoute exact path={ROUTE.important}>
 											<Important />
 										</PrivateRoute>
-										<PrivateRoute exact path={`/${SideMenu.important}/:listId/:taskId`}>
+										<PrivateRoute exact path={`${ROUTE.important}/:listId/:taskId`}>
 											<Important />
 										</PrivateRoute>
-										<PrivateRoute exact path={`/${SideMenu.planned}`}>
+										<PrivateRoute exact path={ROUTE.planned}>
 											<Planned />
 										</PrivateRoute>
-										<PrivateRoute exact path={`/${SideMenu.assigned}`}>
+										<PrivateRoute exact path={ROUTE.assigned}>
 											<Assigned />
 										</PrivateRoute>
-										<PrivateRoute exact path={`/${SideMenu.assigned}/:listId/:taskId`}>
+										<PrivateRoute exact path={`${ROUTE.assigned}/:listId/:taskId`}>
 											<Assigned />
 										</PrivateRoute>
-										<PrivateRoute exact path={`/${SideMenu.inbox}`}>
+										<PrivateRoute exact path={ROUTE.inbox}>
 											<Inbox />
 										</PrivateRoute>
-										<PrivateRoute exact path={`/${SideMenu.tasks}/:listId`}>
+										<PrivateRoute exact path={`${ROUTE.listsDetails}`}>
 											<Tasks />
 										</PrivateRoute>
-										<PrivateRoute exact path={`/${SideMenu.tasks}/:listId/:taskId`}>
+										<PrivateRoute exact path={`${ROUTE.tasks}/:listId/:taskId`}>
 											<Tasks />
 										</PrivateRoute>
-										<PrivateRoute exact path={`/${SideMenu.jointToList}/tasks/sharing`}>
+										<PrivateRoute exact path={`${ROUTE.jointToList}/sharing`}>
 											<Sharing />
 										</PrivateRoute>
-										<PrivateRoute exact path={`/${SideMenu.search}`}>
+										<PrivateRoute exact path={ROUTE.search}>
 											<Searching />
 										</PrivateRoute>
-										<PrivateRoute exact path={`/${SideMenu.search}/:listId/:taskId`}>
+										<PrivateRoute exact path={`${ROUTE.search}/:listId/:taskId`}>
 											<Searching />
 										</PrivateRoute>
 										{/* <Route render={(routeProps) => {
@@ -82,13 +82,13 @@ const BrowserRouter: FC = () => {
 									</>
 								) : (
 									<>
-										<Route path='/register'>
+										<Route path={ROUTE.register}>
 											<Register />
 										</Route>
-										<Route path='/login'>
+										<Route path={ROUTE.login}>
 											<Login />
 										</Route>
-										<Route path={`/${SideMenu.tasks}/sharing`}>
+										<Route path={ROUTE.sharing}>
 											<Redirect />
 										</Route>
 									</>

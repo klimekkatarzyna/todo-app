@@ -4,7 +4,7 @@ import { IList } from '@kkrawczyk/todo-common';
 import { useMutation, useQueryClient } from 'react-query';
 import { ArrowLeft } from 'react-feather';
 import { removeInvitationAction } from '../../actions/sharing';
-import { QueryKey } from '../../enums';
+import { QueryKey, ROUTE } from '../../enums';
 import toast from 'react-hot-toast';
 
 interface IAccessManagementProps {
@@ -34,7 +34,7 @@ export const AccessManagement: FC<IAccessManagementProps> = ({ listDataResponse,
 				<strong>Zarządzanie dostępem</strong>
 			</h2>
 			<h3 className='text-sm text-darkerGrey'>{'Link do zapraszania'}</h3>
-			<div className='w-80 break-all text-center mb-4 font-extralight'>{`${process.env.REACT_APP_CONFIG_API}/tasks/sharing?invitationToken=${listDataResponse?.invitationToken}`}</div>
+			<div className='w-80 break-all text-center mb-4 font-extralight'>{`${process.env.REACT_APP_CONFIG_API}${ROUTE.sharing}?invitationToken=${listDataResponse?.invitationToken}`}</div>
 			<Button secondary onClick={() => mutate({ _id: listDataResponse?._id })} isLoading={isLoading}>
 				{'Zatrzymaj udostępnianie'}
 			</Button>

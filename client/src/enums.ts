@@ -26,13 +26,30 @@ export enum ContextMenuOpion {
 	// TODO: add more
 }
 
-export enum SideMenu {
+export enum ROUTE {
+	register = '/register',
+	login = '/login',
+	home = '/',
+	myDay = '/my-day',
+	listsDetails = '/lists-details/:listId',
+	tasks = '/tasks',
+	tasksDetails = '/tasks/:listId/:taskId',
+	planned = '/planned',
+	important = '/important',
+	assigned = '/assigned-to-me',
+	inbox = '/inbox',
+	jointToList = '/joint-to-list',
+	search = '/search',
+	sharing = '/sharing',
+}
+
+export enum SideMenu { // TODO: use to menu
 	myDay = '/',
 	myDayFull = 'myDay',
 	tasks = 'tasks',
 	planned = 'planned',
 	important = 'important',
-	assigned = 'assigned_to_me',
+	assigned = 'assigned-to-me',
 	inbox = 'inbox',
 	jointToList = 'jointToList',
 	search = 'search',

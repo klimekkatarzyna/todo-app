@@ -3,7 +3,7 @@ import { Toolbar } from '../components/Toolbar';
 import { Board } from '../components/Board';
 import { useQuery } from 'react-query';
 import { ITask } from '@kkrawczyk/todo-common';
-import { QueryKey, SideMenu } from '../enums';
+import { QueryKey, ROUTE } from '../enums';
 import { getAssignedTasksAction } from '../actions/tasks';
 import { AuthContext, AuthContextType } from '../AuthProvider';
 import { Loader } from 'react-feather';
@@ -32,7 +32,7 @@ export const Assigned: FC = () => {
 						key={task._id}
 						task={task}
 						index={index}
-						redirectTo={`/${SideMenu.assigned}/`}
+						redirectTo={`${ROUTE.assigned}/`}
 						dragAndDrop={dragAndDrop}
 						onDragStart={onDragStart}
 						onDragOver={onDragOver}

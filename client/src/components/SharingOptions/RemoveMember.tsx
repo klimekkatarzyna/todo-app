@@ -1,10 +1,11 @@
 import { FC, useCallback } from 'react';
 import { IList } from '@kkrawczyk/todo-common';
+import { useHistory } from 'react-router-dom';
 import { useSharingData } from '../../hooks/useSharingData';
 import { useMutation, useQueryClient } from 'react-query';
 import { updateMembersList } from '../../actions/sharing';
 import { Loader } from 'react-feather';
-import { QueryKey } from '../../enums';
+import { QueryKey, ROUTE } from '../../enums';
 import toast from 'react-hot-toast';
 
 interface IRemoveMember {
@@ -14,6 +15,7 @@ interface IRemoveMember {
 
 export const RemoveMember: FC<IRemoveMember> = ({ listDataResponse, onNextStep }) => {
 	const query = useQueryClient();
+	const history = useHistory();
 	const { isOwner, authData } = useSharingData(listDataResponse?.userId);
 
 	const { mutate, isLoading, isError } = useMutation(updateMembersList, {
@@ -29,6 +31,7 @@ export const RemoveMember: FC<IRemoveMember> = ({ listDataResponse, onNextStep }
 
 	const onUpdateMembersList = useCallback(() => {
 		mutate({ _id: listDataResponse?._id, member: authData?._id });
+		history.push(ROUTE.home);
 	}, [listDataResponse, authData]);
 
 	return (

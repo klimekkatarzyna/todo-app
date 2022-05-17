@@ -5,7 +5,8 @@ import { useMutation, useQueryClient } from 'react-query';
 import { addUserToMemberOfListAction, IShareLitDetails } from '../../actions/sharing';
 import { Button } from '../Button/Button';
 import { getStringAfterCharacter } from '../../utils/utilsFunctions';
-import { QueryKey } from '../../enums';
+import { QueryKey, ROUTE } from '../../enums';
+import { buildUrl } from '../../utils/paths';
 
 interface IJoinToList {
 	listDataLoading: boolean;
@@ -24,7 +25,7 @@ export const JoinToList: FC<IJoinToList> = ({ listDataLoading, list }) => {
 
 	const addUserToMemberOfList = useCallback(() => {
 		mutate(getStringAfterCharacter(history.location.search, '='));
-		history.push(`/tasks/${list?.listData._id}`);
+		history.push(buildUrl(ROUTE.listsDetails, { listId: list?.listData._id || '' }));
 	}, [list]);
 
 	return (
