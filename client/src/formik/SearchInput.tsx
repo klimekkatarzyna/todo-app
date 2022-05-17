@@ -11,6 +11,7 @@ import { InputType } from '../interfaces/app';
 import { useSetRecoilState } from 'recoil';
 import { loadingState, searchResultState } from '../atoms/serching';
 import { useHistory } from 'react-router-dom';
+import { buildUrl } from '../utils/paths';
 
 export const SearchInput: FC = () => {
 	const setSearchResults = useSetRecoilState(searchResultState);
@@ -43,7 +44,7 @@ export const SearchInput: FC = () => {
 		values => {
 			setIsLoading(true);
 			setSearchResults(searchWithFuse(values.title));
-			history.push(ROUTE.search);
+			history.push(buildUrl(ROUTE.search));
 			setIsLoading(false);
 		},
 		[data]
@@ -51,7 +52,7 @@ export const SearchInput: FC = () => {
 
 	useEffect(() => {
 		const handleClick = (event: any) => {
-			if (event?.target?.value === '') history.push(ROUTE.home);
+			if (event?.target?.value === '') history.push(buildUrl(ROUTE.home));
 		};
 
 		document.addEventListener('search', handleClick);

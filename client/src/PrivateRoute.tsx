@@ -1,6 +1,7 @@
 import { FC, useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { AuthContext, AuthContextType } from './AuthProvider';
+import { ROUTE } from './enums';
 
 interface IPrivateRoute {
 	path: string;
@@ -19,7 +20,7 @@ export const PrivateRoute: FC<IPrivateRoute> = ({ children, ...rest }) => {
 				) : (
 					<Redirect
 						to={{
-							pathname: '/login',
+							pathname: ROUTE.login,
 							state: { from: location },
 						}}
 					/>

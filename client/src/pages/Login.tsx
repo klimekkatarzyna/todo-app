@@ -10,12 +10,16 @@ import { loginValidationSchema, LoginValidationType, IUserData } from '@kkrawczy
 import { loginAction } from '../actions/user';
 import { AuthContext, AuthContextType } from '../AuthProvider';
 import { ROUTE } from '../enums';
+import { buildUrl } from '../utils/paths';
 
 export const Login: FC = () => {
 	const history = useHistory();
 	const invitationTokenUrl = sessionStorage.getItem('invitationTokenUrl');
 	const { setAuthData } = useContext<AuthContextType>(AuthContext);
-	const redirectUrl = useMemo(() => (invitationTokenUrl ? `${ROUTE.jointToList}${invitationTokenUrl}` : ROUTE.home), [invitationTokenUrl]);
+	const redirectUrl = useMemo(
+		() => (invitationTokenUrl ? `${ROUTE.jointToList}${invitationTokenUrl}` : buildUrl(ROUTE.home)),
+		[invitationTokenUrl]
+	);
 
 	const initialValues = { email: '', password: '' };
 
@@ -46,7 +50,7 @@ export const Login: FC = () => {
 				<h2 className='text-blue text-lg font-semibold mb-2'>Zaloguj się</h2>
 				<p>
 					Nie masz masz konta?{' '}
-					<Link className='text-blue' to='/register'>
+					<Link className='text-blue' to={buildUrl(ROUTE.register)}>
 						Rejestruj się!
 					</Link>
 				</p>

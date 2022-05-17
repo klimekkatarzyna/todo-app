@@ -9,6 +9,7 @@ import { TaskItem } from '../components/Tasks/TaskItem/TaskItem';
 import { useDragAndDrop } from '../hooks/useDragAndDrop';
 import { useTasks } from '../hooks/useTasks';
 import { ITask } from '@kkrawczyk/todo-common';
+import { buildUrl } from '../utils/paths';
 
 export const MyDay: FC = () => {
 	const { inCompletedTaskslist, setInCompletedTasksList, onChangeTaskStatus, changeTaskImportanceMutation } = useTasks();
@@ -26,7 +27,7 @@ export const MyDay: FC = () => {
 						key={task._id}
 						task={task}
 						index={index}
-						redirectTo={`${ROUTE.myDay}/`}
+						redirectTo={`${buildUrl(ROUTE.myDay)}/`}
 						dragAndDrop={dragAndDrop}
 						onDragStart={onDragStart}
 						onDragOver={onDragOver}

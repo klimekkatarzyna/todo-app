@@ -7,6 +7,7 @@ import { logoutUserAction } from '../actions/user';
 import { useMutation } from 'react-query';
 import { ROUTE } from '../enums';
 import { SearchInput } from '../formik/SearchInput';
+import { buildUrl } from '../utils/paths';
 
 interface IHeader {
 	userName: string;
@@ -22,7 +23,7 @@ export const Header: FC<IHeader> = ({ userName }) => {
 		try {
 			await mutate();
 			setAuthData(undefined);
-			history.push('/login');
+			history.push(buildUrl(ROUTE.login));
 		} catch (error) {
 			console.error(error);
 		}
@@ -30,7 +31,7 @@ export const Header: FC<IHeader> = ({ userName }) => {
 
 	return (
 		<header className='flex justify-between items-center pl-4 pr-4 bg-blue h-12'>
-			<Link to={ROUTE.home} className='no-underline font-semibold text-white'>
+			<Link to={buildUrl(ROUTE.home)} className='no-underline font-semibold text-white'>
 				{'To Do'}
 			</Link>
 			<SearchInput />

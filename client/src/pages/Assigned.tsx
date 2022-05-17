@@ -10,6 +10,7 @@ import { Loader } from 'react-feather';
 import { TaskItem } from '../components/Tasks/TaskItem/TaskItem';
 import { useTasks } from '../hooks/useTasks';
 import { useDragAndDrop } from '../hooks/useDragAndDrop';
+import { buildUrl } from '../utils/paths';
 
 export const Assigned: FC = () => {
 	const { authData } = useContext<AuthContextType>(AuthContext);
@@ -32,7 +33,7 @@ export const Assigned: FC = () => {
 						key={task._id}
 						task={task}
 						index={index}
-						redirectTo={`${ROUTE.assigned}/`}
+						redirectTo={`${buildUrl(ROUTE.assigned)}/`}
 						dragAndDrop={dragAndDrop}
 						onDragStart={onDragStart}
 						onDragOver={onDragOver}

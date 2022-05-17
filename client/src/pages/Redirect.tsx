@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Loader } from 'react-feather';
+import { buildUrl } from '../utils/paths';
+import { ROUTE } from '../enums';
 
 export const Redirect = () => {
 	const history = useHistory();
@@ -11,7 +13,7 @@ export const Redirect = () => {
 	}, [history]);
 
 	useEffect(() => {
-		history.push('/login');
+		history.push(buildUrl(ROUTE.login));
 		setIsloading(isLoding);
 	}, []);
 

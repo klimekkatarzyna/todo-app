@@ -9,6 +9,7 @@ import { onGetImportanceTasksAction } from '../actions/tasks';
 import { ITask, ITaskStatus } from '@kkrawczyk/todo-common';
 import { Loader } from 'react-feather';
 import { ROUTE, QueryKey } from '../enums';
+import { buildUrl } from '../utils/paths';
 
 export const Important: FC = () => {
 	const { inCompletedTaskslist, setInCompletedTasksList, onChangeTaskStatus, changeTaskImportanceMutation } = useTasks();
@@ -28,7 +29,7 @@ export const Important: FC = () => {
 						key={task._id}
 						task={task}
 						index={index}
-						redirectTo={`${ROUTE.important}/`}
+						redirectTo={`${buildUrl(ROUTE.important)}/`}
 						dragAndDrop={dragAndDrop}
 						onDragStart={onDragStart}
 						onDragOver={onDragOver}

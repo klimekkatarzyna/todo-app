@@ -9,7 +9,8 @@ import { useMutation } from 'react-query';
 import { RegisterValidationType, registerValidationSchema, IUserData } from '@kkrawczyk/todo-common';
 import { registerAction } from '../actions/user';
 import { HttpResponse } from '../utils/http';
-import { SideMenu } from '../enums';
+import { ROUTE } from '../enums';
+import { buildUrl } from '../utils/paths';
 
 export const Register: FC = () => {
 	const history = useHistory();
@@ -18,7 +19,7 @@ export const Register: FC = () => {
 	const authenticateUserRequest = useCallback(async ({ username, email, password }: IUserData): Promise<HttpResponse<IUserData> | undefined> => {
 		try {
 			const response = await registerAction({ username, email, password });
-			if (response?.isSuccess) history.push(SideMenu.myDay);
+			if (response?.isSuccess) history.push(buildUrl(ROUTE.home));
 			return response;
 		} catch (err) {
 			console.error(err);
@@ -38,7 +39,7 @@ export const Register: FC = () => {
 				<h2 className='text-blue text-lg font-semibold mb-2'>Rejestrowanie</h2>
 				<p>
 					Masz konto?{' '}
-					<Link className='text-blue' to='/login'>
+					<Link className='text-blue' to={buildUrl(ROUTE.login)}>
 						Zaloguj się
 					</Link>
 				</p>

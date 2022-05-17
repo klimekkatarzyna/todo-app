@@ -8,6 +8,7 @@ import { useTasks } from '../hooks/useTasks';
 import { useDragAndDrop } from '../hooks/useDragAndDrop';
 import { useRecoilValue } from 'recoil';
 import { loadingState, searchResultState } from '../atoms/serching';
+import { buildUrl } from '../utils/paths';
 
 export const Searching: FC = () => {
 	const searchResults = useRecoilValue(searchResultState);
@@ -30,7 +31,7 @@ export const Searching: FC = () => {
 							key={task._id}
 							task={task}
 							index={index}
-							redirectTo={`${ROUTE.search}/`}
+							redirectTo={`${buildUrl(ROUTE.search)}/`}
 							dragAndDrop={dragAndDrop}
 							onDragStart={onDragStart}
 							onDragOver={onDragOver}

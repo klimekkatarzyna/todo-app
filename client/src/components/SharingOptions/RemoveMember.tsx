@@ -7,6 +7,7 @@ import { updateMembersList } from '../../actions/sharing';
 import { Loader } from 'react-feather';
 import { QueryKey, ROUTE } from '../../enums';
 import toast from 'react-hot-toast';
+import { buildUrl } from '../../utils/paths';
 
 interface IRemoveMember {
 	listDataResponse: IList;
@@ -31,7 +32,7 @@ export const RemoveMember: FC<IRemoveMember> = ({ listDataResponse, onNextStep }
 
 	const onUpdateMembersList = useCallback(() => {
 		mutate({ _id: listDataResponse?._id, member: authData?._id });
-		history.push(ROUTE.home);
+		history.push(buildUrl(ROUTE.home));
 	}, [listDataResponse, authData]);
 
 	return (
