@@ -18,7 +18,7 @@ export const CreateList: FC = () => {
 	});
 
 	const onSubmit = useCallback(async (values: ICreateListValue, { resetForm }) => {
-		const title = !isStringContainsWhitespace(values.title) ? values.title : 'Lista bez tytułu';
+		const title = isStringContainsWhitespace(values.title) ? 'Lista bez tytułu' : values.title;
 		await mutate({ title });
 		resetForm();
 		//TODO: redirect on created list

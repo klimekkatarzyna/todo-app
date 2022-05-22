@@ -2,7 +2,7 @@ import { FC, memo, useCallback, useContext } from 'react';
 import { MenuListItem } from '../../MenuListItem/MenuListItem';
 import { Loader } from 'react-feather';
 import { ContextualModal } from '../../Modal/ContextualModal';
-import { ContextMenuOpion, QueryKey } from '../../../enums';
+import { ContextMenuOpion, QueryKey, ROUTE } from '../../../enums';
 import { SharingOptions } from '../../SharingOptions/SharingOptions';
 import { useMutation, useQueryClient } from 'react-query';
 import { addInvitationTokenToListAction } from '../../../actions/lists';
@@ -15,6 +15,8 @@ import { updateMembersList } from '../../../actions/sharing';
 import { ContextMenuContext } from '../../../ContextMenuProvider';
 import { AuthContext } from '../../../AuthProvider';
 import toast from 'react-hot-toast';
+import { useHistory } from 'react-router-dom';
+import { buildUrl } from '../../../utils/paths';
 
 interface ILists {
 	isNavClosed: boolean;
@@ -22,6 +24,7 @@ interface ILists {
 
 const ListsComponents: FC<ILists> = ({ isNavClosed }) => {
 	const query = useQueryClient();
+	const history = useHistory();
 	const { isVisible } = useContext(ModalVisibilityContext);
 	const { getListsLoading, removeListMutation } = useList();
 	const list = useRecoilValue(listsState);
@@ -37,6 +40,7 @@ const ListsComponents: FC<ILists> = ({ isNavClosed }) => {
 	const removeList = useCallback(() => {
 		if (contextualMenu?.type !== ContextMenuOpion.remove_list) return;
 		removeListMutation({ _id: contextualMenu?.elementId });
+		history.push(buildUrl(ROUTE.listsDetails, { listId: list?.[0]?._id || '' }));
 	}, [contextualMenu]);
 
 	const { mutate, isLoading, isError } = useMutation(updateMembersList, {

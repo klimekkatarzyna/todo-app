@@ -59,7 +59,7 @@ export const useTasks = () => {
 	);
 
 	const { mutate: removeTaskMutation, isError } = useMutation(
-		() => deleteTaskAction({ _id: tasksContextlMenu?.elementId, parentFolderId: taskData?.parentFolderId }),
+		() => deleteTaskAction({ _id: tasksContextlMenu?.elementId || taskId, parentFolderId: taskData?.parentFolderId }),
 		{
 			onSuccess: () => {
 				query.invalidateQueries(QueryKey.getImportanceTasks);

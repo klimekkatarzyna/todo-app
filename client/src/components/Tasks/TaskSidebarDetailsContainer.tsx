@@ -1,4 +1,4 @@
-import { FC, useCallback, useContext, useMemo } from 'react';
+import { FC, useCallback, useContext, useEffect, useMemo } from 'react';
 import { getDay, getDayName, getMonth, parseUTCtoDate } from '../../utils/date';
 import { TaskDetails } from './TaskDetails';
 import { useTasks } from '../../hooks/useTasks';
@@ -14,6 +14,13 @@ export const TaskSidebarDetails: FC = () => {
 	const { onHide } = useContext(ElementVisibilityContext);
 	const { onChangeTaskStatus, taskData, taskDataLoading, removeTaskMutation, changeTaskImportanceMutation } = useTasks();
 
+	const [, url, listId, taskId] = useMemo(() => history.location.pathname.split('/'), [history]);
+
+	useEffect(() => {
+		if (!!listId && !!taskId) return;
+		onHide();
+	}, [listId, taskId]);
+
 	const handleClick = useCallback(async (): Promise<void> => {
 		await removeTaskMutation();
 		onClose();
@@ -22,8 +29,6 @@ export const TaskSidebarDetails: FC = () => {
 	const onClose = useCallback((): void => {
 		onHide();
 	}, []);
-
-	const [, url, listId, taskId] = useMemo(() => history.location.pathname.split('/'), [history]);
 
 	return (
 		<div className='bg-light-grey w-full p-4 absolute z-20 left-0 right-0 top-12 bottom-0 md:relative md:w-[360px] md:top-0'>

@@ -17,6 +17,7 @@ interface IInput<T = string | number | undefined> {
 	readOnly?: boolean;
 	isLoading?: boolean;
 	className?: string;
+	isPasswordInput?: boolean;
 }
 
 export const Input: FC<IInput> = ({
@@ -29,6 +30,7 @@ export const Input: FC<IInput> = ({
 	readOnly,
 	isLoading,
 	className,
+	isPasswordInput,
 	...rest
 }) => {
 	const { onFocus, onBlur, isFocused } = useFocusingHandling();
@@ -48,14 +50,14 @@ export const Input: FC<IInput> = ({
 					colorType === InputVersion.primary ? 'text-blue' : 'text-white'
 				}`}
 				name={name}
-				type={!showPassword && type === InputType.password ? InputType.password : type}
+				type={!showPassword && isPasswordInput ? InputType.password : InputType.text}
 				readOnly={readOnly}
 				placeholder={placeholder}
 				autoFocus
 				onFocus={onFocus}
 				onBlur={onBlur}
 			/>
-			{type === InputType.password && <InputEye showPassword={showPassword} handledSetPassword={handledSetPassword} />}
+			{isPasswordInput && <InputEye showPassword={showPassword} handledSetPassword={handledSetPassword} />}
 		</div>
 	);
 };

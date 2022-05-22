@@ -21,7 +21,7 @@ export const Tasks: FC = () => {
 	return (
 		<Board>
 			<div>
-				{isLoading ? <Loader className='m-auto' /> : <Toolbar name={data?.title || ''} colorType={data?.themeColor} />}
+				{isLoading ? <Loader className='m-auto' /> : <Toolbar isListItem name={data?.title || ''} colorType={data?.themeColor} />}
 
 				<div>
 					<CreateTask />

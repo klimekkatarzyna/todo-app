@@ -28,7 +28,7 @@ export const RemoveAssignment: FC<IRemoveAssignmentProps> = ({ taskData }) => {
 	});
 
 	return (
-		<button className='task-details-style mb-3 flex flex-row items-center' onClick={() => mutate({ _id: taskData?._id })}>
+		<button className='task-details-style mb-3 flex flex-row items-center pt-3 pb-3 pl-4' onClick={() => mutate({ _id: taskData?._id })}>
 			<IconUserName member={taskData?.assigned} isFullNameVisible />
 			{isLoading && <Loader />}
 			<X className='icon-style ml-auto mr-4' />

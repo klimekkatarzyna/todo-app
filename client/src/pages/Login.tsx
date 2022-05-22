@@ -66,7 +66,7 @@ export const Login: FC = () => {
 							</div>
 
 							<div className='relative'>
-								<Input name='password' type={InputType.password} placeholder={'Password'} {...props} />
+								<Input name='password' type={InputType.password} isPasswordInput placeholder={'Password'} {...props} />
 								{errors.password && touched.password ? <ErrorMessageComponent name='password' /> : null}
 							</div>
 

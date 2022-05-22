@@ -27,8 +27,8 @@ export const CreateGroup: FC = () => {
 	});
 
 	const onSubmit = useCallback(async (values: CreateEditGroupType, { resetForm }) => {
-		if (isStringContainsWhitespace(values.title)) return;
-		await mutate({ title: values.title });
+		const title = isStringContainsWhitespace(values.title) ? 'Nowa grupa' : values.title;
+		await mutate({ title });
 		resetForm();
 		toggleDropdown();
 	}, []);
