@@ -11,6 +11,8 @@ import { loginAction } from '../actions/user';
 import { AuthContext, AuthContextType } from '../AuthProvider';
 import { ROUTE } from '../enums';
 import { buildUrl } from '../utils/paths';
+import { EyeComponent } from '../components/EyeComponent/EyeComponent';
+import { useTogglePasswordVisibility } from '../hooks/useTogglePasswordVisibility';
 
 export const Login: FC = () => {
 	const history = useHistory();
@@ -20,6 +22,7 @@ export const Login: FC = () => {
 		() => (invitationTokenUrl ? `${ROUTE.jointToList}${invitationTokenUrl}` : buildUrl(ROUTE.home)),
 		[invitationTokenUrl]
 	);
+	const { showPassword, handledSetPassword } = useTogglePasswordVisibility();
 
 	const initialValues = { email: '', password: '' };
 
@@ -65,9 +68,15 @@ export const Login: FC = () => {
 								{errors.email && touched.email ? <ErrorMessageComponent name='email' /> : null}
 							</div>
 
-							<div className='relative'>
-								<Input name='password' type={InputType.password} isPasswordInput placeholder={'Password'} {...props} />
+							<div className='relative flex'>
+								<Input
+									name='password'
+									type={showPassword ? InputType.text : InputType.password}
+									placeholder={'Password'}
+									{...props}
+								/>
 								{errors.password && touched.password ? <ErrorMessageComponent name='password' /> : null}
+								<EyeComponent showPassword={showPassword} handledSetPassword={handledSetPassword} />
 							</div>
 
 							<Button primary type='submit' isLoading={isLoading}>

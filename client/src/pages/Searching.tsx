@@ -28,7 +28,7 @@ export const Searching: FC = () => {
 				<div className='overflow-y-scroll h-[600px] mt-4'>
 					{searchResults?.map((task, index) => (
 						<TaskItem
-							key={task._id}
+							key={index}
 							task={task}
 							index={index}
 							redirectTo={`${buildUrl(ROUTE.search)}/`}

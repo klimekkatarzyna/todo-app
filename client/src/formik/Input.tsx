@@ -4,8 +4,6 @@ import { InputVersion } from '../enums';
 import { Plus, Circle, Loader } from 'react-feather';
 import { useFocusingHandling } from '../hooks/useMouseHandling';
 import { InputType } from '../interfaces/app';
-import { useTogglePasswordVisibility } from '../hooks/useTogglePasswordVisibility';
-import { InputEye } from '../components/InputEye/InputEye';
 
 interface IInput<T = string | number | undefined> {
 	name: string;
@@ -17,7 +15,6 @@ interface IInput<T = string | number | undefined> {
 	readOnly?: boolean;
 	isLoading?: boolean;
 	className?: string;
-	isPasswordInput?: boolean;
 }
 
 export const Input: FC<IInput> = ({
@@ -30,12 +27,10 @@ export const Input: FC<IInput> = ({
 	readOnly,
 	isLoading,
 	className,
-	isPasswordInput,
 	...rest
 }) => {
 	const { onFocus, onBlur, isFocused } = useFocusingHandling();
 	const iconColor: string = useMemo(() => (colorType === InputVersion.primary && !isFocused ? 'text-blue' : 'text-fontColor'), [type, isFocused]);
-	const { showPassword, handledSetPassword } = useTogglePasswordVisibility();
 
 	return (
 		<div className='flex items-center rounded px-3 py-0 cursor-pointer w-full relative'>
@@ -50,14 +45,13 @@ export const Input: FC<IInput> = ({
 					colorType === InputVersion.primary ? 'text-blue' : 'text-white'
 				}`}
 				name={name}
-				type={!showPassword && isPasswordInput ? InputType.password : InputType.text}
+				type={type}
 				readOnly={readOnly}
 				placeholder={placeholder}
 				autoFocus
 				onFocus={onFocus}
 				onBlur={onBlur}
 			/>
-			{isPasswordInput && <InputEye showPassword={showPassword} handledSetPassword={handledSetPassword} />}
 		</div>
 	);
 };

@@ -43,14 +43,13 @@ export enum ROUTE {
 }
 
 export enum SideMenu {
-	myDay = '/',
-	myDayFull = 'myDay',
+	myDay = 'my-day',
 	tasks = 'tasks',
 	planned = 'planned',
 	important = 'important',
 	assigned = 'assigned-to-me',
 	inbox = 'inbox',
-	jointToList = 'jointToList',
+	jointToList = 'joint-to-list',
 	search = 'search',
 }
 

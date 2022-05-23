@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { PrivateRoute } from './PrivateRoute';
 import { AuthContext, AuthContextType } from './AuthProvider';
 import { Loader } from 'react-feather';
-import { ROUTE, SideMenu } from './enums';
+import { ROUTE } from './enums';
 
 const BrowserRouter: FC = () => {
 	const MyDay = lazy(() => import('./pages/MyDay').then(module => ({ default: module.MyDay })));
@@ -19,6 +19,7 @@ const BrowserRouter: FC = () => {
 	const Redirect = lazy(() => import('./pages/Redirect').then(module => ({ default: module.Redirect })));
 	const Register = lazy(() => import('./pages/Register').then(module => ({ default: module.Register })));
 	const Searching = lazy(() => import('./pages/Searching').then(module => ({ default: module.Searching })));
+	const NotFound = lazy(() => import('./pages/NotFound').then(module => ({ default: module.NotFound })));
 
 	const { authData, isCheckSessionLoading, sessionChecked } = useContext<AuthContextType>(AuthContext);
 
@@ -36,6 +37,9 @@ const BrowserRouter: FC = () => {
 								{authData?._id !== undefined && sessionChecked !== undefined ? (
 									<>
 										<PrivateRoute exact path={ROUTE.home}>
+											<MyDay />
+										</PrivateRoute>
+										<PrivateRoute exact path={ROUTE.myDay}>
 											<MyDay />
 										</PrivateRoute>
 										<PrivateRoute exact path={`${ROUTE.myDay}/:listId/:taskId`}>
@@ -74,11 +78,9 @@ const BrowserRouter: FC = () => {
 										<PrivateRoute exact path={`${ROUTE.search}/:listId/:taskId`}>
 											<Searching />
 										</PrivateRoute>
-										{/* <Route render={(routeProps) => {
-                                return (
-                                    <NotFound />
-                                );
-                            }} /> */}
+										{/* <PrivateRoute exact path='*'>
+											<NotFound />
+										</PrivateRoute> */}
 									</>
 								) : (
 									<>

@@ -11,10 +11,13 @@ import { registerAction } from '../actions/user';
 import { HttpResponse } from '../utils/http';
 import { ROUTE } from '../enums';
 import { buildUrl } from '../utils/paths';
+import { useTogglePasswordVisibility } from '../hooks/useTogglePasswordVisibility';
+import { EyeComponent } from '../components/EyeComponent/EyeComponent';
 
 export const Register: FC = () => {
 	const history = useHistory();
 	const initialValues = { username: '', email: '', password: '' };
+	const { showPassword, handledSetPassword } = useTogglePasswordVisibility();
 
 	const authenticateUserRequest = useCallback(async ({ username, email, password }: IUserData): Promise<HttpResponse<IUserData> | undefined> => {
 		try {
@@ -57,9 +60,15 @@ export const Register: FC = () => {
 								<Input name='email' placeholder={'Email'} {...props} />
 								{errors.email && touched.email ? <ErrorMessageComponent name='email' /> : null}
 							</div>
-							<div className='relative'>
-								<Input name='password' type={InputType.password} placeholder={'Password'} {...props} />
+							<div className='relative flex'>
+								<Input
+									name='password'
+									type={showPassword ? InputType.text : InputType.password}
+									placeholder={'Password'}
+									{...props}
+								/>
 								{errors.password && touched.password ? <ErrorMessageComponent name='password' /> : null}
+								<EyeComponent showPassword={showPassword} handledSetPassword={handledSetPassword} />
 							</div>
 							<Button primary type='submit' isLoading={isLoading}>
 								Uwrórz konto
