@@ -6,7 +6,6 @@ import { ContextMenuOpion, QueryKey, ROUTE } from '../../../enums';
 import { SharingOptions } from '../../SharingOptions/SharingOptions';
 import { useMutation, useQueryClient } from 'react-query';
 import { addInvitationTokenToListAction } from '../../../actions/lists';
-import { ModalVisibilityContext } from '../../../ModalVisibilityProvider';
 import { IList } from '@kkrawczyk/todo-common';
 import { useList } from '../../../hooks/useList';
 import { useRecoilValue } from 'recoil';
@@ -17,6 +16,7 @@ import { AuthContext } from '../../../AuthProvider';
 import toast from 'react-hot-toast';
 import { useHistory } from 'react-router-dom';
 import { buildUrl } from '../../../utils/paths';
+import { modalVisibilityState } from '../../../atoms/modal';
 
 interface ILists {
 	isNavClosed: boolean;
@@ -25,7 +25,7 @@ interface ILists {
 const ListsComponents: FC<ILists> = ({ isNavClosed }) => {
 	const query = useQueryClient();
 	const history = useHistory();
-	const { isVisible } = useContext(ModalVisibilityContext);
+	const isVisible = useRecoilValue(modalVisibilityState);
 	const { getListsLoading, removeListMutation } = useList();
 	const list = useRecoilValue(listsState);
 	const { contextualMenu } = useContext(ContextMenuContext);

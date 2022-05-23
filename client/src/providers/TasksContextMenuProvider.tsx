@@ -4,10 +4,11 @@ import { useMutation, useQueryClient } from 'react-query';
 import { changeTaskImportanceAction, taskInMyDayAction } from '../actions/tasks';
 import { ContextMenuOpion, QueryKey } from '../enums';
 import { IContextMenu } from '../interfaces/app';
-import { ModalVisibilityContext } from '../ModalVisibilityProvider';
 import toast from 'react-hot-toast';
 import { Importance } from '@kkrawczyk/todo-common';
 import { useTasks } from '../hooks/useTasks';
+import { useRecoilState } from 'recoil';
+import { modalVisibilityState } from '../atoms/modal';
 
 export interface TasksContextMenuContextType {
 	tasksContextlMenu: IData | undefined;
@@ -30,7 +31,7 @@ interface ITasksContextMenuProvider {
 
 export const TasksContextMenuProvider: FC<ITasksContextMenuProvider> = ({ children }) => {
 	const [tasksContextlMenu, setTasksContextMenu] = useState<IData | undefined>();
-	const { onShow } = useContext(ModalVisibilityContext);
+	const [isVisible, setIsVisible] = useRecoilState(modalVisibilityState);
 	const query = useQueryClient();
 
 	const { removeTaskMutation, onMarkTaskAsCompleted, onMarkTaskAsInCompleted } = useTasks();
@@ -64,7 +65,6 @@ export const TasksContextMenuProvider: FC<ITasksContextMenuProvider> = ({ childr
 
 	const handleClick = useCallback((event: React.ChangeEvent<HTMLInputElement>, data: IData) => {
 		setTasksContextMenu(data);
-		onShow();
 
 		switch (data?.type) {
 			case ContextMenuOpion.add_to_myday:
@@ -92,6 +92,7 @@ export const TasksContextMenuProvider: FC<ITasksContextMenuProvider> = ({ childr
 				setTasksContextMenu(data);
 				break;
 			case ContextMenuOpion.remove_task:
+				setIsVisible(true);
 				setTasksContextMenu(data);
 				break;
 			default:

@@ -1,24 +1,25 @@
-import { FC, useCallback, useContext, useEffect, useMemo } from 'react';
+import { FC, useCallback, useEffect, useMemo } from 'react';
 import { getDay, getDayName, getMonth, parseUTCtoDate } from '../../utils/date';
 import { TaskDetails } from './TaskDetails';
 import { useTasks } from '../../hooks/useTasks';
-import { ElementVisibilityContext } from '../../providers/ElementVisibilityProvider';
 import { ITask, ITaskStatus } from '@kkrawczyk/todo-common';
 import { Loader, Bell, Calendar, Repeat, FilePlus, Trash2, XSquare } from 'react-feather';
 import { AddTaskToMyDay } from './TaskDetails/AddTaskToMyDay';
 import { useHistory } from 'react-router-dom';
 import { AssignComponent } from './TaskDetails/AssignComponent';
+import { useRecoilState } from 'recoil';
+import { elementVisibilityState } from '../../atoms/elementVisibility';
 
 export const TaskSidebarDetails: FC = () => {
 	const history = useHistory();
-	const { onHide } = useContext(ElementVisibilityContext);
+	const [isElementVisible, setIsElementVisible] = useRecoilState(elementVisibilityState);
 	const { onChangeTaskStatus, taskData, taskDataLoading, removeTaskMutation, changeTaskImportanceMutation } = useTasks();
 
 	const [, url, listId, taskId] = useMemo(() => history.location.pathname.split('/'), [history]);
 
 	useEffect(() => {
 		if (!!listId && !!taskId) return;
-		onHide();
+		setIsElementVisible(false);
 	}, [listId, taskId]);
 
 	const handleClick = useCallback(async (): Promise<void> => {
@@ -27,8 +28,8 @@ export const TaskSidebarDetails: FC = () => {
 	}, [taskData?._id]);
 
 	const onClose = useCallback((): void => {
-		onHide();
-	}, []);
+		setIsElementVisible(false);
+	}, [setIsElementVisible]);
 
 	return (
 		<div className='bg-light-grey w-full p-4 absolute z-20 left-0 right-0 top-12 bottom-0 md:relative md:w-[360px] md:top-0'>

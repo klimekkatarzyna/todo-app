@@ -1,8 +1,9 @@
-import React, { FC, useCallback, useContext, useMemo, useState } from 'react';
+import React, { FC, useCallback, useMemo, useState } from 'react';
 import { createContext } from 'react';
+import { useRecoilState } from 'recoil';
+import { modalVisibilityState } from './atoms/modal';
 import { ContextMenuOpion } from './enums';
 import { IContextMenu } from './interfaces/app';
-import { ModalVisibilityContext } from './ModalVisibilityProvider';
 
 export interface ContextMenuType {
 	setContextMenu: React.Dispatch<React.SetStateAction<IData | undefined>>;
@@ -25,26 +26,29 @@ interface IContextMenuProvider {
 
 export const ContextMenuProvider: FC<IContextMenuProvider> = ({ children }) => {
 	const [contextualMenu, setContextMenu] = useState<IData | undefined>();
-	const { onShow } = useContext(ModalVisibilityContext);
+	const [isVisible, setIsVisible] = useRecoilState(modalVisibilityState);
 
 	const handleClick = useCallback((event: React.ChangeEvent<HTMLInputElement>, data: IData) => {
 		setContextMenu(data);
-		onShow();
 
 		switch (data?.type) {
 			case ContextMenuOpion.remove_list:
 				setContextMenu(data);
+				setIsVisible(true);
 				break;
 			case ContextMenuOpion.remove_group:
+				setIsVisible(true);
 				setContextMenu(data);
 				break;
 			case ContextMenuOpion.edit_group_name:
 				setContextMenu(data);
 				break;
 			case ContextMenuOpion.sharing_options:
+				setIsVisible(true);
 				setContextMenu(data);
 				break;
 			case ContextMenuOpion.leave_list:
+				setIsVisible(true);
 				setContextMenu(data);
 				break;
 			default:

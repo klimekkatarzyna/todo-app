@@ -1,22 +1,23 @@
-import { FC, useCallback, useContext } from 'react';
+import { FC, useCallback } from 'react';
 import { useTasks } from '../../hooks/useTasks';
 import { Loader } from 'react-feather';
 import { ComplitedTasks } from './ComplitedTasks';
 import { InCompletedTasks } from './InCompletedTasks';
 import { ContextMenuOpion } from '../../enums';
 import { ContextualModal } from '../Modal/ContextualModal';
-import { ModalVisibilityContext } from '../../ModalVisibilityProvider';
-import { ElementVisibilityContext } from '../../providers/ElementVisibilityProvider';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { elementVisibilityState } from '../../atoms/elementVisibility';
+import { modalVisibilityState } from '../../atoms/modal';
 
 export const TasksList: FC = () => {
-	const { isVisible } = useContext(ModalVisibilityContext);
+	const isVisible = useRecoilValue(modalVisibilityState);
 	const { getTasksOfCurrentListLoading, removeTaskMutation } = useTasks();
-	const { onHide } = useContext(ElementVisibilityContext);
+	const [isElementVisible, setIsElementVisible] = useRecoilState(elementVisibilityState);
 
 	const onRemoveTask = useCallback(async (): Promise<void> => {
 		await removeTaskMutation();
-		onHide();
-	}, []);
+		setIsElementVisible(false);
+	}, [setIsElementVisible]);
 
 	return (
 		<div className='overflow-y-scroll h-full max-h-[80vh]'>

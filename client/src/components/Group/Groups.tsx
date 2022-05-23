@@ -3,12 +3,13 @@ import { ContextMenuOpion, QueryKey } from '../../enums';
 import { IGroup } from '@kkrawczyk/todo-common';
 import { ContextualModal } from '../Modal/ContextualModal';
 import { Group } from './Group';
-import { ModalVisibilityContext } from '../../ModalVisibilityProvider';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { deleteGroup, getGroups } from '../../actions/groups';
 import { Loader } from 'react-feather';
 import { ContextMenuContext } from '../../ContextMenuProvider';
 import toast from 'react-hot-toast';
+import { useRecoilValue } from 'recoil';
+import { modalVisibilityState } from '../../atoms/modal';
 
 interface IGroupsProps {
 	isNavClosed: boolean;
@@ -16,7 +17,7 @@ interface IGroupsProps {
 
 export const Groups: FC<IGroupsProps> = ({ isNavClosed }) => {
 	const query = useQueryClient();
-	const { isVisible } = useContext(ModalVisibilityContext);
+	const isVisible = useRecoilValue(modalVisibilityState);
 	const { contextualMenu } = useContext(ContextMenuContext);
 
 	const { isLoading: getGroupsLoading, data } = useQuery<IGroup[] | undefined>(QueryKey.groups, getGroups, {

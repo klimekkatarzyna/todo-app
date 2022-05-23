@@ -3,10 +3,11 @@ import { ContextMenuTrigger } from 'react-contextmenu';
 import { IinitialDnDState } from '../../../hooks/useDragAndDrop';
 import { ContextMenuComponent } from '../../ContextMenu/ContextMenuComponent';
 import { TaskDetails } from '../TaskDetails';
-import { ElementVisibilityContext } from '../../../providers/ElementVisibilityProvider';
 import { ITask } from '@kkrawczyk/todo-common';
 import { useBuidContextTaskMenu } from '../../../hooks/useBuildContextTaskMenu';
 import { TasksContextMenuContext } from '../../../providers/TasksContextMenuProvider';
+import { useRecoilState } from 'recoil';
+import { elementVisibilityState } from '../../../atoms/elementVisibility';
 
 interface ITaskItem {
 	task: ITask;
@@ -36,13 +37,13 @@ export const TaskItem: FC<ITaskItem> = ({
 	redirectTo,
 }) => {
 	const { handleClick } = useContext(TasksContextMenuContext);
-	const { onShow } = useContext(ElementVisibilityContext);
+	const [isElementVisible, setIsElementVisible] = useRecoilState(elementVisibilityState);
 	const isDragAndDrop = useMemo(() => (dragAndDrop?.draggedTo !== 0 && dragAndDrop?.draggedTo === Number(index) ? true : false), [dragAndDrop]);
 	const { taskMenuListItems } = useBuidContextTaskMenu(task);
 
 	const onSelectTask = useCallback((): void => {
-		onShow();
-	}, [onShow]);
+		setIsElementVisible(true);
+	}, [setIsElementVisible]);
 
 	return (
 		<>
