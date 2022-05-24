@@ -5,7 +5,7 @@ import { Button } from '../Button/Button';
 import { Input } from '../Input/Input';
 
 interface IShareLink {
-	listDataResponse: IList;
+	listDataResponse: IList | undefined;
 }
 
 export const ShareLink: FC<IShareLink> = ({ listDataResponse }) => {

@@ -7,7 +7,7 @@ import { Groups } from './Group/Groups';
 import { Menu } from 'react-feather';
 
 export const Sidebar: FC = () => {
-	const [isNavClosed, setIsNavClosed] = useState(false);
+	const [isNavClosed, setIsNavClosed] = useState<boolean>(false);
 
 	const handleClick = useCallback(() => {
 		setIsNavClosed(!isNavClosed);

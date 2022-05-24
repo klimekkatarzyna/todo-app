@@ -8,7 +8,7 @@ import { QueryKey, ROUTE } from '../../enums';
 import toast from 'react-hot-toast';
 
 interface IAccessManagementProps {
-	listDataResponse: IList;
+	listDataResponse: IList | undefined;
 	onPrevStep: () => void;
 }
 

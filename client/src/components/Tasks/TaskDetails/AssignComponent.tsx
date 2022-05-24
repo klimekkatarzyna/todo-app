@@ -1,4 +1,4 @@
-import { FC, useCallback, useContext } from 'react';
+import { FC, useContext } from 'react';
 import { Loader } from 'react-feather';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { QueryKey } from '../../../enums';
@@ -35,19 +35,12 @@ export const AssignComponent: FC<IAssignComponentrops> = ({ listId, taskId, task
 			query.invalidateQueries([QueryKey.getAssignedTasks]);
 			query.invalidateQueries([QueryKey.tasksList]);
 			toast.success('Zadanie przypisane');
+			setIsVisible(false);
 		},
 		onError: error => {
 			toast.error(`Coś poszlo nie tak: ${error}`);
 		},
 	});
-
-	const assignToTask = useCallback(
-		member => {
-			mutate({ _id: taskId, assigned: member });
-			setIsVisible(false);
-		},
-		[taskId]
-	);
 
 	return (
 		<>
@@ -59,14 +52,14 @@ export const AssignComponent: FC<IAssignComponentrops> = ({ listId, taskId, task
 				<Modal title='Przydziel do' onHandleAction={() => setIsVisible(false)} isActionButtonHidden>
 					<h3 className='text-darkerGrey text-sm mb-4'>Członkowie listy</h3>
 					{assignLoading && <Loader />}
-					<button className='flex items-center w-full' onClick={() => assignToTask(authData?._id)}>
+					<button className='flex items-center w-full' onClick={() => authData?._id}>
 						<DisplayMember member={authData?._id} />
 						<span className='text-darkerGrey ml-auto text-xs absolute right-5'>{'przydziel do mnie'}</span>
 					</button>
 					{data?.members?.map(member => (
 						<button
 							className='flex flex-row items-center p-1 hover:bg-hoverColor cursor-pointer w-full'
-							onClick={() => assignToTask(member)}>
+							onClick={() => mutate({ _id: taskId, assigned: member })}>
 							<DisplayMember member={member} />
 						</button>
 					))}

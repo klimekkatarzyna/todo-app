@@ -10,7 +10,7 @@ import { TitleForm } from '../../TitleForm';
 export const CreateList: FC = () => {
 	const query = useQueryClient();
 
-	const { mutate, isLoading, error } = useMutation(createListAction, {
+	const { mutateAsync, isLoading, error } = useMutation(createListAction, {
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.lists]);
 			toast.success('Lista dodana');
@@ -19,7 +19,7 @@ export const CreateList: FC = () => {
 
 	const onSubmit = useCallback(async (values: ICreateListValue, { resetForm }) => {
 		const title = isStringContainsWhitespace(values.title) ? 'Lista bez tytułu' : values.title;
-		await mutate({ title });
+		await mutateAsync({ title });
 		resetForm();
 		//TODO: redirect on created list
 	}, []);

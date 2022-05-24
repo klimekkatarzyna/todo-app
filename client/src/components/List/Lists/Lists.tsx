@@ -5,7 +5,6 @@ import { ContextualModal } from '../../Modal/ContextualModal';
 import { ContextMenuOpion, QueryKey, ROUTE } from '../../../enums';
 import { SharingOptions } from '../../SharingOptions/SharingOptions';
 import { useMutation, useQueryClient } from 'react-query';
-import { addInvitationTokenToListAction } from '../../../actions/lists';
 import { IList } from '@kkrawczyk/todo-common';
 import { useList } from '../../../hooks/useList';
 import { useRecoilValue } from 'recoil';
@@ -31,15 +30,9 @@ const ListsComponents: FC<ILists> = ({ isNavClosed }) => {
 	const { contextualMenu } = useContext(ContextMenuContext);
 	const { authData } = useContext(AuthContext);
 
-	const { mutate: addInvitationTokenToListMutation, isLoading: addInvitationTokenToListLoading } = useMutation(addInvitationTokenToListAction, {
-		onSuccess: () => {
-			query.invalidateQueries([QueryKey.getListById]);
-		},
-	});
-
-	const removeList = useCallback(() => {
+	const removeList = useCallback(async () => {
 		if (contextualMenu?.type !== ContextMenuOpion.remove_list) return;
-		removeListMutation({ _id: contextualMenu?.elementId });
+		await removeListMutation({ _id: contextualMenu?.elementId });
 		history.push(buildUrl(ROUTE.listsDetails, { listId: list?.[0]?._id || '' }));
 	}, [contextualMenu]);
 
@@ -54,10 +47,6 @@ const ListsComponents: FC<ILists> = ({ isNavClosed }) => {
 		},
 	});
 
-	const onUpdateMembersList = useCallback(() => {
-		mutate({ _id: contextualMenu?.elementId, member: authData?._id });
-	}, [contextualMenu, authData]);
-
 	return (
 		<>
 			<div className='flex flex-col text-base'>
@@ -71,16 +60,13 @@ const ListsComponents: FC<ILists> = ({ isNavClosed }) => {
 			)}
 			{isVisible && (
 				<ContextualModal title='' onHandleAction={() => {}} contextualType={ContextMenuOpion.sharing_options} isActionButtonHidden>
-					<SharingOptions
-						addInvitationTokenToListLoading={addInvitationTokenToListLoading}
-						addInvitationTokenToListMutation={addInvitationTokenToListMutation}
-					/>
+					<SharingOptions />
 				</ContextualModal>
 			)}
 			{isVisible && (
 				<ContextualModal
 					title='Czy chcesz opuścić tę listę?'
-					onHandleAction={onUpdateMembersList}
+					onHandleAction={() => mutate({ _id: contextualMenu?.elementId, member: authData?._id })}
 					contextualType={ContextMenuOpion.leave_list}
 				/>
 			)}

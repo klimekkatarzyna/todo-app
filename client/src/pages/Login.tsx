@@ -33,17 +33,16 @@ export const Login: FC = () => {
 				history.push(redirectUrl);
 				setAuthData(response?.body);
 			}
-
 			return response;
 		} catch (error) {
 			console.error(error);
 		}
 	}, []);
 
-	const { mutate, isLoading, data } = useMutation(loginRequest);
+	const { mutateAsync, isLoading, data } = useMutation(loginRequest);
 
 	const onSubmit = useCallback(async (values: LoginValidationType, { resetForm }) => {
-		await mutate({ email: values.email, password: values.password });
+		await mutateAsync({ email: values.email, password: values.password });
 		resetForm();
 	}, []);
 

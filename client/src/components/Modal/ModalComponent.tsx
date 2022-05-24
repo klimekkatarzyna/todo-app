@@ -1,7 +1,6 @@
-import React, { FC, useCallback, useContext, useEffect } from 'react';
+import React, { FC, useCallback, useEffect } from 'react';
 import { Button } from '../Button/Button';
 import { X } from 'react-feather';
-import { IData } from '../../ContextMenuProvider';
 
 interface IModalComponentProps<T> {
 	children?: React.ReactNode;
@@ -10,7 +9,6 @@ interface IModalComponentProps<T> {
 	onHandleAction: () => void;
 	isActionButtonHidden?: boolean;
 	isLoading?: boolean;
-	setContextMenu?: React.Dispatch<React.SetStateAction<IData | undefined>>;
 }
 
 export const ModalComponent: FC<IModalComponentProps<unknown>> = ({
@@ -20,7 +18,6 @@ export const ModalComponent: FC<IModalComponentProps<unknown>> = ({
 	onHandleAction,
 	isActionButtonHidden = false,
 	isLoading,
-	setContextMenu,
 }) => {
 	useEffect(() => {
 		const listener = (event: KeyboardEvent) => {
@@ -38,7 +35,6 @@ export const ModalComponent: FC<IModalComponentProps<unknown>> = ({
 		const listener = (event: KeyboardEvent) => {
 			if (event.code === 'Escape') {
 				onHide();
-				setContextMenu?.(undefined);
 			}
 		};
 		document.addEventListener('keydown', listener);
@@ -50,7 +46,6 @@ export const ModalComponent: FC<IModalComponentProps<unknown>> = ({
 	const onHandleActionAndClose = useCallback(() => {
 		onHandleAction();
 		onHide();
-		setContextMenu?.(undefined);
 	}, []);
 
 	return (

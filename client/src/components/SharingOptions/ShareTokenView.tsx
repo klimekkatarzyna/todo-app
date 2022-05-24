@@ -10,7 +10,7 @@ import { useRecoilValue } from 'recoil';
 import { modalVisibilityState } from '../../atoms/modal';
 interface IShareTokenViewProps {
 	onNextStep: () => void;
-	listDataResponse: IList;
+	listDataResponse: IList | undefined;
 }
 
 export const ShareTokenView: FC<IShareTokenViewProps> = ({ onNextStep, listDataResponse }) => {

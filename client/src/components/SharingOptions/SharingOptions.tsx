@@ -3,19 +3,16 @@ import { ContextMenuContext } from '../../ContextMenuProvider';
 import { useGenerateInvitationToken } from '../../hooks/useGenerateInvitationToken';
 import { GenerateTokenView } from './GenerateTokenView';
 import { ShareTokenView } from './ShareTokenView';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { AuthContext, AuthContextType } from '../../AuthProvider';
 import { AccessManagement } from './AccessManagement';
 import { getListByIdAction } from '../../actions/sharing';
 import { IList } from '@kkrawczyk/todo-common';
 import { QueryKey } from '../../enums';
+import { addInvitationTokenToListAction } from '../../actions/lists';
 
-interface ISharingOptionsProps {
-	addInvitationTokenToListLoading: boolean;
-	addInvitationTokenToListMutation: ({ _id, invitationToken, owner }: IList) => void;
-}
-
-export const SharingOptions: FC<ISharingOptionsProps> = ({ addInvitationTokenToListLoading, addInvitationTokenToListMutation }) => {
+export const SharingOptions: FC = () => {
+	const query = useQueryClient();
 	const { authData } = useContext<AuthContextType>(AuthContext);
 	const { contextualMenu } = useContext(ContextMenuContext);
 	const { invitationToken, onGenerateInvitationToken } = useGenerateInvitationToken();
@@ -27,11 +24,22 @@ export const SharingOptions: FC<ISharingOptionsProps> = ({ addInvitationTokenToL
 		{ enabled: !!contextualMenu?.elementId }
 	);
 
+	const { mutateAsync: addInvitationTokenToListMutation, isLoading: addInvitationTokenToListLoading } = useMutation(
+		addInvitationTokenToListAction,
+		{
+			onSuccess: () => {
+				query.invalidateQueries([QueryKey.getListById]);
+			},
+		}
+	);
+
 	useEffect(() => {
 		// TODO: zle sie wyswietla kto jest ownerem po stronie zaproszonej osoby bo caly czas leci ten endpoint  fix me!
-		if (!!data?.invitationToken) return;
-		addInvitationTokenToListMutation({ _id: contextualMenu?.elementId, invitationToken: invitationToken, owner: authData?.email });
-	}, [contextualMenu?.elementId, invitationToken]);
+		(async () => {
+			if (!invitationToken) return;
+			await addInvitationTokenToListMutation({ _id: contextualMenu?.elementId, invitationToken: invitationToken, owner: authData?.email });
+		})();
+	}, [contextualMenu?.elementId, data?.invitationToken, invitationToken]);
 
 	const onNextStep = useCallback(() => {
 		setStep(step + 1);
@@ -43,7 +51,7 @@ export const SharingOptions: FC<ISharingOptionsProps> = ({ addInvitationTokenToL
 
 	return (
 		<div>
-			{!!data?.invitationToken ? (
+			{!!data?.invitationToken || !!invitationToken ? (
 				<>
 					{step === 1 && <ShareTokenView onNextStep={onNextStep} listDataResponse={data} />}
 					{step === 2 && <AccessManagement listDataResponse={data} onPrevStep={onPrevStep} />}

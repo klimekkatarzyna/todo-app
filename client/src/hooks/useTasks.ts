@@ -29,7 +29,7 @@ export const useTasks = () => {
 	const [completedTaskslist, setComplitedTasksList] = useRecoilState(completedTasksListState);
 	const { sorter } = useSort<ITask>();
 
-	const { mutate: changeTaskImportanceMutation } = useMutation(changeTaskImportanceAction, {
+	const { mutateAsync: changeTaskImportanceMutation } = useMutation(changeTaskImportanceAction, {
 		onSuccess: () => {
 			query.invalidateQueries(QueryKey.getImportanceTasks);
 			query.invalidateQueries(QueryKey.tasksOfCurrentList);
@@ -58,7 +58,7 @@ export const useTasks = () => {
 		{ enabled: !!taskId }
 	);
 
-	const { mutate: removeTaskMutation, isError } = useMutation(
+	const { mutateAsync: removeTaskMutation, isError } = useMutation(
 		() => deleteTaskAction({ _id: tasksContextlMenu?.elementId || taskId, parentFolderId: taskData?.parentFolderId }),
 		{
 			onSuccess: () => {
@@ -86,7 +86,7 @@ export const useTasks = () => {
 		setSort(state => ({ ...state, key: property[0], keyType: property[1] }));
 	}, []);
 
-	const { mutate: changeTaskStatusMutation } = useMutation(changeTaskStatusAction, {
+	const { mutateAsync: changeTaskStatusMutation } = useMutation(changeTaskStatusAction, {
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.tasksOfCurrentList]);
 			query.invalidateQueries([QueryKey.getImportanceTasks]);
@@ -100,16 +100,16 @@ export const useTasks = () => {
 		},
 	});
 
-	const onMarkTaskAsCompleted = useCallback((_id: string | undefined): void => {
-		changeTaskStatusMutation({
+	const onMarkTaskAsCompleted = useCallback(async (_id: string | undefined) => {
+		await changeTaskStatusMutation({
 			_id: _id,
 			taskStatus: ITaskStatus.complete,
 			parentFolderId: listId,
 		});
 	}, []);
 
-	const onMarkTaskAsInCompleted = useCallback((_id: string | undefined): void => {
-		changeTaskStatusMutation({
+	const onMarkTaskAsInCompleted = useCallback(async (_id: string | undefined) => {
+		await changeTaskStatusMutation({
 			_id: _id,
 			taskStatus: ITaskStatus.inComplete,
 			parentFolderId: listId,

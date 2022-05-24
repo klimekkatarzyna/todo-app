@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useContext, useMemo, useState } from 'react';
+import React, { FC, useCallback, useMemo, useState } from 'react';
 import { createContext } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { changeTaskImportanceAction, taskInMyDayAction } from '../actions/tasks';
@@ -34,7 +34,7 @@ export const TasksContextMenuProvider: FC<ITasksContextMenuProvider> = ({ childr
 	const [isVisible, setIsVisible] = useRecoilState(modalVisibilityState);
 	const query = useQueryClient();
 
-	const { removeTaskMutation, onMarkTaskAsCompleted, onMarkTaskAsInCompleted } = useTasks();
+	const { onMarkTaskAsCompleted, onMarkTaskAsInCompleted } = useTasks();
 
 	const { mutate: taskInMyDayMutation } = useMutation(taskInMyDayAction, {
 		onSuccess: () => {
@@ -63,24 +63,24 @@ export const TasksContextMenuProvider: FC<ITasksContextMenuProvider> = ({ childr
 		},
 	});
 
-	const handleClick = useCallback((event: React.ChangeEvent<HTMLInputElement>, data: IData) => {
+	const handleClick = useCallback(async (event: React.ChangeEvent<HTMLInputElement>, data: IData) => {
 		setTasksContextMenu(data);
 
 		switch (data?.type) {
 			case ContextMenuOpion.add_to_myday:
-				taskInMyDayMutation({ _id: data?.elementId, isMyDay: true });
+				await taskInMyDayMutation({ _id: data?.elementId, isMyDay: true });
 				setTasksContextMenu(data);
 				break;
 			case ContextMenuOpion.remove_from_myday:
-				taskInMyDayMutation({ _id: data?.elementId, isMyDay: false });
+				await taskInMyDayMutation({ _id: data?.elementId, isMyDay: false });
 				setTasksContextMenu(data);
 				break;
 			case ContextMenuOpion.mark_as_important:
-				changeTaskImportanceMutation({ _id: data?.elementId, parentFolderId: data?.listId, importance: Importance.high });
+				await changeTaskImportanceMutation({ _id: data?.elementId, parentFolderId: data?.listId, importance: Importance.high });
 				setTasksContextMenu(data);
 				break;
 			case ContextMenuOpion.remove_importance:
-				changeTaskImportanceMutation({ _id: data?.elementId, parentFolderId: data?.listId, importance: Importance.normal });
+				await changeTaskImportanceMutation({ _id: data?.elementId, parentFolderId: data?.listId, importance: Importance.normal });
 				setTasksContextMenu(data);
 				break;
 			case ContextMenuOpion.mark_as_complete:

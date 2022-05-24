@@ -7,15 +7,11 @@ import { QueryKey, ROUTE } from '../enums';
 import { getAssignedTasksAction } from '../actions/tasks';
 import { AuthContext, AuthContextType } from '../AuthProvider';
 import { Loader } from 'react-feather';
-import { TaskItem } from '../components/Tasks/TaskItem/TaskItem';
-import { useTasks } from '../hooks/useTasks';
-import { useDragAndDrop } from '../hooks/useDragAndDrop';
 import { buildUrl } from '../utils/paths';
+import { TasksList } from '../components/Tasks/TasksList';
 
 export const Assigned: FC = () => {
 	const { authData } = useContext<AuthContextType>(AuthContext);
-	const { inCompletedTaskslist, setInCompletedTasksList, onChangeTaskStatus, changeTaskImportanceMutation } = useTasks();
-	const { onDragStart, onDragOver, onDragLeave, onDrop, dragAndDrop } = useDragAndDrop(inCompletedTaskslist, setInCompletedTasksList);
 	const { data, isLoading } = useQuery<ITask[] | undefined>(
 		[QueryKey.getAssignedTasks, authData?._id],
 		() => getAssignedTasksAction({ assigned: authData?._id }),
@@ -25,25 +21,7 @@ export const Assigned: FC = () => {
 	return (
 		<Board>
 			<Toolbar name={'Przypisane do mnie'} colorType={'green'} />
-			{isLoading ? (
-				<Loader className='m-auto' />
-			) : (
-				data?.map((task, index) => (
-					<TaskItem
-						key={task._id}
-						task={task}
-						index={index}
-						redirectTo={`${buildUrl(ROUTE.assigned)}/`}
-						dragAndDrop={dragAndDrop}
-						onDragStart={onDragStart}
-						onDragOver={onDragOver}
-						onDrop={onDrop}
-						onDragLeave={onDragLeave}
-						onChangeTaskStatus={onChangeTaskStatus}
-						changeTaskImportance={changeTaskImportanceMutation}
-					/>
-				))
-			)}
+			{isLoading ? <Loader className='m-auto' /> : <TasksList tasks={data} redirectUrl={`${buildUrl(ROUTE.assigned)}/`} />}
 		</Board>
 	);
 };

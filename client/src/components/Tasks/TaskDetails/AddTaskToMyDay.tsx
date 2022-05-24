@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { taskInMyDayAction } from '../../../actions/tasks';
 import { Sun, X, Loader } from 'react-feather';
 import { useMutation, useQueryClient } from 'react-query';
@@ -21,21 +21,17 @@ export const AddTaskToMyDay: FC<IAddTaskToMyDay> = ({ taskData }) => {
 			query.invalidateQueries([QueryKey.getMyDayTasks]);
 			query.invalidateQueries([QueryKey.tasksList]);
 			toast.success(taskData?.isMyDay ? 'Zadanie usunięte z widoku "Mój dzień"' : 'Zadanie dodane do "Mój dzień');
+			setIsMyDayTask(!isMyDayTask);
 		},
 		onError: error => {
 			toast.error(`Coś poszlo nie tak: ${error}`);
 		},
 	});
 
-	const onHandleTaskInMyDayView = useCallback(async () => {
-		setIsMyDayTask(!isMyDayTask);
-		await mutate({ _id: taskData?._id, isMyDay: isMyDayTask });
-	}, [taskData?._id, isMyDayTask]);
-
 	return (
 		<div className='task-details-style mb-6'>
 			{isLoading && <Loader />}
-			<button className='task-details-button-style' onClick={onHandleTaskInMyDayView}>
+			<button className='task-details-button-style' onClick={() => mutate({ _id: taskData?._id, isMyDay: isMyDayTask })}>
 				<Sun className='mr-2 icon-style' />
 				{taskData?.isMyDay ? (
 					<>

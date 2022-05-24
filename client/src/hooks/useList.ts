@@ -18,7 +18,7 @@ export const useList = () => {
 		setList(data);
 	}, [data]);
 
-	const { mutate: removeListMutation } = useMutation(deleteListAction, {
+	const { mutateAsync: removeListMutation } = useMutation(deleteListAction, {
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.lists]);
 			toast.success('Lista usunięta');

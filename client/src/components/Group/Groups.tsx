@@ -24,7 +24,7 @@ export const Groups: FC<IGroupsProps> = ({ isNavClosed }) => {
 		useErrorBoundary: true,
 	});
 
-	const { mutate, error, isLoading } = useMutation(deleteGroup, {
+	const { mutateAsync, error, isLoading } = useMutation(deleteGroup, {
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.groups]);
 			toast.success('Grupa usunięta');
@@ -34,9 +34,9 @@ export const Groups: FC<IGroupsProps> = ({ isNavClosed }) => {
 		},
 	});
 
-	const onRemoveGroup = useCallback(() => {
+	const onRemoveGroup = useCallback(async () => {
 		if (contextualMenu?.type !== ContextMenuOpion.remove_group) return;
-		mutate({ _id: contextualMenu?.elementId });
+		await mutateAsync({ _id: contextualMenu?.elementId });
 	}, [contextualMenu]);
 
 	return (

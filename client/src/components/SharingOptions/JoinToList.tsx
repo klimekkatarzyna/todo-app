@@ -1,4 +1,4 @@
-import { FC, useCallback } from 'react';
+import { FC } from 'react';
 import { Loader } from 'react-feather';
 import { useHistory } from 'react-router-dom';
 import { useMutation, useQueryClient } from 'react-query';
@@ -20,13 +20,9 @@ export const JoinToList: FC<IJoinToList> = ({ listDataLoading, list }) => {
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.checkSession]);
 			query.invalidateQueries([QueryKey.lists]);
+			history.push(buildUrl(ROUTE.listsDetails, { listId: list?.listData._id || '' }));
 		},
 	});
-
-	const addUserToMemberOfList = useCallback(() => {
-		mutate(getStringAfterCharacter(history.location.search, '='));
-		history.push(buildUrl(ROUTE.listsDetails, { listId: list?.listData._id || '' }));
-	}, [list]);
 
 	return (
 		<>
@@ -37,7 +33,7 @@ export const JoinToList: FC<IJoinToList> = ({ listDataLoading, list }) => {
 				<strong>{`${list?.listData?.title}`}</strong>
 			</p>
 
-			<Button primary onClick={addUserToMemberOfList}>
+			<Button primary onClick={() => mutate(getStringAfterCharacter(history.location.search, '='))}>
 				{'Dołącz do listy'}
 				{isLoading && <Loader className='ml-2' />}
 			</Button>

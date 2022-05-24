@@ -16,7 +16,7 @@ export const CreateGroup: FC = () => {
 
 	const initialValues: IGroup = { title: '' };
 
-	const { mutate, error, isLoading } = useMutation(createGroup, {
+	const { mutateAsync, error, isLoading } = useMutation(createGroup, {
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.groups]);
 			toast.success('Grupa utworzona');
@@ -28,7 +28,7 @@ export const CreateGroup: FC = () => {
 
 	const onSubmit = useCallback(async (values: CreateEditGroupType, { resetForm }) => {
 		const title = isStringContainsWhitespace(values.title) ? 'Nowa grupa' : values.title;
-		await mutate({ title });
+		await mutateAsync({ title });
 		resetForm();
 		toggleDropdown();
 	}, []);

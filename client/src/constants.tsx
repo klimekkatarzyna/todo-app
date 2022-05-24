@@ -1,6 +1,6 @@
 import { IContextMenu } from './interfaces/app';
 import { ContextMenuOpion } from './enums';
-import { LogOut, Users, Edit2, Calendar, Star, Sun, Trash2, FileMinus, Copy, CheckCircle, Plus } from 'react-feather';
+import { LogOut, Users, Edit2, Trash2, FileMinus, Copy, Plus } from 'react-feather';
 
 export const contextualMenuSecountOpion: IContextMenu[] = [
 	{

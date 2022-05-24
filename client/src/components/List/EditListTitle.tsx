@@ -18,7 +18,7 @@ export const EditListTitle: FC<IEditListTitleProps> = ({ title }) => {
 	const query = useQueryClient();
 	const { listId } = useParams<IUseParams>();
 
-	const { mutate, isLoading } = useMutation(editListAction, {
+	const { mutateAsync, isLoading } = useMutation(editListAction, {
 		onSuccess: () => {
 			query.invalidateQueries(QueryKey.getListById);
 			query.invalidateQueries(QueryKey.lists);
@@ -36,7 +36,7 @@ export const EditListTitle: FC<IEditListTitleProps> = ({ title }) => {
 	const onSubmit = useCallback(
 		async (values: CreateEditListType, { resetForm }) => {
 			if (isStringContainsWhitespace(values.title)) return;
-			await mutate({ _id: listId, title: values.title });
+			await mutateAsync({ _id: listId, title: values.title });
 			resetForm();
 		},
 		[listId]

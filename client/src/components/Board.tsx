@@ -7,11 +7,6 @@ interface IBoard {
 	children: React.ReactNode;
 }
 
-// export const BackgroundLines = styled.div`
-
-// 	background: linear-gradient(180deg, white, white 52px, #e5e5e5 52px, #e5e5e5 52px);
-// `;
-
 export const Board: FC<IBoard> = ({ children }) => {
 	const isElementVisible = useRecoilValue(elementVisibilityState);
 

@@ -13,7 +13,7 @@ export const CreateTask = () => {
 	const query = useQueryClient();
 	const { listId } = useParams<IUseParams>();
 
-	const { mutate, isLoading } = useMutation(createTaskAction, {
+	const { mutateAsync, isLoading } = useMutation(createTaskAction, {
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.tasksOfCurrentList]);
 			toast.success('Zadanie dodane');
@@ -28,7 +28,7 @@ export const CreateTask = () => {
 	const onSubmit = useCallback(
 		async (values: CreateEditTaskType, { resetForm }) => {
 			if (isStringContainsWhitespace(values.title)) return;
-			await mutate({
+			await mutateAsync({
 				title: values.title,
 				parentFolderId: listId,
 				themeColor: AppColorTypeEnum.blue,

@@ -32,6 +32,8 @@ export const ContextualModal: FC<IContextualModalProps<unknown>> = ({
 
 	const onHide = useCallback(() => {
 		setIsVisible(false);
+		setTasksContextMenu(undefined);
+		setContextMenu(undefined);
 	}, [setIsVisible]);
 
 	const modal = (
@@ -42,7 +44,6 @@ export const ContextualModal: FC<IContextualModalProps<unknown>> = ({
 			isActionButtonHidden={isActionButtonHidden}
 			isLoading={isLoading}
 			onHide={onHide}
-			setContextMenu={isTaskAction ? setTasksContextMenu : setContextMenu}
 		/>
 	);
 

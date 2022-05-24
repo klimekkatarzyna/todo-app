@@ -41,9 +41,9 @@ const TaskDetailsComponent: FC<ITaskDetailsProps> = ({
 		onChangeTaskStatus?.(taskData._id);
 	}, [taskData]);
 
-	const onClickImportanceButton = useCallback(() => {
+	const onClickImportanceButton = useCallback(async () => {
 		setIsImportanceButtonChecked(!isImportanceButtonChecked);
-		changeTaskImportance({ parentFolderId: taskData.parentFolderId, _id: taskData._id, importance: importanceType });
+		await changeTaskImportance({ parentFolderId: taskData.parentFolderId, _id: taskData._id, importance: importanceType });
 	}, [isImportanceButtonChecked]);
 
 	const elementRef: RefObject<HTMLInputElement> = useRef(null);
