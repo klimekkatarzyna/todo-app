@@ -1,25 +1,28 @@
-import { useCallback } from 'react';
+import { useCallback, useContext } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
-import { useParams } from 'react-router';
 import { createTaskAction } from '../../actions/tasks';
-import { IUseParams } from '../../interfaces/app';
+import { IQueryError } from '../../interfaces/app';
 import { ITask, createEditTaskSchema, CreateEditTaskType, AppColorTypeEnum } from '@kkrawczyk/todo-common';
 import { isStringContainsWhitespace } from '../../utils/utilsFunctions';
 import { QueryKey } from '../../enums';
 import toast from 'react-hot-toast';
 import { TitleForm } from '../TitleForm';
+import { AuthContext, AuthContextType } from '../../AuthProvider';
+import { useListDetails } from '../../hooks/useListDetails';
 
 export const CreateTask = () => {
 	const query = useQueryClient();
-	const { listId } = useParams<IUseParams>();
+	const { authData } = useContext<AuthContextType>(AuthContext);
+	const { members, parentFolderId } = useListDetails();
+	const membersArray = [authData?._id].concat(members);
 
 	const { mutateAsync, isLoading } = useMutation(createTaskAction, {
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.tasksOfCurrentList]);
 			toast.success('Zadanie dodane');
 		},
-		onError: error => {
-			toast.error(`Coś poszlo nie tak: ${error}`);
+		onError: (error: IQueryError) => {
+			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 
@@ -30,12 +33,14 @@ export const CreateTask = () => {
 			if (isStringContainsWhitespace(values.title)) return;
 			await mutateAsync({
 				title: values.title,
-				parentFolderId: listId,
+				parentFolderId,
 				themeColor: AppColorTypeEnum.blue,
+				createdBy: authData?._id,
+				members: membersArray as string[],
 			});
 			resetForm();
 		},
-		[listId]
+		[parentFolderId]
 	);
 
 	return (

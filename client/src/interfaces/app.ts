@@ -39,3 +39,9 @@ export interface IContextMenu {
 	name: string;
 	target?: ReactElement;
 }
+
+export interface IQueryError {
+	err: {
+		message: string;
+	};
+}

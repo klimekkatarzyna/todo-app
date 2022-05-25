@@ -29,4 +29,6 @@ exports.createEditTaskSchema = (0, yup_1.object)({
     sortType: (0, yup_1.mixed)()
         .oneOf(Object.values(types_1.SortType))
         .optional(),
+    createdBy: (0, yup_1.string)(),
+    members: (0, yup_1.array)().of((0, yup_1.string)()),
 });

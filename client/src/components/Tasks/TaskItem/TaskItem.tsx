@@ -51,7 +51,7 @@ export const TaskItem: FC<ITaskItem> = ({
 				<div
 					className={`${
 						isDragAndDrop && `relative bg-sky-200`
-					} flex items-center relative p-[0.9rem] cursor-pointer shadow-sm hover:bg-lightBlue active:bg-lightBlue`}
+					} flex items-center relative h-[3.5rem] p-[0.9rem] cursor-pointer shadow-sm hover:bg-lightBlue active:bg-lightBlue border-solid border-b-[1px] border-border-500 `}
 					key={index}
 					draggable
 					data-position={index}

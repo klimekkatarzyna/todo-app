@@ -20,6 +20,8 @@ export interface ITask {
   isMyDay?: boolean;
   assigned?: string;
   sortType?: SortType;
+  createdBy?: string;
+  members?: Array<string>;
 }
 
 export type AppColorType = "grey" | "blue" | "red" | "green";

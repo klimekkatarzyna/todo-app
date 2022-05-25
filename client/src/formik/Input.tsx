@@ -41,9 +41,9 @@ export const Input: FC<IInput> = ({
 				</button>
 			)}
 			<Field
-				className={`${className} w-full border-none outline-none text-sm ${colorType === InputVersion.primary ? `bg-inherit` : 'bg-grey'} ${
-					colorType === InputVersion.primary ? 'text-blue' : 'text-white'
-				}`}
+				className={`${className} w-full border-none outline-none text-sm ${
+					colorType === InputVersion.primary ? `bg-white ml-3` : 'bg-grey'
+				} ${colorType === InputVersion.primary ? 'text-blue' : 'text-white'}`}
 				name={name}
 				type={type}
 				readOnly={readOnly}

@@ -1,12 +1,12 @@
 import { FC } from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryCache, QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { AuthProvider } from './AuthProvider';
 import BrowserRouter from './Router';
 import { ContextMenuProvider } from './ContextMenuProvider';
 import { SocketProvider } from './providers/SocketProvider';
 import { RecoilRoot } from 'recoil';
-import { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import { TasksContextMenuProvider } from './providers/TasksContextMenuProvider';
 
 const queryClient = new QueryClient({
@@ -15,6 +15,9 @@ const queryClient = new QueryClient({
 			refetchOnWindowFocus: false,
 		},
 	},
+	queryCache: new QueryCache({
+		onError: error => toast.error(`Something went wrong: ${error}`),
+	}),
 });
 
 const App: FC = () => {
