@@ -20,6 +20,8 @@ export const RemoveAssignment: FC<IRemoveAssignmentProps> = ({ taskData }) => {
 			query.invalidateQueries([QueryKey.getTask]);
 			query.invalidateQueries([QueryKey.getAssignedTasks]);
 			query.invalidateQueries([QueryKey.tasksList]);
+			query.invalidateQueries([QueryKey.getMyDayTasks]);
+			query.invalidateQueries([QueryKey.getImportanceTasks]);
 			toast.success('Przypisanie usunięte');
 		},
 		onError: error => {

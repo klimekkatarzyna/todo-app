@@ -42,6 +42,7 @@ export const TasksContextMenuProvider: FC<ITasksContextMenuProvider> = ({ childr
 			query.invalidateQueries(QueryKey.getTask);
 			query.invalidateQueries(QueryKey.getMyDayTasks);
 			query.invalidateQueries(QueryKey.getImportanceTasks);
+			query.invalidateQueries(QueryKey.getAssignedTasks);
 			toast.success('Zadanie usunięte z widoku "Mój dzień"');
 		},
 		onError: error => {

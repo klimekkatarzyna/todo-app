@@ -51,8 +51,8 @@ const ListsComponents: FC<ILists> = ({ isNavClosed }) => {
 		<>
 			<div className='flex flex-col text-base'>
 				{getListsLoading && <Loader className='m-auto' />}
-				{list?.map((list: IList) => (
-					<MenuListItem key={list?._id} listItem={list} isNavClosed={isNavClosed} />
+				{list?.map((list: IList, index: number) => (
+					<MenuListItem key={index} listItem={list} isNavClosed={isNavClosed} />
 				))}
 			</div>
 			{isVisible && (

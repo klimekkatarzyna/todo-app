@@ -1,12 +1,10 @@
-import { FC, useContext } from 'react';
+import { FC, useCallback, useContext, useState } from 'react';
 import { Loader } from 'react-feather';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { QueryKey } from '../../../enums';
 import { getListByIdAction } from '../../../actions/lists';
 import { IList, ITask } from '@kkrawczyk/todo-common';
 import { Modal } from '../../Modal/Modal';
-import { useRecoilState } from 'recoil';
-import { modalVisibilityState } from '../../../atoms/modal';
 import { DisplayMember } from '../../SharingOptions/DisplayMember';
 import { AuthContext, AuthContextType } from '../../../AuthProvider';
 import toast from 'react-hot-toast';
@@ -25,7 +23,7 @@ export const AssignComponent: FC<IAssignComponentrops> = ({ listId, taskId, task
 	const { data, isLoading } = useQuery<IList | undefined>([QueryKey.getListById, listId], () => getListByIdAction({ _id: listId }), {
 		enabled: !!listId,
 	});
-	const [isVisible, setIsVisible] = useRecoilState(modalVisibilityState);
+	const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 	const { authData } = useContext<AuthContextType>(AuthContext);
 
 	const { mutate, isLoading: assignLoading } = useMutation(assignUserToTaskAction, {
@@ -34,25 +32,31 @@ export const AssignComponent: FC<IAssignComponentrops> = ({ listId, taskId, task
 			query.invalidateQueries([QueryKey.getTask]);
 			query.invalidateQueries([QueryKey.getAssignedTasks]);
 			query.invalidateQueries([QueryKey.tasksList]);
+			query.invalidateQueries([QueryKey.getMyDayTasks]);
+			query.invalidateQueries([QueryKey.getImportanceTasks]);
 			toast.success('Zadanie przypisane');
-			setIsVisible(false);
+			setIsModalVisible(false);
 		},
 		onError: error => {
 			toast.error(`Coś poszlo nie tak: ${error}`);
 		},
 	});
 
+	const onHide = useCallback(() => {
+		setIsModalVisible(false);
+	}, [setIsModalVisible]);
+
 	return (
 		<>
 			{isLoading && <Loader />}
-			{!!data?.members?.length && !taskData?.assigned && <AssignUser taskData={taskData} />}
+			{!!data?.members?.length && !taskData?.assigned && <AssignUser onHandleAction={() => setIsModalVisible(true)} />}
 			{taskData?.assigned && <RemoveAssignment taskData={taskData} />}
 
-			{isVisible && (
-				<Modal title='Przydziel do' onHandleAction={() => setIsVisible(false)} isActionButtonHidden>
+			{isModalVisible && (
+				<Modal title='Przydziel do' onHandleAction={() => setIsModalVisible(false)} isActionButtonHidden onHide={onHide}>
 					<h3 className='text-darkerGrey text-sm mb-4'>Członkowie listy</h3>
 					{assignLoading && <Loader />}
-					<button className='flex items-center w-full' onClick={() => authData?._id}>
+					<button className='flex items-center w-full' onClick={() => mutate({ _id: taskId, assigned: authData?._id })}>
 						<DisplayMember member={authData?._id} />
 						<span className='text-darkerGrey ml-auto text-xs absolute right-5'>{'przydziel do mnie'}</span>
 					</button>
