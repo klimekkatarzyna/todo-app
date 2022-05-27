@@ -38,9 +38,9 @@ export const Register: FC = () => {
 
 	return (
 		<div className='bg-light-grey w-full flex items-center justify-center'>
-			<div className='bg-white flex items-center flex-col p-8 w-80'>
-				<h2 className='text-blue text-lg font-semibold mb-2'>Rejestrowanie</h2>
-				<p>
+			<div className='flex items-center flex-col p-8'>
+				<h2 className='text-fontColor mt-6 text-center text-3xl font-extrabold mb-2'>Utwórz konto w TODO app</h2>
+				<p className='mt-2 text-center text-sm text-gray-600 mb-4'>
 					Masz konto?{' '}
 					<Link className='text-blue' to={buildUrl(ROUTE.login)}>
 						Zaloguj się
@@ -56,11 +56,11 @@ export const Register: FC = () => {
 								<Input name='username' placeholder={'User name'} {...props} />
 								{errors.username && touched.username ? <ErrorMessageComponent name='username' /> : null}
 							</div>
-							<div className='relative'>
+							<div className='relative flex mt-2'>
 								<Input name='email' placeholder={'Email'} {...props} />
 								{errors.email && touched.email ? <ErrorMessageComponent name='email' /> : null}
 							</div>
-							<div className='relative flex'>
+							<div className='relative flex flex mt-2'>
 								<Input
 									name='password'
 									type={showPassword ? InputType.text : InputType.password}
@@ -70,7 +70,7 @@ export const Register: FC = () => {
 								{errors.password && touched.password ? <ErrorMessageComponent name='password' /> : null}
 								<EyeComponent showPassword={showPassword} handledSetPassword={handledSetPassword} />
 							</div>
-							<Button primary type='submit' isLoading={isLoading}>
+							<Button primary type='submit' isLoading={isLoading} className='w-full'>
 								Uwrórz konto
 							</Button>
 						</Form>

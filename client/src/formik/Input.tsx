@@ -33,7 +33,7 @@ export const Input: FC<IInput> = ({
 	const iconColor: string = useMemo(() => (colorType === InputVersion.primary && !isFocused ? 'text-blue' : 'text-fontColor'), [type, isFocused]);
 
 	return (
-		<div className='flex items-center rounded px-3 py-0 cursor-pointer w-full relative'>
+		<div className='flex items-center rounded py-0 cursor-pointer w-full relative'>
 			{isIcon && (
 				<button type='submit' className='bg-inherit border-none'>
 					<div>{isFocused ? <Circle className={`icon-style ${iconColor}`} /> : <Plus className={`icon-style ${iconColor}`} />}</div>
@@ -41,8 +41,8 @@ export const Input: FC<IInput> = ({
 				</button>
 			)}
 			<Field
-				className={`${className} w-full border-none outline-none text-sm ${
-					colorType === InputVersion.primary ? `bg-white ml-3` : 'bg-grey'
+				className={`${className} w-full outline-none text-sm appearance-none rounded relative block border border-border placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue focus:border-blue focus:z-10 ${
+					colorType === InputVersion.primary ? `bg-white` : 'bg-grey'
 				} ${colorType === InputVersion.primary ? 'text-blue' : 'text-white'}`}
 				name={name}
 				type={type}
