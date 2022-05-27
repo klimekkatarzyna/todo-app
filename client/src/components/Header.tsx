@@ -9,6 +9,7 @@ import { ROUTE } from '../enums';
 import { SearchInput } from '../formik/SearchInput';
 import { buildUrl } from '../utils/paths';
 import toast from 'react-hot-toast';
+import { IQueryError } from '../interfaces/app';
 
 interface IHeader {
 	userName: string;
@@ -24,8 +25,8 @@ export const Header: FC<IHeader> = ({ userName }) => {
 			setAuthData(undefined);
 			history.push(buildUrl(ROUTE.login));
 		},
-		onError: () => {
-			toast.error(`Coś poszlo nie tak`);
+		onError: (error: IQueryError) => {
+			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 

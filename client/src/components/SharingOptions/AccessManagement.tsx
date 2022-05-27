@@ -6,6 +6,7 @@ import { ArrowLeft } from 'react-feather';
 import { removeInvitationAction } from '../../actions/sharing';
 import { QueryKey, ROUTE } from '../../enums';
 import toast from 'react-hot-toast';
+import { IQueryError } from '../../interfaces/app';
 
 interface IAccessManagementProps {
 	listDataResponse: IList | undefined;
@@ -20,8 +21,8 @@ export const AccessManagement: FC<IAccessManagementProps> = ({ listDataResponse,
 			query.invalidateQueries([QueryKey.getListById]);
 			toast.success('Udostępnianie zatrzymane');
 		},
-		onError: error => {
-			toast.error(`Coś poszlo nie tak: ${error}`);
+		onError: (error: IQueryError) => {
+			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 

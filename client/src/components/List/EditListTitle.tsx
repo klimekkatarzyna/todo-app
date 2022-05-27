@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 import { editListAction } from '../../actions/lists';
 import { TitleForm } from '../TitleForm';
 import { useParams } from 'react-router-dom';
-import { IUseParams } from '../../interfaces/app';
+import { IQueryError, IUseParams } from '../../interfaces/app';
 
 interface IEditListTitleProps {
 	title: string;
@@ -26,8 +26,8 @@ export const EditListTitle: FC<IEditListTitleProps> = ({ title }) => {
 			query.invalidateQueries(QueryKey.getMyDayTasks);
 			toast.success('Nazwa listy zmieniona');
 		},
-		onError: error => {
-			toast.error(`Coś poszlo nie tak: ${error}`);
+		onError: (error: IQueryError) => {
+			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 

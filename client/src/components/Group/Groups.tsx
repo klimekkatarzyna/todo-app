@@ -10,6 +10,7 @@ import { ContextMenuContext } from '../../ContextMenuProvider';
 import toast from 'react-hot-toast';
 import { useRecoilValue } from 'recoil';
 import { modalVisibilityState } from '../../atoms/modal';
+import { IQueryError } from '../../interfaces/app';
 
 interface IGroupsProps {
 	isNavClosed: boolean;
@@ -29,8 +30,8 @@ export const Groups: FC<IGroupsProps> = ({ isNavClosed }) => {
 			query.invalidateQueries([QueryKey.groups]);
 			toast.success('Grupa usunięta');
 		},
-		onError: error => {
-			toast.error(`Coś poszlo nie tak: ${error}`);
+		onError: (error: IQueryError) => {
+			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 

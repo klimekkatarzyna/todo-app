@@ -6,6 +6,7 @@ import { removenUserFromTaskAction } from '../../../actions/tasks';
 import { QueryKey } from '../../../enums';
 import toast from 'react-hot-toast';
 import { Loader, X } from 'react-feather';
+import { IQueryError } from '../../../interfaces/app';
 
 interface IRemoveAssignmentProps {
 	taskData: ITask;
@@ -24,8 +25,8 @@ export const RemoveAssignment: FC<IRemoveAssignmentProps> = ({ taskData }) => {
 			query.invalidateQueries([QueryKey.getImportanceTasks]);
 			toast.success('Przypisanie usunięte');
 		},
-		onError: error => {
-			toast.error(`Coś poszlo nie tak: ${error}`);
+		onError: (error: IQueryError) => {
+			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 

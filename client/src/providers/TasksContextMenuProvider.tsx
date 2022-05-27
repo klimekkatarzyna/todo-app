@@ -3,7 +3,7 @@ import { createContext } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { changeTaskImportanceAction, taskInMyDayAction } from '../actions/tasks';
 import { ContextMenuOpion, QueryKey } from '../enums';
-import { IContextMenu } from '../interfaces/app';
+import { IContextMenu, IQueryError } from '../interfaces/app';
 import toast from 'react-hot-toast';
 import { Importance } from '@kkrawczyk/todo-common';
 import { useTasks } from '../hooks/useTasks';
@@ -45,8 +45,8 @@ export const TasksContextMenuProvider: FC<ITasksContextMenuProvider> = ({ childr
 			query.invalidateQueries(QueryKey.getAssignedTasks);
 			toast.success('Zadanie usunięte z widoku "Mój dzień"');
 		},
-		onError: error => {
-			toast.error(`Coś poszlo nie tak: ${error}`);
+		onError: (error: IQueryError) => {
+			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 
@@ -59,8 +59,8 @@ export const TasksContextMenuProvider: FC<ITasksContextMenuProvider> = ({ childr
 			query.invalidateQueries(QueryKey.getAssignedTasks);
 			toast.success('Ważność zadanie zmieniona');
 		},
-		onError: error => {
-			toast.error(`Coś poszlo nie tak: ${error}`);
+		onError: (error: IQueryError) => {
+			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 

@@ -8,6 +8,7 @@ import { Loader } from 'react-feather';
 import { QueryKey, ROUTE } from '../../enums';
 import toast from 'react-hot-toast';
 import { buildUrl } from '../../utils/paths';
+import { IQueryError } from '../../interfaces/app';
 
 interface IRemoveMember {
 	listDataResponse: IList | undefined;
@@ -26,8 +27,8 @@ export const RemoveMember: FC<IRemoveMember> = ({ listDataResponse, onNextStep }
 			toast.success('Użytkownik usunięty z listy');
 			history.push(buildUrl(ROUTE.home));
 		},
-		onError: error => {
-			toast.error(`Coś poszlo nie tak: ${error}`);
+		onError: (error: IQueryError) => {
+			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 

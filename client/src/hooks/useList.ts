@@ -6,6 +6,7 @@ import { listsState } from '../atoms';
 import { IList } from '@kkrawczyk/todo-common';
 import { QueryKey } from '../enums';
 import toast from 'react-hot-toast';
+import { IQueryError } from '../interfaces/app';
 
 export const useList = () => {
 	const query = useQueryClient();
@@ -23,8 +24,8 @@ export const useList = () => {
 			query.invalidateQueries([QueryKey.lists]);
 			toast.success('Lista usunięta');
 		},
-		onError: error => {
-			toast.error(`Coś poszlo nie tak: ${error}`);
+		onError: (error: IQueryError) => {
+			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 

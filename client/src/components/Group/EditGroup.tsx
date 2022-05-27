@@ -7,6 +7,7 @@ import { isStringContainsWhitespace } from '../../utils/utilsFunctions';
 import { createEditGroupSchema, CreateEditGroupType, IGroup } from '@kkrawczyk/todo-common';
 import toast from 'react-hot-toast';
 import { TitleForm } from '../TitleForm';
+import { IQueryError } from '../../interfaces/app';
 
 interface IEditGroupProps {
 	title: string | undefined;
@@ -24,8 +25,8 @@ export const EditGroup: FC<IEditGroupProps> = ({ title, groupId, isNavClosed }) 
 			query.invalidateQueries([QueryKey.groups]);
 			toast.success('Nazwa grupy zmieniona');
 		},
-		onError: error => {
-			toast.error(`Coś poszlo nie tak: ${error}`);
+		onError: (error: IQueryError) => {
+			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 

@@ -16,6 +16,7 @@ import toast from 'react-hot-toast';
 import { useHistory } from 'react-router-dom';
 import { buildUrl } from '../../../utils/paths';
 import { modalVisibilityState } from '../../../atoms/modal';
+import { IQueryError } from '../../../interfaces/app';
 
 interface ILists {
 	isNavClosed: boolean;
@@ -42,8 +43,8 @@ const ListsComponents: FC<ILists> = ({ isNavClosed }) => {
 			query.invalidateQueries([QueryKey.lists]);
 			toast.success('Opuściłeś listę');
 		},
-		onError: error => {
-			toast.error(`Coś poszlo nie tak: ${error}`);
+		onError: (error: IQueryError) => {
+			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 

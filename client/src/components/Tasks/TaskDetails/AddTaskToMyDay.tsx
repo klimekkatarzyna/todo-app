@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import toast from 'react-hot-toast';
 import { ITask } from '@kkrawczyk/todo-common';
 import { QueryKey } from '../../../enums';
+import { IQueryError } from '../../../interfaces/app';
 
 interface IAddTaskToMyDay {
 	taskData: ITask | undefined;
@@ -25,8 +26,8 @@ export const AddTaskToMyDay: FC<IAddTaskToMyDay> = ({ taskData }) => {
 			toast.success(taskData?.isMyDay ? 'Zadanie usunięte z widoku "Mój dzień"' : 'Zadanie dodane do "Mój dzień');
 			setIsMyDayTask(!isMyDayTask);
 		},
-		onError: error => {
-			toast.error(`Coś poszlo nie tak: ${error}`);
+		onError: (error: IQueryError) => {
+			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 

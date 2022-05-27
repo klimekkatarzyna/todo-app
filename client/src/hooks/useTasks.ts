@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState, useContext } from 'react';
 import { QueryKey, SortTaskType } from '../enums';
 import { useSort } from './useSort';
 import { useParams } from 'react-router-dom';
-import { IUseParams } from '../interfaces/app';
+import { IQueryError, IUseParams } from '../interfaces/app';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { changeTaskImportanceAction, changeTaskStatusAction, deleteTaskAction, getTaskAction, getTasksOfCurrentListAction } from '../actions/tasks';
 import { SocketContext } from '../providers/SocketProvider';
@@ -38,8 +38,8 @@ export const useTasks = () => {
 			query.invalidateQueries(QueryKey.getAssignedTasks);
 			toast.success('Ważność zadanie zmieniona');
 		},
-		onError: error => {
-			toast.error(`Coś poszlo nie tak: ${error}`);
+		onError: (error: IQueryError) => {
+			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 
@@ -69,8 +69,8 @@ export const useTasks = () => {
 				query.invalidateQueries(QueryKey.getAssignedTasks);
 				toast.success('Zadanie usunięte');
 			},
-			onError: error => {
-				toast.error(`Coś poszlo nie tak: ${error}`);
+			onError: (error: IQueryError) => {
+				toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 			},
 		}
 	);
@@ -95,8 +95,8 @@ export const useTasks = () => {
 			query.invalidateQueries(QueryKey.getAssignedTasks);
 			toast.success('Status zadania zmieniony');
 		},
-		onError: error => {
-			toast.error(`Coś poszlo nie tak: ${error}`);
+		onError: (error: IQueryError) => {
+			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 

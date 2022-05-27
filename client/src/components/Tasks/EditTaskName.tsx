@@ -6,6 +6,7 @@ import { isStringContainsWhitespace } from '../../utils/utilsFunctions';
 import { QueryKey } from '../../enums';
 import toast from 'react-hot-toast';
 import { TitleForm } from '../TitleForm';
+import { IQueryError } from '../../interfaces/app';
 
 interface IEditTaskNameProps {
 	taskData: ITask;
@@ -24,8 +25,8 @@ export const EditTaskName: FC<IEditTaskNameProps> = ({ taskData }) => {
 			query.invalidateQueries(QueryKey.tasksList);
 			toast.success('Zadanie zmienione');
 		},
-		onError: error => {
-			toast.error(`Coś poszlo nie tak: ${error}`);
+		onError: (error: IQueryError) => {
+			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 
