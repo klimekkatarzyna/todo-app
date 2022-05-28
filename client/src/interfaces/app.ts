@@ -45,3 +45,16 @@ export interface IQueryError {
 		message: string;
 	};
 }
+
+type ElementId = {
+	elementId: string;
+	listId: string;
+};
+
+export interface IData extends IContextMenu, ElementId {}
+export interface IHandleContextMenuItemClickProps {
+	triggerEvent: unknown;
+	event: React.ChangeEvent<HTMLInputElement>;
+	props: unknown;
+	data: IData;
+}

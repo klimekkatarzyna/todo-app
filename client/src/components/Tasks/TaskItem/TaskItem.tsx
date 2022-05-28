@@ -1,5 +1,4 @@
 import { FC, useCallback, useContext, useMemo } from 'react';
-import { ContextMenuTrigger } from 'react-contextmenu';
 import { IinitialDnDState } from '../../../hooks/useDragAndDrop';
 import { ContextMenuComponent } from '../../ContextMenu/ContextMenuComponent';
 import { TaskDetails } from '../TaskDetails';
@@ -8,6 +7,7 @@ import { useBuidContextTaskMenu } from '../../../hooks/useBuildContextTaskMenu';
 import { TasksContextMenuContext } from '../../../providers/TasksContextMenuProvider';
 import { useRecoilState } from 'recoil';
 import { elementVisibilityState } from '../../../atoms/elementVisibility';
+import { useShowMenuContexify } from '../../../hooks/useShowMenuContexify';
 
 interface ITaskItem {
 	task: ITask;
@@ -36,7 +36,8 @@ export const TaskItem: FC<ITaskItem> = ({
 	changeTaskImportance,
 	redirectTo,
 }) => {
-	const { handleClick } = useContext(TasksContextMenuContext);
+	const { handleItemClick } = useContext(TasksContextMenuContext);
+	const { displayMenu } = useShowMenuContexify(task._id);
 	const [isElementVisible, setIsElementVisible] = useRecoilState(elementVisibilityState);
 	const isDragAndDrop = useMemo(() => (dragAndDrop?.draggedTo !== 0 && dragAndDrop?.draggedTo === Number(index) ? true : false), [dragAndDrop]);
 	const { taskMenuListItems } = useBuidContextTaskMenu(task);
@@ -47,7 +48,7 @@ export const TaskItem: FC<ITaskItem> = ({
 
 	return (
 		<>
-			<ContextMenuTrigger id={task?._id as string}>
+			<div onContextMenu={displayMenu}>
 				<div
 					className={`${
 						isDragAndDrop && `relative bg-sky-200`
@@ -68,13 +69,8 @@ export const TaskItem: FC<ITaskItem> = ({
 						changeTaskImportance={changeTaskImportance}
 					/>
 				</div>
-			</ContextMenuTrigger>
-			<ContextMenuComponent
-				contextMenuList={taskMenuListItems}
-				elementId={task?._id || ''}
-				listId={task?.parentFolderId}
-				handleClick={handleClick}
-			/>
+			</div>
+			<ContextMenuComponent contextMenuList={taskMenuListItems} elementId={task?._id || ''} handleItemClick={handleItemClick} />
 		</>
 	);
 };

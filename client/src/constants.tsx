@@ -10,7 +10,7 @@ export const contextualMenuSecountOpion: IContextMenu[] = [
 	},
 	{
 		icon: <Plus className='icon-style' />,
-		name: 'Przenieś listę do... >',
+		name: 'Przenieś listę do...',
 		type: ContextMenuOpion.move_list_to,
 	},
 	{
@@ -38,7 +38,7 @@ export const contextualMenuSecountOpionMembers: IContextMenu[] = [
 	},
 	{
 		icon: <Plus className='icon-style' />,
-		name: 'Przenieś listę do... >',
+		name: 'Przenieś listę do...',
 		type: ContextMenuOpion.move_list_to,
 	},
 	{

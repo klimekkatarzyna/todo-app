@@ -21,9 +21,7 @@ export const Groups: FC<IGroupsProps> = ({ isNavClosed }) => {
 	const isVisible = useRecoilValue(modalVisibilityState);
 	const { contextualMenu } = useContext(ContextMenuContext);
 
-	const { isLoading: getGroupsLoading, data } = useQuery<IGroup[] | undefined>(QueryKey.groups, getGroups, {
-		useErrorBoundary: true,
-	});
+	const { isLoading: getGroupsLoading, data } = useQuery<IGroup[] | undefined>(QueryKey.groups, getGroups);
 
 	const { mutateAsync, error, isLoading } = useMutation(deleteGroup, {
 		onSuccess: () => {

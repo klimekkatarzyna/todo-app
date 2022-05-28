@@ -38,8 +38,8 @@ export const Button: FC<IButton> = ({
 					disabled && 'disabled:bg-lightBlue cursor-not-allowed'
 				} ${outline && 'bg-none text-fontColor border border-grey mt-3 w-full bg-white hover:bg-gray-50 sm:mt-0 '} ${
 					outlineWhite && 'bg-none text-white border border-white'
-				} ${secondary && 'bg-red text-white ml-2 w-full border border-transparent hover:bg-rose-800 sm:ml-3'} ${
-					primary && 'bg-blue text-white mt-4 w-full border border-transparent hover:bg-blue-900 sm:ml-3'
+				} ${secondary && 'bg-red text-white ml-2 w-full border border-transparent hover:bg-rose-800'} ${
+					primary && 'bg-blue text-white mt-4 w-full border border-transparent hover:bg-blue-900'
 				}`}
 				onClick={onClick}>
 				{children}

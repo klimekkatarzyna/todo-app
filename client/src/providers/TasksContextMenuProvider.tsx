@@ -3,7 +3,7 @@ import { createContext } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { changeTaskImportanceAction, taskInMyDayAction } from '../actions/tasks';
 import { ContextMenuOpion, QueryKey } from '../enums';
-import { IContextMenu, IQueryError } from '../interfaces/app';
+import { IData, IHandleContextMenuItemClickProps, IQueryError } from '../interfaces/app';
 import toast from 'react-hot-toast';
 import { Importance } from '@kkrawczyk/todo-common';
 import { useTasks } from '../hooks/useTasks';
@@ -13,17 +13,10 @@ import { modalVisibilityState } from '../atoms/modal';
 export interface TasksContextMenuContextType {
 	tasksContextlMenu: IData | undefined;
 	setTasksContextMenu: React.Dispatch<React.SetStateAction<IData | undefined>>;
-	handleClick: (event: React.ChangeEvent<HTMLInputElement>, data: any) => void;
+	handleItemClick: ({ triggerEvent, event, props, data }: IHandleContextMenuItemClickProps) => void;
 }
 
 export const TasksContextMenuContext = createContext<TasksContextMenuContextType>({} as TasksContextMenuContextType);
-
-type ElementId = {
-	elementId: string;
-	listId: string;
-};
-
-export interface IData extends IContextMenu, ElementId {}
 
 interface ITasksContextMenuProvider {
 	children: React.ReactNode;
@@ -64,7 +57,7 @@ export const TasksContextMenuProvider: FC<ITasksContextMenuProvider> = ({ childr
 		},
 	});
 
-	const handleClick = useCallback(async (event: React.ChangeEvent<HTMLInputElement>, data: IData) => {
+	const handleItemClick = useCallback(async ({ triggerEvent, event, props, data }: IHandleContextMenuItemClickProps) => {
 		setTasksContextMenu(data);
 
 		switch (data?.type) {
@@ -106,9 +99,9 @@ export const TasksContextMenuProvider: FC<ITasksContextMenuProvider> = ({ childr
 		return {
 			tasksContextlMenu,
 			setTasksContextMenu,
-			handleClick,
+			handleItemClick,
 		};
-	}, [tasksContextlMenu, handleClick]);
+	}, [tasksContextlMenu, handleItemClick]);
 
 	return <TasksContextMenuContext.Provider value={value}>{children}</TasksContextMenuContext.Provider>;
 };

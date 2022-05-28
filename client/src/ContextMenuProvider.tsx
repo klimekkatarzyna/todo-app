@@ -3,22 +3,15 @@ import { createContext } from 'react';
 import { useRecoilState } from 'recoil';
 import { modalVisibilityState } from './atoms/modal';
 import { ContextMenuOpion } from './enums';
-import { IContextMenu } from './interfaces/app';
+import { IData, IHandleContextMenuItemClickProps } from './interfaces/app';
 
 export interface ContextMenuType {
 	setContextMenu: React.Dispatch<React.SetStateAction<IData | undefined>>;
 	contextualMenu: IData | undefined;
-	handleClick: (event: React.ChangeEvent<HTMLInputElement>, data: any) => void;
+	handleItemClick: ({ triggerEvent, event, props, data }: IHandleContextMenuItemClickProps) => void;
 }
 
 export const ContextMenuContext = createContext<ContextMenuType>({} as ContextMenuType);
-
-type ElementId = {
-	elementId: string;
-	listId: string;
-};
-
-export interface IData extends IContextMenu, ElementId {}
 
 interface IContextMenuProvider {
 	children: React.ReactNode;
@@ -28,7 +21,7 @@ export const ContextMenuProvider: FC<IContextMenuProvider> = ({ children }) => {
 	const [contextualMenu, setContextMenu] = useState<IData | undefined>();
 	const [isVisible, setIsVisible] = useRecoilState(modalVisibilityState);
 
-	const handleClick = useCallback((event: React.ChangeEvent<HTMLInputElement>, data: IData) => {
+	const handleItemClick = useCallback(({ triggerEvent, event, props, data }: IHandleContextMenuItemClickProps) => {
 		setContextMenu(data);
 
 		switch (data?.type) {
@@ -47,6 +40,10 @@ export const ContextMenuProvider: FC<IContextMenuProvider> = ({ children }) => {
 				setIsVisible(true);
 				setContextMenu(data);
 				break;
+			case ContextMenuOpion.move_list_to:
+				setIsVisible(true);
+				setContextMenu(data);
+				break;
 			case ContextMenuOpion.leave_list:
 				setIsVisible(true);
 				setContextMenu(data);
@@ -61,9 +58,11 @@ export const ContextMenuProvider: FC<IContextMenuProvider> = ({ children }) => {
 		return {
 			contextualMenu,
 			setContextMenu,
-			handleClick,
+			handleItemClick,
 		};
-	}, [contextualMenu, handleClick]);
+	}, [contextualMenu, handleItemClick]);
+
+	console.log({ contextualMenu });
 
 	return <ContextMenuContext.Provider value={value}>{children}</ContextMenuContext.Provider>;
 };

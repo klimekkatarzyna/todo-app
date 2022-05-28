@@ -1,5 +1,4 @@
 import React, { FC, useContext } from 'react';
-import { ContextMenuTrigger } from 'react-contextmenu';
 import { Folder } from 'react-feather';
 import { IGroup } from '@kkrawczyk/todo-common';
 import { contextualMenuGroupOpion } from '../../constants';
@@ -8,28 +7,35 @@ import { useDropdown } from '../../hooks/useDropdown';
 import { ContextMenuComponent } from '../ContextMenu/ContextMenuComponent';
 import { EditGroup } from './EditGroup';
 import { ContextMenuContext } from '../../ContextMenuProvider';
+import { useQuery } from 'react-query';
+import { QueryKey } from '../../enums';
+import { getGroups } from '../../actions/groups';
+import { useShowMenuContexify } from '../../hooks/useShowMenuContexify';
 
 interface IGroupProps {
 	group: IGroup;
-	isNavClosed: boolean;
+	isNavClosed: boolean | undefined;
 }
 
 export const Group: FC<IGroupProps> = ({ group, isNavClosed }) => {
-	const { handleClick } = useContext(ContextMenuContext);
+	const { handleItemClick } = useContext(ContextMenuContext);
+	const { displayMenu } = useShowMenuContexify(group._id);
 	const { elementeReference, toggleDropdown, dropdownOpen } = useDropdown();
+
+	const { isLoading, data } = useQuery<IGroup[] | undefined>(QueryKey.groups, getGroups);
 
 	return (
 		<div ref={elementeReference}>
-			<ContextMenuTrigger id={group._id as string}>
+			<div onContextMenu={displayMenu}>
 				<button onClick={toggleDropdown} className='flex py-2 px-4 cursor-pointer items-center hover:bg-white w-full'>
 					<div>
 						<Folder strokeWidth={1} className='icon-style text-grey' />
 					</div>
 					<EditGroup title={group.title} groupId={group._id} isNavClosed={isNavClosed} />
 				</button>
-			</ContextMenuTrigger>
+			</div>
 			{dropdownOpen && <GroupedLists />}
-			<ContextMenuComponent contextMenuList={contextualMenuGroupOpion} elementId={group?._id} handleClick={handleClick} />
+			<ContextMenuComponent contextMenuList={contextualMenuGroupOpion} elementId={group?._id} handleItemClick={handleItemClick} />
 		</div>
 	);
 };

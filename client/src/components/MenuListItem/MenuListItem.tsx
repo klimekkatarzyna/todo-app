@@ -1,9 +1,8 @@
-import { FC, useMemo, memo, useContext } from 'react';
+import { FC, useMemo, memo, useContext, useCallback } from 'react';
 import { NavLink } from 'react-router-dom';
 import { contextualMenuSecountOpion, contextualMenuSecountOpionMembers } from '../../constants';
 import { IList, ITask } from '@kkrawczyk/todo-common';
 import { ROUTE, QueryKey, SideMenu } from '../../enums';
-import { ContextMenuTrigger } from 'react-contextmenu';
 import { ContextMenuComponent } from '../ContextMenu/ContextMenuComponent';
 import { useSharingData } from '../../hooks/useSharingData';
 import { useQuery } from 'react-query';
@@ -11,6 +10,7 @@ import { getTasksOfCurrentListAction } from '../../actions/tasks';
 import { Sun, Star, List, Calendar, User, Users, Home } from 'react-feather';
 import { ContextMenuContext } from '../../ContextMenuProvider';
 import { buildUrl } from '../../utils/paths';
+import { useShowMenuContexify } from '../../hooks/useShowMenuContexify';
 
 interface IMenuListItem {
 	listItem: IList;
@@ -18,7 +18,9 @@ interface IMenuListItem {
 }
 
 const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed }) => {
-	const { handleClick } = useContext(ContextMenuContext);
+	const { handleItemClick } = useContext(ContextMenuContext);
+	const { displayMenu } = useShowMenuContexify(listItem._id);
+
 	const icon = useMemo(
 		() =>
 			(listItem.url === `/${SideMenu.myDay}` && <Sun className='icon-style' />) ||
@@ -43,15 +45,15 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed }) => 
 
 	return (
 		<NavLink to={redirectUrl} className='no-underline' activeClassName='bg-activeMenuItem'>
-			<ContextMenuTrigger id={listItem?._id || ''}>
+			<div onContextMenu={displayMenu}>
 				<div className={'flex align-center px-4 py-2 text-sm hover:bg-white'}>
 					<div>{icon || <List className='mr-2 stroke-blue icon-style' />}</div>
 					<div className={`text-sm text-fontColor ml-2 break-words ${isNavClosed ? 'hidden' : 'flex'}`}>{listItem?.title}</div>
 					{!!listItem.members?.length && <Users className='ml-2 icon-style' />}
 					{!!data?.length && <div className={`text-sm text-fontColor ml-auto ${isNavClosed ? 'hidden' : 'flex'}`}>{data?.length}</div>}
 				</div>
-			</ContextMenuTrigger>
-			<ContextMenuComponent contextMenuList={contextMenuList} elementId={listItem?._id || ''} handleClick={handleClick} />
+			</div>
+			<ContextMenuComponent contextMenuList={contextMenuList} elementId={listItem?._id} handleItemClick={handleItemClick} />
 		</NavLink>
 	);
 };

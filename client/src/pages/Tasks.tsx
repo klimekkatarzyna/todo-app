@@ -24,7 +24,7 @@ export const Tasks: FC = () => {
 				{isLoading ? <Loader className='m-auto' /> : <Toolbar isListItem name={data?.title || ''} colorType={data?.themeColor} />}
 
 				<div>
-					<div className='pt-2 pb-8 bg-lightGrey'>
+					<div className='pt-2 pb-8 pl-3 pr-4 bg-lightGrey'>
 						<CreateTask />
 					</div>
 					<TasksList />
