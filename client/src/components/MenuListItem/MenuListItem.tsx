@@ -1,8 +1,8 @@
 import { FC, useMemo, memo, useContext, useCallback } from 'react';
 import { NavLink } from 'react-router-dom';
 import { contextualMenuSecountOpion, contextualMenuSecountOpionMembers } from '../../constants';
-import { IList, ITask } from '@kkrawczyk/todo-common';
-import { ROUTE, QueryKey, SideMenu } from '../../enums';
+import { IGroup, IList, ITask } from '@kkrawczyk/todo-common';
+import { ROUTE, QueryKey, SideMenu, ContextMenuOpion } from '../../enums';
 import { ContextMenuComponent } from '../ContextMenu/ContextMenuComponent';
 import { useSharingData } from '../../hooks/useSharingData';
 import { useQuery } from 'react-query';
@@ -11,6 +11,7 @@ import { Sun, Star, List, Calendar, User, Users, Home } from 'react-feather';
 import { ContextMenuContext } from '../../ContextMenuProvider';
 import { buildUrl } from '../../utils/paths';
 import { useShowMenuContexify } from '../../hooks/useShowMenuContexify';
+import { getGroups } from '../../actions/groups';
 
 interface IMenuListItem {
 	listItem: IList;
@@ -43,6 +44,8 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed }) => 
 	) as string;
 	const contextMenuList = useMemo(() => (isOwner ? contextualMenuSecountOpion : contextualMenuSecountOpionMembers), [isOwner]);
 
+	const { data: groupsList } = useQuery<IGroup[] | undefined>(QueryKey.groups, getGroups);
+
 	return (
 		<NavLink to={redirectUrl} className='no-underline' activeClassName='bg-activeMenuItem'>
 			<div onContextMenu={displayMenu}>
@@ -53,7 +56,13 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed }) => 
 					{!!data?.length && <div className={`text-sm text-fontColor ml-auto ${isNavClosed ? 'hidden' : 'flex'}`}>{data?.length}</div>}
 				</div>
 			</div>
-			<ContextMenuComponent contextMenuList={contextMenuList} elementId={listItem?._id} handleItemClick={handleItemClick} />
+			<ContextMenuComponent
+				contextMenuList={contextMenuList}
+				elementId={listItem?._id}
+				handleItemClick={handleItemClick}
+				submenu={groupsList}
+				contextMenuOption={ContextMenuOpion.move_list_to}
+			/>
 		</NavLink>
 	);
 };

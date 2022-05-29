@@ -7,9 +7,6 @@ import { useDropdown } from '../../hooks/useDropdown';
 import { ContextMenuComponent } from '../ContextMenu/ContextMenuComponent';
 import { EditGroup } from './EditGroup';
 import { ContextMenuContext } from '../../ContextMenuProvider';
-import { useQuery } from 'react-query';
-import { QueryKey } from '../../enums';
-import { getGroups } from '../../actions/groups';
 import { useShowMenuContexify } from '../../hooks/useShowMenuContexify';
 
 interface IGroupProps {
@@ -21,8 +18,6 @@ export const Group: FC<IGroupProps> = ({ group, isNavClosed }) => {
 	const { handleItemClick } = useContext(ContextMenuContext);
 	const { displayMenu } = useShowMenuContexify(group._id);
 	const { elementeReference, toggleDropdown, dropdownOpen } = useDropdown();
-
-	const { isLoading, data } = useQuery<IGroup[] | undefined>(QueryKey.groups, getGroups);
 
 	return (
 		<div ref={elementeReference}>

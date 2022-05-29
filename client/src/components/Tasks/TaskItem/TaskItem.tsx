@@ -8,6 +8,7 @@ import { TasksContextMenuContext } from '../../../providers/TasksContextMenuProv
 import { useRecoilState } from 'recoil';
 import { elementVisibilityState } from '../../../atoms/elementVisibility';
 import { useShowMenuContexify } from '../../../hooks/useShowMenuContexify';
+import { ContextMenuOpion } from '../../../enums';
 
 interface ITaskItem {
 	task: ITask;
@@ -70,7 +71,12 @@ export const TaskItem: FC<ITaskItem> = ({
 					/>
 				</div>
 			</div>
-			<ContextMenuComponent contextMenuList={taskMenuListItems} elementId={task?._id || ''} handleItemClick={handleItemClick} />
+			<ContextMenuComponent
+				contextMenuList={taskMenuListItems}
+				elementId={task?._id || ''}
+				handleItemClick={handleItemClick}
+				contextMenuOption={ContextMenuOpion.move_task}
+			/>
 		</>
 	);
 };
