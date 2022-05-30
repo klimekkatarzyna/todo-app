@@ -23,6 +23,9 @@ export const ListSchema = new Schema<IList>({
 	members: {
 		type: Array,
 	},
+	isInGroup: {
+		type: Boolean,
+	},
 });
 
 export const List = model<IList>('List', ListSchema);

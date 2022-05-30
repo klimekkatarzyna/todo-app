@@ -36,6 +36,7 @@ export const createGroup = `${process.env.REACT_APP_API_LOCAL_HOST}/api/groups`;
 export const getGroups = `${process.env.REACT_APP_API_LOCAL_HOST}/api/groups`;
 export const removeGroup = `${process.env.REACT_APP_API_LOCAL_HOST}/api/groups`;
 export const editGroup = `${process.env.REACT_APP_API_LOCAL_HOST}/api/groups`;
+export const addListToGroup = `${process.env.REACT_APP_API_LOCAL_HOST}/api/groupsLists`;
 
 // sharing
 export const addInvitationTokenToList = `${process.env.REACT_APP_API_LOCAL_HOST}/api/invitationToken`;

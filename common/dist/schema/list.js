@@ -32,4 +32,5 @@ exports.createEditListSchema = (0, yup_1.object)({
     _id: (0, yup_1.string)().optional(),
     url: (0, yup_1.string)().optional(),
     isMainList: (0, yup_1.boolean)().optional(),
+    isInGroup: (0, yup_1.boolean)().optional(),
 });

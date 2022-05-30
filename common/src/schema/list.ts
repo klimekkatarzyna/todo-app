@@ -53,6 +53,7 @@ export const createEditListSchema: SchemaOf<IList> = object({
   _id: string().optional(),
   url: string().optional(),
   isMainList: boolean().optional(),
+  isInGroup: boolean().optional(),
 });
 
 export type CreateEditListType = InferType<typeof createEditListSchema>;

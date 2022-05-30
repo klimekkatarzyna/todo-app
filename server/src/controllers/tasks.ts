@@ -3,7 +3,6 @@ import Task from '../models/task';
 import { taskSocket } from '../utils/socketsEvents';
 import { Importance } from '@kkrawczyk/todo-common';
 import { getSessionUserId } from '../utils/auth';
-import { List } from '../models/list';
 
 export const createTask = async (req: Request, res: Response) => {
 	await Task.find({ id: req.body._id });

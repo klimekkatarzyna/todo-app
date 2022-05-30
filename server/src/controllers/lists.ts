@@ -28,6 +28,7 @@ export const createList = async (req: Request, res: Response) => {
 		invitationToken: '',
 		owner: '',
 		members: [],
+		isInGroup: false,
 	});
 
 	try {
@@ -41,6 +42,7 @@ export const createList = async (req: Request, res: Response) => {
 				invitationToken: list.invitationToken,
 				owner: list.owner,
 				members: list.members,
+				isInGroup: list.isInGroup,
 			},
 		});
 	} catch (error) {
@@ -104,6 +106,7 @@ export const getList = async (req: Request, res: Response) => {
 				invitationToken: list[0]?.invitationToken,
 				owner: list[0]?.owner,
 				members,
+				isInGroup: list[0].isInGroup,
 			},
 		});
 	} catch (error) {

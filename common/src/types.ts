@@ -66,6 +66,7 @@ export interface IList {
   members?: string[];
   member?: string;
   userId?: string;
+  isInGroup?: boolean;
 }
 
 // ---------------- group ------------------
@@ -75,4 +76,6 @@ export interface IGroup {
   _id?: string;
   createdAt?: Date;
   userId?: string;
+  lists?: string[];
+  listId?: string;
 }

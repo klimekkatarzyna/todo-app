@@ -1,17 +1,19 @@
-import { FC, useMemo, memo, useContext, useCallback } from 'react';
+import { FC, useMemo, memo, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import { contextualMenuSecountOpion, contextualMenuSecountOpionMembers } from '../../constants';
 import { IGroup, IList, ITask } from '@kkrawczyk/todo-common';
 import { ROUTE, QueryKey, SideMenu, ContextMenuOpion } from '../../enums';
 import { ContextMenuComponent } from '../ContextMenu/ContextMenuComponent';
 import { useSharingData } from '../../hooks/useSharingData';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { getTasksOfCurrentListAction } from '../../actions/tasks';
 import { Sun, Star, List, Calendar, User, Users, Home } from 'react-feather';
 import { ContextMenuContext } from '../../ContextMenuProvider';
 import { buildUrl } from '../../utils/paths';
 import { useShowMenuContexify } from '../../hooks/useShowMenuContexify';
-import { getGroups } from '../../actions/groups';
+import { addListToGroupAction, getGroups } from '../../actions/groups';
+import toast from 'react-hot-toast';
+import { IQueryError } from '../../interfaces/app';
 
 interface IMenuListItem {
 	listItem: IList;
@@ -19,6 +21,7 @@ interface IMenuListItem {
 }
 
 const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed }) => {
+	const query = useQueryClient();
 	const { handleItemClick } = useContext(ContextMenuContext);
 	const { displayMenu } = useShowMenuContexify(listItem._id);
 
@@ -46,6 +49,17 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed }) => 
 
 	const { data: groupsList } = useQuery<IGroup[] | undefined>(QueryKey.groups, getGroups);
 
+	const { mutateAsync } = useMutation(addListToGroupAction, {
+		onSuccess: () => {
+			query.invalidateQueries([QueryKey.groups]);
+			query.invalidateQueries([QueryKey.lists]);
+			toast.success('Lista dodana do grupy');
+		},
+		onError: (error: IQueryError) => {
+			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
+		},
+	});
+
 	return (
 		<NavLink to={redirectUrl} className='no-underline' activeClassName='bg-activeMenuItem'>
 			<div onContextMenu={displayMenu}>
@@ -62,6 +76,7 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed }) => 
 				handleItemClick={handleItemClick}
 				submenu={groupsList}
 				contextMenuOption={ContextMenuOpion.move_list_to}
+				mutateAsyncAction={mutateAsync}
 			/>
 		</NavLink>
 	);

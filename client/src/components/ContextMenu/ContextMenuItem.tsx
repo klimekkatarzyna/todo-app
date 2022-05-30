@@ -4,16 +4,18 @@ import { ContextMenuOpion } from '../../enums';
 import { Item } from 'react-contexify';
 import 'react-contexify/dist/ReactContexify.css';
 import { SubmenuComponent } from './Submenu';
+import { IGroup } from '@kkrawczyk/todo-common';
 
 interface IContextMenuItem {
 	listItem: IContextMenu;
 	elementId: string | undefined;
 	handleItemClick: ({ triggerEvent, event, props, data }: IHandleContextMenuItemClickProps) => void;
-	submenu?: any; // TODO: fix me
+	submenu?: unknown[];
 	contextMenuOption: ContextMenuOpion | undefined;
+	mutateAsyncAction?: ({ _id, listId }: IGroup) => void;
 }
 
-export const ContextMenuItem: FC<IContextMenuItem> = ({ listItem, elementId, handleItemClick, submenu, contextMenuOption }) => {
+export const ContextMenuItem: FC<IContextMenuItem> = ({ listItem, elementId, handleItemClick, submenu, contextMenuOption, mutateAsyncAction }) => {
 	const onHandleItemClick = useCallback(({ triggerEvent, event, props, data }) => handleItemClick({ triggerEvent, event, props, data }), []);
 
 	return (
@@ -24,7 +26,15 @@ export const ContextMenuItem: FC<IContextMenuItem> = ({ listItem, elementId, han
 				className='cursor-pointer border-t-[1px] border-solid first:border-none'>
 				<div className='icon-style text-fontColor'>{listItem.icon}</div>
 				<div className='text-sm ml-4 text-fontColor'>{listItem.name}</div>
-				<SubmenuComponent listItem={listItem} submenu={submenu} contextMenuOption={contextMenuOption} />
+				{!!submenu?.length && (
+					<SubmenuComponent
+						listItem={listItem}
+						submenu={submenu}
+						contextMenuOption={contextMenuOption}
+						elementId={elementId}
+						mutateAsyncAction={mutateAsyncAction}
+					/>
+				)}
 			</Item>
 		</>
 	);

@@ -1,3 +1,4 @@
+import { IGroup } from '@kkrawczyk/todo-common';
 import { FC } from 'react';
 import { Menu } from 'react-contexify';
 import 'react-contexify/dist/ReactContexify.css';
@@ -9,11 +10,19 @@ interface IContextMenuProps {
 	contextMenuList: IContextMenu[];
 	handleItemClick: ({ triggerEvent, event, props, data }: IHandleContextMenuItemClickProps) => void;
 	elementId: string | undefined;
-	submenu?: any; // TODO: fix me
+	submenu?: unknown[];
 	contextMenuOption?: ContextMenuOpion;
+	mutateAsyncAction?: ({ _id, listId }: IGroup) => void;
 }
 
-export const ContextMenuComponent: FC<IContextMenuProps> = ({ contextMenuList, elementId, handleItemClick, submenu, contextMenuOption }) => {
+export const ContextMenuComponent: FC<IContextMenuProps> = ({
+	contextMenuList,
+	elementId,
+	handleItemClick,
+	submenu,
+	contextMenuOption,
+	mutateAsyncAction,
+}) => {
 	return (
 		<Menu id={elementId as string} theme='light'>
 			{contextMenuList.map(listItem => (
@@ -24,6 +33,7 @@ export const ContextMenuComponent: FC<IContextMenuProps> = ({ contextMenuList, e
 					handleItemClick={handleItemClick}
 					submenu={submenu}
 					contextMenuOption={contextMenuOption}
+					mutateAsyncAction={mutateAsyncAction}
 				/>
 			))}
 		</Menu>

@@ -1,3 +1,4 @@
+import { IGroup } from '@kkrawczyk/todo-common';
 import React, { FC, useCallback } from 'react';
 import { Item, Submenu } from 'react-contexify';
 import { ArrowRight, Folder } from 'react-feather';
@@ -6,13 +7,15 @@ import { IContextMenu } from '../../interfaces/app';
 
 interface ISubmenuComponentProps {
 	listItem: IContextMenu;
-	submenu?: any; // TODO: fix me
+	submenu?: unknown[];
 	contextMenuOption: ContextMenuOpion | undefined;
+	elementId: string | undefined;
+	mutateAsyncAction?: ({ _id, listId }: IGroup) => void;
 }
 
-export const SubmenuComponent: FC<ISubmenuComponentProps> = ({ listItem, contextMenuOption, submenu }) => {
+export const SubmenuComponent: FC<ISubmenuComponentProps> = ({ listItem, contextMenuOption, submenu, elementId, mutateAsyncAction }) => {
 	const onHandleSubitemItemClick = useCallback(({ data }) => {
-		console.log(data);
+		mutateAsyncAction?.({ _id: data._id, listId: elementId });
 	}, []);
 
 	return (

@@ -1,4 +1,4 @@
-import { object, string, InferType, date, SchemaOf, mixed } from "yup";
+import { object, string, InferType, date, SchemaOf, mixed, array } from "yup";
 import { IGroup, AppColorTypeEnum } from "../types";
 
 export const createEditGroupSchema: SchemaOf<IGroup> = object({
@@ -9,6 +9,8 @@ export const createEditGroupSchema: SchemaOf<IGroup> = object({
     .optional(),
   _id: string().optional(),
   userId: string().optional(),
+  lists: array().of(string()).optional(),
+  listId: string().optional(),
 });
 
 // A better approach

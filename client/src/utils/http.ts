@@ -12,7 +12,7 @@ export const http = async <T>(url: string, method: HttpMethod, body?: Object): P
 
 	const json = await response.json();
 
-	const errors = [401, 403, 404, 500];
+	const errors = [401, 403, 404, 406, 500];
 	if (errors.includes(response.status)) {
 		throw json;
 	}
