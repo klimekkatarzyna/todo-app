@@ -17,12 +17,12 @@ export enum ContextMenuOpion {
 	remove_task = 'remove_task',
 	sharing_options = 'sharing_options',
 	move_list_to = 'move_list_to',
-	duplicate_list = 'duplicate_list',
 	print_list = 'print_list',
 	remove_list = 'remove_list',
 	remove_group = 'remove_group',
 	edit_group_name = 'edit_group_name',
 	leave_list = 'leave_list',
+	ungroup_lists = 'ungroup_lists',
 }
 
 export enum ROUTE {

@@ -9,7 +9,7 @@ import { ContextMenuItem } from './ContextMenuItem';
 interface IContextMenuProps {
 	contextMenuList: IContextMenu[];
 	handleItemClick: ({ triggerEvent, event, props, data }: IHandleContextMenuItemClickProps) => void;
-	elementId: string | undefined;
+	elementDetails: IGroup | undefined;
 	submenu?: unknown[];
 	contextMenuOption?: ContextMenuOpion;
 	mutateAsyncAction?: ({ _id, listId }: IGroup) => void;
@@ -17,19 +17,19 @@ interface IContextMenuProps {
 
 export const ContextMenuComponent: FC<IContextMenuProps> = ({
 	contextMenuList,
-	elementId,
+	elementDetails,
 	handleItemClick,
 	submenu,
 	contextMenuOption,
 	mutateAsyncAction,
 }) => {
 	return (
-		<Menu id={elementId as string} theme='light'>
+		<Menu id={elementDetails?._id as string} theme='light'>
 			{contextMenuList.map(listItem => (
 				<ContextMenuItem
 					key={listItem?.name}
 					listItem={listItem}
-					elementId={elementId}
+					elementDetails={elementDetails}
 					handleItemClick={handleItemClick}
 					submenu={submenu}
 					contextMenuOption={contextMenuOption}

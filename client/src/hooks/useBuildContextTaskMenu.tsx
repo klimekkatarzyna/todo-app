@@ -1,6 +1,6 @@
 import { ContextMenuOpion } from '../enums';
 import { IContextMenu } from '../interfaces/app';
-import { Calendar, Star, Sun, Trash2, FileMinus, Copy, CheckCircle, Plus } from 'react-feather';
+import { Calendar, Star, Sun, Trash2, FileMinus, CheckCircle } from 'react-feather';
 import { Importance, ITask, ITaskStatus } from '@kkrawczyk/todo-common';
 import { useMemo } from 'react';
 
@@ -65,18 +65,6 @@ export const useBuidContextTaskMenu = (task: ITask) => {
 		type: ContextMenuOpion.move_task,
 	};
 
-	const CopyTaskContextMenuItem: IContextMenu = {
-		icon: <Copy className='icon-style' />,
-		name: 'Kopiuj zadanie do...',
-		type: ContextMenuOpion.copy_task,
-	};
-
-	const CreateNewListFromTheTaskContextMenuItem: IContextMenu = {
-		icon: <Plus className='icon-style' />,
-		name: 'Utwórz nową listę z tego zadania',
-		type: ContextMenuOpion.move_task,
-	};
-
 	const taskMenuListItems = useMemo(
 		() => [
 			task?.isMyDay ? RemoveFromMyDayContextMenuItem : AddToMyDayContextMenuItem,
@@ -85,8 +73,6 @@ export const useBuidContextTaskMenu = (task: ITask) => {
 			DateTodayContextMenuItem,
 			DateTomorrowContextMenuItem,
 			MoveTaskContextMenuItem,
-			CopyTaskContextMenuItem,
-			CreateNewListFromTheTaskContextMenuItem,
 			RemoveTaskContextMenuItem,
 		],
 		[task]

@@ -27,12 +27,15 @@ export const CreateGroup: FC = () => {
 		},
 	});
 
-	const onSubmit = useCallback(async (values: CreateEditGroupType, { resetForm }) => {
-		const title = isStringContainsWhitespace(values.title) ? 'Nowa grupa' : values.title;
-		await mutateAsync({ title });
-		resetForm();
-		toggleDropdown();
-	}, []);
+	const onSubmit = useCallback(
+		async (values: CreateEditGroupType, { resetForm }) => {
+			const title = isStringContainsWhitespace(values.title) ? 'Nowa grupa' : values.title;
+			await mutateAsync({ title });
+			resetForm();
+			toggleDropdown();
+		},
+		[dropdownOpen]
+	);
 
 	return (
 		<div ref={elementeReference}>

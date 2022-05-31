@@ -8,20 +8,27 @@ import { IGroup } from '@kkrawczyk/todo-common';
 
 interface IContextMenuItem {
 	listItem: IContextMenu;
-	elementId: string | undefined;
+	elementDetails: IGroup | undefined;
 	handleItemClick: ({ triggerEvent, event, props, data }: IHandleContextMenuItemClickProps) => void;
 	submenu?: unknown[];
 	contextMenuOption: ContextMenuOpion | undefined;
 	mutateAsyncAction?: ({ _id, listId }: IGroup) => void;
 }
 
-export const ContextMenuItem: FC<IContextMenuItem> = ({ listItem, elementId, handleItemClick, submenu, contextMenuOption, mutateAsyncAction }) => {
+export const ContextMenuItem: FC<IContextMenuItem> = ({
+	listItem,
+	elementDetails,
+	handleItemClick,
+	submenu,
+	contextMenuOption,
+	mutateAsyncAction,
+}) => {
 	const onHandleItemClick = useCallback(({ triggerEvent, event, props, data }) => handleItemClick({ triggerEvent, event, props, data }), []);
 
 	return (
 		<>
 			<Item
-				data={{ ...listItem, elementId }}
+				data={{ ...listItem, elementId: elementDetails?._id, lists: elementDetails?.lists }}
 				onClick={onHandleItemClick}
 				className='cursor-pointer border-t-[1px] border-solid first:border-none'>
 				<div className='icon-style text-fontColor'>{listItem.icon}</div>
@@ -31,7 +38,7 @@ export const ContextMenuItem: FC<IContextMenuItem> = ({ listItem, elementId, han
 						listItem={listItem}
 						submenu={submenu}
 						contextMenuOption={contextMenuOption}
-						elementId={elementId}
+						elementId={elementDetails?._id}
 						mutateAsyncAction={mutateAsyncAction}
 					/>
 				)}

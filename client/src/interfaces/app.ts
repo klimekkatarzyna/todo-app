@@ -49,6 +49,7 @@ export interface IQueryError {
 type ElementId = {
 	elementId: string;
 	listId: string;
+	lists?: string[];
 };
 
 export interface IData extends IContextMenu, ElementId {}

@@ -73,7 +73,7 @@ export const TaskItem: FC<ITaskItem> = ({
 			</div>
 			<ContextMenuComponent
 				contextMenuList={taskMenuListItems}
-				elementId={task?._id || ''}
+				elementDetails={task || ''}
 				handleItemClick={handleItemClick}
 				contextMenuOption={ContextMenuOpion.move_task}
 			/>

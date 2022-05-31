@@ -1,9 +1,12 @@
 import React, { FC, useCallback, useMemo, useState } from 'react';
 import { createContext } from 'react';
+import toast from 'react-hot-toast';
+import { useMutation, useQueryClient } from 'react-query';
 import { useRecoilState } from 'recoil';
+import { unGroupeListsAction } from './actions/groups';
 import { modalVisibilityState } from './atoms/modal';
-import { ContextMenuOpion } from './enums';
-import { IData, IHandleContextMenuItemClickProps } from './interfaces/app';
+import { ContextMenuOpion, QueryKey } from './enums';
+import { IData, IHandleContextMenuItemClickProps, IQueryError } from './interfaces/app';
 
 export interface ContextMenuType {
 	setContextMenu: React.Dispatch<React.SetStateAction<IData | undefined>>;
@@ -18,10 +21,22 @@ interface IContextMenuProvider {
 }
 
 export const ContextMenuProvider: FC<IContextMenuProvider> = ({ children }) => {
+	const query = useQueryClient();
 	const [contextualMenu, setContextMenu] = useState<IData | undefined>();
 	const [isVisible, setIsVisible] = useRecoilState(modalVisibilityState);
 
-	const handleItemClick = useCallback(({ triggerEvent, event, props, data }: IHandleContextMenuItemClickProps) => {
+	const { mutateAsync: ungroupListsMutation } = useMutation(unGroupeListsAction, {
+		onSuccess: () => {
+			query.invalidateQueries(QueryKey.groups);
+			query.invalidateQueries(QueryKey.lists);
+			toast.success('Listy rozgrupowane');
+		},
+		onError: (error: IQueryError) => {
+			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
+		},
+	});
+
+	const handleItemClick = useCallback(async ({ triggerEvent, event, props, data }: IHandleContextMenuItemClickProps) => {
 		setContextMenu(data);
 
 		switch (data?.type) {
@@ -31,6 +46,11 @@ export const ContextMenuProvider: FC<IContextMenuProvider> = ({ children }) => {
 				break;
 			case ContextMenuOpion.remove_group:
 				setIsVisible(true);
+				setContextMenu(data);
+				break;
+			case ContextMenuOpion.ungroup_lists:
+				setIsVisible(true);
+				await ungroupListsMutation({ _id: data?.elementId, lists: data?.lists });
 				setContextMenu(data);
 				break;
 			case ContextMenuOpion.edit_group_name:

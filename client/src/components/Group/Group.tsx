@@ -1,7 +1,7 @@
-import React, { FC, useContext } from 'react';
+import React, { FC, useContext, useMemo } from 'react';
 import { Folder } from 'react-feather';
 import { IGroup } from '@kkrawczyk/todo-common';
-import { contextualMenuGroupOpion } from '../../constants';
+import { contextualMenuGroupedLists, contextualMenuGroup } from '../../constants';
 import { GroupedLists } from './GroupedLists';
 import { useDropdown } from '../../hooks/useDropdown';
 import { ContextMenuComponent } from '../ContextMenu/ContextMenuComponent';
@@ -19,6 +19,8 @@ export const Group: FC<IGroupProps> = ({ group, isNavClosed }) => {
 	const { displayMenu } = useShowMenuContexify(group._id);
 	const { elementeReference, toggleDropdown, dropdownOpen } = useDropdown();
 
+	const contextMenuList = useMemo(() => (!!group.lists?.length ? contextualMenuGroupedLists : contextualMenuGroup), [group]);
+
 	return (
 		<div ref={elementeReference}>
 			<div onContextMenu={displayMenu}>
@@ -29,8 +31,8 @@ export const Group: FC<IGroupProps> = ({ group, isNavClosed }) => {
 					<EditGroup title={group.title} groupId={group._id} isNavClosed={isNavClosed} />
 				</button>
 			</div>
-			{dropdownOpen && <GroupedLists />}
-			<ContextMenuComponent contextMenuList={contextualMenuGroupOpion} elementId={group?._id} handleItemClick={handleItemClick} />
+			{dropdownOpen && <GroupedLists group={group} />}
+			<ContextMenuComponent contextMenuList={contextMenuList} elementDetails={group} handleItemClick={handleItemClick} />
 		</div>
 	);
 };
