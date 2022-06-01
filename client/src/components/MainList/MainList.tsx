@@ -25,7 +25,9 @@ const MainListComponent: FC<IMainList> = ({ isNavClosed }) => {
 			{isLoading ? (
 				<Loader className='m-auto' />
 			) : (
-				data?.body?.mainLists?.map((listItem: IList) => <MenuListItem key={listItem?._id} listItem={listItem} isNavClosed={isNavClosed} />)
+				data?.body?.mainLists?.map((listItem: IList) => (
+					<MenuListItem key={listItem?._id} listItem={listItem} isNavClosed={isNavClosed} isMainMenu />
+				))
 			)}
 		</div>
 	);

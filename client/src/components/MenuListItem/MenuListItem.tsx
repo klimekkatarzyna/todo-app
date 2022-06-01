@@ -18,9 +18,10 @@ import { IQueryError } from '../../interfaces/app';
 interface IMenuListItem {
 	listItem: IList | undefined;
 	isNavClosed?: boolean | undefined;
+	isMainMenu?: boolean;
 }
 
-const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed }) => {
+const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed, isMainMenu = false }) => {
 	const query = useQueryClient();
 	const { handleItemClick } = useContext(ContextMenuContext);
 	const { displayMenu } = useShowMenuContexify(listItem?._id);
@@ -71,7 +72,7 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed }) => 
 				</div>
 			</div>
 			<ContextMenuComponent
-				contextMenuList={contextMenuList}
+				contextMenuList={isMainMenu ? [] : contextMenuList}
 				elementDetails={listItem}
 				handleItemClick={handleItemClick}
 				submenu={groupsList}
