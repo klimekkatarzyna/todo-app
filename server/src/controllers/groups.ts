@@ -88,9 +88,11 @@ export const editGroup = async (req: Request, res: Response) => {
 
 export const addListToGroup = async (req: Request, res: Response) => {
 	try {
-		const group = await Group.findOneAndUpdate({ _id: req.body._id }, { $push: { lists: req.body.listId } });
-		await List.findOneAndUpdate({ _id: req.body.listId }, { isInGroup: true });
+		const isListAlreadyAddedToGroup = await Group.findOne({ lists: req.body.listId });
 
+		const group = await Group.findOneAndUpdate({ _id: req.body._id }, { $push: { lists: req.body.listId } });
+		await List.findOneAndUpdate({ _id: req.body.listId }, { $set: { isInGroup: true, groupId: req.body._id } });
+		await Group.findOneAndUpdate({ _id: isListAlreadyAddedToGroup?._id }, { $set: { lists: [] } });
 		if (!group) {
 			res.status(404).json({ message: 'group not found' });
 		}
@@ -106,7 +108,7 @@ export const addListToGroup = async (req: Request, res: Response) => {
 export const unGroupLists = async (req: Request, res: Response) => {
 	try {
 		const arrayOfAddedListsToGroup = req.body.lists;
-		await List.updateMany({ _id: { $in: arrayOfAddedListsToGroup } }, { isInGroup: false });
+		await List.updateMany({ _id: { $in: arrayOfAddedListsToGroup } }, { $set: { isInGroup: false, groupId: '' } });
 		const group = await Group.findOneAndUpdate({ _id: req.body._id }, { $set: { lists: [] } });
 
 		if (!group) {

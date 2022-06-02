@@ -67,6 +67,7 @@ export interface IList {
   member?: string;
   userId?: string;
   isInGroup?: boolean;
+  groupId?: string;
 }
 
 // ---------------- group ------------------

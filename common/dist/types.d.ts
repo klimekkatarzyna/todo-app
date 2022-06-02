@@ -57,6 +57,7 @@ export interface IList {
     member?: string;
     userId?: string;
     isInGroup?: boolean;
+    groupId?: string;
 }
 export interface IGroup {
     title?: string;

@@ -29,6 +29,7 @@ export const createList = async (req: Request, res: Response) => {
 		owner: '',
 		members: [],
 		isInGroup: false,
+		groupId: '',
 	});
 
 	try {
@@ -43,6 +44,7 @@ export const createList = async (req: Request, res: Response) => {
 				owner: list.owner,
 				members: list.members,
 				isInGroup: list.isInGroup,
+				groupId: list.groupId,
 			},
 		});
 	} catch (error) {
@@ -107,6 +109,7 @@ export const getList = async (req: Request, res: Response) => {
 				owner: list[0]?.owner,
 				members,
 				isInGroup: list[0].isInGroup,
+				groupId: list[0].groupId,
 			},
 		});
 	} catch (error) {

@@ -61,6 +61,8 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed, isMai
 		},
 	});
 
+	const groupsWithoutAddedList = useMemo(() => groupsList?.filter(group => group._id !== listItem?.groupId), [groupsList, listItem]);
+
 	return (
 		<NavLink to={redirectUrl} className='no-underline' activeClassName='bg-activeMenuItem'>
 			<div onContextMenu={displayMenu}>
@@ -75,7 +77,7 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed, isMai
 				contextMenuList={isMainMenu ? [] : contextMenuList}
 				elementDetails={listItem}
 				handleItemClick={handleItemClick}
-				submenu={groupsList}
+				submenu={groupsWithoutAddedList}
 				contextMenuOption={ContextMenuOpion.move_list_to}
 				mutateAsyncAction={mutateAsync}
 			/>
