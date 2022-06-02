@@ -16,7 +16,7 @@ exports.createEditTaskSchema = (0, yup_1.object)({
     groupName: (0, yup_1.string)().optional(),
     title: (0, yup_1.string)()
         .min(3, "Too short!")
-        .max(20, "Too Long!")
+        .max(50, "Too Long!")
         .required("Dodaj nazwę zadania"),
     themeColor: (0, yup_1.mixed)()
         .oneOf(Object.values(types_1.AppColorTypeEnum))

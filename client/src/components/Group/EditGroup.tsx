@@ -1,4 +1,4 @@
-import { FC, useCallback, useContext, useEffect, useState } from 'react';
+import { FC, RefObject, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { ContextMenuContext } from '../../ContextMenuProvider';
 import { ContextMenuOpion, QueryKey } from '../../enums';
 import { useMutation, useQueryClient } from 'react-query';
@@ -8,6 +8,7 @@ import { createEditGroupSchema, CreateEditGroupType, IGroup } from '@kkrawczyk/t
 import toast from 'react-hot-toast';
 import { TitleForm } from '../TitleForm';
 import { IQueryError } from '../../interfaces/app';
+import { useFocusingHandling } from '../../hooks/useMouseHandling';
 
 interface IEditGroupProps {
 	title: string | undefined;
@@ -18,7 +19,10 @@ interface IEditGroupProps {
 export const EditGroup: FC<IEditGroupProps> = ({ title, groupId, isNavClosed }) => {
 	const query = useQueryClient();
 	const [isInputVisible, setIsInputVisible] = useState(false);
-	const { contextualMenu } = useContext(ContextMenuContext);
+	const { contextualMenu, setContextMenu } = useContext(ContextMenuContext);
+
+	const elementRef: RefObject<HTMLInputElement> = useRef(null);
+	const { isFocused, onClick, onBlur } = useFocusingHandling(elementRef);
 
 	const { mutateAsync, error, isLoading } = useMutation(editGroup, {
 		onSuccess: () => {
@@ -37,14 +41,16 @@ export const EditGroup: FC<IEditGroupProps> = ({ title, groupId, isNavClosed }) 
 		await mutateAsync({ _id: groupId, title: values.title });
 		resetForm();
 		setIsInputVisible(false);
+		setContextMenu(undefined);
+		onBlur();
 	}, []);
 
 	useEffect(() => {
-		setIsInputVisible(contextualMenu?.type === ContextMenuOpion.edit_group_name && contextualMenu?.elementId === groupId);
-	}, [contextualMenu]);
+		setIsInputVisible((contextualMenu?.type === ContextMenuOpion.edit_group_name && contextualMenu?.elementId === groupId) || isFocused);
+	}, [contextualMenu, isFocused]);
 
 	return (
-		<div>
+		<div ref={elementRef} onClick={onClick} onBlur={onBlur}>
 			{isInputVisible ? (
 				<TitleForm
 					placeholder={'Grupa bez nazwy'}

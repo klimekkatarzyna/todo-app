@@ -3,7 +3,6 @@ import { FC, useCallback } from 'react';
 import { useRecoilValue } from 'recoil';
 import { modalVisibilityState } from '../../atoms/modal';
 import { ContextMenuOpion } from '../../enums';
-import { useDragAndDrop } from '../../hooks/useDragAndDrop';
 import { useTasks } from '../../hooks/useTasks';
 import { ContextualModal } from '../Modal/ContextualModal';
 import { TaskItem } from './TaskItem/TaskItem';
@@ -16,8 +15,7 @@ interface ITasksListProps {
 export const TasksList: FC<ITasksListProps> = ({ tasks, redirectUrl }) => {
 	const isVisible = useRecoilValue(modalVisibilityState);
 	const { removeTaskMutation } = useTasks();
-	const { inCompletedTaskslist, setInCompletedTasksList, onChangeTaskStatus, changeTaskImportanceMutation } = useTasks();
-	const { onDragStart, onDragOver, onDragLeave, onDrop, dragAndDrop } = useDragAndDrop(inCompletedTaskslist, setInCompletedTasksList);
+	const { onChangeTaskStatus, changeTaskImportanceMutation } = useTasks();
 
 	const onRemoveTask = useCallback(async (): Promise<void> => {
 		await removeTaskMutation();
@@ -31,11 +29,6 @@ export const TasksList: FC<ITasksListProps> = ({ tasks, redirectUrl }) => {
 					task={task}
 					index={index}
 					redirectTo={redirectUrl}
-					dragAndDrop={dragAndDrop}
-					onDragStart={onDragStart}
-					onDragOver={onDragOver}
-					onDrop={onDrop}
-					onDragLeave={onDragLeave}
 					onChangeTaskStatus={onChangeTaskStatus}
 					changeTaskImportance={changeTaskImportanceMutation}
 				/>

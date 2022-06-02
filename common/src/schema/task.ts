@@ -25,7 +25,7 @@ export const createEditTaskSchema: SchemaOf<ITask> = object({
   groupName: string().optional(),
   title: string()
     .min(3, "Too short!")
-    .max(20, "Too Long!")
+    .max(50, "Too Long!")
     .required("Dodaj nazwę zadania"),
   themeColor: mixed<AppColorTypeEnum>()
     .oneOf(Object.values(AppColorTypeEnum) as AppColorTypeEnum[])
