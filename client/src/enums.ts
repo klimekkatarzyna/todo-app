@@ -81,6 +81,7 @@ export enum QueryKey {
 	lists = 'lists',
 	getMainList = 'getMainList',
 	groups = 'groups',
+	getGroup = 'getGroup',
 	getMyDayTasks = 'getMyDayTasks',
 	getUser = 'getUser',
 	getAssignedTasks = 'getAssignedTasks',

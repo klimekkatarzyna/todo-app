@@ -20,7 +20,7 @@ export const Searching: FC = () => {
 			{isLoading ? (
 				<Loader className='m-auto' />
 			) : (
-				<div className='overflow-y-scroll h-[600px] mt-4'>
+				<div className='mt-4'>
 					<TasksList tasks={searchResults} redirectUrl={`${buildUrl(ROUTE.search)}/`} />
 					{!searchResults?.length && <div className='ml-2'>nie naleziono wyniku</div>}
 				</div>

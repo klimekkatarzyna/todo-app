@@ -46,6 +46,7 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed, isMai
 		() => (listItem?.isMainList ? listItem?.url : buildUrl(ROUTE.listsDetails, { listId: listItem?._id || '' })),
 		[listItem]
 	) as string;
+
 	const contextMenuList = useMemo(() => (isOwner ? contextualMenuSecountOpion : contextualMenuSecountOpionMembers), [isOwner]);
 
 	const { data: groupsList } = useQuery<IGroup[] | undefined>(QueryKey.groups, getGroups);
@@ -61,7 +62,10 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed, isMai
 		},
 	});
 
-	const groupsWithoutAddedList = useMemo(() => groupsList?.filter(group => group._id !== listItem?.groupId), [groupsList, listItem]);
+	const groupsWithoutAddedList = useMemo(
+		() => groupsList?.filter(group => !group.lists?.includes(listItem?._id || '') && group),
+		[groupsList, listItem]
+	);
 
 	return (
 		<NavLink to={redirectUrl} className='no-underline' activeClassName='bg-activeMenuItem'>

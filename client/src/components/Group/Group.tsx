@@ -1,4 +1,4 @@
-import React, { FC, useContext, useMemo } from 'react';
+import React, { FC, useContext, useEffect, useMemo } from 'react';
 import { Folder } from 'react-feather';
 import { IGroup } from '@kkrawczyk/todo-common';
 import { contextualMenuGroupedLists, contextualMenuGroup } from '../../constants';
@@ -8,6 +8,8 @@ import { ContextMenuComponent } from '../ContextMenu/ContextMenuComponent';
 import { EditGroup } from './EditGroup';
 import { ContextMenuContext } from '../../ContextMenuProvider';
 import { useShowMenuContexify } from '../../hooks/useShowMenuContexify';
+import { useSetRecoilState } from 'recoil';
+import { groupState } from '../../atoms/group';
 
 interface IGroupProps {
 	group: IGroup;
@@ -18,8 +20,13 @@ export const Group: FC<IGroupProps> = ({ group, isNavClosed }) => {
 	const { handleItemClick } = useContext(ContextMenuContext);
 	const { displayMenu } = useShowMenuContexify(group._id);
 	const { elementeReference, toggleDropdown, dropdownOpen } = useDropdown();
+	const setGroupDetails = useSetRecoilState(groupState);
 
 	const contextMenuList = useMemo(() => (!!group.lists?.length ? contextualMenuGroupedLists : contextualMenuGroup), [group]);
+
+	useEffect(() => {
+		setGroupDetails(group);
+	}, [group]);
 
 	return (
 		<div ref={elementeReference}>
