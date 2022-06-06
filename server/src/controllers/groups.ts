@@ -91,7 +91,7 @@ export const addListToGroup = async (req: Request, res: Response) => {
 		const isListAlreadyAddedToGroup = await Group.findOne({ userId, lists: req.body.listId });
 
 		const group = await Group.findOneAndUpdate({ _id: req.body._id }, { $push: { lists: req.body.listId } });
-		await Group.findOneAndUpdate({ userId, _id: isListAlreadyAddedToGroup?._id }, { $set: { lists: [] } });
+		await Group.findOneAndUpdate({ userId, _id: isListAlreadyAddedToGroup?._id }, { $pull: { lists: req.body.listId } });
 		if (!group) {
 			res.status(404).json({ message: 'group not found' });
 		}
