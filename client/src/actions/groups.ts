@@ -12,3 +12,7 @@ export const getGroups = async () => {
 };
 
 export const deleteGroup = async ({ _id }: IGroup) => await http(api.removeGroup, 'DELETE', { _id });
+
+export const addListToGroupAction = async ({ _id, listId }: IGroup) => await http(api.addListToGroup, 'POST', { _id, listId });
+
+export const unGroupeListsAction = async ({ _id, lists }: IGroup) => await http(api.unGroupLists, 'POST', { _id, lists });

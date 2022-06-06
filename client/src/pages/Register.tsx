@@ -9,36 +9,40 @@ import { useMutation } from 'react-query';
 import { RegisterValidationType, registerValidationSchema, IUserData } from '@kkrawczyk/todo-common';
 import { registerAction } from '../actions/user';
 import { HttpResponse } from '../utils/http';
-import { SideMenu } from '../enums';
+import { ROUTE } from '../enums';
+import { buildUrl } from '../utils/paths';
+import { useTogglePasswordVisibility } from '../hooks/useTogglePasswordVisibility';
+import { EyeComponent } from '../components/EyeComponent/EyeComponent';
 
 export const Register: FC = () => {
 	const history = useHistory();
 	const initialValues = { username: '', email: '', password: '' };
+	const { showPassword, handledSetPassword } = useTogglePasswordVisibility();
 
 	const authenticateUserRequest = useCallback(async ({ username, email, password }: IUserData): Promise<HttpResponse<IUserData> | undefined> => {
 		try {
 			const response = await registerAction({ username, email, password });
-			if (response?.isSuccess) history.push(SideMenu.myDay);
+			if (response?.isSuccess) history.push(buildUrl(ROUTE.home));
 			return response;
 		} catch (err) {
 			console.error(err);
 		}
 	}, []);
 
-	const { mutate, isLoading, data } = useMutation(authenticateUserRequest);
+	const { mutateAsync, isLoading, data } = useMutation(authenticateUserRequest);
 
 	const onSubmit = useCallback(async (values: RegisterValidationType, { resetForm }) => {
-		await mutate({ username: values.username, email: values.email, password: values.password });
+		await mutateAsync({ username: values.username, email: values.email, password: values.password });
 		resetForm();
 	}, []);
 
 	return (
 		<div className='bg-light-grey w-full flex items-center justify-center'>
-			<div className='bg-white flex items-center flex-col p-8 w-80'>
-				<h2 className='text-blue text-lg font-semibold mb-2'>Rejestrowanie</h2>
-				<p>
+			<div className='flex items-center flex-col p-8'>
+				<h2 className='text-fontColor mt-6 text-center text-3xl font-extrabold mb-2'>Utwórz konto w TODO app</h2>
+				<p className='mt-2 text-center text-sm text-gray-600 mb-4'>
 					Masz konto?{' '}
-					<Link className='text-blue' to='/login'>
+					<Link className='text-blue' to={buildUrl(ROUTE.login)}>
 						Zaloguj się
 					</Link>
 				</p>
@@ -52,15 +56,21 @@ export const Register: FC = () => {
 								<Input name='username' placeholder={'User name'} {...props} />
 								{errors.username && touched.username ? <ErrorMessageComponent name='username' /> : null}
 							</div>
-							<div className='relative'>
+							<div className='relative flex mt-2'>
 								<Input name='email' placeholder={'Email'} {...props} />
 								{errors.email && touched.email ? <ErrorMessageComponent name='email' /> : null}
 							</div>
-							<div className='relative'>
-								<Input name='password' type={InputType.password} placeholder={'Password'} {...props} />
+							<div className='relative flex flex mt-2'>
+								<Input
+									name='password'
+									type={showPassword ? InputType.text : InputType.password}
+									placeholder={'Password'}
+									{...props}
+								/>
 								{errors.password && touched.password ? <ErrorMessageComponent name='password' /> : null}
+								<EyeComponent showPassword={showPassword} handledSetPassword={handledSetPassword} />
 							</div>
-							<Button primary type='submit' isLoading={isLoading}>
+							<Button primary type='submit' isLoading={isLoading} className='w-full'>
 								Uwrórz konto
 							</Button>
 						</Form>

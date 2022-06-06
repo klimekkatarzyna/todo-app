@@ -1,6 +1,6 @@
 import { FC, useCallback, useEffect, useMemo } from 'react';
 import Fuse from 'fuse.js';
-import { QueryKey, SideMenu } from '../enums';
+import { ROUTE, QueryKey } from '../enums';
 import { useQuery } from 'react-query';
 import { ITask } from '@kkrawczyk/todo-common';
 import { getTasksAction } from '../actions/tasks';
@@ -8,13 +8,14 @@ import { Input } from '../formik/Input';
 import { ErrorMessageComponent } from '../formik/ErrorMessageComponent';
 import { Formik, Form } from 'formik';
 import { InputType } from '../interfaces/app';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { loadingState, searchResultState } from '../atoms/serching';
 import { useHistory } from 'react-router-dom';
+import { buildUrl } from '../utils/paths';
 
 export const SearchInput: FC = () => {
-	const [searchResults, setSearchResults] = useRecoilState(searchResultState);
-	const [isLoading, setIsLoading] = useRecoilState(loadingState);
+	const setSearchResults = useSetRecoilState(searchResultState);
+	const setIsLoading = useSetRecoilState(loadingState);
 
 	const history = useHistory();
 	const { data } = useQuery<ITask[] | undefined>([QueryKey.tasksList], () => getTasksAction());
@@ -43,7 +44,7 @@ export const SearchInput: FC = () => {
 		values => {
 			setIsLoading(true);
 			setSearchResults(searchWithFuse(values.title));
-			history.push(`/${SideMenu.search}`);
+			history.push(buildUrl(ROUTE.search));
 			setIsLoading(false);
 		},
 		[data]
@@ -51,7 +52,7 @@ export const SearchInput: FC = () => {
 
 	useEffect(() => {
 		const handleClick = (event: any) => {
-			if (event?.target?.value === '') history.push(SideMenu.myDay);
+			if (event?.target?.value === '') history.push(buildUrl(ROUTE.home));
 		};
 
 		document.addEventListener('search', handleClick);

@@ -9,6 +9,7 @@ import { createEditGroupSchema, CreateEditGroupType, IGroup } from '@kkrawczyk/t
 import { QueryKey } from '../../enums';
 import toast from 'react-hot-toast';
 import { TitleForm } from '../TitleForm';
+import { IQueryError } from '../../interfaces/app';
 
 export const CreateGroup: FC = () => {
 	const query = useQueryClient();
@@ -16,22 +17,25 @@ export const CreateGroup: FC = () => {
 
 	const initialValues: IGroup = { title: '' };
 
-	const { mutate, error, isLoading } = useMutation(createGroup, {
+	const { mutateAsync, error, isLoading } = useMutation(createGroup, {
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.groups]);
 			toast.success('Grupa utworzona');
 		},
-		onError: error => {
-			toast.error(`Coś poszlo nie tak: ${error}`);
+		onError: (error: IQueryError) => {
+			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 
-	const onSubmit = useCallback(async (values: CreateEditGroupType, { resetForm }) => {
-		if (isStringContainsWhitespace(values.title)) return;
-		await mutate({ title: values.title });
-		resetForm();
-		toggleDropdown();
-	}, []);
+	const onSubmit = useCallback(
+		async (values: CreateEditGroupType, { resetForm }) => {
+			const title = isStringContainsWhitespace(values.title) ? 'Nowa grupa' : values.title;
+			await mutateAsync({ title });
+			resetForm();
+			toggleDropdown();
+		},
+		[dropdownOpen]
+	);
 
 	return (
 		<div ref={elementeReference}>

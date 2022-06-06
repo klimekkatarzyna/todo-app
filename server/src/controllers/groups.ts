@@ -10,6 +10,7 @@ export const createGroup = async (req: Request, res: Response) => {
 		themeColor: 'blue',
 		createdAt: Date.now(),
 		userId: userId,
+		lists: [],
 	});
 
 	try {
@@ -20,6 +21,7 @@ export const createGroup = async (req: Request, res: Response) => {
 				title: group.title,
 				themeColor: group.themeColor,
 				createdAt: group.createdAt,
+				lists: group.lists,
 			},
 			message: `group created successfully`,
 		});
@@ -67,6 +69,7 @@ export const removeGroup = async (req: Request, res: Response) => {
 
 export const editGroup = async (req: Request, res: Response) => {
 	const group = await Group.updateOne({ _id: req.body._id }, { $set: { title: req.body.title } });
+
 	if (!group) {
 		res.status(404).json({ message: 'Group not found' });
 	}
@@ -75,6 +78,43 @@ export const editGroup = async (req: Request, res: Response) => {
 		res.status(200).json({
 			message: `status changed successfully to ${req.body.title}`,
 		});
+	} catch (err) {
+		res.status(500).json({
+			err,
+		});
+	}
+};
+
+export const addListToGroup = async (req: Request, res: Response) => {
+	try {
+		const userId = getSessionUserId(req);
+		const isListAlreadyAddedToGroup = await Group.findOne({ userId, lists: req.body.listId });
+
+		const group = await Group.findOneAndUpdate({ _id: req.body._id }, { $push: { lists: req.body.listId } });
+		await Group.findOneAndUpdate({ userId, _id: isListAlreadyAddedToGroup?._id }, { $set: { lists: [] } });
+		if (!group) {
+			res.status(404).json({ message: 'group not found' });
+		}
+
+		res.status(200).json({ message: 'list has been added to the group' });
+	} catch (err) {
+		res.status(500).json({
+			err,
+		});
+	}
+};
+
+export const unGroupLists = async (req: Request, res: Response) => {
+	try {
+		const userId = getSessionUserId(req);
+
+		const group = await Group.findOneAndUpdate({ userId, _id: req.body._id }, { $set: { lists: [] } });
+
+		if (!group) {
+			res.status(404).json({ message: 'group not found' });
+		}
+
+		res.status(200).json({ message: 'ungrouped lists' });
 	} catch (err) {
 		res.status(500).json({
 			err,

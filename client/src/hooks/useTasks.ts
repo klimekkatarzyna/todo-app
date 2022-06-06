@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState, useContext } from 'react';
 import { QueryKey, SortTaskType } from '../enums';
 import { useSort } from './useSort';
 import { useParams } from 'react-router-dom';
-import { IUseParams } from '../interfaces/app';
+import { IQueryError, IUseParams } from '../interfaces/app';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { changeTaskImportanceAction, changeTaskStatusAction, deleteTaskAction, getTaskAction, getTasksOfCurrentListAction } from '../actions/tasks';
 import { SocketContext } from '../providers/SocketProvider';
@@ -29,7 +29,7 @@ export const useTasks = () => {
 	const [completedTaskslist, setComplitedTasksList] = useRecoilState(completedTasksListState);
 	const { sorter } = useSort<ITask>();
 
-	const { mutate: changeTaskImportanceMutation } = useMutation(changeTaskImportanceAction, {
+	const { mutateAsync: changeTaskImportanceMutation } = useMutation(changeTaskImportanceAction, {
 		onSuccess: () => {
 			query.invalidateQueries(QueryKey.getImportanceTasks);
 			query.invalidateQueries(QueryKey.tasksOfCurrentList);
@@ -38,25 +38,28 @@ export const useTasks = () => {
 			query.invalidateQueries(QueryKey.getAssignedTasks);
 			toast.success('Ważność zadanie zmieniona');
 		},
-		onError: error => {
-			toast.error(`Coś poszlo nie tak: ${error}`);
+		onError: (error: IQueryError) => {
+			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 
 	const { data: tasksOfCurrentList, isLoading: getTasksOfCurrentListLoading } = useQuery<ITask[] | undefined>(
 		[QueryKey.tasksOfCurrentList, listId],
-		() => getTasksOfCurrentListAction({ parentFolderId: listId })
+		() => getTasksOfCurrentListAction({ parentFolderId: listId }),
+		{ enabled: !!listId }
 	);
 	// useEffect(() => {
 	// 	setInCompletedTasksList(tasksOfCurrentList || []);
 	// }, []);
 
-	const { data: taskData, isLoading: taskDataLoading } = useQuery<ITask | undefined>([QueryKey.getTask, taskId], () =>
-		getTaskAction({ _id: taskId })
+	const { data: taskData, isLoading: taskDataLoading } = useQuery<ITask | undefined>(
+		[QueryKey.getTask, taskId],
+		() => getTaskAction({ _id: taskId }),
+		{ enabled: !!taskId }
 	);
 
-	const { mutate: removeTaskMutation } = useMutation(
-		() => deleteTaskAction({ _id: tasksContextlMenu?.elementId, parentFolderId: taskData?.parentFolderId }),
+	const { mutateAsync: removeTaskMutation, isError } = useMutation(
+		() => deleteTaskAction({ _id: tasksContextlMenu?.elementId || taskId, parentFolderId: taskData?.parentFolderId }),
 		{
 			onSuccess: () => {
 				query.invalidateQueries(QueryKey.getImportanceTasks);
@@ -66,8 +69,8 @@ export const useTasks = () => {
 				query.invalidateQueries(QueryKey.getAssignedTasks);
 				toast.success('Zadanie usunięte');
 			},
-			onError: error => {
-				toast.error(`Coś poszlo nie tak: ${error}`);
+			onError: (error: IQueryError) => {
+				toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 			},
 		}
 	);
@@ -83,7 +86,7 @@ export const useTasks = () => {
 		setSort(state => ({ ...state, key: property[0], keyType: property[1] }));
 	}, []);
 
-	const { mutate: changeTaskStatusMutation } = useMutation(changeTaskStatusAction, {
+	const { mutateAsync: changeTaskStatusMutation } = useMutation(changeTaskStatusAction, {
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.tasksOfCurrentList]);
 			query.invalidateQueries([QueryKey.getImportanceTasks]);
@@ -92,21 +95,21 @@ export const useTasks = () => {
 			query.invalidateQueries(QueryKey.getAssignedTasks);
 			toast.success('Status zadania zmieniony');
 		},
-		onError: error => {
-			toast.error(`Coś poszlo nie tak: ${error}`);
+		onError: (error: IQueryError) => {
+			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 
-	const onMarkTaskAsCompleted = useCallback((_id: string | undefined): void => {
-		changeTaskStatusMutation({
+	const onMarkTaskAsCompleted = useCallback(async (_id: string | undefined) => {
+		await changeTaskStatusMutation({
 			_id: _id,
 			taskStatus: ITaskStatus.complete,
 			parentFolderId: listId,
 		});
 	}, []);
 
-	const onMarkTaskAsInCompleted = useCallback((_id: string | undefined): void => {
-		changeTaskStatusMutation({
+	const onMarkTaskAsInCompleted = useCallback(async (_id: string | undefined) => {
+		await changeTaskStatusMutation({
 			_id: _id,
 			taskStatus: ITaskStatus.inComplete,
 			parentFolderId: listId,
@@ -124,7 +127,6 @@ export const useTasks = () => {
 		// listId === newTask?.parentFolderId && setInCompletedTasksList([...(tasksOfCurrentList || []), newTask]);
 
 		socket?.on('add-task', taskListener);
-		console.log({ tasksOfCurrentList });
 
 		return () => {
 			socket?.off('add-task', taskListener);

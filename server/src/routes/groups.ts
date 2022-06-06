@@ -1,6 +1,6 @@
 import { createEditGroupSchema, CreateEditGroupType } from '@kkrawczyk/todo-common';
 import express from 'express';
-import { createGroup, editGroup, getGroups, removeGroup } from '../controllers/groups';
+import { addListToGroup, createGroup, editGroup, getGroups, removeGroup, unGroupLists } from '../controllers/groups';
 import { authorization } from '../utils/auth';
 import { validateBody } from '../utils/validation';
 
@@ -13,5 +13,9 @@ groups.get('/groups', authorization, getGroups);
 groups.delete('/groups', authorization, removeGroup);
 
 groups.patch('/groups', authorization, validateBody<CreateEditGroupType>(createEditGroupSchema), editGroup);
+
+groups.post('/groupsLists', authorization, addListToGroup);
+
+groups.post('/unGroupLists', authorization, unGroupLists);
 
 export default groups;

@@ -39,3 +39,23 @@ export interface IContextMenu {
 	name: string;
 	target?: ReactElement;
 }
+
+export interface IQueryError {
+	err: {
+		message: string;
+	};
+}
+
+type ElementId = {
+	elementId: string;
+	listId: string;
+	lists?: string[];
+};
+
+export interface IData extends IContextMenu, ElementId {}
+export interface IHandleContextMenuItemClickProps {
+	triggerEvent: unknown;
+	event: React.ChangeEvent<HTMLInputElement>;
+	props: unknown;
+	data: IData;
+}

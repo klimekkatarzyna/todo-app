@@ -7,7 +7,7 @@ import { Groups } from './Group/Groups';
 import { Menu } from 'react-feather';
 
 export const Sidebar: FC = () => {
-	const [isNavClosed, setIsNavClosed] = useState(false);
+	const [isNavClosed, setIsNavClosed] = useState<boolean>(false);
 
 	const handleClick = useCallback(() => {
 		setIsNavClosed(!isNavClosed);
@@ -18,7 +18,6 @@ export const Sidebar: FC = () => {
 			className={`flex bg-light-grey flex-col pt-4 pb-14 px-0 ${
 				isNavClosed ? 'w-14' : 'w-80 md:w-72'
 			} transition-width duration-200 ease-in absolute z-10 left-0 bottom-0 top-[45px] h-auto md:relative md:h-[94vh] md:top-0`}>
-			{/*TODO: search*/}
 			<button className='border-none bg-inherit text-center p-2 ml-2' onClick={handleClick}>
 				{<Menu className='stroke-blue icon-style' />}
 			</button>

@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { List } from '../models/list';
-import { User } from '../models/user';
 import MainList from '../models/mainList';
 import { getSessionUserId } from '../utils/auth';
 

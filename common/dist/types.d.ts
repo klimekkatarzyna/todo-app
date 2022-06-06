@@ -18,6 +18,8 @@ export interface ITask {
     isMyDay?: boolean;
     assigned?: string;
     sortType?: SortType;
+    createdBy?: string;
+    members?: Array<string>;
 }
 export declare type AppColorType = "grey" | "blue" | "red" | "green";
 export declare enum AppColorTypeEnum {
@@ -61,4 +63,6 @@ export interface IGroup {
     _id?: string;
     createdAt?: Date;
     userId?: string;
+    lists?: string[];
+    listId?: string;
 }

@@ -10,7 +10,7 @@ interface IDisplayMemberProps {
 }
 
 export const DisplayMember: FC<IDisplayMemberProps> = ({ member }) => {
-	const { data, isLoading } = useQuery<IUserData | undefined>([QueryKey.getUser, member], () => getUserAction(member));
+	const { data, isLoading } = useQuery<IUserData | undefined>([QueryKey.getUser, member], () => getUserAction(member), { enabled: !!member });
 
 	return (
 		<div className='flex flex-row items-center p-1 hover:bg-hoverColor cursor-pointer w-full'>

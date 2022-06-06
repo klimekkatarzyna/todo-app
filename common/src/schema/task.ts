@@ -1,4 +1,13 @@
-import { object, string, boolean, InferType, date, SchemaOf, mixed } from "yup";
+import {
+  object,
+  string,
+  boolean,
+  InferType,
+  date,
+  SchemaOf,
+  mixed,
+  array,
+} from "yup";
 import { ITask, SortType, AppColorTypeEnum } from "../types";
 
 export const taskIdSchema = object({
@@ -16,7 +25,7 @@ export const createEditTaskSchema: SchemaOf<ITask> = object({
   groupName: string().optional(),
   title: string()
     .min(3, "Too short!")
-    .max(20, "Too Long!")
+    .max(50, "Too Long!")
     .required("Dodaj nazwę zadania"),
   themeColor: mixed<AppColorTypeEnum>()
     .oneOf(Object.values(AppColorTypeEnum) as AppColorTypeEnum[])
@@ -29,6 +38,8 @@ export const createEditTaskSchema: SchemaOf<ITask> = object({
   sortType: mixed<SortType>()
     .oneOf(Object.values(SortType) as SortType[])
     .optional(),
+  createdBy: string(),
+  members: array().of(string()),
 });
 
 // A better approach

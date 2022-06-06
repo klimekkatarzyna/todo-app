@@ -11,4 +11,6 @@ exports.createEditGroupSchema = (0, yup_1.object)({
         .optional(),
     _id: (0, yup_1.string)().optional(),
     userId: (0, yup_1.string)().optional(),
+    lists: (0, yup_1.array)().of((0, yup_1.string)()).optional(),
+    listId: (0, yup_1.string)().optional(),
 });

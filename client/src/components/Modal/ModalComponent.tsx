@@ -1,7 +1,6 @@
-import React, { FC, useCallback, useContext, useEffect } from 'react';
+import React, { FC, useCallback, useEffect } from 'react';
 import { Button } from '../Button/Button';
 import { X } from 'react-feather';
-import { IData } from '../../ContextMenuProvider';
 
 interface IModalComponentProps<T> {
 	children?: React.ReactNode;
@@ -10,7 +9,6 @@ interface IModalComponentProps<T> {
 	onHandleAction: () => void;
 	isActionButtonHidden?: boolean;
 	isLoading?: boolean;
-	setContextMenu?: React.Dispatch<React.SetStateAction<IData | undefined>>;
 }
 
 export const ModalComponent: FC<IModalComponentProps<unknown>> = ({
@@ -20,7 +18,6 @@ export const ModalComponent: FC<IModalComponentProps<unknown>> = ({
 	onHandleAction,
 	isActionButtonHidden = false,
 	isLoading,
-	setContextMenu,
 }) => {
 	useEffect(() => {
 		const listener = (event: KeyboardEvent) => {
@@ -38,7 +35,6 @@ export const ModalComponent: FC<IModalComponentProps<unknown>> = ({
 		const listener = (event: KeyboardEvent) => {
 			if (event.code === 'Escape') {
 				onHide();
-				setContextMenu?.(undefined);
 			}
 		};
 		document.addEventListener('keydown', listener);
@@ -50,14 +46,13 @@ export const ModalComponent: FC<IModalComponentProps<unknown>> = ({
 	const onHandleActionAndClose = useCallback(() => {
 		onHandleAction();
 		onHide();
-		setContextMenu?.(undefined);
 	}, []);
 
 	return (
 		<div
 			className={`w-full h-full fixed z-30 p-4 left-0 top-0 right-0 flex items-center justify-center opacity-100 visible transition-all delay-200 ease-out bg-black-rgba`}>
-			<div className={`w-80 h-auto rounded relative bg-white p-4`}>
-				<div className='flex justify-between'>
+			<div className={`w-[400px] h-auto min-h-[200px] rounded relative bg-white p-4 flex flex-col`}>
+				<div className='flex justify-between items-center'>
 					<div className='font-semibold text-sm'>{title}</div>
 					<button onClick={onHide}>
 						<X className='icon-style' />
@@ -65,7 +60,7 @@ export const ModalComponent: FC<IModalComponentProps<unknown>> = ({
 				</div>
 				<div className='text-sm pt-4'>{children}</div>
 				{!isActionButtonHidden && (
-					<div className='flex mt-4'>
+					<div className='flex justify-end mt-auto'>
 						<Button onClick={onHide} outline>
 							{'Anuluj'}
 						</Button>

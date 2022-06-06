@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import Task from '../models/task';
 import { taskSocket } from '../utils/socketsEvents';
 import { Importance } from '@kkrawczyk/todo-common';
+import { getSessionUserId } from '../utils/auth';
 
 export const createTask = async (req: Request, res: Response) => {
 	await Task.find({ id: req.body._id });
@@ -14,6 +15,8 @@ export const createTask = async (req: Request, res: Response) => {
 		taskStatus: req.body.taskStatus,
 		sortType: req.body.sortType,
 		assigned: req.body.assigned,
+		createdBy: req.body.createdBy,
+		members: req.body.members,
 	});
 
 	taskSocket('add-task', req.body.parentFolderId, task);
@@ -31,6 +34,8 @@ export const createTask = async (req: Request, res: Response) => {
 				taskStatus: task.taskStatus,
 				sortType: task.sortType,
 				assigned: task.assigned,
+				createdBy: task.createdBy,
+				members: task.members,
 			},
 		});
 	} catch (err) {
@@ -167,6 +172,7 @@ export const changeTaskImportance = async (req: Request, res: Response) => {
 
 export const taskInMyDay = async (req: Request, res: Response) => {
 	const task = await Task.updateOne({ _id: req.params._id }, { $set: { isMyDay: req.body.isMyDay } });
+
 	try {
 		res.status(200).json({
 			message: `task has been changed`,
@@ -180,8 +186,9 @@ export const taskInMyDay = async (req: Request, res: Response) => {
 };
 
 export const getImportanceTasks = async (req: Request, res: Response) => {
-	const tasks = await Task.find({ importance: Importance.high });
 	try {
+		const userId = getSessionUserId(req);
+		const tasks = await Task.find({ importance: Importance.high, members: { $in: userId } });
 		res.status(200).json({
 			body: tasks,
 		});
@@ -194,8 +201,9 @@ export const getImportanceTasks = async (req: Request, res: Response) => {
 };
 
 export const getMyDayTasks = async (req: Request, res: Response) => {
-	const tasks = await Task.find({ isMyDay: true });
 	try {
+		const userId = getSessionUserId(req);
+		const tasks = await Task.find({ isMyDay: true, members: { $in: userId } });
 		res.status(200).json({
 			body: tasks,
 		});
@@ -251,7 +259,8 @@ export const removeUserFromTask = async (req: Request, res: Response) => {
 
 export const getAssignedTasks = async (req: Request, res: Response) => {
 	try {
-		const tasks = await Task.find({ assigned: req.params.assigned });
+		const userId = getSessionUserId(req);
+		const tasks = await Task.find({ assigned: req.params.assigned, members: { $in: userId } });
 		if (!tasks) {
 			res.status(404).json({ message: 'Tasks not found' });
 		}

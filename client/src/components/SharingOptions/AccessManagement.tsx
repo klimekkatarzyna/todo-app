@@ -4,11 +4,12 @@ import { IList } from '@kkrawczyk/todo-common';
 import { useMutation, useQueryClient } from 'react-query';
 import { ArrowLeft } from 'react-feather';
 import { removeInvitationAction } from '../../actions/sharing';
-import { QueryKey } from '../../enums';
+import { QueryKey, ROUTE } from '../../enums';
 import toast from 'react-hot-toast';
+import { IQueryError } from '../../interfaces/app';
 
 interface IAccessManagementProps {
-	listDataResponse: IList;
+	listDataResponse: IList | undefined;
 	onPrevStep: () => void;
 }
 
@@ -20,8 +21,8 @@ export const AccessManagement: FC<IAccessManagementProps> = ({ listDataResponse,
 			query.invalidateQueries([QueryKey.getListById]);
 			toast.success('Udostępnianie zatrzymane');
 		},
-		onError: error => {
-			toast.error(`Coś poszlo nie tak: ${error}`);
+		onError: (error: IQueryError) => {
+			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 
@@ -34,7 +35,7 @@ export const AccessManagement: FC<IAccessManagementProps> = ({ listDataResponse,
 				<strong>Zarządzanie dostępem</strong>
 			</h2>
 			<h3 className='text-sm text-darkerGrey'>{'Link do zapraszania'}</h3>
-			<div className='w-80 break-all text-center mb-4 font-extralight'>{`${process.env.REACT_APP_CONFIG_API}/tasks/sharing?invitationToken=${listDataResponse?.invitationToken}`}</div>
+			<div className='w-80 break-all text-center mb-4 font-extralight'>{`${process.env.REACT_APP_CONFIG_API}${ROUTE.sharing}?invitationToken=${listDataResponse?.invitationToken}`}</div>
 			<Button secondary onClick={() => mutate({ _id: listDataResponse?._id })} isLoading={isLoading}>
 				{'Zatrzymaj udostępnianie'}
 			</Button>

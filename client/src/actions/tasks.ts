@@ -3,7 +3,7 @@ import { http } from '../utils/http';
 import * as api from '../services';
 import { ITask, Importance, ITaskStatus } from '@kkrawczyk/todo-common';
 
-export const createTaskAction = async ({ title, parentFolderId, importance, themeColor }: ITask) =>
+export const createTaskAction = async ({ title, parentFolderId, importance, themeColor, createdBy, members }: ITask) =>
 	await http<ITask>(api.createTask, 'POST', {
 		title,
 		importance: importance || Importance.normal,
@@ -12,6 +12,8 @@ export const createTaskAction = async ({ title, parentFolderId, importance, them
 		taskStatus: ITaskStatus.inComplete,
 		sortType: SortType.createdAt,
 		isMyDay: false,
+		createdBy,
+		members,
 	});
 
 export const editTaskAction = async ({ _id, title, parentFolderId }: ITask) => await http(`${api.editTask}`, 'PUT', { _id, title, parentFolderId });

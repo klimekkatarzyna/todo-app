@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 import { editListAction } from '../../actions/lists';
 import { TitleForm } from '../TitleForm';
 import { useParams } from 'react-router-dom';
-import { IUseParams } from '../../interfaces/app';
+import { IQueryError, IUseParams } from '../../interfaces/app';
 
 interface IEditListTitleProps {
 	title: string;
@@ -18,7 +18,7 @@ export const EditListTitle: FC<IEditListTitleProps> = ({ title }) => {
 	const query = useQueryClient();
 	const { listId } = useParams<IUseParams>();
 
-	const { mutate, isLoading } = useMutation(editListAction, {
+	const { mutateAsync, isLoading } = useMutation(editListAction, {
 		onSuccess: () => {
 			query.invalidateQueries(QueryKey.getListById);
 			query.invalidateQueries(QueryKey.lists);
@@ -26,8 +26,8 @@ export const EditListTitle: FC<IEditListTitleProps> = ({ title }) => {
 			query.invalidateQueries(QueryKey.getMyDayTasks);
 			toast.success('Nazwa listy zmieniona');
 		},
-		onError: error => {
-			toast.error(`Coś poszlo nie tak: ${error}`);
+		onError: (error: IQueryError) => {
+			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 
@@ -36,7 +36,7 @@ export const EditListTitle: FC<IEditListTitleProps> = ({ title }) => {
 	const onSubmit = useCallback(
 		async (values: CreateEditListType, { resetForm }) => {
 			if (isStringContainsWhitespace(values.title)) return;
-			await mutate({ _id: listId, title: values.title });
+			await mutateAsync({ _id: listId, title: values.title });
 			resetForm();
 		},
 		[listId]

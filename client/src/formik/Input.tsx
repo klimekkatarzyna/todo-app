@@ -4,8 +4,6 @@ import { InputVersion } from '../enums';
 import { Plus, Circle, Loader } from 'react-feather';
 import { useFocusingHandling } from '../hooks/useMouseHandling';
 import { InputType } from '../interfaces/app';
-import { useTogglePasswordVisibility } from '../hooks/useTogglePasswordVisibility';
-import { InputEye } from '../components/InputEye/InputEye';
 
 interface IInput<T = string | number | undefined> {
 	name: string;
@@ -33,10 +31,9 @@ export const Input: FC<IInput> = ({
 }) => {
 	const { onFocus, onBlur, isFocused } = useFocusingHandling();
 	const iconColor: string = useMemo(() => (colorType === InputVersion.primary && !isFocused ? 'text-blue' : 'text-fontColor'), [type, isFocused]);
-	const { showPassword, handledSetPassword } = useTogglePasswordVisibility();
 
 	return (
-		<div className='flex items-center rounded px-3 py-0 cursor-pointer w-full relative'>
+		<div className='flex items-center rounded py-0 cursor-pointer w-full relative'>
 			{isIcon && (
 				<button type='submit' className='bg-inherit border-none'>
 					<div>{isFocused ? <Circle className={`icon-style ${iconColor}`} /> : <Plus className={`icon-style ${iconColor}`} />}</div>
@@ -44,19 +41,17 @@ export const Input: FC<IInput> = ({
 				</button>
 			)}
 			<Field
-				className={`${className} w-full border-none outline-none text-sm ${colorType === InputVersion.primary ? `bg-inherit` : 'bg-grey'} ${
-					colorType === InputVersion.primary ? 'text-blue' : 'text-white'
-				}`}
+				className={`${className} w-full outline-none text-sm appearance-none rounded relative block border border-border placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue focus:border-blue focus:z-10 ${
+					colorType === InputVersion.primary ? `bg-white` : 'bg-grey'
+				} ${colorType === InputVersion.primary ? 'text-blue' : 'text-white'}`}
 				name={name}
-				type={!showPassword && type === InputType.password ? InputType.password : type}
+				type={type}
 				readOnly={readOnly}
 				placeholder={placeholder}
 				autoFocus
 				onFocus={onFocus}
 				onBlur={onBlur}
-				{...rest}
 			/>
-			{type === InputType.password && <InputEye showPassword={showPassword} handledSetPassword={handledSetPassword} />}
 		</div>
 	);
 };

@@ -1,26 +1,19 @@
-import React, { FC, useCallback } from 'react';
+import React, { FC } from 'react';
 import { createPortal } from 'react-dom';
 import { ContextMenuOpion } from '../../enums';
 import { ModalComponent } from './ModalComponent';
-import { useRecoilState } from 'recoil';
-import { modalVisibilityState } from '../../atoms/modal';
 
 interface IModalNEWProps<T> {
 	children?: React.ReactNode;
 	title: string;
 	contextualType?: ContextMenuOpion;
 	onHandleAction: any;
+	onHide: () => void;
 	isActionButtonHidden?: boolean;
 	isLoading?: boolean;
 }
 
-export const Modal: FC<IModalNEWProps<unknown>> = ({ children, title, onHandleAction, isActionButtonHidden = false, isLoading }) => {
-	const [isVisible, setIsVisible] = useRecoilState(modalVisibilityState);
-
-	const onHide = useCallback(() => {
-		setIsVisible(false);
-	}, [isVisible]);
-
+export const Modal: FC<IModalNEWProps<unknown>> = ({ children, title, onHandleAction, isActionButtonHidden = false, isLoading, onHide }) => {
 	const modal = (
 		<ModalComponent
 			children={children}
@@ -32,5 +25,5 @@ export const Modal: FC<IModalNEWProps<unknown>> = ({ children, title, onHandleAc
 		/>
 	);
 
-	return isVisible ? createPortal(modal, document.body) : null;
+	return createPortal(modal, document.body);
 };

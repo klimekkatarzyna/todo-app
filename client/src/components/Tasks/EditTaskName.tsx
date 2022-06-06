@@ -6,6 +6,7 @@ import { isStringContainsWhitespace } from '../../utils/utilsFunctions';
 import { QueryKey } from '../../enums';
 import toast from 'react-hot-toast';
 import { TitleForm } from '../TitleForm';
+import { IQueryError } from '../../interfaces/app';
 
 interface IEditTaskNameProps {
 	taskData: ITask;
@@ -14,7 +15,7 @@ interface IEditTaskNameProps {
 export const EditTaskName: FC<IEditTaskNameProps> = ({ taskData }) => {
 	const query = useQueryClient();
 
-	const { mutate, isLoading } = useMutation(editTaskAction, {
+	const { mutateAsync, isLoading } = useMutation(editTaskAction, {
 		onSuccess: () => {
 			query.invalidateQueries(QueryKey.getTask);
 			query.invalidateQueries(QueryKey.tasksOfCurrentList);
@@ -24,8 +25,8 @@ export const EditTaskName: FC<IEditTaskNameProps> = ({ taskData }) => {
 			query.invalidateQueries(QueryKey.tasksList);
 			toast.success('Zadanie zmienione');
 		},
-		onError: error => {
-			toast.error(`Coś poszlo nie tak: ${error}`);
+		onError: (error: IQueryError) => {
+			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 
@@ -34,7 +35,7 @@ export const EditTaskName: FC<IEditTaskNameProps> = ({ taskData }) => {
 	const onSubmit = useCallback(
 		async (values: CreateEditTaskType, { resetForm }) => {
 			if (isStringContainsWhitespace(values.title)) return;
-			await mutate({ _id: taskData._id, title: values.title, parentFolderId: taskData?.parentFolderId });
+			await mutateAsync({ _id: taskData._id, title: values.title, parentFolderId: taskData?.parentFolderId });
 			resetForm();
 		},
 		[taskData]

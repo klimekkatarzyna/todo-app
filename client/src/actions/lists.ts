@@ -1,9 +1,7 @@
 import { IList } from '@kkrawczyk/todo-common';
 import { http } from '../utils/http';
-import { getStringAfterCharacter } from '../utils/utilsFunctions';
 import * as api from '../services';
-
-const invitationToken = getStringAfterCharacter(sessionStorage.getItem('invitationTokenUrl') || undefined, '='); // TODO: fix me!!
+import { invitationToken } from '../utils/invitationToken';
 
 export const createListAction = async ({ title }: IList) => await http<IList>(api.createList, 'POST', { title });
 

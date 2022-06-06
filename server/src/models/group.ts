@@ -14,6 +14,9 @@ export const GroupSchema = new Schema<IGroup>({
 		default: Date.now(),
 	},
 	userId: { type: Schema.Types.ObjectId, ref: 'User' },
+	lists: {
+		type: Array,
+	},
 });
 
 export const Group = model<IGroup>('Group', GroupSchema);

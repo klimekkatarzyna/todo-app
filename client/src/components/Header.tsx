@@ -5,8 +5,11 @@ import { Button } from './Button/Button';
 import { AuthContext, AuthContextType } from '../AuthProvider';
 import { logoutUserAction } from '../actions/user';
 import { useMutation } from 'react-query';
-import { SideMenu } from '../enums';
+import { ROUTE } from '../enums';
 import { SearchInput } from '../formik/SearchInput';
+import { buildUrl } from '../utils/paths';
+import toast from 'react-hot-toast';
+import { IQueryError } from '../interfaces/app';
 
 interface IHeader {
 	userName: string;
@@ -17,20 +20,19 @@ export const Header: FC<IHeader> = ({ userName }) => {
 	const history = useHistory();
 	const { setAuthData } = useContext<AuthContextType>(AuthContext);
 
-	const { mutate, isLoading } = useMutation(logoutUserAction);
-	const logoutUser = useCallback(async () => {
-		try {
-			await mutate();
+	const { mutate, isLoading } = useMutation(logoutUserAction, {
+		onSuccess: () => {
 			setAuthData(undefined);
-			history.push('/login');
-		} catch (error) {
-			console.error(error);
-		}
-	}, []);
+			history.push(buildUrl(ROUTE.login));
+		},
+		onError: (error: IQueryError) => {
+			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
+		},
+	});
 
 	return (
 		<header className='flex justify-between items-center pl-4 pr-4 bg-blue h-12'>
-			<Link to={SideMenu.myDay} className='no-underline font-semibold text-white'>
+			<Link to={buildUrl(ROUTE.home)} className='no-underline font-semibold text-white'>
 				{'To Do'}
 			</Link>
 			<SearchInput />
@@ -38,7 +40,7 @@ export const Header: FC<IHeader> = ({ userName }) => {
 				<div className='text-white mr-4 p-2 rounded-full border-solid border-2 border-white w-9 h-9 flex items-center justify-center'>
 					{name}
 				</div>
-				<Button outlineWhite onClick={logoutUser} isLoading={isLoading}>
+				<Button outlineWhite onClick={() => mutate()} isLoading={isLoading}>
 					Logout
 				</Button>
 			</div>

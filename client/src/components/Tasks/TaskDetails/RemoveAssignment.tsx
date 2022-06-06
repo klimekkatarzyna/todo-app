@@ -6,6 +6,7 @@ import { removenUserFromTaskAction } from '../../../actions/tasks';
 import { QueryKey } from '../../../enums';
 import toast from 'react-hot-toast';
 import { Loader, X } from 'react-feather';
+import { IQueryError } from '../../../interfaces/app';
 
 interface IRemoveAssignmentProps {
 	taskData: ITask;
@@ -20,15 +21,17 @@ export const RemoveAssignment: FC<IRemoveAssignmentProps> = ({ taskData }) => {
 			query.invalidateQueries([QueryKey.getTask]);
 			query.invalidateQueries([QueryKey.getAssignedTasks]);
 			query.invalidateQueries([QueryKey.tasksList]);
+			query.invalidateQueries([QueryKey.getMyDayTasks]);
+			query.invalidateQueries([QueryKey.getImportanceTasks]);
 			toast.success('Przypisanie usunięte');
 		},
-		onError: error => {
-			toast.error(`Coś poszlo nie tak: ${error}`);
+		onError: (error: IQueryError) => {
+			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 
 	return (
-		<button className='task-details-style mb-3 flex flex-row items-center' onClick={() => mutate({ _id: taskData?._id })}>
+		<button className='task-details-style mb-3 flex flex-row items-center pt-3 pb-3 pl-4' onClick={() => mutate({ _id: taskData?._id })}>
 			<IconUserName member={taskData?.assigned} isFullNameVisible />
 			{isLoading && <Loader />}
 			<X className='icon-style ml-auto mr-4' />

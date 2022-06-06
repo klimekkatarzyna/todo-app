@@ -3,12 +3,14 @@ import { ContextMenuOpion, QueryKey } from '../../enums';
 import { IGroup } from '@kkrawczyk/todo-common';
 import { ContextualModal } from '../Modal/ContextualModal';
 import { Group } from './Group';
-import { ModalVisibilityContext } from '../../ModalVisibilityProvider';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { deleteGroup, getGroups } from '../../actions/groups';
 import { Loader } from 'react-feather';
 import { ContextMenuContext } from '../../ContextMenuProvider';
 import toast from 'react-hot-toast';
+import { useRecoilValue } from 'recoil';
+import { modalVisibilityState } from '../../atoms/modal';
+import { IQueryError } from '../../interfaces/app';
 
 interface IGroupsProps {
 	isNavClosed: boolean;
@@ -16,26 +18,24 @@ interface IGroupsProps {
 
 export const Groups: FC<IGroupsProps> = ({ isNavClosed }) => {
 	const query = useQueryClient();
-	const { isVisible } = useContext(ModalVisibilityContext);
+	const isVisible = useRecoilValue(modalVisibilityState);
 	const { contextualMenu } = useContext(ContextMenuContext);
 
-	const { isLoading: getGroupsLoading, data } = useQuery<IGroup[] | undefined>(QueryKey.groups, getGroups, {
-		useErrorBoundary: true,
-	});
+	const { isLoading: getGroupsLoading, data } = useQuery<IGroup[] | undefined>(QueryKey.groups, getGroups);
 
-	const { mutate, error, isLoading } = useMutation(deleteGroup, {
+	const { mutateAsync, error, isLoading } = useMutation(deleteGroup, {
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.groups]);
 			toast.success('Grupa usunięta');
 		},
-		onError: error => {
-			toast.error(`Coś poszlo nie tak: ${error}`);
+		onError: (error: IQueryError) => {
+			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 
-	const onRemoveGroup = useCallback(() => {
+	const onRemoveGroup = useCallback(async () => {
 		if (contextualMenu?.type !== ContextMenuOpion.remove_group) return;
-		mutate({ _id: contextualMenu?.elementId });
+		await mutateAsync({ _id: contextualMenu?.elementId });
 	}, [contextualMenu]);
 
 	return (

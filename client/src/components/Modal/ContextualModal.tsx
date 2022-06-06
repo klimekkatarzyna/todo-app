@@ -1,8 +1,9 @@
-import React, { FC, useContext, useMemo } from 'react';
+import React, { FC, useCallback, useContext, useMemo } from 'react';
 import { createPortal } from 'react-dom';
+import { useRecoilState } from 'recoil';
+import { modalVisibilityState } from '../../atoms/modal';
 import { ContextMenuContext } from '../../ContextMenuProvider';
 import { ContextMenuOpion } from '../../enums';
-import { ModalVisibilityContext } from '../../ModalVisibilityProvider';
 import { TasksContextMenuContext } from '../../providers/TasksContextMenuProvider';
 import { ModalComponent } from './ModalComponent';
 
@@ -25,9 +26,15 @@ export const ContextualModal: FC<IContextualModalProps<unknown>> = ({
 }) => {
 	const { contextualMenu, setContextMenu } = useContext(ContextMenuContext);
 	const { tasksContextlMenu, setTasksContextMenu } = useContext(TasksContextMenuContext);
-	const { isVisible, onHide } = useContext(ModalVisibilityContext);
+	const [isVisible, setIsVisible] = useRecoilState(modalVisibilityState);
 
 	const isTaskAction = useMemo(() => contextualType === ContextMenuOpion.remove_task, [contextualType]);
+
+	const onHide = useCallback(() => {
+		setIsVisible(false);
+		setTasksContextMenu(undefined);
+		setContextMenu(undefined);
+	}, [setIsVisible]);
 
 	const modal = (
 		<ModalComponent
@@ -37,7 +44,6 @@ export const ContextualModal: FC<IContextualModalProps<unknown>> = ({
 			isActionButtonHidden={isActionButtonHidden}
 			isLoading={isLoading}
 			onHide={onHide}
-			setContextMenu={isTaskAction ? setTasksContextMenu : setContextMenu}
 		/>
 	);
 

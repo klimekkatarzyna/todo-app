@@ -10,11 +10,14 @@ export const http = async <T>(url: string, method: HttpMethod, body?: Object): P
 		credentials: 'include', // it's needed to add token to cookie when FE and BE are o different domaines
 	});
 
-	if (response.status === 401) {
-		throw Error;
+	const json = await response.json();
+
+	const errors = [401, 403, 404, 406, 500];
+	if (errors.includes(response.status)) {
+		throw json;
 	}
 
-	return await response.json();
+	return json;
 };
 
 export interface HttpResponse<T = any> {

@@ -1,6 +1,6 @@
 import { IContextMenu } from './interfaces/app';
 import { ContextMenuOpion } from './enums';
-import { LogOut, Users, Edit2, Calendar, Star, Sun, Trash2, FileMinus, Copy, CheckCircle, Plus } from 'react-feather';
+import { LogOut, Users, Edit2, Trash2, FolderMinus, Copy, Plus } from 'react-feather';
 
 export const contextualMenuSecountOpion: IContextMenu[] = [
 	{
@@ -10,13 +10,8 @@ export const contextualMenuSecountOpion: IContextMenu[] = [
 	},
 	{
 		icon: <Plus className='icon-style' />,
-		name: 'Przenieś listę do... >',
+		name: 'Przenieś listę do...',
 		type: ContextMenuOpion.move_list_to,
-	},
-	{
-		icon: <FileMinus className='icon-style' />,
-		name: 'Duplikuj listę',
-		type: ContextMenuOpion.duplicate_list,
 	},
 	{
 		icon: <Copy className='icon-style' />,
@@ -38,13 +33,8 @@ export const contextualMenuSecountOpionMembers: IContextMenu[] = [
 	},
 	{
 		icon: <Plus className='icon-style' />,
-		name: 'Przenieś listę do... >',
+		name: 'Przenieś listę do...',
 		type: ContextMenuOpion.move_list_to,
-	},
-	{
-		icon: <FileMinus className='icon-style' />,
-		name: 'Duplikuj listę',
-		type: ContextMenuOpion.duplicate_list,
 	},
 	{
 		icon: <Copy className='icon-style' />,
@@ -58,11 +48,29 @@ export const contextualMenuSecountOpionMembers: IContextMenu[] = [
 	},
 ];
 
-export const contextualMenuGroupOpion: IContextMenu[] = [
+export const contextualMenuGroup: IContextMenu[] = [
 	{
 		icon: <Edit2 className='icon-style' />,
 		name: 'Zmień nazwę grupy',
 		type: ContextMenuOpion.edit_group_name,
+	},
+	{
+		icon: <Trash2 className='icon-style' />,
+		name: 'Usuń grupę',
+		type: ContextMenuOpion.remove_group,
+	},
+];
+
+export const contextualMenuGroupedLists: IContextMenu[] = [
+	{
+		icon: <Edit2 className='icon-style' />,
+		name: 'Zmień nazwę grupy',
+		type: ContextMenuOpion.edit_group_name,
+	},
+	{
+		icon: <FolderMinus className='icon-style' />,
+		name: 'Rozgrupuj listy',
+		type: ContextMenuOpion.ungroup_lists,
 	},
 	{
 		icon: <Trash2 className='icon-style' />,

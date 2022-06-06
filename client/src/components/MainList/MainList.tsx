@@ -18,15 +18,15 @@ interface IMainList {
 const MainListComponent: FC<IMainList> = ({ isNavClosed }) => {
 	// TODO: endpomt to update tasksNumber
 	const getMainListAction = useCallback(async () => await http<IMainListResponse>(api.getMainList, 'GET'), []);
-	const { data: mainList, isLoading: mainListLoading } = useQuery<HttpResponse<IMainListResponse>>(QueryKey.getMainList, getMainListAction);
+	const { data, isLoading } = useQuery<HttpResponse<IMainListResponse>>(QueryKey.getMainList, getMainListAction);
 
 	return (
 		<div className='flex flex-col mb-8'>
-			{mainListLoading ? (
+			{isLoading ? (
 				<Loader className='m-auto' />
 			) : (
-				mainList?.body?.mainLists?.map((listItem: IList) => (
-					<MenuListItem key={listItem?._id} listItem={listItem} isNavClosed={isNavClosed} />
+				data?.body?.mainLists?.map((listItem: IList) => (
+					<MenuListItem key={listItem?._id} listItem={listItem} isNavClosed={isNavClosed} isMainMenu />
 				))
 			)}
 		</div>

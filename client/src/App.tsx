@@ -1,14 +1,12 @@
 import { FC } from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryCache, QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { AuthProvider } from './AuthProvider';
 import BrowserRouter from './Router';
-import { ModalVisibilityProvider } from './ModalVisibilityProvider';
 import { ContextMenuProvider } from './ContextMenuProvider';
 import { SocketProvider } from './providers/SocketProvider';
-import { ElementVisibilityProvider } from './providers/ElementVisibilityProvider';
 import { RecoilRoot } from 'recoil';
-import { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import { TasksContextMenuProvider } from './providers/TasksContextMenuProvider';
 
 const queryClient = new QueryClient({
@@ -17,6 +15,9 @@ const queryClient = new QueryClient({
 			refetchOnWindowFocus: false,
 		},
 	},
+	queryCache: new QueryCache({
+		onError: error => toast.error(`Something went wrong: ${error}`),
+	}),
 });
 
 const App: FC = () => {
@@ -25,21 +26,17 @@ const App: FC = () => {
 			<RecoilRoot>
 				<AuthProvider>
 					<SocketProvider>
-						<ModalVisibilityProvider>
-							<ContextMenuProvider>
-								<TasksContextMenuProvider>
-									<ElementVisibilityProvider>
-										{/* <ReactQueryDevtools initialIsOpen /> */}
-										<BrowserRouter />
-										<Toaster
-											toastOptions={{
-												className: 'p-4 text-fontColor',
-											}}
-										/>
-									</ElementVisibilityProvider>
-								</TasksContextMenuProvider>
-							</ContextMenuProvider>
-						</ModalVisibilityProvider>
+						<ContextMenuProvider>
+							<TasksContextMenuProvider>
+								{/* <ReactQueryDevtools initialIsOpen /> */}
+								<BrowserRouter />
+								<Toaster
+									toastOptions={{
+										className: 'p-4 text-fontColor',
+									}}
+								/>
+							</TasksContextMenuProvider>
+						</ContextMenuProvider>
 					</SocketProvider>
 				</AuthProvider>
 			</RecoilRoot>

@@ -17,24 +17,39 @@ export enum ContextMenuOpion {
 	remove_task = 'remove_task',
 	sharing_options = 'sharing_options',
 	move_list_to = 'move_list_to',
-	duplicate_list = 'duplicate_list',
 	print_list = 'print_list',
 	remove_list = 'remove_list',
 	remove_group = 'remove_group',
 	edit_group_name = 'edit_group_name',
 	leave_list = 'leave_list',
-	// TODO: add more
+	ungroup_lists = 'ungroup_lists',
+}
+
+export enum ROUTE {
+	register = '/register',
+	login = '/login',
+	home = '/',
+	myDay = '/my-day',
+	listsDetails = '/lists-details/:listId',
+	tasks = '/tasks',
+	tasksDetails = '/tasks/:listId/:taskId',
+	planned = '/planned',
+	important = '/important',
+	assigned = '/assigned-to-me',
+	inbox = '/inbox',
+	jointToList = '/joint-to-list',
+	search = '/search',
+	sharing = '/sharing',
 }
 
 export enum SideMenu {
-	myDay = '/',
-	myDayFull = 'myDay',
+	myDay = 'my-day',
 	tasks = 'tasks',
 	planned = 'planned',
 	important = 'important',
-	assigned = 'assigned_to_me',
+	assigned = 'assigned-to-me',
 	inbox = 'inbox',
-	jointToList = 'jointToList',
+	jointToList = 'joint-to-list',
 	search = 'search',
 }
 
@@ -66,6 +81,7 @@ export enum QueryKey {
 	lists = 'lists',
 	getMainList = 'getMainList',
 	groups = 'groups',
+	getGroup = 'getGroup',
 	getMyDayTasks = 'getMyDayTasks',
 	getUser = 'getUser',
 	getAssignedTasks = 'getAssignedTasks',

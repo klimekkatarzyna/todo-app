@@ -13,6 +13,7 @@ interface IButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	onClick?: (e: React.MouseEvent) => void;
 	isLoading?: boolean;
 	outlineWhite?: boolean;
+	className?: string;
 }
 
 export const Button: FC<IButton> = ({
@@ -25,20 +26,24 @@ export const Button: FC<IButton> = ({
 	outlineWhite,
 	onClick,
 	isLoading,
+	className,
 	...props
 }) => {
 	return (
 		<>
 			<button
 				{...props}
-				className={`text-sm p-2 rounded cursor-pointer flex direction-row items-center ${
+				type={type}
+				className={`${className} text-sm p-2 cursor-pointer direction-row items-center inline-flex justify-center rounded-md shadow-sm px-4 py-2 font-medium focus:outline-none sm:text-sm ${
 					disabled && 'disabled:bg-lightBlue cursor-not-allowed'
-				} ${outline && 'bg-none text-fontColor border border-grey'} ${outlineWhite && 'bg-none text-white border border-white'} ${
-					secondary && 'bg-red text-white ml-2'
-				} ${primary && 'bg-blue text-white mt-4'}`}
+				} ${outline && 'bg-none text-fontColor border border-grey mt-3 w-full bg-white hover:bg-gray-50 sm:mt-0 '} ${
+					outlineWhite && 'bg-none text-white border border-white'
+				} ${secondary && 'bg-red text-white ml-2 w-full border border-transparent hover:bg-rose-800'} ${
+					primary && 'bg-blue text-white mt-4 w-full border border-transparent hover:bg-blue-900'
+				}`}
 				onClick={onClick}>
 				{children}
-				{isLoading && <Loader className='ml-2' />}
+				{isLoading && <Loader className='ml-2 text-sm' />}
 			</button>
 		</>
 	);

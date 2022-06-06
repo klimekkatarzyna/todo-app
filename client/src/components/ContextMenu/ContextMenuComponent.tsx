@@ -1,24 +1,41 @@
+import { IGroup } from '@kkrawczyk/todo-common';
 import { FC } from 'react';
-import { IContextMenu } from '../../interfaces/app';
+import { Menu } from 'react-contexify';
+import 'react-contexify/dist/ReactContexify.css';
+import { ContextMenuOpion } from '../../enums';
+import { IContextMenu, IHandleContextMenuItemClickProps } from '../../interfaces/app';
 import { ContextMenuItem } from './ContextMenuItem';
-import { ContextMenu } from 'react-contextmenu';
 
 interface IContextMenuProps {
 	contextMenuList: IContextMenu[];
-	handleClick: (event: React.ChangeEvent<HTMLInputElement>, data: any) => void;
-	elementId: string | undefined;
-	listId?: string | undefined;
+	handleItemClick: ({ triggerEvent, event, props, data }: IHandleContextMenuItemClickProps) => void;
+	elementDetails: IGroup | undefined;
+	submenu?: unknown[];
+	contextMenuOption?: ContextMenuOpion;
+	mutateAsyncAction?: ({ _id, listId }: IGroup) => void;
 }
 
-export const ContextMenuComponent: FC<IContextMenuProps> = ({ contextMenuList, elementId, listId, handleClick }) => {
+export const ContextMenuComponent: FC<IContextMenuProps> = ({
+	contextMenuList,
+	elementDetails,
+	handleItemClick,
+	submenu,
+	contextMenuOption,
+	mutateAsyncAction,
+}) => {
 	return (
-		<ContextMenu
-			id={elementId as string}
-			data={listId}
-			className='flex flex-col bg-white absolute top-5 max-w-280 z-10 text-fontColor right-[-50px] w-80 shadow-md'>
-			{contextMenuList.map(listItem => (
-				<ContextMenuItem key={listItem?.name} listItem={listItem} elementId={elementId} listId={listId} handleClick={handleClick} />
+		<Menu id={elementDetails?._id as string} theme='light' className={`${contextMenuList?.length ? 'absolute' : 'hidden'}`}>
+			{contextMenuList?.map(listItem => (
+				<ContextMenuItem
+					key={listItem?.name}
+					listItem={listItem}
+					elementDetails={elementDetails}
+					handleItemClick={handleItemClick}
+					submenu={submenu}
+					contextMenuOption={contextMenuOption}
+					mutateAsyncAction={mutateAsyncAction}
+				/>
 			))}
-		</ContextMenu>
+		</Menu>
 	);
 };

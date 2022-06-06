@@ -38,6 +38,14 @@ const TaskSchema = new Schema<ITask>({
 	assigned: {
 		type: String,
 	},
+	createdBy: {
+		type: String,
+		required: true,
+	},
+	members: {
+		type: Array,
+		required: true,
+	},
 });
 
 export default model<ITask>('task', TaskSchema);

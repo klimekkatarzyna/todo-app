@@ -1,19 +1,20 @@
-import { FC, useContext } from 'react';
+import { FC } from 'react';
 import { ContextMenuOpion } from '../../enums';
 import { IList } from '@kkrawczyk/todo-common';
-import { ModalVisibilityContext } from '../../ModalVisibilityProvider';
 import { ContextualModal } from '../Modal/ContextualModal';
 import { Member } from './Member';
 import { RemoveMember } from './RemoveMember';
 import { ShareLink } from './ShareLink';
 import { DisplayMember } from './DisplayMember';
+import { useRecoilValue } from 'recoil';
+import { modalVisibilityState } from '../../atoms/modal';
 interface IShareTokenViewProps {
 	onNextStep: () => void;
-	listDataResponse: IList;
+	listDataResponse: IList | undefined;
 }
 
 export const ShareTokenView: FC<IShareTokenViewProps> = ({ onNextStep, listDataResponse }) => {
-	const { isVisible } = useContext(ModalVisibilityContext);
+	const isVisible = useRecoilValue(modalVisibilityState);
 
 	return (
 		<div>

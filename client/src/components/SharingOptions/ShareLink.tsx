@@ -1,10 +1,11 @@
 import { IList } from '@kkrawczyk/todo-common';
 import React, { FC, RefObject, useCallback, useRef } from 'react';
+import { ROUTE } from '../../enums';
 import { Button } from '../Button/Button';
 import { Input } from '../Input/Input';
 
 interface IShareLink {
-	listDataResponse: IList;
+	listDataResponse: IList | undefined;
 }
 
 export const ShareLink: FC<IShareLink> = ({ listDataResponse }) => {
@@ -22,7 +23,7 @@ export const ShareLink: FC<IShareLink> = ({ listDataResponse }) => {
 	return (
 		<>
 			<Input
-				value={`${process.env.REACT_APP_CONFIG_API}/tasks/sharing?invitationToken=${listDataResponse?.invitationToken}`}
+				value={`${process.env.REACT_APP_CONFIG_API}${ROUTE.sharing}?invitationToken=${listDataResponse?.invitationToken}`}
 				inputRef={inputRef}
 				readOnly
 				name='shareLink'

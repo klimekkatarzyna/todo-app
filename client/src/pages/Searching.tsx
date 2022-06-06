@@ -1,20 +1,16 @@
 import { FC } from 'react';
 import { Board } from '../components/Board';
 import { Toolbar } from '../components/Toolbar';
-import { SideMenu } from '../enums';
+import { ROUTE } from '../enums';
 import { Loader } from 'react-feather';
-import { TaskItem } from '../components/Tasks/TaskItem/TaskItem';
-import { useTasks } from '../hooks/useTasks';
-import { useDragAndDrop } from '../hooks/useDragAndDrop';
 import { useRecoilValue } from 'recoil';
 import { loadingState, searchResultState } from '../atoms/serching';
+import { buildUrl } from '../utils/paths';
+import { TasksList } from '../components/Tasks/TasksList';
 
 export const Searching: FC = () => {
 	const searchResults = useRecoilValue(searchResultState);
 	const isLoading = useRecoilValue(loadingState);
-
-	const { inCompletedTaskslist, setInCompletedTasksList, onChangeTaskStatus, changeTaskImportanceMutation } = useTasks();
-	const { onDragStart, onDragOver, onDragLeave, onDrop, dragAndDrop } = useDragAndDrop(inCompletedTaskslist, setInCompletedTasksList);
 
 	return (
 		<Board>
@@ -24,22 +20,8 @@ export const Searching: FC = () => {
 			{isLoading ? (
 				<Loader className='m-auto' />
 			) : (
-				<div className='overflow-y-scroll h-[600px] mt-4'>
-					{searchResults?.map((task, index) => (
-						<TaskItem
-							key={task._id}
-							task={task}
-							index={index}
-							redirectTo={`/${SideMenu.search}/ `}
-							dragAndDrop={dragAndDrop}
-							onDragStart={onDragStart}
-							onDragOver={onDragOver}
-							onDrop={onDrop}
-							onDragLeave={onDragLeave}
-							onChangeTaskStatus={onChangeTaskStatus}
-							changeTaskImportance={changeTaskImportanceMutation}
-						/>
-					))}
+				<div className='mt-4'>
+					<TasksList tasks={searchResults} redirectUrl={`${buildUrl(ROUTE.search)}/`} />
 					{!searchResults?.length && <div className='ml-2'>nie naleziono wyniku</div>}
 				</div>
 			)}

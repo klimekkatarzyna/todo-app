@@ -14,15 +14,19 @@ import { QueryKey } from '../enums';
 export const Tasks: FC = () => {
 	const { listId } = useParams<IUseParams>();
 
-	const { data, isLoading } = useQuery<IList | undefined>([QueryKey.getListById, listId], () => getListByIdAction({ _id: listId }));
+	const { data, isLoading } = useQuery<IList | undefined>([QueryKey.getListById, listId], () => getListByIdAction({ _id: listId }), {
+		enabled: !!listId,
+	});
 
 	return (
 		<Board>
 			<div>
-				{isLoading ? <Loader className='m-auto' /> : <Toolbar name={data?.title || ''} colorType={data?.themeColor} />}
+				{isLoading ? <Loader className='m-auto' /> : <Toolbar isListItem name={data?.title || ''} colorType={data?.themeColor} />}
 
 				<div>
-					<CreateTask />
+					<div className='pt-2 pb-8 pl-3 pr-4 bg-lightGrey'>
+						<CreateTask />
+					</div>
 					<TasksList />
 				</div>
 			</div>
