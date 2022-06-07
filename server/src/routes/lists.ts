@@ -32,7 +32,7 @@ lists.post('/lists', authorization, validateBody<CreateEditListType>(createEditL
 
 lists.put('/lists', authorization, validateBody<CreateEditListType>(createEditListSchema), editList);
 
-lists.get('/lists/:invitationToken', authorization, getLists);
+lists.get('/lists', authorization, getLists);
 
 lists.get('/listDetails/:_id', authorization, validateParams(listIdSchema), getList);
 

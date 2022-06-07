@@ -12,9 +12,7 @@ import { getGroups } from '../actions/groups';
 
 export const useList = () => {
 	const query = useQueryClient();
-	// TODO: osobny endpoint dla invitation token albo cos zrobic by nie lecial parametr undedfined
-	// const { isLoading: getListsLoading, data } = useQuery<IList[] | undefined>(QueryKey.lists, getListsAction, { enabled: !!invitationToken});
-	const { isLoading: getListsLoading, data: listsQuery } = useQuery<IList[] | undefined>(QueryKey.lists, getListsAction);
+	const { isLoading: getListsLoading, data: listsQuery } = useQuery<IList[] | undefined>([QueryKey.lists], getListsAction);
 	const { data: groupsQuery } = useQuery<IGroup[] | undefined>(QueryKey.groups, getGroups);
 
 	const setList = useSetRecoilState(listsState);

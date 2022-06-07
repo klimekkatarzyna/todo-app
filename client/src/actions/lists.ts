@@ -1,14 +1,13 @@
 import { IList } from '@kkrawczyk/todo-common';
 import { http } from '../utils/http';
 import * as api from '../services';
-import { invitationToken } from '../utils/invitationToken';
 
 export const createListAction = async ({ title }: IList) => await http<IList>(api.createList, 'POST', { title });
 
 export const editListAction = async ({ _id, title }: IList) => await http(`${api.editList}`, 'PUT', { _id, title });
 
 export const getListsAction = async () => {
-	const response = await http<IList[]>(`${api.getLists}/${invitationToken}`, 'GET');
+	const response = await http<IList[]>(`${api.getLists}`, 'GET');
 	return response.body;
 };
 

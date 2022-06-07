@@ -1,3 +1,3 @@
 import { getStringAfterCharacter } from './utilsFunctions';
 
-export const invitationToken = getStringAfterCharacter(sessionStorage.getItem('invitationTokenUrl'), '=');
+export const invitationToken: string = getStringAfterCharacter(sessionStorage.getItem('invitationTokenUrl'), '=');
