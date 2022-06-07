@@ -22,6 +22,7 @@ export const Member: FC<IMemberProps> = ({ listDataResponse, member }) => {
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.getListById]);
 			query.invalidateQueries([QueryKey.lists]);
+			query.invalidateQueries([QueryKey.groups]);
 			toast.success('Użytkownik usunięty z listy');
 		},
 		onError: (error: IQueryError) => {

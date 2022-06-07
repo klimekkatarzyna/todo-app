@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { Group } from '../models/group';
 import { List } from '../models/list';
 import MainList from '../models/mainList';
 import { getSessionUserId } from '../utils/auth';
@@ -190,6 +191,8 @@ export const addUserToMemberOfList = async (req: Request, res: Response) => {
 export const updateMembersList = async (req: Request, res: Response) => {
 	try {
 		const list = await List.findOneAndUpdate({ _id: req.body._id }, { $pull: { members: { $in: req.body.member } } });
+		await Group.findOneAndUpdate({ lists: { $in: req.body._id } }, { $pull: { lists: req.body._id } });
+
 		if (!list) {
 			res.status(404).json({ message: 'List not found' });
 		}
