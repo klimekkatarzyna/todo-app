@@ -19,6 +19,7 @@ export const CreateTask = () => {
 	const { mutateAsync, isLoading } = useMutation(createTaskAction, {
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.tasksOfCurrentList]);
+			query.invalidateQueries([QueryKey.tasksList]);
 			toast.success('Zadanie dodane');
 		},
 		onError: (error: IQueryError) => {

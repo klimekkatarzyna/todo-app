@@ -36,6 +36,7 @@ export const useTasks = () => {
 			query.invalidateQueries(QueryKey.getTask);
 			query.invalidateQueries(QueryKey.getMyDayTasks);
 			query.invalidateQueries(QueryKey.getAssignedTasks);
+			query.invalidateQueries(QueryKey.tasksList);
 			toast.success('Ważność zadanie zmieniona');
 		},
 		onError: (error: IQueryError) => {
@@ -67,6 +68,7 @@ export const useTasks = () => {
 				query.invalidateQueries(QueryKey.getTask);
 				query.invalidateQueries(QueryKey.getMyDayTasks);
 				query.invalidateQueries(QueryKey.getAssignedTasks);
+				query.invalidateQueries(QueryKey.tasksList);
 				toast.success('Zadanie usunięte');
 			},
 			onError: (error: IQueryError) => {
@@ -93,6 +95,7 @@ export const useTasks = () => {
 			query.invalidateQueries([QueryKey.getTask]);
 			query.invalidateQueries(QueryKey.getMyDayTasks);
 			query.invalidateQueries(QueryKey.getAssignedTasks);
+			query.invalidateQueries(QueryKey.tasksList);
 			toast.success('Status zadania zmieniony');
 		},
 		onError: (error: IQueryError) => {

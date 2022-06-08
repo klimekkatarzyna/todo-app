@@ -36,6 +36,7 @@ export const TasksContextMenuProvider: FC<ITasksContextMenuProvider> = ({ childr
 			query.invalidateQueries(QueryKey.getMyDayTasks);
 			query.invalidateQueries(QueryKey.getImportanceTasks);
 			query.invalidateQueries(QueryKey.getAssignedTasks);
+			query.invalidateQueries(QueryKey.tasksList);
 			toast.success('Zadanie usunięte z widoku "Mój dzień"');
 		},
 		onError: (error: IQueryError) => {
@@ -50,6 +51,7 @@ export const TasksContextMenuProvider: FC<ITasksContextMenuProvider> = ({ childr
 			query.invalidateQueries(QueryKey.getTask);
 			query.invalidateQueries(QueryKey.getMyDayTasks);
 			query.invalidateQueries(QueryKey.getAssignedTasks);
+			query.invalidateQueries(QueryKey.tasksList);
 			toast.success('Ważność zadanie zmieniona');
 		},
 		onError: (error: IQueryError) => {
