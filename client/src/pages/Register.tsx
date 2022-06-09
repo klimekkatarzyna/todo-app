@@ -32,7 +32,8 @@ export const Register: FC = () => {
 	const { mutateAsync, isLoading, data } = useMutation(authenticateUserRequest);
 
 	const onSubmit = useCallback(async (values: RegisterValidationType, { resetForm }) => {
-		await mutateAsync({ username: values.username, email: values.email, password: values.password });
+		const { username, email, password } = values;
+		await mutateAsync({ username, email, password });
 		resetForm();
 	}, []);
 

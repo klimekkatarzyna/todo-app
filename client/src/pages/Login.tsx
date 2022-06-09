@@ -42,7 +42,8 @@ export const Login: FC = () => {
 	const { mutateAsync, isLoading, data } = useMutation(loginRequest);
 
 	const onSubmit = useCallback(async (values: LoginValidationType, { resetForm }) => {
-		await mutateAsync({ email: values.email, password: values.password });
+		const { email, password } = values;
+		await mutateAsync({ email, password });
 		resetForm();
 	}, []);
 
