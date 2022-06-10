@@ -21,7 +21,6 @@ export const CreateList: FC = () => {
 		const title = isStringContainsWhitespace(values.title) ? 'Lista bez tytułu' : values.title;
 		await mutateAsync({ title });
 		resetForm();
-		//TODO: redirect on created list
 	}, []);
 
 	interface ICreateListValue {

@@ -1,5 +1,6 @@
 import React, { FC, useMemo, useRef, RefObject } from 'react';
 import { AppColorType } from '../enums';
+import useAppColor from '../hooks/useAppColor';
 import { useFocusingHandling } from '../hooks/useMouseHandling';
 import { getDay, getDayName, getMonth } from '../utils/date';
 import { EditListTitle } from './List/EditListTitle';
@@ -14,16 +15,9 @@ interface IToolbar {
 
 export const Toolbar: FC<IToolbar> = ({ name, colorType = 'grey', isDateVisible, children, isListItem }) => {
 	const date = new Date();
-	const color = useMemo(
-		() =>
-			(colorType === 'grey' && 'text-fontColor') ||
-			(colorType === 'blue' && 'text-blue') ||
-			(colorType === 'red' && 'text-red') ||
-			(colorType === 'green' && ' text-green'),
-		[colorType]
-	);
 	const elementRef: RefObject<HTMLInputElement> = useRef(null);
 	const { isFocused, onClick, onBlur } = useFocusingHandling(elementRef);
+	const { color } = useAppColor(colorType);
 
 	return (
 		<div

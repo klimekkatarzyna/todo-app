@@ -14,6 +14,7 @@ import { useShowMenuContexify } from '../../hooks/useShowMenuContexify';
 import { addListToGroupAction, getGroups } from '../../actions/groups';
 import toast from 'react-hot-toast';
 import { IQueryError } from '../../interfaces/app';
+import { useGenerateMenuIcon } from '../../hooks/useGenerateMenuIcon';
 
 interface IMenuListItem {
 	listItem: IList | undefined;
@@ -25,16 +26,8 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed, isMai
 	const query = useQueryClient();
 	const { handleItemClick } = useContext(ContextMenuContext);
 	const { displayMenu } = useShowMenuContexify(listItem?._id);
+	const { icon } = useGenerateMenuIcon(listItem);
 
-	const icon = useMemo(
-		() =>
-			(listItem?.url === `/${SideMenu.myDay}` && <Sun className='icon-style' />) ||
-			(listItem?.url === `/${SideMenu.important}` && <Star className='icon-style' />) ||
-			(listItem?.url === `/${SideMenu.planned}` && <Calendar className='icon-style stroke-blue' />) ||
-			(listItem?.url === `/${SideMenu.assigned}` && <User className='icon-style stroke-green' />) ||
-			(listItem?.url === `/${SideMenu.inbox}` && <Home className='icon-style stroke-red' />),
-		[listItem]
-	);
 	const { isOwner } = useSharingData(listItem?.userId);
 	const { data } = useQuery<ITask[] | undefined>(
 		[QueryKey.tasksOfCurrentList, listItem?._id],

@@ -65,7 +65,7 @@ export const Login: FC = () => {
 						<Form className='w-full mt-2'>
 							<div className='relative'>
 								<Input name='email' placeholder={'Email'} {...props} />
-								{errors.email && touched.email ? <ErrorMessageComponent name='email' /> : null}
+								{errors.email && touched.email && <ErrorMessageComponent name='email' />}
 							</div>
 
 							<div className='relative flex mt-2'>
@@ -75,7 +75,7 @@ export const Login: FC = () => {
 									placeholder={'Password'}
 									{...props}
 								/>
-								{errors.password && touched.password ? <ErrorMessageComponent name='password' /> : null}
+								{errors.password && touched.password && <ErrorMessageComponent name='password' />}
 								<EyeComponent showPassword={showPassword} handledSetPassword={handledSetPassword} />
 							</div>
 
