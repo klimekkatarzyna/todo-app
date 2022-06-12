@@ -16,7 +16,8 @@ export const createTaskAction = async ({ title, parentFolderId, importance, them
 		members,
 	});
 
-export const editTaskAction = async ({ _id, title, parentFolderId }: ITask) => await http(`${api.editTask}`, 'PUT', { _id, title, parentFolderId });
+export const editTaskAction = async ({ _id, title, parentFolderId }: ITask) =>
+	await http<ITask>(`${api.editTask}`, 'PUT', { _id, title, parentFolderId });
 
 export const getTasksOfCurrentListAction = async ({ parentFolderId }: ITask) => {
 	const response = await http<ITask[]>(`${api.getTasks}/${parentFolderId}`, 'GET');

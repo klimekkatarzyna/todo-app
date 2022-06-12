@@ -80,14 +80,16 @@ export const editTask = async (req: Request, res: Response) => {
 	const updatedTaskData = {
 		_id: req.body._id,
 		title: req.body.title,
-		parentFolderId: req.body.parentFolderId,
 	};
 
 	taskSocket('edit-task', req.body.parentFolderId, updatedTaskData);
 
 	try {
 		res.status(200).json({
-			message: `title changed successfully to ${req.body.title}`,
+			body: {
+				_id: req.body._id,
+				title: req.body.title,
+			},
 		});
 		if (!task) return res.status(404).json({ message: 'Task not found' });
 	} catch (err) {

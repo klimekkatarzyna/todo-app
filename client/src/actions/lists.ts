@@ -4,7 +4,7 @@ import * as api from '../services';
 
 export const createListAction = async ({ title }: IList) => await http<IList>(api.createList, 'POST', { title });
 
-export const editListAction = async ({ _id, title }: IList) => await http(`${api.editList}`, 'PUT', { _id, title });
+export const editListAction = async ({ _id, title }: IList) => await http<IList>(`${api.editList}`, 'PUT', { _id, title });
 
 export const getListsAction = async () => {
 	const response = await http<IList[]>(`${api.getLists}`, 'GET');
@@ -16,7 +16,7 @@ export const getListByIdAction = async ({ _id }: IList) => {
 	return response.body;
 };
 
-export const deleteListAction = async ({ _id }: IList) => await http(api.removeList, 'DELETE', { _id });
+export const deleteListAction = async ({ _id }: IList) => await http<IList>(api.removeList, 'DELETE', { _id });
 
 export const addInvitationTokenToListAction = async ({ _id, invitationToken, owner }: IList) =>
-	await http(api.addInvitationTokenToList, 'POST', { _id, invitationToken, owner });
+	await http<IList>(api.addInvitationTokenToList, 'POST', { _id, invitationToken, owner });

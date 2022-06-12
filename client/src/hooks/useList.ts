@@ -31,8 +31,10 @@ export const useList = () => {
 	}, [listsQuery, groupDetails]);
 
 	const { mutateAsync: removeListMutation } = useMutation(deleteListAction, {
-		onSuccess: () => {
-			query.invalidateQueries([QueryKey.lists]);
+		onSuccess: async response => {
+			query.setQueryData<IList[] | undefined>([QueryKey.lists], (lists: IList[] | undefined) =>
+				lists?.filter(list => list._id !== response.body?._id)
+			);
 			toast.success('Lista usunięta');
 		},
 		onError: (error: IQueryError) => {

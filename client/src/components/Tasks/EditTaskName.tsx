@@ -7,6 +7,7 @@ import { QueryKey } from '../../enums';
 import toast from 'react-hot-toast';
 import { TitleForm } from '../TitleForm';
 import { IQueryError } from '../../interfaces/app';
+import { HttpResponse } from '../../utils/http';
 
 interface IEditTaskNameProps {
 	taskData: ITask;
@@ -15,18 +16,32 @@ interface IEditTaskNameProps {
 export const EditTaskName: FC<IEditTaskNameProps> = ({ taskData }) => {
 	const query = useQueryClient();
 
+	const updateTaskTitle = useCallback(
+		(tasks: ITask[] | undefined, response: HttpResponse<ITask>) =>
+			tasks?.map(task => (task._id === response.body?._id ? { ...task, title: response.body?.title } : task)),
+		[]
+	);
+
 	const { mutateAsync, isLoading } = useMutation(editTaskAction, {
-		onSuccess: () => {
-			query.invalidateQueries(QueryKey.getTask);
-			query.invalidateQueries(QueryKey.tasksOfCurrentList);
-			query.invalidateQueries(QueryKey.getImportanceTasks);
-			query.invalidateQueries(QueryKey.getMyDayTasks);
-			query.invalidateQueries(QueryKey.getAssignedTasks);
-			query.invalidateQueries(QueryKey.tasksList);
+		onSuccess: async response => {
+			query.setQueryData<ITask[] | undefined>(QueryKey.getImportanceTasks, tasks => updateTaskTitle(tasks, response));
+			query.setQueryData<ITask[] | undefined>(QueryKey.getMyDayTasks, tasks => updateTaskTitle(tasks, response));
+			query.setQueryData<ITask[] | undefined>(QueryKey.getAssignedTasks, tasks => updateTaskTitle(tasks, response));
+			query.setQueryData<ITask[] | undefined>(QueryKey.tasksList, tasks => updateTaskTitle(tasks, response));
+			query.setQueryData<ITask>([QueryKey.getTask, response.body?._id], (task: ITask | undefined) => ({
+				...task,
+				title: response.body?.title,
+			}));
+			query.setQueryData<ITask[] | undefined>([QueryKey.tasksOfCurrentList, taskData.parentFolderId], tasks =>
+				updateTaskTitle(tasks, response)
+			);
 			toast.success('Zadanie zmienione');
 		},
 		onError: (error: IQueryError) => {
 			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
+		},
+		onSettled: data => {
+			query.invalidateQueries([QueryKey.getTask, data]);
 		},
 	});
 

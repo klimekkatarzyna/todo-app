@@ -8,6 +8,7 @@ import { editListAction } from '../../actions/lists';
 import { TitleForm } from '../TitleForm';
 import { useParams } from 'react-router-dom';
 import { IQueryError, IUseParams } from '../../interfaces/app';
+import { HttpResponse } from '../../utils/http';
 
 interface IEditListTitleProps {
 	title: string;
@@ -18,12 +19,20 @@ export const EditListTitle: FC<IEditListTitleProps> = ({ title }) => {
 	const query = useQueryClient();
 	const { listId } = useParams<IUseParams>();
 
+	const updateListTitle = useCallback(
+		(lists: IList[] | undefined, response: HttpResponse<IList>) =>
+			lists?.map(list => (list._id === response.body?._id ? { ...list, title: response.body?.title } : list)),
+		[]
+	);
+
 	const { mutateAsync, isLoading } = useMutation(editListAction, {
-		onSuccess: () => {
-			query.invalidateQueries(QueryKey.getListById);
-			query.invalidateQueries(QueryKey.lists);
-			query.invalidateQueries(QueryKey.getImportanceTasks);
-			query.invalidateQueries(QueryKey.getMyDayTasks);
+		onSuccess: async response => {
+			query.setQueryData<IList | undefined>([QueryKey.getListById, response.body?._id], list =>
+				list?._id === response.body?._id ? { ...list, title: response.body?.title } : list
+			);
+			query.setQueryData<IList[] | undefined>(QueryKey.lists, lists => updateListTitle(lists, response));
+			query.setQueryData<IList[] | undefined>(QueryKey.getImportanceTasks, lists => updateListTitle(lists, response));
+			query.setQueryData<IList[] | undefined>(QueryKey.getMyDayTasks, lists => updateListTitle(lists, response));
 			toast.success('Nazwa listy zmieniona');
 		},
 		onError: (error: IQueryError) => {

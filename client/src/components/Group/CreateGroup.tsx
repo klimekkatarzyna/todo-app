@@ -18,8 +18,8 @@ export const CreateGroup: FC = () => {
 	const initialValues: IGroup = { title: '' };
 
 	const { mutateAsync, error, isLoading } = useMutation(createGroup, {
-		onSuccess: () => {
-			query.invalidateQueries([QueryKey.groups]);
+		onSuccess: async response => {
+			query.setQueryData<IGroup[] | undefined>([QueryKey.groups], (groups: IGroup[] | undefined) => [...(groups || []), response.body || {}]);
 			toast.success('Grupa utworzona');
 		},
 		onError: (error: IQueryError) => {

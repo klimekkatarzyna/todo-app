@@ -25,8 +25,8 @@ export const EditGroup: FC<IEditGroupProps> = ({ title, groupId, isNavClosed }) 
 	const { isFocused, onClick, onBlur } = useFocusingHandling(elementRef);
 
 	const { mutateAsync, error, isLoading } = useMutation(editGroup, {
-		onSuccess: () => {
-			query.invalidateQueries([QueryKey.groups]);
+		onSuccess: async response => {
+			query.setQueryData<IGroup[] | undefined>([QueryKey.groups], (groups: IGroup[] | undefined) => [...(groups || []), response.body || {}]);
 			toast.success('Nazwa grupy zmieniona');
 		},
 		onError: (error: IQueryError) => {

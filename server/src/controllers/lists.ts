@@ -35,7 +35,7 @@ export const createList = async (req: Request, res: Response) => {
 		const list = await newList.save();
 		res.status(200).json({
 			body: {
-				id: list._id,
+				_id: list._id,
 				title: list.title,
 				themeColor: list.themeColor,
 				createdAt: list.createdAt,
@@ -55,7 +55,7 @@ export const editList = async (req: Request, res: Response) => {
 	const list = await List.updateOne({ _id: req.body._id }, { $set: { title: req.body.title } });
 
 	try {
-		res.status(200).json({ body: req.body.title });
+		res.status(200).json({ body: { _id: req.body._id, title: req.body.title } });
 		if (!list) return res.status(404).json({ message: 'List not found' });
 	} catch (err) {
 		res.status(500).json({
@@ -122,7 +122,10 @@ export const removeList = async (req: Request, res: Response) => {
 			res.status(404).json({ message: 'List not found' });
 		}
 
-		res.status(200).json({ message: 'list has been deleted' });
+		res.status(200).json({
+			body: { _id: req.body._id },
+			message: 'list has been deleted',
+		});
 	} catch (error) {
 		res.status(500).json({ error });
 	}
