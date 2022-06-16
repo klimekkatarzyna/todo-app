@@ -15,7 +15,6 @@ interface ITasksListProps {
 export const TasksList: FC<ITasksListProps> = ({ tasks, redirectUrl }) => {
 	const isVisible = useRecoilValue(modalVisibilityState);
 	const { removeTaskMutation } = useTasks();
-	const { onChangeTaskStatus, changeTaskImportanceMutation } = useTasks();
 
 	const onRemoveTask = useCallback(async (): Promise<void> => {
 		await removeTaskMutation();
@@ -24,14 +23,7 @@ export const TasksList: FC<ITasksListProps> = ({ tasks, redirectUrl }) => {
 	return (
 		<>
 			{tasks?.map((task, index) => (
-				<TaskItem
-					key={task._id}
-					task={task}
-					index={index}
-					redirectTo={redirectUrl}
-					onChangeTaskStatus={onChangeTaskStatus}
-					changeTaskImportance={changeTaskImportanceMutation}
-				/>
+				<TaskItem key={task._id} task={task} index={index} redirectTo={redirectUrl} />
 			))}
 
 			{isVisible && (

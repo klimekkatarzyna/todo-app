@@ -1,17 +1,19 @@
 import { FC, memo } from 'react';
 import { Accordion } from '../Accordion/Accordion';
-import { useTasks } from '../../hooks/useTasks';
 import { SideMenu } from '../../enums';
 import { TasksList } from './TasksList';
+import { ITask } from '@kkrawczyk/todo-common';
 
-const ComplitedTasksComponent: FC = () => {
-	const { completedTaskslist } = useTasks();
+interface IComplitedTasksComponentProps {
+	tasks: ITask[];
+}
 
+const ComplitedTasksComponent: FC<IComplitedTasksComponentProps> = ({ tasks }) => {
 	return (
 		<>
-			{!!completedTaskslist?.length && (
-				<Accordion title={'Wykonane'} details={<span className='ml-1 text-base text-darkerGrey'>{completedTaskslist?.length}</span>}>
-					<TasksList tasks={completedTaskslist} redirectUrl={`/${SideMenu.tasks}/`} />
+			{!!tasks?.length && (
+				<Accordion title={'Wykonane'} details={<span className='ml-1 text-base text-darkerGrey'>{tasks?.length}</span>}>
+					<TasksList tasks={tasks} redirectUrl={`/${SideMenu.tasks}/`} />
 				</Accordion>
 			)}
 		</>

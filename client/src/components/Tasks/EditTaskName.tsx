@@ -10,7 +10,7 @@ import { IQueryError } from '../../interfaces/app';
 import { HttpResponse } from '../../utils/http';
 
 interface IEditTaskNameProps {
-	taskData: ITask;
+	taskData: ITask | undefined;
 }
 
 export const EditTaskName: FC<IEditTaskNameProps> = ({ taskData }) => {
@@ -32,16 +32,13 @@ export const EditTaskName: FC<IEditTaskNameProps> = ({ taskData }) => {
 				...task,
 				title: response.body?.title,
 			}));
-			query.setQueryData<ITask[] | undefined>([QueryKey.tasksOfCurrentList, taskData.parentFolderId], tasks =>
+			query.setQueryData<ITask[] | undefined>([QueryKey.tasksOfCurrentList, taskData?.parentFolderId], tasks =>
 				updateTaskTitle(tasks, response)
 			);
 			toast.success('Zadanie zmienione');
 		},
 		onError: (error: IQueryError) => {
 			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
-		},
-		onSettled: data => {
-			query.invalidateQueries([QueryKey.getTask, data]);
 		},
 	});
 
@@ -50,7 +47,7 @@ export const EditTaskName: FC<IEditTaskNameProps> = ({ taskData }) => {
 	const onSubmit = useCallback(
 		async (values: CreateEditTaskType, { resetForm }) => {
 			if (isStringContainsWhitespace(values.title)) return;
-			await mutateAsync({ _id: taskData._id, title: values.title, parentFolderId: taskData?.parentFolderId });
+			await mutateAsync({ _id: taskData?._id, title: values.title, parentFolderId: taskData?.parentFolderId });
 			resetForm();
 		},
 		[taskData]

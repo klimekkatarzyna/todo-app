@@ -7,24 +7,21 @@ import { useFocusingHandling } from '../../hooks/useMouseHandling';
 import { EditTaskName } from './EditTaskName';
 import { Sun } from 'react-feather';
 import { IconUserName } from '../IconUserName/IconUserName';
+import useTasksStatus from '../../hooks/tasks/useTasksStatus';
+import { useTaskImportance } from '../../hooks/tasks/useTaskImportance';
 
 interface ITaskDetailsProps {
-	taskData: ITask;
-	onChangeTaskStatus?: (taskId: string | undefined) => void;
-	isCompleted?: boolean;
-	changeTaskImportance: ({ parentFolderId: listId, _id: taskId, importance }: ITask) => void;
+	taskData: ITask | undefined;
 	isTaskDetailsView?: boolean | undefined;
 	redirectTo: string;
 }
 
-const TaskDetailsComponent: FC<ITaskDetailsProps> = ({
-	taskData,
-	onChangeTaskStatus,
-	isCompleted = false,
-	changeTaskImportance,
-	isTaskDetailsView,
-	redirectTo,
-}) => {
+const TaskDetailsComponent: FC<ITaskDetailsProps> = ({ taskData, isTaskDetailsView, redirectTo }) => {
+	const { changeTaskStatusMutation } = useTasksStatus();
+	const { changeTaskImportanceMutation } = useTaskImportance();
+
+	const isCompleted = useMemo(() => taskData?.taskStatus === ITaskStatus.complete, [taskData]);
+
 	const tooltipText = useMemo(
 		() => (taskData?.taskStatus === ITaskStatus.complete ? 'oznacz jako niewykonane' : 'oznacz jako wykonane'),
 		[taskData]
@@ -37,14 +34,15 @@ const TaskDetailsComponent: FC<ITaskDetailsProps> = ({
 		setIsImportanceButtonChecked(taskData?.importance === Importance.high);
 	}, [taskData]);
 
-	const onHandleChange = useCallback((): void => {
-		onChangeTaskStatus?.(taskData._id);
+	const onHandleChange = useCallback(async () => {
+		const taskStatus = taskData?.taskStatus === ITaskStatus.inComplete ? ITaskStatus.complete : ITaskStatus.inComplete;
+		await changeTaskStatusMutation({ _id: taskData?._id, parentFolderId: taskData?.parentFolderId, taskStatus });
 	}, [taskData]);
 
 	const onClickImportanceButton = useCallback(async () => {
 		setIsImportanceButtonChecked(!isImportanceButtonChecked);
-		await changeTaskImportance({ parentFolderId: taskData.parentFolderId, _id: taskData._id, importance: importanceType });
-	}, [isImportanceButtonChecked]);
+		await changeTaskImportanceMutation({ parentFolderId: taskData?.parentFolderId, _id: taskData?._id, importance: importanceType });
+	}, [isImportanceButtonChecked, taskData]);
 
 	const elementRef: RefObject<HTMLInputElement> = useRef(null);
 	const { isFocused, onClick, onBlur } = useFocusingHandling(elementRef);
@@ -78,7 +76,7 @@ const TaskDetailsComponent: FC<ITaskDetailsProps> = ({
 					</div>
 				)}
 			</Link>
-			{!isTaskDetailsView && !!taskData.assigned?.length && <IconUserName member={taskData?.assigned} />}
+			{!isTaskDetailsView && !!taskData?.assigned?.length && <IconUserName member={taskData?.assigned} />}
 			<ImportanceButton isChecked={isImportanceButtonChecked} onClick={onClickImportanceButton} />
 		</>
 	);

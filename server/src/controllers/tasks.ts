@@ -111,6 +111,11 @@ export const changeTaskStatus = async (req: Request, res: Response) => {
 
 	try {
 		res.status(200).json({
+			body: {
+				_id: req.params._id,
+				taskStatus: req.body.taskStatus,
+				parentFolderId: req.body.parentFolderId,
+			},
 			message: `status changed successfully to ${req.body.taskStatus}`,
 		});
 		if (!task) return res.status(404).json({ message: 'Task not found' });
@@ -162,6 +167,11 @@ export const changeTaskImportance = async (req: Request, res: Response) => {
 	);
 	try {
 		res.status(200).json({
+			body: {
+				_id: req.params._id,
+				importance: req.body.importance,
+				parentFolderId: req.params.parentFolderId,
+			},
 			message: `importance has been successfully changed to ${req.body.importance}`,
 		});
 		if (!task) return res.status(404).json({ message: 'Task not found' });
@@ -177,6 +187,11 @@ export const taskInMyDay = async (req: Request, res: Response) => {
 
 	try {
 		res.status(200).json({
+			body: {
+				_id: req.params._id,
+				isMyDay: req.body.isMyDay,
+				parentFolderId: req.body.parentFolderId,
+			},
 			message: `task has been changed`,
 		});
 		if (!task) return res.status(404).json({ message: 'Task not found' });

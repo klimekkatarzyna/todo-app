@@ -4,13 +4,14 @@ import { useSort } from './useSort';
 import { useParams } from 'react-router-dom';
 import { IQueryError, IUseParams } from '../interfaces/app';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { changeTaskImportanceAction, changeTaskStatusAction, deleteTaskAction, getTaskAction, getTasksOfCurrentListAction } from '../actions/tasks';
+import { deleteTaskAction, getTasksOfCurrentListAction } from '../actions/tasks';
 import { SocketContext } from '../providers/SocketProvider';
 import { ITask, ITaskStatus } from '@kkrawczyk/todo-common';
 import { useRecoilState } from 'recoil';
 import { completedTasksListState, inCompletedTasksListState } from '../atoms/tasks';
 import toast from 'react-hot-toast';
 import { TasksContextMenuContext } from '../providers/TasksContextMenuProvider';
+import { useTask } from './tasks/useTask';
 
 interface SortType {
 	key: SortTaskType;
@@ -28,21 +29,7 @@ export const useTasks = () => {
 	const [inCompletedTaskslist, setInCompletedTasksList] = useRecoilState(inCompletedTasksListState);
 	const [completedTaskslist, setComplitedTasksList] = useRecoilState(completedTasksListState);
 	const { sorter } = useSort<ITask>();
-
-	const { mutateAsync: changeTaskImportanceMutation } = useMutation(changeTaskImportanceAction, {
-		onSuccess: () => {
-			query.invalidateQueries(QueryKey.getImportanceTasks);
-			query.invalidateQueries(QueryKey.tasksOfCurrentList);
-			query.invalidateQueries(QueryKey.getTask);
-			query.invalidateQueries(QueryKey.getMyDayTasks);
-			query.invalidateQueries(QueryKey.getAssignedTasks);
-			query.invalidateQueries(QueryKey.tasksList);
-			toast.success('Ważność zadanie zmieniona');
-		},
-		onError: (error: IQueryError) => {
-			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
-		},
-	});
+	const { taskData } = useTask();
 
 	const { data: tasksOfCurrentList, isLoading: getTasksOfCurrentListLoading } = useQuery<ITask[] | undefined>(
 		[QueryKey.tasksOfCurrentList, listId],
@@ -52,12 +39,6 @@ export const useTasks = () => {
 	// useEffect(() => {
 	// 	setInCompletedTasksList(tasksOfCurrentList || []);
 	// }, []);
-
-	const { data: taskData, isLoading: taskDataLoading } = useQuery<ITask | undefined>(
-		[QueryKey.getTask, taskId],
-		() => getTaskAction({ _id: taskId }),
-		{ enabled: !!taskId }
-	);
 
 	const { mutateAsync: removeTaskMutation, isError } = useMutation(
 		() => deleteTaskAction({ _id: tasksContextlMenu?.elementId || taskId, parentFolderId: taskData?.parentFolderId }),
@@ -87,42 +68,6 @@ export const useTasks = () => {
 		const property = event.target.value.split(',');
 		setSort(state => ({ ...state, key: property[0], keyType: property[1] }));
 	}, []);
-
-	const { mutateAsync: changeTaskStatusMutation } = useMutation(changeTaskStatusAction, {
-		onSuccess: () => {
-			query.invalidateQueries([QueryKey.tasksOfCurrentList]);
-			query.invalidateQueries([QueryKey.getImportanceTasks]);
-			query.invalidateQueries([QueryKey.getTask]);
-			query.invalidateQueries(QueryKey.getMyDayTasks);
-			query.invalidateQueries(QueryKey.getAssignedTasks);
-			query.invalidateQueries(QueryKey.tasksList);
-			toast.success('Status zadania zmieniony');
-		},
-		onError: (error: IQueryError) => {
-			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
-		},
-	});
-
-	const onMarkTaskAsCompleted = useCallback(async (_id: string | undefined) => {
-		await changeTaskStatusMutation({
-			_id: _id,
-			taskStatus: ITaskStatus.complete,
-			parentFolderId: listId,
-		});
-	}, []);
-
-	const onMarkTaskAsInCompleted = useCallback(async (_id: string | undefined) => {
-		await changeTaskStatusMutation({
-			_id: _id,
-			taskStatus: ITaskStatus.inComplete,
-			parentFolderId: listId,
-		});
-	}, []);
-
-	const onHandleChangeTaskStatus = useCallback(() => {
-		taskData?.taskStatus === ITaskStatus.inComplete && onMarkTaskAsCompleted(taskData?._id);
-		taskData?.taskStatus === ITaskStatus.complete && onMarkTaskAsInCompleted(taskData?._id);
-	}, [taskData]);
 
 	useEffect(() => {
 		const taskListener = (newTask: ITask) =>
@@ -164,11 +109,6 @@ export const useTasks = () => {
 		};
 	}, [sortedTasks]);
 
-	const onChangeTaskStatus = useMemo(
-		() => (taskData?.taskStatus === ITaskStatus.complete ? onMarkTaskAsInCompleted : onMarkTaskAsCompleted),
-		[taskData]
-	);
-
 	useEffect(() => {
 		const taskListener = (newTask: ITask) =>
 			listId === newTask?.parentFolderId &&
@@ -192,18 +132,11 @@ export const useTasks = () => {
 	return {
 		inCompletedTaskslist: incomletedTasks,
 		setInCompletedTasksList,
-		changeTaskImportanceMutation,
 		completedTaskslist: comletedTasks,
 		setComplitedTasksList,
 		requestSort,
-		onMarkTaskAsCompleted,
-		onMarkTaskAsInCompleted,
 		getTasksOfCurrentListLoading,
 		removeTaskMutation,
-		taskData,
-		taskDataLoading,
 		listId,
-		onHandleChangeTaskStatus,
-		onChangeTaskStatus,
 	};
 };

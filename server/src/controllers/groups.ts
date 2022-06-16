@@ -116,7 +116,12 @@ export const unGroupLists = async (req: Request, res: Response) => {
 			res.status(404).json({ message: 'group not found' });
 		}
 
-		res.status(200).json({ message: 'ungrouped lists' });
+		res.status(200).json({
+			body: {
+				_id: req.body._id,
+			},
+			message: 'ungrouped lists',
+		});
 	} catch (err) {
 		res.status(500).json({
 			err,

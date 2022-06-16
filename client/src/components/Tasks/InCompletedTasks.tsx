@@ -3,14 +3,19 @@ import { SortComponent } from '../SortComponent/SortComponent';
 import { useTasks } from '../../hooks/useTasks';
 import { SideMenu } from '../../enums';
 import { TasksList } from './TasksList';
+import { ITask } from '@kkrawczyk/todo-common';
 
-const InCompletedTasksComponent: FC = () => {
-	const { inCompletedTaskslist, requestSort } = useTasks();
+interface IInCompletedTasksComponentProps {
+	tasks: ITask[];
+}
+
+const InCompletedTasksComponent: FC<IInCompletedTasksComponentProps> = ({ tasks }) => {
+	const { requestSort } = useTasks();
 
 	return (
 		<>
 			<SortComponent requestSort={requestSort} />
-			<TasksList tasks={inCompletedTaskslist} redirectUrl={`/${SideMenu.tasks}/`} />
+			<TasksList tasks={tasks} redirectUrl={`/${SideMenu.tasks}/`} />
 		</>
 	);
 };
