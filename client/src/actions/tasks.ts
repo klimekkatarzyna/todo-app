@@ -32,7 +32,7 @@ export const getTasksAction = async () => {
 export const changeTaskStatusAction = async ({ _id, taskStatus, parentFolderId }: ITask) =>
 	await http<ITask>(`${api.changeTaskStatus}/${_id}`, 'PATCH', { taskStatus, parentFolderId });
 
-export const deleteTaskAction = async ({ _id, parentFolderId }: ITask) => await http(api.removeTask, 'DELETE', { _id, parentFolderId });
+export const deleteTaskAction = async ({ _id, parentFolderId }: ITask) => await http<ITask>(api.removeTask, 'DELETE', { _id, parentFolderId });
 
 export const getTaskAction = async ({ _id }: ITask) => {
 	const response = await http<ITask>(`${api.getTask}/${_id}`, 'GET');

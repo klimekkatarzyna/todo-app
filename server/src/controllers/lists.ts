@@ -200,7 +200,7 @@ export const updateMembersList = async (req: Request, res: Response) => {
 			res.status(404).json({ message: 'List not found' });
 		}
 
-		res.status(200).json({ message: 'member has been deleted' });
+		res.status(200).json({ body: { _id: req.body._id, member: req.body.member }, message: 'member has been deleted' });
 	} catch (err) {
 		res.status(500).json({
 			err,

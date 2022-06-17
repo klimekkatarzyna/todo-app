@@ -1,7 +1,6 @@
 import { FC, useCallback, useEffect, useMemo } from 'react';
 import { getDay, getDayName, getMonth, parseUTCtoDate } from '../../utils/date';
 import { TaskDetails } from './TaskDetails';
-import { useTasks } from '../../hooks/useTasks';
 import { Loader, Bell, Calendar, Repeat, FilePlus, Trash2, XSquare } from 'react-feather';
 import { AddTaskToMyDay } from './TaskDetails/AddTaskToMyDay';
 import { useHistory } from 'react-router-dom';
@@ -9,11 +8,12 @@ import { AssignComponent } from './TaskDetails/AssignComponent';
 import { useRecoilState } from 'recoil';
 import { elementVisibilityState } from '../../atoms/elementVisibility';
 import { useTask } from '../../hooks/tasks/useTask';
+import { useRemoveTasks } from '../../hooks/tasks/useRemoveTasks';
 
 export const TaskSidebarDetails: FC = () => {
 	const history = useHistory();
 	const [isElementVisible, setIsElementVisible] = useRecoilState(elementVisibilityState);
-	const { removeTaskMutation } = useTasks();
+	const { removeTaskMutation } = useRemoveTasks();
 	const { taskData, taskDataLoading } = useTask();
 
 	const [, url, listId, taskId] = useMemo(() => history.location.pathname.split('/'), [history]);
@@ -24,6 +24,7 @@ export const TaskSidebarDetails: FC = () => {
 	}, [listId, taskId]);
 
 	const handleClick = useCallback(async (): Promise<void> => {
+		if (!taskData?._id) return;
 		await removeTaskMutation();
 		onClose();
 	}, [taskData?._id]);

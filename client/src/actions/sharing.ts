@@ -10,7 +10,7 @@ export interface IShareLitDetails {
 export const removeInvitationAction = async ({ _id }: IList) => await http(`${api.changeInvitation}`, 'PATCH', { _id });
 
 export const updateMembersList = async ({ _id, member }: IList) =>
-	await http(`${api.updateMembersList}`, 'PATCH', {
+	await http<IList>(`${api.updateMembersList}`, 'PATCH', {
 		_id,
 		member,
 	});

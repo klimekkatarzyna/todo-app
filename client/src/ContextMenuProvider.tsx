@@ -1,3 +1,4 @@
+import { IGroup } from '@kkrawczyk/todo-common';
 import React, { FC, useCallback, useMemo, useState } from 'react';
 import { createContext } from 'react';
 import toast from 'react-hot-toast';
@@ -26,9 +27,10 @@ export const ContextMenuProvider: FC<IContextMenuProvider> = ({ children }) => {
 	const [isVisible, setIsVisible] = useRecoilState(modalVisibilityState);
 
 	const { mutateAsync: ungroupListsMutation } = useMutation(unGroupeListsAction, {
-		onSuccess: () => {
-			query.invalidateQueries(QueryKey.groups);
-			query.invalidateQueries(QueryKey.lists);
+		onSuccess: async response => {
+			query.setQueryData<IGroup[] | undefined>([QueryKey.groups], (groups: IGroup[] | undefined) =>
+				groups?.map(group => (group._id === response.body?._id ? { ...group, lists: [] } : group))
+			);
 			toast.success('Listy rozgrupowane');
 		},
 		onError: (error: IQueryError) => {

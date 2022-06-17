@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useCallback, useContext } from 'react';
 import { ITask } from '@kkrawczyk/todo-common';
 import { IconUserName } from '../../IconUserName/IconUserName';
 import { useMutation, useQueryClient } from 'react-query';
@@ -7,6 +7,8 @@ import { QueryKey } from '../../../enums';
 import toast from 'react-hot-toast';
 import { Loader, X } from 'react-feather';
 import { IQueryError } from '../../../interfaces/app';
+import { HttpResponse } from '../../../utils/http';
+import { AuthContext, AuthContextType } from '../../../AuthProvider';
 
 interface IRemoveAssignmentProps {
 	taskData: ITask;
@@ -14,15 +16,31 @@ interface IRemoveAssignmentProps {
 
 export const RemoveAssignment: FC<IRemoveAssignmentProps> = ({ taskData }) => {
 	const query = useQueryClient();
+	const { authData } = useContext<AuthContextType>(AuthContext);
+
+	const taskRemoveAssigment = useCallback(
+		(tasks: ITask[] | undefined, response: HttpResponse<ITask>) =>
+			tasks?.map(task => (task._id === response.body?._id ? { ...task, assigned: undefined } : task)),
+		[]
+	);
 
 	const { mutate, isLoading } = useMutation(removenUserFromTaskAction, {
-		onSuccess: () => {
-			query.invalidateQueries([QueryKey.tasksOfCurrentList]);
-			query.invalidateQueries([QueryKey.getTask]);
-			query.invalidateQueries([QueryKey.getAssignedTasks]);
-			query.invalidateQueries([QueryKey.tasksList]);
-			query.invalidateQueries([QueryKey.getMyDayTasks]);
-			query.invalidateQueries([QueryKey.getImportanceTasks]);
+		onSuccess: async response => {
+			query.setQueryData<ITask[] | undefined>([QueryKey.getImportanceTasks], (tasks: ITask[] | undefined) =>
+				taskRemoveAssigment(tasks, response)
+			);
+			query.setQueryData<ITask[] | undefined>([QueryKey.tasksOfCurrentList, taskData?.parentFolderId], (tasks: ITask[] | undefined) =>
+				taskRemoveAssigment(tasks, response)
+			);
+			query.setQueryData<ITask | undefined>([QueryKey.getTask, response.body?._id], (task: ITask | undefined) =>
+				task?._id === response.body?._id ? { ...task, assigned: undefined } : task
+			);
+			query.setQueryData<ITask[] | undefined>([QueryKey.getMyDayTasks], (tasks: ITask[] | undefined) => taskRemoveAssigment(tasks, response));
+			query.setQueryData<ITask[] | undefined>([QueryKey.getAssignedTasks, authData?._id], (tasks: ITask[] | undefined) =>
+				taskRemoveAssigment(tasks, response)
+			);
+			query.setQueryData<ITask[] | undefined>([QueryKey.tasksList], (tasks: ITask[] | undefined) => taskRemoveAssigment(tasks, response));
+
 			toast.success('Przypisanie usunięte');
 		},
 		onError: (error: IQueryError) => {

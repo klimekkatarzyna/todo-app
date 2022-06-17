@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { deleteListAction, getListsAction } from '../actions/lists';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
@@ -9,6 +9,8 @@ import toast from 'react-hot-toast';
 import { IQueryError } from '../interfaces/app';
 import { groupState } from '../atoms/group';
 import { getGroups } from '../actions/groups';
+import { updateMembersList } from '../actions/sharing';
+import { HttpResponse } from '../utils/http';
 
 export const useList = () => {
 	const query = useQueryClient();
@@ -42,8 +44,25 @@ export const useList = () => {
 		},
 	});
 
+	const {
+		mutate: updateMembersListMutation,
+		isLoading: updateMembersListLoading,
+		isError,
+	} = useMutation(updateMembersList, {
+		onSuccess: async response => {
+			query.invalidateQueries([QueryKey.getListById, response.body?._id]);
+			query.invalidateQueries([QueryKey.lists]);
+			toast.success('Użytkownik usunięty z listy');
+		},
+		onError: (error: IQueryError) => {
+			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
+		},
+	});
+
 	return {
 		getListsLoading,
 		removeListMutation,
+		updateMembersListLoading,
+		updateMembersListMutation,
 	};
 };

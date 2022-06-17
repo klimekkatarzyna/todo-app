@@ -25,7 +25,7 @@ export const createTask = async (req: Request, res: Response) => {
 		await task.save();
 		res.status(200).json({
 			body: {
-				id: task._id,
+				_id: task._id,
 				title: task.title,
 				parentFolderId: task.parentFolderId,
 				importance: task.importance,
@@ -135,6 +135,8 @@ export const removeTask = async (req: Request, res: Response) => {
 	try {
 		res.status(200).json({
 			body: {
+				_id: req.body?._id,
+				parentFolderId: req.body.parentFolderId,
 				tasks: data,
 			},
 		});
@@ -245,7 +247,13 @@ export const assignUserToTask = async (req: Request, res: Response) => {
 		if (!task) {
 			res.status(404).json({ message: 'Task not found' });
 		}
-		res.status(200).json({ body: task, message: 'user assigned to task' });
+		res.status(200).json({
+			body: {
+				_id: req.body._id,
+				assigned: req.body.assigned,
+			},
+			message: 'user assigned to task',
+		});
 	} catch (err) {
 		res.status(500).json({
 			err,
@@ -266,7 +274,12 @@ export const removeUserFromTask = async (req: Request, res: Response) => {
 		if (!task) {
 			res.status(404).json({ message: 'Task not found' });
 		}
-		res.status(200).json({ body: task, message: 'remove assigment' });
+		res.status(200).json({
+			body: {
+				_id: req.body._id,
+			},
+			message: 'remove assigment',
+		});
 	} catch (err) {
 		res.status(500).json({
 			err,

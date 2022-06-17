@@ -2,12 +2,12 @@ import { FC, useMemo, memo, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import { contextualMenuSecountOpion, contextualMenuSecountOpionMembers } from '../../constants';
 import { IGroup, IList, ITask } from '@kkrawczyk/todo-common';
-import { ROUTE, QueryKey, SideMenu, ContextMenuOpion } from '../../enums';
+import { ROUTE, QueryKey, ContextMenuOpion } from '../../enums';
 import { ContextMenuComponent } from '../ContextMenu/ContextMenuComponent';
 import { useSharingData } from '../../hooks/useSharingData';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { getTasksOfCurrentListAction } from '../../actions/tasks';
-import { Sun, Star, List, Calendar, User, Users, Home } from 'react-feather';
+import { List, Users } from 'react-feather';
 import { ContextMenuContext } from '../../ContextMenuProvider';
 import { buildUrl } from '../../utils/paths';
 import { useShowMenuContexify } from '../../hooks/useShowMenuContexify';
@@ -45,7 +45,7 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed, isMai
 	const { data: groupsList } = useQuery<IGroup[] | undefined>(QueryKey.groups, getGroups);
 
 	const { mutateAsync } = useMutation(addListToGroupAction, {
-		onSuccess: () => {
+		onSuccess: async response => {
 			query.invalidateQueries([QueryKey.groups]);
 			toast.success('Lista dodana do grupy');
 		},

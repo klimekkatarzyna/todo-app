@@ -97,6 +97,10 @@ export const addListToGroup = async (req: Request, res: Response) => {
 		}
 
 		res.status(200).json({
+			body: {
+				_id: req.body._id,
+				listId: req.body.listId,
+			},
 			message: 'list has been added to the group',
 		});
 	} catch (err) {

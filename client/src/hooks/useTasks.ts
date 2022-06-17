@@ -12,6 +12,7 @@ import { completedTasksListState, inCompletedTasksListState } from '../atoms/tas
 import toast from 'react-hot-toast';
 import { TasksContextMenuContext } from '../providers/TasksContextMenuProvider';
 import { useTask } from './tasks/useTask';
+import { AuthContext, AuthContextType } from '../AuthProvider';
 
 interface SortType {
 	key: SortTaskType;
@@ -23,13 +24,11 @@ export type KeyType = 'string' | 'date';
 
 export const useTasks = () => {
 	const query = useQueryClient();
-	const { listId, taskId } = useParams<IUseParams>();
+	const { listId } = useParams<IUseParams>();
 	const { socket } = useContext(SocketContext);
-	const { tasksContextlMenu } = useContext(TasksContextMenuContext);
 	const [inCompletedTaskslist, setInCompletedTasksList] = useRecoilState(inCompletedTasksListState);
 	const [completedTaskslist, setComplitedTasksList] = useRecoilState(completedTasksListState);
 	const { sorter } = useSort<ITask>();
-	const { taskData } = useTask();
 
 	const { data: tasksOfCurrentList, isLoading: getTasksOfCurrentListLoading } = useQuery<ITask[] | undefined>(
 		[QueryKey.tasksOfCurrentList, listId],
@@ -39,24 +38,6 @@ export const useTasks = () => {
 	// useEffect(() => {
 	// 	setInCompletedTasksList(tasksOfCurrentList || []);
 	// }, []);
-
-	const { mutateAsync: removeTaskMutation, isError } = useMutation(
-		() => deleteTaskAction({ _id: tasksContextlMenu?.elementId || taskId, parentFolderId: taskData?.parentFolderId }),
-		{
-			onSuccess: () => {
-				query.invalidateQueries(QueryKey.getImportanceTasks);
-				query.invalidateQueries(QueryKey.tasksOfCurrentList);
-				query.invalidateQueries(QueryKey.getTask);
-				query.invalidateQueries(QueryKey.getMyDayTasks);
-				query.invalidateQueries(QueryKey.getAssignedTasks);
-				query.invalidateQueries(QueryKey.tasksList);
-				toast.success('Zadanie usunięte');
-			},
-			onError: (error: IQueryError) => {
-				toast.error(`Coś poszlo nie tak: ${error.err.message}`);
-			},
-		}
-	);
 
 	const [sort, setSort] = useState<SortType>({ key: SortTaskType.title, direction: 'asc', keyType: 'string' });
 	const sortedTasks = useMemo(
@@ -136,7 +117,6 @@ export const useTasks = () => {
 		setComplitedTasksList,
 		requestSort,
 		getTasksOfCurrentListLoading,
-		removeTaskMutation,
 		listId,
 	};
 };
