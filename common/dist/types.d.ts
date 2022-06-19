@@ -11,7 +11,7 @@ export interface ITask {
     parentFolderId?: string;
     groupName?: string;
     title?: string;
-    themeColor?: AppColorTypeEnum | undefined;
+    themeColor?: AppColor | undefined;
     _id?: string | undefined;
     taskStatus?: string;
     deadline?: string;
@@ -21,12 +21,12 @@ export interface ITask {
     createdBy?: string;
     members?: Array<string>;
 }
-export declare type AppColorType = "grey" | "blue" | "red" | "green";
-export declare enum AppColorTypeEnum {
+export declare enum AppColor {
     grey = "grey",
     blue = "blue",
     red = "red",
-    green = "green"
+    green = "green",
+    dark = "dark"
 }
 export declare enum ITaskStatus {
     inComplete = "inComplete",
@@ -47,7 +47,7 @@ export declare enum Importance {
 export interface IList {
     isMainList?: boolean;
     title?: string;
-    themeColor?: AppColorType;
+    themeColor?: AppColor;
     _id?: string;
     createdAt?: Date;
     url?: string;
@@ -59,7 +59,7 @@ export interface IList {
 }
 export interface IGroup {
     title?: string;
-    themeColor?: AppColorType;
+    themeColor?: AppColor;
     _id?: string;
     createdAt?: Date;
     userId?: string;

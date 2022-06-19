@@ -49,12 +49,7 @@ const TaskDetailsComponent: FC<ITaskDetailsProps> = ({ taskData, isTaskDetailsVi
 
 	return (
 		<>
-			<Checkbox
-				checked={taskData?.taskStatus === ITaskStatus.complete}
-				color={taskData?.themeColor}
-				onChange={onHandleChange}
-				tooltipText={tooltipText}
-			/>
+			<Checkbox checked={taskData?.taskStatus === ITaskStatus.complete} onChange={onHandleChange} tooltipText={tooltipText} />
 			<Link
 				to={`${redirectTo}${taskData?.parentFolderId}/${taskData?._id}`}
 				draggable

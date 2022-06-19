@@ -5,8 +5,8 @@ import { useMutation, useQueryClient } from 'react-query';
 import { addUserToMemberOfListAction, IShareLitDetails } from '../../actions/sharing';
 import { Button } from '../Button/Button';
 import { getStringAfterCharacter } from '../../utils/utilsFunctions';
-import { QueryKey, ROUTE } from '../../enums';
-import { buildUrl } from '../../utils/paths';
+import { QueryKey } from '../../enums';
+import { useSwitchToFirstListItem } from '../../hooks/useSwitchToFirstListItem';
 
 interface IJoinToList {
 	listDataLoading: boolean;
@@ -16,11 +16,13 @@ interface IJoinToList {
 export const JoinToList: FC<IJoinToList> = ({ listDataLoading, list }) => {
 	const query = useQueryClient();
 	const history = useHistory();
+	const { onHandleSwitchToFirstListItem } = useSwitchToFirstListItem(list?.listData._id);
+
 	const { mutate, error, isLoading } = useMutation(addUserToMemberOfListAction, {
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.checkSession]);
 			query.invalidateQueries([QueryKey.lists]);
-			history.push(buildUrl(ROUTE.listsDetails, { listId: list?.listData._id || '' }));
+			onHandleSwitchToFirstListItem();
 		},
 	});
 

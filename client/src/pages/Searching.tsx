@@ -7,6 +7,7 @@ import { useRecoilValue } from 'recoil';
 import { loadingState, searchResultState } from '../atoms/serching';
 import { buildUrl } from '../utils/paths';
 import { TasksList } from '../components/Tasks/TasksList';
+import { AppColor } from '@kkrawczyk/todo-common';
 
 export const Searching: FC = () => {
 	const searchResults = useRecoilValue(searchResultState);
@@ -14,7 +15,7 @@ export const Searching: FC = () => {
 
 	return (
 		<Board>
-			<Toolbar name={'Wyszukiwanie'} colorType={'blue'} />
+			<Toolbar name={'Wyszukiwanie'} colorType={AppColor.blue} />
 
 			<h2 className='pl-2 font-semibold text-lg'>Zadania</h2>
 			{isLoading ? (

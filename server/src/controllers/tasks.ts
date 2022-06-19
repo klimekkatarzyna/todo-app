@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import Task from '../models/task';
 import { taskSocket } from '../utils/socketsEvents';
-import { Importance } from '@kkrawczyk/todo-common';
+import { Importance, AppColor } from '@kkrawczyk/todo-common';
 import { getSessionUserId } from '../utils/auth';
 
 export const createTask = async (req: Request, res: Response) => {
@@ -10,7 +10,7 @@ export const createTask = async (req: Request, res: Response) => {
 		title: req.body.title,
 		parentFolderId: req.body.parentFolderId,
 		importance: req.body.importance,
-		themeColor: req.body.themeColor,
+		themeColor: AppColor.dark,
 		createdAt: Date.now(),
 		taskStatus: req.body.taskStatus,
 		sortType: req.body.sortType,

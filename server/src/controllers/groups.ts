@@ -1,3 +1,4 @@
+import { AppColor } from '@kkrawczyk/todo-common';
 import { Request, Response } from 'express';
 import { Group } from '../models/group';
 import { getSessionUserId } from '../utils/auth';
@@ -7,7 +8,7 @@ export const createGroup = async (req: Request, res: Response) => {
 
 	const newGroup = new Group({
 		title: req.body.title,
-		themeColor: 'blue',
+		themeColor: AppColor.blue,
 		createdAt: Date.now(),
 		userId: userId,
 		lists: [],

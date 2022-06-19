@@ -1,3 +1,4 @@
+import { AppColor } from '@kkrawczyk/todo-common';
 import { Request, Response } from 'express';
 import { Group } from '../models/group';
 import { List } from '../models/list';
@@ -23,7 +24,7 @@ export const createList = async (req: Request, res: Response) => {
 	const userId = getSessionUserId(req);
 	const newList = new List({
 		title: req.body.title,
-		themeColor: 'blue',
+		themeColor: AppColor.dark,
 		createdAt: Date.now(),
 		userId: userId,
 		invitationToken: '',
@@ -216,6 +217,27 @@ export const changeInvitation = async (req: Request, res: Response) => {
 		}
 
 		res.status(200).json({ message: 'invitation has been deleted' });
+	} catch (err) {
+		res.status(500).json({
+			err,
+		});
+	}
+};
+
+export const listTheme = async (req: Request, res: Response) => {
+	try {
+		const list = await List.findOneAndUpdate({ _id: req.body._id }, { $set: { themeColor: req.body.themeColor } });
+		if (!list) {
+			res.status(404).json({ message: 'List not found' });
+		}
+
+		res.status(200).json({
+			body: {
+				_id: req.body._id,
+				themeColor: req.body.themeColor,
+			},
+			message: 'list theme has been changed',
+		});
 	} catch (err) {
 		res.status(500).json({
 			err,

@@ -20,3 +20,5 @@ export const deleteListAction = async ({ _id }: IList) => await http<IList>(api.
 
 export const addInvitationTokenToListAction = async ({ _id, invitationToken, owner }: IList) =>
 	await http<IList>(api.addInvitationTokenToList, 'POST', { _id, invitationToken, owner });
+
+export const editListThemeAction = async ({ _id, themeColor }: IList) => await http<IList>(api.listTheme, 'POST', { _id, themeColor });

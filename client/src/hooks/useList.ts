@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { deleteListAction, getListsAction } from '../actions/lists';
+import { deleteListAction, editListThemeAction, getListsAction } from '../actions/lists';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { listsState } from '../atoms';
 import { IGroup, IList } from '@kkrawczyk/todo-common';
@@ -59,10 +59,25 @@ export const useList = () => {
 		},
 	});
 
+	const { mutate: editListThemeMutation } = useMutation(editListThemeAction, {
+		onSuccess: async response => {
+			query.setQueryData<IList | undefined>([QueryKey.getListById, response.body?._id], (list: IList | undefined) =>
+				list?._id === response.body?._id ? { ...list, themeColor: response.body?.themeColor } : list
+			);
+			query.setQueryData<IList[] | undefined>([QueryKey.lists], (lists: IList[] | undefined) =>
+				lists?.map(list => (list._id === response.body?._id ? { ...list, themeColor: response.body?.themeColor } : list))
+			);
+		},
+		onError: (error: IQueryError) => {
+			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
+		},
+	});
+
 	return {
 		getListsLoading,
 		removeListMutation,
 		updateMembersListLoading,
 		updateMembersListMutation,
+		editListThemeMutation,
 	};
 };

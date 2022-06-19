@@ -2,7 +2,7 @@ import { FC, useContext } from 'react';
 import { Toolbar } from '../components/Toolbar';
 import { Board } from '../components/Board';
 import { useQuery } from 'react-query';
-import { ITask } from '@kkrawczyk/todo-common';
+import { AppColor, ITask } from '@kkrawczyk/todo-common';
 import { QueryKey, ROUTE } from '../enums';
 import { getAssignedTasksAction } from '../actions/tasks';
 import { AuthContext, AuthContextType } from '../AuthProvider';
@@ -20,7 +20,7 @@ export const Assigned: FC = () => {
 
 	return (
 		<Board>
-			<Toolbar name={'Przypisane do mnie'} colorType={'green'} />
+			<Toolbar name={'Przypisane do mnie'} colorType={AppColor.green} />
 			{isLoading ? <Loader className='m-auto' /> : <TasksList tasks={data} redirectUrl={`${buildUrl(ROUTE.assigned)}/`} />}
 		</Board>
 	);

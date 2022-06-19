@@ -53,8 +53,6 @@ export enum SideMenu {
 	search = 'search',
 }
 
-export type AppColorType = 'grey' | 'blue' | 'red' | 'green';
-
 export enum SortType {
 	draggedItem = 0,
 	createdAt = 'createdAt',

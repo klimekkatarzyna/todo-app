@@ -2,7 +2,7 @@ import { useCallback, useContext } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { createTaskAction } from '../../actions/tasks';
 import { IQueryError } from '../../interfaces/app';
-import { ITask, createEditTaskSchema, CreateEditTaskType, AppColorTypeEnum } from '@kkrawczyk/todo-common';
+import { ITask, createEditTaskSchema, CreateEditTaskType, AppColor } from '@kkrawczyk/todo-common';
 import { isStringContainsWhitespace } from '../../utils/utilsFunctions';
 import { QueryKey } from '../../enums';
 import toast from 'react-hot-toast';
@@ -40,7 +40,7 @@ export const CreateTask = () => {
 			await mutateAsync({
 				title: values.title,
 				parentFolderId,
-				themeColor: AppColorTypeEnum.blue,
+				themeColor: AppColor.dark,
 				createdBy: authData?._id,
 				members: membersArray as string[],
 			});

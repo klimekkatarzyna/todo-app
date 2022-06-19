@@ -23,6 +23,7 @@ import {
 	removeList,
 	updateMembersList,
 	editList,
+	listTheme,
 } from '../controllers/lists';
 import { authorization } from '../utils/auth';
 
@@ -49,5 +50,7 @@ lists.post('/members', authorization, addUserToMemberOfList);
 lists.patch('/members', authorization, validateBody<RemoveMemberFromListType>(removeMemberFromListSchema), updateMembersList);
 
 lists.patch('/invitations', authorization, validateBody<ListIdType>(listIdRequiredSchema), changeInvitation);
+
+lists.post('/listTheme', authorization, listTheme);
 
 export default lists;

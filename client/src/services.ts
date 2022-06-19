@@ -19,6 +19,7 @@ export const getListById = `${process.env.REACT_APP_API_LOCAL_HOST}/api/listDeta
 export const createList = `${process.env.REACT_APP_API_LOCAL_HOST}/api/lists`;
 export const editList = `${process.env.REACT_APP_API_LOCAL_HOST}/api/lists`;
 export const removeList = `${process.env.REACT_APP_API_LOCAL_HOST}/api/lists`;
+export const listTheme = `${process.env.REACT_APP_API_LOCAL_HOST}/api/listTheme`;
 
 // task
 export const createTask = `${process.env.REACT_APP_API_LOCAL_HOST}/api/tasks`;

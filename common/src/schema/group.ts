@@ -1,11 +1,11 @@
 import { object, string, InferType, date, SchemaOf, mixed, array } from "yup";
-import { IGroup, AppColorTypeEnum } from "../types";
+import { IGroup, AppColor } from "../types";
 
 export const createEditGroupSchema: SchemaOf<IGroup> = object({
   createdAt: date().optional(),
   title: string().max(20, "Too Long!").required("Dodaj nazwę grupy"),
-  themeColor: mixed<AppColorTypeEnum>()
-    .oneOf(Object.values(AppColorTypeEnum) as AppColorTypeEnum[])
+  themeColor: mixed<AppColor>()
+    .oneOf(Object.values(AppColor) as AppColor[])
     .optional(),
   _id: string().optional(),
   userId: string().optional(),

@@ -7,7 +7,7 @@ exports.createEditGroupSchema = (0, yup_1.object)({
     createdAt: (0, yup_1.date)().optional(),
     title: (0, yup_1.string)().max(20, "Too Long!").required("Dodaj nazwę grupy"),
     themeColor: (0, yup_1.mixed)()
-        .oneOf(Object.values(types_1.AppColorTypeEnum))
+        .oneOf(Object.values(types_1.AppColor))
         .optional(),
     _id: (0, yup_1.string)().optional(),
     userId: (0, yup_1.string)().optional(),

@@ -8,7 +8,7 @@ import {
   mixed,
   array,
 } from "yup";
-import { ITask, SortType, AppColorTypeEnum } from "../types";
+import { ITask, SortType, AppColor } from "../types";
 
 export const taskIdSchema = object({
   _id: string().required(),
@@ -27,8 +27,8 @@ export const createEditTaskSchema: SchemaOf<ITask> = object({
     .min(3, "Too short!")
     .max(50, "Too Long!")
     .required("Dodaj nazwę zadania"),
-  themeColor: mixed<AppColorTypeEnum>()
-    .oneOf(Object.values(AppColorTypeEnum) as AppColorTypeEnum[])
+  themeColor: mixed<AppColor>()
+    .oneOf(Object.values(AppColor) as AppColor[])
     .optional(),
   _id: string().optional(),
   taskStatus: string().optional(),

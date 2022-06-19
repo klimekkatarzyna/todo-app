@@ -9,6 +9,8 @@ import { TitleForm } from '../TitleForm';
 import { useParams } from 'react-router-dom';
 import { IQueryError, IUseParams } from '../../interfaces/app';
 import { HttpResponse } from '../../utils/http';
+import { useRecoilState } from 'recoil';
+import { formToEditListTitleVisibilityState } from '../../atoms';
 
 interface IEditListTitleProps {
 	title: string;
@@ -18,6 +20,7 @@ interface IEditListTitleProps {
 export const EditListTitle: FC<IEditListTitleProps> = ({ title }) => {
 	const query = useQueryClient();
 	const { listId } = useParams<IUseParams>();
+	const [, setIsFormVisible] = useRecoilState(formToEditListTitleVisibilityState);
 
 	const updateListTitle = useCallback(
 		(lists: IList[] | undefined, response: HttpResponse<IList>) =>
@@ -47,8 +50,9 @@ export const EditListTitle: FC<IEditListTitleProps> = ({ title }) => {
 			if (isStringContainsWhitespace(values.title)) return;
 			await mutateAsync({ _id: listId, title: values.title });
 			resetForm();
+			setIsFormVisible(false);
 		},
-		[listId]
+		[listId, setIsFormVisible]
 	);
 
 	return <TitleForm isLoading={isLoading} initialValues={initialValues} validationSchema={createEditTaskSchema} onSubmit={onSubmit} />;

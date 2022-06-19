@@ -63,8 +63,10 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed, isMai
 		<NavLink to={redirectUrl} className='no-underline' activeClassName='bg-activeMenuItem'>
 			<div onContextMenu={displayMenu}>
 				<div className={'flex align-center px-4 py-2 text-sm hover:bg-white'}>
-					<div>{icon || <List className='mr-2 stroke-blue icon-style' />}</div>
-					<div className={`text-sm text-fontColor ml-2 break-words ${isNavClosed ? 'hidden' : 'flex'}`}>{listItem?.title}</div>
+					<div>{icon || <List className={`mr-2 stroke-${listItem?.themeColor} icon-style`} />}</div>
+					<div className={`text-sm text-${listItem?.themeColor} ml-2 break-words ${isNavClosed ? 'hidden' : 'flex'}`}>
+						{listItem?.title}
+					</div>
 					{!!listItem?.members?.length && <Users className='ml-2 icon-style' />}
 					{!!data?.length && <div className={`text-sm text-fontColor ml-auto ${isNavClosed ? 'hidden' : 'flex'}`}>{data?.length}</div>}
 				</div>

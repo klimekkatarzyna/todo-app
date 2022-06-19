@@ -1,9 +1,9 @@
-import { createContext, FC, useState } from 'react';
-import { AppColorType } from '../enums';
+import { AppColor } from '@kkrawczyk/todo-common';
+import { createContext, FC, useEffect, useState } from 'react';
 
 export interface IThemeContext {
-	setTheme: React.Dispatch<React.SetStateAction<AppColorType>>;
-	theme: AppColorType;
+	setTheme: React.Dispatch<React.SetStateAction<AppColor>>;
+	theme: AppColor;
 }
 
 export const ThemeContext = createContext<IThemeContext>({} as IThemeContext);
@@ -13,7 +13,12 @@ interface IThemeProvider {
 }
 
 export const ThemeProvider: FC<IThemeProvider> = ({ children }) => {
-	const [theme, setTheme] = useState<AppColorType>('blue');
+	const defaultTheme = (sessionStorage.getItem('theme') as AppColor) || AppColor.dark;
+	const [theme, setTheme] = useState<AppColor>(defaultTheme);
+
+	useEffect(() => {
+		sessionStorage.setItem('theme', theme);
+	}, [theme]);
 
 	const defaultContext = {
 		theme,

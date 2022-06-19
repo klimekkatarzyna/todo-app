@@ -8,6 +8,7 @@ import { ShareLink } from './ShareLink';
 import { DisplayMember } from './DisplayMember';
 import { useRecoilValue } from 'recoil';
 import { modalVisibilityState } from '../../atoms/modal';
+
 interface IShareTokenViewProps {
 	onNextStep: () => void;
 	listDataResponse: IList | undefined;
