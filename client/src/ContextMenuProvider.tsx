@@ -17,11 +17,7 @@ export interface ContextMenuType {
 
 export const ContextMenuContext = createContext<ContextMenuType>({} as ContextMenuType);
 
-interface IContextMenuProvider {
-	children: React.ReactNode;
-}
-
-export const ContextMenuProvider: FC<IContextMenuProvider> = ({ children }) => {
+export const ContextMenuProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
 	const query = useQueryClient();
 	const [contextualMenu, setContextMenu] = useState<IData | undefined>();
 	const [isVisible, setIsVisible] = useRecoilState(modalVisibilityState);

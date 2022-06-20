@@ -2,17 +2,13 @@ import { useCallback, useEffect, useMemo, useState, useContext } from 'react';
 import { QueryKey, SortTaskType } from '../enums';
 import { useSort } from './useSort';
 import { useParams } from 'react-router-dom';
-import { IQueryError, IUseParams } from '../interfaces/app';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { deleteTaskAction, getTasksOfCurrentListAction } from '../actions/tasks';
+import { IUseParams } from '../interfaces/app';
+import { useQuery, useQueryClient } from 'react-query';
+import { getTasksOfCurrentListAction } from '../actions/tasks';
 import { SocketContext } from '../providers/SocketProvider';
 import { ITask, ITaskStatus } from '@kkrawczyk/todo-common';
 import { useRecoilState } from 'recoil';
 import { completedTasksListState, inCompletedTasksListState } from '../atoms/tasks';
-import toast from 'react-hot-toast';
-import { TasksContextMenuContext } from '../providers/TasksContextMenuProvider';
-import { useTask } from './tasks/useTask';
-import { AuthContext, AuthContextType } from '../AuthProvider';
 
 interface SortType {
 	key: SortTaskType;

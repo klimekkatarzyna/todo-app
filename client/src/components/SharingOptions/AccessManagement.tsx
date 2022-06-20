@@ -8,12 +8,7 @@ import { QueryKey, ROUTE } from '../../enums';
 import toast from 'react-hot-toast';
 import { IQueryError } from '../../interfaces/app';
 
-interface IAccessManagementProps {
-	listDataResponse: IList | undefined;
-	onPrevStep: () => void;
-}
-
-export const AccessManagement: FC<IAccessManagementProps> = ({ listDataResponse, onPrevStep }) => {
+export const AccessManagement: FC<{ listDataResponse: IList | undefined; onPrevStep: () => void }> = ({ listDataResponse, onPrevStep }) => {
 	const query = useQueryClient();
 
 	const { mutate, isLoading, isError } = useMutation(removeInvitationAction, {

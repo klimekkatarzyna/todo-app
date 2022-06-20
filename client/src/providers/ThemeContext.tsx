@@ -8,11 +8,7 @@ export interface IThemeContext {
 
 export const ThemeContext = createContext<IThemeContext>({} as IThemeContext);
 
-interface IThemeProvider {
-	children: React.ReactNode;
-}
-
-export const ThemeProvider: FC<IThemeProvider> = ({ children }) => {
+export const ThemeProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
 	const defaultTheme = (sessionStorage.getItem('theme') as AppColor) || AppColor.dark;
 	const [theme, setTheme] = useState<AppColor>(defaultTheme);
 

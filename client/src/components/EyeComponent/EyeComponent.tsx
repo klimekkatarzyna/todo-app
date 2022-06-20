@@ -1,12 +1,7 @@
 import { FC } from 'react';
 import { EyeOff, Eye } from 'react-feather';
 
-interface IEyeComponent {
-	showPassword: boolean;
-	handledSetPassword: () => void;
-}
-
-export const EyeComponent: FC<IEyeComponent> = ({ showPassword, handledSetPassword }) => {
+export const EyeComponent: FC<{ showPassword: boolean; handledSetPassword: () => void }> = ({ showPassword, handledSetPassword }) => {
 	return (
 		<>
 			{!showPassword ? (

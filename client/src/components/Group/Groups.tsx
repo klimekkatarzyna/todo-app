@@ -12,11 +12,7 @@ import { useRecoilValue } from 'recoil';
 import { modalVisibilityState } from '../../atoms/modal';
 import { IQueryError } from '../../interfaces/app';
 
-interface IGroupsProps {
-	isNavClosed: boolean;
-}
-
-export const Groups: FC<IGroupsProps> = ({ isNavClosed }) => {
+export const Groups: FC<{ isNavClosed: boolean }> = ({ isNavClosed }) => {
 	const query = useQueryClient();
 	const isVisible = useRecoilValue(modalVisibilityState);
 	const { contextualMenu } = useContext(ContextMenuContext);

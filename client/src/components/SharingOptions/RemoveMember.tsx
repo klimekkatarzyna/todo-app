@@ -7,12 +7,7 @@ import { ROUTE } from '../../enums';
 import { buildUrl } from '../../utils/paths';
 import { useList } from '../../hooks/useList';
 
-interface IRemoveMember {
-	listDataResponse: IList | undefined;
-	onNextStep: () => void;
-}
-
-export const RemoveMember: FC<IRemoveMember> = ({ listDataResponse, onNextStep }) => {
+export const RemoveMember: FC<{ listDataResponse: IList | undefined; onNextStep: () => void }> = ({ listDataResponse, onNextStep }) => {
 	const history = useHistory();
 	const { isOwner, authData } = useSharingData(listDataResponse?.userId);
 	const { updateMembersListLoading, updateMembersListMutation } = useList();

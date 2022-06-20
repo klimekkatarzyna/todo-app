@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { deleteListAction, editListThemeAction, getListsAction } from '../actions/lists';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
@@ -10,7 +10,6 @@ import { IQueryError } from '../interfaces/app';
 import { groupState } from '../atoms/group';
 import { getGroups } from '../actions/groups';
 import { updateMembersList } from '../actions/sharing';
-import { HttpResponse } from '../utils/http';
 
 export const useList = () => {
 	const query = useQueryClient();
@@ -67,6 +66,7 @@ export const useList = () => {
 			query.setQueryData<IList[] | undefined>([QueryKey.lists], (lists: IList[] | undefined) =>
 				lists?.map(list => (list._id === response.body?._id ? { ...list, themeColor: response.body?.themeColor } : list))
 			);
+			// query.invalidateQueries([QueryKey.tasksList]);
 		},
 		onError: (error: IQueryError) => {
 			toast.error(`Coś poszlo nie tak: ${error.err.message}`);

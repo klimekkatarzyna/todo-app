@@ -11,11 +11,7 @@ export interface IMainListResponse {
 	mainLists: IList[];
 }
 
-interface IMainList {
-	isNavClosed: boolean;
-}
-
-const MainListComponent: FC<IMainList> = ({ isNavClosed }) => {
+const MainListComponent: FC<{ isNavClosed: boolean }> = ({ isNavClosed }) => {
 	// TODO: endpomt to update tasksNumber
 	const getMainListAction = useCallback(async () => await http<IMainListResponse>(api.getMainList, 'GET'), []);
 	const { data, isLoading } = useQuery<HttpResponse<IMainListResponse>>(QueryKey.getMainList, getMainListAction);

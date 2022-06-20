@@ -1,12 +1,7 @@
 import React, { FC } from 'react';
 import { Button } from '../Button/Button';
 
-interface IGenerateTokenViewProps {
-	isLoading: boolean;
-	onGenerateInvitationToken: () => void;
-}
-
-export const GenerateTokenView: FC<IGenerateTokenViewProps> = ({ isLoading, onGenerateInvitationToken }) => {
+export const GenerateTokenView: FC<{ isLoading: boolean; onGenerateInvitationToken: () => void }> = ({ isLoading, onGenerateInvitationToken }) => {
 	return (
 		<div>
 			<h2 className='text-center'>

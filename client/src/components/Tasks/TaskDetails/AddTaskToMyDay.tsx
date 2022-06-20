@@ -3,11 +3,7 @@ import { Sun, X, Loader } from 'react-feather';
 import { ITask } from '@kkrawczyk/todo-common';
 import { useTasksInMyDay } from '../../../hooks/tasks/useTasksInMyDay';
 
-interface IAddTaskToMyDay {
-	taskData: ITask | undefined;
-}
-
-export const AddTaskToMyDay: FC<IAddTaskToMyDay> = ({ taskData }) => {
+export const AddTaskToMyDay: FC<{ taskData: ITask | undefined }> = ({ taskData }) => {
 	const { isMyDayTask, taskInMyDayLoading, taskInMyDayMutation } = useTasksInMyDay();
 
 	const onHandleTaskInMyDay = useCallback(

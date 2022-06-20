@@ -12,7 +12,7 @@ import { useSwitchToFirstListItem } from '../../hooks/useSwitchToFirstListItem';
 import { IUseParams } from '../../interfaces/app';
 import { ThemeContext } from '../../providers/ThemeContext';
 
-const MENU_ID = 'blahblah';
+const MENU_ID = 'listSettings';
 
 enum ContextMenuItem {
 	theme_red = 'red',
@@ -27,7 +27,7 @@ enum ContextMenuItem {
 
 export const ListSettings: FC = () => {
 	const { show } = useContextMenu({
-		id: MENU_ID,
+		id: 'listSettings',
 	});
 	const { onHandleSwitchToFirstListItem } = useSwitchToFirstListItem();
 	const { listId } = useParams<IUseParams>();

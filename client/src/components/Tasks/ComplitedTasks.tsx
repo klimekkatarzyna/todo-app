@@ -4,11 +4,7 @@ import { SideMenu } from '../../enums';
 import { TasksList } from './TasksList';
 import { ITask } from '@kkrawczyk/todo-common';
 
-interface IComplitedTasksComponentProps {
-	tasks: ITask[];
-}
-
-const ComplitedTasksComponent: FC<IComplitedTasksComponentProps> = ({ tasks }) => {
+const ComplitedTasksComponent: FC<{ tasks: ITask[] }> = ({ tasks }) => {
 	return (
 		<>
 			{!!tasks?.length && (

@@ -1,6 +1,7 @@
 import { AppColor } from '@kkrawczyk/todo-common';
 import { Request, Response } from 'express';
 import { Group } from '../models/group';
+import Task from '../models/task';
 import { List } from '../models/list';
 import MainList from '../models/mainList';
 import { getSessionUserId } from '../utils/auth';
@@ -227,6 +228,7 @@ export const changeInvitation = async (req: Request, res: Response) => {
 export const listTheme = async (req: Request, res: Response) => {
 	try {
 		const list = await List.findOneAndUpdate({ _id: req.body._id }, { $set: { themeColor: req.body.themeColor } });
+		// await Task.updateMany({ parentFolderId: req.body._id }, { $set: { themeColor: req.body.themeColor } });
 		if (!list) {
 			res.status(404).json({ message: 'List not found' });
 		}

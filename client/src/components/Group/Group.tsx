@@ -11,12 +11,7 @@ import { useShowMenuContexify } from '../../hooks/useShowMenuContexify';
 import { useSetRecoilState } from 'recoil';
 import { groupState } from '../../atoms/group';
 
-interface IGroupProps {
-	group: IGroup;
-	isNavClosed: boolean | undefined;
-}
-
-export const Group: FC<IGroupProps> = ({ group, isNavClosed }) => {
+export const Group: FC<{ group: IGroup; isNavClosed: boolean | undefined }> = ({ group, isNavClosed }) => {
 	const { handleItemClick } = useContext(ContextMenuContext);
 	const { displayMenu } = useShowMenuContexify(group._id);
 	const { elementeReference, toggleDropdown, dropdownOpen } = useDropdown();

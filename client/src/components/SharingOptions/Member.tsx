@@ -5,12 +5,7 @@ import { IList } from '@kkrawczyk/todo-common';
 import { DisplayMember } from './DisplayMember';
 import { useList } from '../../hooks/useList';
 
-interface IMemberProps {
-	listDataResponse: IList;
-	member: string;
-}
-
-export const Member: FC<IMemberProps> = ({ listDataResponse, member }) => {
+export const Member: FC<{ listDataResponse: IList; member: string }> = ({ listDataResponse, member }) => {
 	const { isOwner } = useSharingData(listDataResponse?.userId);
 	const { updateMembersListLoading, updateMembersListMutation } = useList();
 

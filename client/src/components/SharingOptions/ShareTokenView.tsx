@@ -9,12 +9,7 @@ import { DisplayMember } from './DisplayMember';
 import { useRecoilValue } from 'recoil';
 import { modalVisibilityState } from '../../atoms/modal';
 
-interface IShareTokenViewProps {
-	onNextStep: () => void;
-	listDataResponse: IList | undefined;
-}
-
-export const ShareTokenView: FC<IShareTokenViewProps> = ({ onNextStep, listDataResponse }) => {
+export const ShareTokenView: FC<{ onNextStep: () => void; listDataResponse: IList | undefined }> = ({ onNextStep, listDataResponse }) => {
 	const isVisible = useRecoilValue(modalVisibilityState);
 
 	return (

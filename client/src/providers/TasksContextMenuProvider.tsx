@@ -17,11 +17,7 @@ export interface TasksContextMenuContextType {
 
 export const TasksContextMenuContext = createContext<TasksContextMenuContextType>({} as TasksContextMenuContextType);
 
-interface ITasksContextMenuProvider {
-	children: React.ReactNode;
-}
-
-export const TasksContextMenuProvider: FC<ITasksContextMenuProvider> = ({ children }) => {
+export const TasksContextMenuProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
 	const [tasksContextlMenu, setTasksContextMenu] = useState<IData | undefined>();
 	const [isVisible, setIsVisible] = useRecoilState(modalVisibilityState);
 

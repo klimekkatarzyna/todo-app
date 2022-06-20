@@ -10,11 +10,7 @@ import { IQueryError } from '../../../interfaces/app';
 import { HttpResponse } from '../../../utils/http';
 import { AuthContext, AuthContextType } from '../../../AuthProvider';
 
-interface IRemoveAssignmentProps {
-	taskData: ITask;
-}
-
-export const RemoveAssignment: FC<IRemoveAssignmentProps> = ({ taskData }) => {
+export const RemoveAssignment: FC<{ taskData: ITask }> = ({ taskData }) => {
 	const query = useQueryClient();
 	const { authData } = useContext<AuthContextType>(AuthContext);
 

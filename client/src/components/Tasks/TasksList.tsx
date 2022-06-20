@@ -8,12 +8,7 @@ import { TasksContextMenuContext } from '../../providers/TasksContextMenuProvide
 import { ContextualModal } from '../Modal/ContextualModal';
 import { TaskItem } from './TaskItem/TaskItem';
 
-interface ITasksListProps {
-	tasks: ITask[] | undefined;
-	redirectUrl: string;
-}
-
-export const TasksList: FC<ITasksListProps> = ({ tasks, redirectUrl }) => {
+export const TasksList: FC<{ tasks: ITask[] | undefined; redirectUrl: string }> = ({ tasks, redirectUrl }) => {
 	const isVisible = useRecoilValue(modalVisibilityState);
 	const { removeTaskMutation } = useRemoveTasks();
 	const { tasksContextlMenu } = useContext(TasksContextMenuContext);

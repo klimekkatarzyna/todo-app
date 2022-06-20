@@ -3,11 +3,8 @@ import { TaskSidebarDetails } from './Tasks/TaskSidebarDetailsContainer';
 import { Loader } from 'react-feather';
 import { useRecoilValue } from 'recoil';
 import { elementVisibilityState } from '../atoms/elementVisibility';
-interface IBoard {
-	children: React.ReactNode;
-}
 
-export const Board: FC<IBoard> = ({ children }) => {
+export const Board: FC<{ children: React.ReactNode }> = ({ children }) => {
 	const isElementVisible = useRecoilValue(elementVisibilityState);
 
 	return (

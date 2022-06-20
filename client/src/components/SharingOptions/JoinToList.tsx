@@ -8,12 +8,7 @@ import { getStringAfterCharacter } from '../../utils/utilsFunctions';
 import { QueryKey } from '../../enums';
 import { useSwitchToFirstListItem } from '../../hooks/useSwitchToFirstListItem';
 
-interface IJoinToList {
-	listDataLoading: boolean;
-	list: IShareLitDetails | undefined;
-}
-
-export const JoinToList: FC<IJoinToList> = ({ listDataLoading, list }) => {
+export const JoinToList: FC<{ listDataLoading: boolean; list: IShareLitDetails | undefined }> = ({ listDataLoading, list }) => {
 	const query = useQueryClient();
 	const history = useHistory();
 	const { onHandleSwitchToFirstListItem } = useSwitchToFirstListItem(list?.listData._id);

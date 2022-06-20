@@ -17,11 +17,7 @@ import { modalVisibilityState } from '../../../atoms/modal';
 import { IQueryError } from '../../../interfaces/app';
 import { useSwitchToFirstListItem } from '../../../hooks/useSwitchToFirstListItem';
 
-interface ILists {
-	isNavClosed: boolean;
-}
-
-const ListsComponents: FC<ILists> = ({ isNavClosed }) => {
+const ListsComponents: FC<{ isNavClosed: boolean }> = ({ isNavClosed }) => {
 	const query = useQueryClient();
 	const { onHandleSwitchToFirstListItem } = useSwitchToFirstListItem();
 	const isVisible = useRecoilValue(modalVisibilityState);

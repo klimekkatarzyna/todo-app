@@ -4,12 +4,7 @@ import { Button } from '../Button/Button';
 import { IShareLitDetails } from '../../actions/sharing';
 import { useSwitchToFirstListItem } from '../../hooks/useSwitchToFirstListItem';
 
-interface IRedirectToList {
-	list: IShareLitDetails | undefined;
-	listDataLoading: boolean;
-}
-
-export const RedirectToList: FC<IRedirectToList> = ({ list, listDataLoading }) => {
+export const RedirectToList: FC<{ list: IShareLitDetails | undefined; listDataLoading: boolean }> = ({ list, listDataLoading }) => {
 	const { onHandleSwitchToFirstListItem } = useSwitchToFirstListItem(list?.listData._id);
 
 	const redirectToList = useCallback(() => {

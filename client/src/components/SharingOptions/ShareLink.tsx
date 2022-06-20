@@ -3,11 +3,7 @@ import React, { FC, RefObject, useCallback, useRef } from 'react';
 import { ROUTE } from '../../enums';
 import { Button } from '../Button/Button';
 
-interface IShareLink {
-	listDataResponse: IList | undefined;
-}
-
-export const ShareLink: FC<IShareLink> = ({ listDataResponse }) => {
+export const ShareLink: FC<{ listDataResponse: IList | undefined }> = ({ listDataResponse }) => {
 	const inputRef: RefObject<HTMLInputElement> = useRef(null);
 
 	const copyToClipboard = useCallback((e: React.MouseEvent) => {

@@ -9,11 +9,7 @@ import { TitleForm } from '../TitleForm';
 import { IQueryError } from '../../interfaces/app';
 import { HttpResponse } from '../../utils/http';
 
-interface IEditTaskNameProps {
-	taskData: ITask | undefined;
-}
-
-export const EditTaskName: FC<IEditTaskNameProps> = ({ taskData }) => {
+export const EditTaskName: FC<{ taskData: ITask | undefined }> = ({ taskData }) => {
 	const query = useQueryClient();
 
 	const updateTaskTitle = useCallback(

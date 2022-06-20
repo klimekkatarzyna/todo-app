@@ -12,12 +12,7 @@ import { HttpResponse } from '../../utils/http';
 import { useRecoilState } from 'recoil';
 import { formToEditListTitleVisibilityState } from '../../atoms';
 
-interface IEditListTitleProps {
-	title: string;
-	className: string;
-}
-
-export const EditListTitle: FC<IEditListTitleProps> = ({ title }) => {
+export const EditListTitle: FC<{ title: string; className: string }> = ({ title }) => {
 	const query = useQueryClient();
 	const { listId } = useParams<IUseParams>();
 	const [, setIsFormVisible] = useRecoilState(formToEditListTitleVisibilityState);

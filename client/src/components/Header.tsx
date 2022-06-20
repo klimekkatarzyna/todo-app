@@ -11,11 +11,7 @@ import { buildUrl } from '../utils/paths';
 import toast from 'react-hot-toast';
 import { IQueryError } from '../interfaces/app';
 
-interface IHeader {
-	userName: string;
-}
-
-export const Header: FC<IHeader> = ({ userName }) => {
+export const Header: FC<{ userName: string }> = ({ userName }) => {
 	const name = useMemo(() => getFirstLetters(userName), [userName]);
 	const history = useHistory();
 	const { setAuthData } = useContext<AuthContextType>(AuthContext);
