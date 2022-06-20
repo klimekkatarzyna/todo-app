@@ -227,8 +227,11 @@ export const changeInvitation = async (req: Request, res: Response) => {
 
 export const listTheme = async (req: Request, res: Response) => {
 	try {
+		const loggedUserId = getSessionUserId(req);
+		if (req.body.userId !== loggedUserId) return;
+
 		const list = await List.findOneAndUpdate({ _id: req.body._id }, { $set: { themeColor: req.body.themeColor } });
-		// await Task.updateMany({ parentFolderId: req.body._id }, { $set: { themeColor: req.body.themeColor } });
+		await Task.updateMany({ parentFolderId: req.body._id }, { $set: { themeColor: req.body.themeColor } });
 		if (!list) {
 			res.status(404).json({ message: 'List not found' });
 		}

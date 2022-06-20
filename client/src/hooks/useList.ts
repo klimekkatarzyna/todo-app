@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { deleteListAction, editListThemeAction, getListsAction } from '../actions/lists';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { listsState } from '../atoms';
-import { IGroup, IList } from '@kkrawczyk/todo-common';
+import { IGroup, IList, ITask } from '@kkrawczyk/todo-common';
 import { QueryKey } from '../enums';
 import toast from 'react-hot-toast';
 import { IQueryError } from '../interfaces/app';
@@ -63,10 +63,12 @@ export const useList = () => {
 			query.setQueryData<IList | undefined>([QueryKey.getListById, response.body?._id], (list: IList | undefined) =>
 				list?._id === response.body?._id ? { ...list, themeColor: response.body?.themeColor } : list
 			);
+			query.setQueryData<ITask[] | undefined>([QueryKey.tasksOfCurrentList, response.body?._id], (tasks: ITask[] | undefined) =>
+				tasks?.map(task => (task.parentFolderId === response.body?._id ? { ...task, themeColor: response.body?.themeColor } : task))
+			);
 			query.setQueryData<IList[] | undefined>([QueryKey.lists], (lists: IList[] | undefined) =>
 				lists?.map(list => (list._id === response.body?._id ? { ...list, themeColor: response.body?.themeColor } : list))
 			);
-			// query.invalidateQueries([QueryKey.tasksList]);
 		},
 		onError: (error: IQueryError) => {
 			toast.error(`Coś poszlo nie tak: ${error.err.message}`);

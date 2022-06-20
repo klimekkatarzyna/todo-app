@@ -18,7 +18,7 @@ enum ContextMenuItem {
 	theme_red = 'red',
 	theme_blue = 'blue',
 	theme_green = 'green',
-	theme_dark = 'dark',
+	theme_grey = 'grey',
 	change_title = 'change_title',
 	print_list = 'print_list',
 	remove_list = 'remove_list',
@@ -32,9 +32,9 @@ export const ListSettings: FC = () => {
 	const { onHandleSwitchToFirstListItem } = useSwitchToFirstListItem();
 	const { listId } = useParams<IUseParams>();
 	const { removeListMutation, editListThemeMutation } = useList();
-	const { data } = useListDetails();
-	const { isOwner } = useSharingData(data?.userId);
-	const themes = [ContextMenuItem.theme_red, ContextMenuItem.theme_green, ContextMenuItem.theme_blue, ContextMenuItem.theme_dark];
+	const { data: listDetails } = useListDetails();
+	const { isOwner } = useSharingData(listDetails?.userId);
+	const themes = [ContextMenuItem.theme_red, ContextMenuItem.theme_green, ContextMenuItem.theme_blue, ContextMenuItem.theme_grey];
 	const { setTheme } = useContext(ThemeContext);
 
 	const [, setIsFormVisible] = useRecoilState(formToEditListTitleVisibilityState);
@@ -52,19 +52,19 @@ export const ListSettings: FC = () => {
 					break;
 				case ContextMenuItem.theme_red:
 					setTheme(AppColor.red);
-					await editListThemeMutation({ _id: listId, themeColor: AppColor.red });
+					await editListThemeMutation({ _id: listId, themeColor: AppColor.red, userId: listDetails?.userId });
 					break;
 				case ContextMenuItem.theme_blue:
 					setTheme(AppColor.blue);
-					await editListThemeMutation({ _id: listId, themeColor: AppColor.blue });
+					await editListThemeMutation({ _id: listId, themeColor: AppColor.blue, userId: listDetails?.userId });
 					break;
 				case ContextMenuItem.theme_green:
 					setTheme(AppColor.green);
-					await editListThemeMutation({ _id: listId, themeColor: AppColor.green });
+					await editListThemeMutation({ _id: listId, themeColor: AppColor.green, userId: listDetails?.userId });
 					break;
-				case ContextMenuItem.theme_dark:
+				case ContextMenuItem.theme_grey:
 					setTheme(AppColor.dark);
-					await editListThemeMutation({ _id: listId, themeColor: AppColor.dark });
+					await editListThemeMutation({ _id: listId, themeColor: AppColor.grey, userId: listDetails?.userId });
 					break;
 				case ContextMenuItem.remove_list:
 					await removeListMutation({ _id: listId });
