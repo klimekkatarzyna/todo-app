@@ -20,7 +20,7 @@ export const ContextMenuContext = createContext<ContextMenuType>({} as ContextMe
 export const ContextMenuProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
 	const query = useQueryClient();
 	const [contextualMenu, setContextMenu] = useState<IData | undefined>();
-	const [isVisible, setIsVisible] = useRecoilState(modalVisibilityState);
+	const [, setIsVisible] = useRecoilState(modalVisibilityState);
 
 	const { mutateAsync: ungroupListsMutation } = useMutation(unGroupeListsAction, {
 		onSuccess: async response => {

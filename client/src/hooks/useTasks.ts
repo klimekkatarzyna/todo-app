@@ -6,9 +6,7 @@ import { IUseParams } from '../interfaces/app';
 import { useQuery, useQueryClient } from 'react-query';
 import { getTasksOfCurrentListAction } from '../actions/tasks';
 import { SocketContext } from '../providers/SocketProvider';
-import { ITask, ITaskStatus } from '@kkrawczyk/todo-common';
-import { useRecoilState } from 'recoil';
-import { completedTasksListState, inCompletedTasksListState } from '../atoms/tasks';
+import { ITask } from '@kkrawczyk/todo-common';
 
 interface SortType {
 	key: SortTaskType;
@@ -22,8 +20,6 @@ export const useTasks = () => {
 	const query = useQueryClient();
 	const { listId } = useParams<IUseParams>();
 	const { socket } = useContext(SocketContext);
-	const [inCompletedTaskslist, setInCompletedTasksList] = useRecoilState(inCompletedTasksListState);
-	const [completedTaskslist, setComplitedTasksList] = useRecoilState(completedTasksListState);
 	const { sorter } = useSort<ITask>();
 
 	const { data: tasksOfCurrentList, isLoading: getTasksOfCurrentListLoading } = useQuery<ITask[] | undefined>(
@@ -31,9 +27,6 @@ export const useTasks = () => {
 		() => getTasksOfCurrentListAction({ parentFolderId: listId }),
 		{ enabled: !!listId }
 	);
-	// useEffect(() => {
-	// 	setInCompletedTasksList(tasksOfCurrentList || []);
-	// }, []);
 
 	const [sort, setSort] = useState<SortType>({ key: SortTaskType.title, direction: 'asc', keyType: 'string' });
 	const sortedTasks = useMemo(
@@ -47,9 +40,12 @@ export const useTasks = () => {
 	}, []);
 
 	useEffect(() => {
+		// TODO: działa ale dwa razy sie wyswietla dodany task!! WHY????
 		const taskListener = (newTask: ITask) =>
-			listId === newTask?.parentFolderId && query.setQueryData(QueryKey.tasksOfCurrentList, [...(tasksOfCurrentList || []), newTask]);
-		// listId === newTask?.parentFolderId && setInCompletedTasksList([...(tasksOfCurrentList || []), newTask]);
+			query.setQueryData<ITask[] | undefined>([QueryKey.tasksOfCurrentList, newTask?.parentFolderId], (tasks: ITask[] | undefined) => {
+				console.log(newTask);
+				return listId === newTask?.parentFolderId ? [...[...(tasks || []), newTask]] : tasks;
+			});
 
 		socket?.on('add-task', taskListener);
 
@@ -58,59 +54,49 @@ export const useTasks = () => {
 		};
 	}, [query]);
 
-	useEffect(() => {
-		// TODO: powtarza sie kod wiec to nie jest programowanie rekreatywne!! wydzielic do osobnej funkcji
-		const taskListener = (newTask: ITask) =>
-			listId === newTask?.parentFolderId &&
-			query.setQueryData(QueryKey.tasksOfCurrentList, [...[...(sortedTasks || [])].filter((task: ITask) => task._id !== newTask._id)]);
-		// setInCompletedTasksList([...[...(inCompletedTaskslist || [])].filter((task: ITask) => task._id !== newTask._id)]);
-		socket?.on('remove-task', taskListener);
+	// useEffect(() => {
+	// 	// TODO: powtarza sie kod wiec to nie jest programowanie rekreatywne!! wydzielic do osobnej funkcji
+	// 	const taskListener = (newTask: ITask) =>
+	// 		listId === newTask?.parentFolderId &&
+	// 		query.setQueryData(QueryKey.tasksOfCurrentList, [...[...(sortedTasks || [])].filter((task: ITask) => task._id !== newTask._id)]);
+	// 	// setInCompletedTasksList([...[...(inCompletedTaskslist || [])].filter((task: ITask) => task._id !== newTask._id)]);
+	// 	socket?.on('remove-task', taskListener);
 
-		return () => {
-			socket?.off('remove-task', taskListener);
-		};
-	}, [sortedTasks]);
+	// 	return () => {
+	// 		socket?.off('remove-task', taskListener);
+	// 	};
+	// }, [sortedTasks]);
 
-	useEffect(() => {
-		const taskListener = (newTask: ITask) => {
-			listId === newTask?.parentFolderId &&
-				query.setQueryData(QueryKey.tasksOfCurrentList, [
-					...(sortedTasks || []).map((task: ITask) => (task._id === newTask._id ? { ...task, title: newTask.title } : task)),
-				]);
-		};
+	// useEffect(() => {
+	// 	const taskListener = (newTask: ITask) => {
+	// 		listId === newTask?.parentFolderId &&
+	// 			query.setQueryData(QueryKey.tasksOfCurrentList, [
+	// 				...(sortedTasks || []).map((task: ITask) => (task._id === newTask._id ? { ...task, title: newTask.title } : task)),
+	// 			]);
+	// 	};
 
-		socket?.on('edit-task', taskListener);
+	// 	socket?.on('edit-task', taskListener);
 
-		return () => {
-			socket?.off('edit-task', taskListener);
-		};
-	}, [sortedTasks]);
+	// 	return () => {
+	// 		socket?.off('edit-task', taskListener);
+	// 	};
+	// }, [sortedTasks]);
 
-	useEffect(() => {
-		const taskListener = (newTask: ITask) =>
-			listId === newTask?.parentFolderId &&
-			query.setQueryData(QueryKey.tasksOfCurrentList, [
-				...(sortedTasks || []).map((task: ITask) => (task._id === newTask._id ? { ...task, taskStatus: newTask.taskStatus } : task)),
-			]);
+	// useEffect(() => {
+	// 	const taskListener = (newTask: ITask) =>
+	// 		listId === newTask?.parentFolderId &&
+	// 		query.setQueryData(QueryKey.tasksOfCurrentList, [
+	// 			...(sortedTasks || []).map((task: ITask) => (task._id === newTask._id ? { ...task, taskStatus: newTask.taskStatus } : task)),
+	// 		]);
 
-		socket?.on('change-task-status', taskListener);
+	// 	socket?.on('change-task-status', taskListener);
 
-		return () => {
-			socket?.off('change-task-status', taskListener);
-		};
-	}, [sortedTasks]);
-
-	const incomletedTasks = useMemo(
-		() => (tasksOfCurrentList || []).filter(task => task.taskStatus === ITaskStatus.inComplete),
-		[tasksOfCurrentList]
-	);
-	const comletedTasks = useMemo(() => (tasksOfCurrentList || []).filter(task => task.taskStatus === ITaskStatus.complete), [tasksOfCurrentList]);
+	// 	return () => {
+	// 		socket?.off('change-task-status', taskListener);
+	// 	};
+	// }, [sortedTasks]);
 
 	return {
-		inCompletedTaskslist: incomletedTasks,
-		setInCompletedTasksList,
-		completedTaskslist: comletedTasks,
-		setComplitedTasksList,
 		requestSort,
 		getTasksOfCurrentListLoading,
 		listId,

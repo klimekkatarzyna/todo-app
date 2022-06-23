@@ -25,7 +25,7 @@ export const Tasks: FC = () => {
 
 				<div>
 					<div className='pt-2 pb-8 pl-3 pr-4 bg-lightGrey'>
-						<CreateTask />
+						<CreateTask listTheme={data?.themeColor} />
 					</div>
 					<TasksList />
 				</div>

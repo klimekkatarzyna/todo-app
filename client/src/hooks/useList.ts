@@ -29,7 +29,7 @@ export const useList = () => {
 		const listsNotContainsInGroups = listsQuery?.filter(list => !listsContainedInGroupsIds?.includes(list._id)).map(item => item);
 
 		setList(listsNotContainsInGroups);
-	}, [listsQuery, groupDetails]);
+	}, [listsQuery, groupDetails, groupsQuery, setList]);
 
 	const { mutateAsync: removeListMutation } = useMutation(deleteListAction, {
 		onSuccess: async response => {
@@ -43,11 +43,7 @@ export const useList = () => {
 		},
 	});
 
-	const {
-		mutate: updateMembersListMutation,
-		isLoading: updateMembersListLoading,
-		isError,
-	} = useMutation(updateMembersList, {
+	const { mutate: updateMembersListMutation, isLoading: updateMembersListLoading } = useMutation(updateMembersList, {
 		onSuccess: async response => {
 			query.invalidateQueries([QueryKey.getListById, response.body?._id]);
 			query.invalidateQueries([QueryKey.lists]);

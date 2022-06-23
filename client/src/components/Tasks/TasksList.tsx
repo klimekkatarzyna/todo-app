@@ -16,7 +16,7 @@ export const TasksList: FC<{ tasks: ITask[] | undefined; redirectUrl: string }> 
 	const onRemoveTask = useCallback(async (): Promise<void> => {
 		if (!tasksContextlMenu?.elementId) return;
 		await removeTaskMutation();
-	}, [tasksContextlMenu]);
+	}, [tasksContextlMenu, removeTaskMutation]);
 
 	return (
 		<>

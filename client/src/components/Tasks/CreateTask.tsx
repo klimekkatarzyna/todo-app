@@ -1,17 +1,17 @@
-import { useCallback, useContext } from 'react';
+import { FC, useCallback, useContext } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { createTaskAction } from '../../actions/tasks';
 import { IQueryError } from '../../interfaces/app';
 import { ITask, createEditTaskSchema, CreateEditTaskType, AppColor } from '@kkrawczyk/todo-common';
 import { isStringContainsWhitespace } from '../../utils/utilsFunctions';
-import { QueryKey } from '../../enums';
 import toast from 'react-hot-toast';
 import { TitleForm } from '../TitleForm';
 import { AuthContext, AuthContextType } from '../../AuthProvider';
 import { useListDetails } from '../../hooks/useListDetails';
 import { HttpResponse } from '../../utils/http';
+import { QueryKey } from '../../enums';
 
-export const CreateTask = () => {
+export const CreateTask: FC<{ listTheme: AppColor | undefined }> = ({ listTheme }) => {
 	const query = useQueryClient();
 	const { authData } = useContext<AuthContextType>(AuthContext);
 	const { members, parentFolderId } = useListDetails();
@@ -40,7 +40,7 @@ export const CreateTask = () => {
 			await mutateAsync({
 				title: values.title,
 				parentFolderId,
-				themeColor: AppColor.dark,
+				themeColor: listTheme,
 				createdBy: authData?._id,
 				members: membersArray as string[],
 			});

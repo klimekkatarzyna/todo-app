@@ -31,7 +31,7 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({ children }) =>
 			if (!response) return;
 			setSessionChecked(true);
 		})();
-	}, []);
+	}, [checkSession]);
 
 	const value = useMemo(() => {
 		return {
