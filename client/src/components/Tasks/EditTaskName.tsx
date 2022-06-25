@@ -28,9 +28,6 @@ export const EditTaskName: FC<{ taskData: ITask | undefined }> = ({ taskData }) 
 				...task,
 				title: response.body?.title,
 			}));
-			query.setQueryData<ITask[] | undefined>([QueryKey.tasksOfCurrentList, taskData?.parentFolderId], tasks =>
-				updateTaskTitle(tasks, response)
-			);
 			toast.success('Zadanie zmienione');
 		},
 		onError: (error: IQueryError) => {

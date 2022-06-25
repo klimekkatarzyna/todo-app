@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import Task from '../models/task';
 import { taskSocket } from '../utils/socketsEvents';
-import { Importance } from '@kkrawczyk/todo-common';
+import { Importance, WebSocketEvent } from '@kkrawczyk/todo-common';
 import { getSessionUserId } from '../utils/auth';
 
 export const createTask = async (req: Request, res: Response) => {
@@ -19,7 +19,7 @@ export const createTask = async (req: Request, res: Response) => {
 		members: req.body.members,
 	});
 
-	taskSocket('add-task', req.body.parentFolderId, task);
+	taskSocket(WebSocketEvent.addTask, req.body.parentFolderId, task);
 
 	try {
 		await task.save();
@@ -80,9 +80,10 @@ export const editTask = async (req: Request, res: Response) => {
 	const updatedTaskData = {
 		_id: req.body._id,
 		title: req.body.title,
+		parentFolderId: req.body.parentFolderId,
 	};
 
-	taskSocket('edit-task', req.body.parentFolderId, updatedTaskData);
+	taskSocket(WebSocketEvent.editTask, req.body.parentFolderId, updatedTaskData);
 
 	try {
 		res.status(200).json({
@@ -107,7 +108,7 @@ export const changeTaskStatus = async (req: Request, res: Response) => {
 		parentFolderId: req.body.parentFolderId,
 	};
 
-	taskSocket('change-task-status', req.body.parentFolderId, updatedTaskData);
+	taskSocket(WebSocketEvent.taskStatusChange, req.body.parentFolderId, updatedTaskData);
 
 	try {
 		res.status(200).json({
@@ -130,7 +131,7 @@ export const removeTask = async (req: Request, res: Response) => {
 	const task = await Task.findById({ _id: req.body?._id || '' });
 
 	const data = await Task.deleteOne({ _id: req.body?._id || '' });
-	taskSocket('remove-task', req.body.parentFolderId, task);
+	taskSocket(WebSocketEvent.removeTask, req.body.parentFolderId, task);
 
 	try {
 		res.status(200).json({

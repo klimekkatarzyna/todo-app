@@ -8,7 +8,6 @@ import toast from 'react-hot-toast';
 import { TitleForm } from '../TitleForm';
 import { AuthContext, AuthContextType } from '../../AuthProvider';
 import { useListDetails } from '../../hooks/useListDetails';
-import { HttpResponse } from '../../utils/http';
 import { QueryKey } from '../../enums';
 
 export const CreateTask: FC<{ listTheme: AppColor | undefined }> = ({ listTheme }) => {
@@ -17,14 +16,9 @@ export const CreateTask: FC<{ listTheme: AppColor | undefined }> = ({ listTheme 
 	const { members, parentFolderId } = useListDetails();
 	const membersArray = [authData?._id].concat(members);
 
-	const addTaskToList = useCallback((tasks: ITask[] | undefined, response: HttpResponse<ITask>) => [...(tasks || []), response.body || {}], []);
-
 	const { mutateAsync, isLoading } = useMutation(createTaskAction, {
 		onSuccess: async response => {
-			query.setQueryData<ITask[] | undefined>([QueryKey.tasksOfCurrentList, parentFolderId], (tasks: ITask[] | undefined) =>
-				addTaskToList(tasks, response)
-			);
-			query.setQueryData<ITask[] | undefined>([QueryKey.tasksList], (tasks: ITask[] | undefined) => addTaskToList(tasks, response));
+			query.setQueryData<ITask[] | undefined>([QueryKey.tasksList], (tasks: ITask[] | undefined) => [...(tasks || []), response.body || {}]);
 			toast.success('Zadanie dodane');
 		},
 		onError: (error: IQueryError) => {

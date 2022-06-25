@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Importance = exports.SortType = exports.ITaskStatus = exports.AppColor = void 0;
+exports.WebSocketEvent = exports.Importance = exports.SortType = exports.ITaskStatus = exports.AppColor = void 0;
 var AppColor;
 (function (AppColor) {
     AppColor["grey"] = "grey";
@@ -28,3 +28,10 @@ var Importance;
     Importance["normal"] = "Normal";
     Importance["high"] = "High";
 })(Importance = exports.Importance || (exports.Importance = {}));
+var WebSocketEvent;
+(function (WebSocketEvent) {
+    WebSocketEvent["addTask"] = "add-task";
+    WebSocketEvent["removeTask"] = "remove-task";
+    WebSocketEvent["editTask"] = "edit-task";
+    WebSocketEvent["taskStatusChange"] = "task-status-change";
+})(WebSocketEvent = exports.WebSocketEvent || (exports.WebSocketEvent = {}));

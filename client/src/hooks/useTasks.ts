@@ -6,7 +6,7 @@ import { IUseParams } from '../interfaces/app';
 import { useQuery, useQueryClient } from 'react-query';
 import { getTasksOfCurrentListAction } from '../actions/tasks';
 import { SocketContext } from '../providers/SocketProvider';
-import { ITask } from '@kkrawczyk/todo-common';
+import { ITask, WebSocketEvent } from '@kkrawczyk/todo-common';
 
 interface SortType {
 	key: SortTaskType;
@@ -22,7 +22,7 @@ export const useTasks = () => {
 	const { socket } = useContext(SocketContext);
 	const { sorter } = useSort<ITask>();
 
-	const { data: tasksOfCurrentList, isLoading: getTasksOfCurrentListLoading } = useQuery<ITask[] | undefined>(
+	const { data: tasksOfCurrentList, isLoading } = useQuery<ITask[] | undefined>(
 		[QueryKey.tasksOfCurrentList, listId],
 		() => getTasksOfCurrentListAction({ parentFolderId: listId }),
 		{ enabled: !!listId }
@@ -39,66 +39,54 @@ export const useTasks = () => {
 		setSort(state => ({ ...state, key: property[0], keyType: property[1] }));
 	}, []);
 
-	useEffect(() => {
-		// TODO: działa ale dwa razy sie wyswietla dodany task!! WHY????
-		const taskListener = (newTask: ITask) =>
-			query.setQueryData<ITask[] | undefined>([QueryKey.tasksOfCurrentList, newTask?.parentFolderId], (tasks: ITask[] | undefined) => {
-				console.log(newTask);
-				return listId === newTask?.parentFolderId ? [...[...(tasks || []), newTask]] : tasks;
-			});
-
-		socket?.on('add-task', taskListener);
+	const webSocketEventFunction = useCallback((eventName: string, taskListener: (newTask: ITask) => void) => {
+		socket?.on(eventName, taskListener);
 
 		return () => {
-			socket?.off('add-task', taskListener);
+			socket?.off(eventName, taskListener);
 		};
-	}, [query]);
+	}, []);
 
-	// useEffect(() => {
-	// 	// TODO: powtarza sie kod wiec to nie jest programowanie rekreatywne!! wydzielic do osobnej funkcji
-	// 	const taskListener = (newTask: ITask) =>
-	// 		listId === newTask?.parentFolderId &&
-	// 		query.setQueryData(QueryKey.tasksOfCurrentList, [...[...(sortedTasks || [])].filter((task: ITask) => task._id !== newTask._id)]);
-	// 	// setInCompletedTasksList([...[...(inCompletedTaskslist || [])].filter((task: ITask) => task._id !== newTask._id)]);
-	// 	socket?.on('remove-task', taskListener);
+	useEffect(() => {
+		const taskListener = (newTask: ITask) =>
+			query.setQueryData<ITask[] | undefined>([QueryKey.tasksOfCurrentList, newTask?.parentFolderId], (tasks: ITask[] | undefined) =>
+				listId === newTask?.parentFolderId ? [...[...(tasks || []), newTask]] : tasks
+			);
+		webSocketEventFunction(WebSocketEvent.addTask, taskListener);
+	}, []);
 
-	// 	return () => {
-	// 		socket?.off('remove-task', taskListener);
-	// 	};
-	// }, [sortedTasks]);
+	useEffect(() => {
+		const taskListener = (newTask: ITask) =>
+			query.setQueryData<ITask[] | undefined>([QueryKey.tasksOfCurrentList, newTask?.parentFolderId], (tasks: ITask[] | undefined) =>
+				listId === newTask?.parentFolderId ? tasks?.filter(task => task._id !== newTask?._id) : tasks
+			);
+		webSocketEventFunction(WebSocketEvent.removeTask, taskListener);
+	}, []);
 
-	// useEffect(() => {
-	// 	const taskListener = (newTask: ITask) => {
-	// 		listId === newTask?.parentFolderId &&
-	// 			query.setQueryData(QueryKey.tasksOfCurrentList, [
-	// 				...(sortedTasks || []).map((task: ITask) => (task._id === newTask._id ? { ...task, title: newTask.title } : task)),
-	// 			]);
-	// 	};
+	useEffect(() => {
+		const taskListener = (newTask: ITask) => {
+			query.setQueryData<ITask[] | undefined>([QueryKey.tasksOfCurrentList, newTask?.parentFolderId], (tasks: ITask[] | undefined) =>
+				listId === newTask?.parentFolderId ? tasks?.map(task => (task._id === newTask._id ? { ...task, title: newTask.title } : task)) : tasks
+			);
+		};
+		webSocketEventFunction(WebSocketEvent.editTask, taskListener);
+	}, []);
 
-	// 	socket?.on('edit-task', taskListener);
-
-	// 	return () => {
-	// 		socket?.off('edit-task', taskListener);
-	// 	};
-	// }, [sortedTasks]);
-
-	// useEffect(() => {
-	// 	const taskListener = (newTask: ITask) =>
-	// 		listId === newTask?.parentFolderId &&
-	// 		query.setQueryData(QueryKey.tasksOfCurrentList, [
-	// 			...(sortedTasks || []).map((task: ITask) => (task._id === newTask._id ? { ...task, taskStatus: newTask.taskStatus } : task)),
-	// 		]);
-
-	// 	socket?.on('change-task-status', taskListener);
-
-	// 	return () => {
-	// 		socket?.off('change-task-status', taskListener);
-	// 	};
-	// }, [sortedTasks]);
+	useEffect(() => {
+		const taskListener = (newTask: ITask) => {
+			query.setQueryData<ITask[] | undefined>([QueryKey.tasksOfCurrentList, newTask?.parentFolderId], (tasks: ITask[] | undefined) =>
+				listId === newTask?.parentFolderId
+					? tasks?.map(task => (task._id === newTask._id ? { ...task, taskStatus: newTask.taskStatus } : task))
+					: tasks
+			);
+		};
+		webSocketEventFunction(WebSocketEvent.taskStatusChange, taskListener);
+	}, []);
 
 	return {
 		requestSort,
-		getTasksOfCurrentListLoading,
 		listId,
+		isLoading,
+		tasksOfCurrentList,
 	};
 };

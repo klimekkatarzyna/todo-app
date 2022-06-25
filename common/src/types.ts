@@ -77,3 +77,10 @@ export interface IGroup {
   lists?: string[];
   listId?: string;
 }
+
+export enum WebSocketEvent {
+  addTask = "add-task",
+  removeTask = "remove-task",
+  editTask = "edit-task",
+  taskStatusChange = "task-status-change",
+}
