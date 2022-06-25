@@ -21,7 +21,7 @@ exports.listIdSchema = (0, yup_1.object)({
 exports.createEditListSchema = (0, yup_1.object)({
     title: (0, yup_1.string)().max(20, "Too Long!").required("Podaj tytuł listy"),
     themeColor: (0, yup_1.mixed)()
-        .oneOf(Object.values(types_1.AppColorTypeEnum))
+        .oneOf(Object.values(types_1.AppColor))
         .optional(),
     createdAt: (0, yup_1.date)().optional(),
     userId: (0, yup_1.string)().optional(),

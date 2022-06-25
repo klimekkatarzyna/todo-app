@@ -2,12 +2,7 @@ import React, { FC, useMemo } from 'react';
 import { Star } from 'react-feather';
 import { Tooltip } from '../Tooltip/Tooltip';
 
-interface IImportanceButton {
-	isChecked: boolean;
-	onClick: () => void;
-}
-
-export const ImportanceButton: FC<IImportanceButton> = ({ isChecked, onClick }) => {
+export const ImportanceButton: FC<{ isChecked: boolean; onClick: () => void }> = ({ isChecked, onClick }) => {
 	const tooltipText = useMemo(() => (!isChecked ? 'Oznacz zadanie jako wazne' : 'Usuń ważność'), [isChecked]);
 
 	return (

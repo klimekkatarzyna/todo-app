@@ -3,12 +3,7 @@ import { Route, Redirect } from 'react-router-dom';
 import { AuthContext, AuthContextType } from './AuthProvider';
 import { ROUTE } from './enums';
 
-interface IPrivateRoute {
-	path: string;
-	exact?: boolean;
-}
-
-export const PrivateRoute: FC<IPrivateRoute> = ({ children, ...rest }) => {
+export const PrivateRoute: FC<{ path: string; exact?: boolean }> = ({ children, ...rest }) => {
 	const { authData } = useContext<AuthContextType>(AuthContext);
 
 	return (

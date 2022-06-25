@@ -5,11 +5,7 @@ import { QueryKey } from '../../enums';
 import { Loader } from 'react-feather';
 import { IUserData } from '@kkrawczyk/todo-common';
 
-interface IDisplayMemberProps {
-	member: string | undefined;
-}
-
-export const DisplayMember: FC<IDisplayMemberProps> = ({ member }) => {
+export const DisplayMember: FC<{ member: string | undefined }> = ({ member }) => {
 	const { data, isLoading } = useQuery<IUserData | undefined>([QueryKey.getUser, member], () => getUserAction(member), { enabled: !!member });
 
 	return (

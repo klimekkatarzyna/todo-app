@@ -12,6 +12,7 @@ export const useListDetails = () => {
 	});
 
 	return {
+		data,
 		members: data?.members,
 		parentFolderId: data?._id,
 	};

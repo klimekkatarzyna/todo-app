@@ -16,7 +16,8 @@ export const createTaskAction = async ({ title, parentFolderId, importance, them
 		members,
 	});
 
-export const editTaskAction = async ({ _id, title, parentFolderId }: ITask) => await http(`${api.editTask}`, 'PUT', { _id, title, parentFolderId });
+export const editTaskAction = async ({ _id, title, parentFolderId }: ITask) =>
+	await http<ITask>(`${api.editTask}`, 'PUT', { _id, title, parentFolderId });
 
 export const getTasksOfCurrentListAction = async ({ parentFolderId }: ITask) => {
 	const response = await http<ITask[]>(`${api.getTasks}/${parentFolderId}`, 'GET');
@@ -29,9 +30,9 @@ export const getTasksAction = async () => {
 };
 
 export const changeTaskStatusAction = async ({ _id, taskStatus, parentFolderId }: ITask) =>
-	await http(`${api.changeTaskStatus}/${_id}`, 'PATCH', { taskStatus, parentFolderId });
+	await http<ITask>(`${api.changeTaskStatus}/${_id}`, 'PATCH', { taskStatus, parentFolderId });
 
-export const deleteTaskAction = async ({ _id, parentFolderId }: ITask) => await http(api.removeTask, 'DELETE', { _id, parentFolderId });
+export const deleteTaskAction = async ({ _id, parentFolderId }: ITask) => await http<ITask>(api.removeTask, 'DELETE', { _id, parentFolderId });
 
 export const getTaskAction = async ({ _id }: ITask) => {
 	const response = await http<ITask>(`${api.getTask}/${_id}`, 'GET');
@@ -39,11 +40,12 @@ export const getTaskAction = async ({ _id }: ITask) => {
 };
 
 export const changeTaskImportanceAction = async ({ parentFolderId, _id, importance }: ITask) =>
-	await http(`${api.changeTaskImportance}/${parentFolderId}/${_id}`, 'PATCH', {
+	await http<ITask>(`${api.changeTaskImportance}/${parentFolderId}/${_id}`, 'PATCH', {
 		importance,
 	});
 
-export const taskInMyDayAction = async ({ _id, isMyDay }: ITask) => await http(`${api.taskInMyDay}/${_id}`, 'POST', { isMyDay });
+export const taskInMyDayAction = async ({ _id, isMyDay, parentFolderId }: ITask) =>
+	await http<ITask>(`${api.taskInMyDay}/${_id}`, 'POST', { isMyDay, parentFolderId });
 
 export const onGetImportanceTasksAction = async () => {
 	const response = await http<ITask[]>(`${api.getImportanceTasks}`, 'GET');

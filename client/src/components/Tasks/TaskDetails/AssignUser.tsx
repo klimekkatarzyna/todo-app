@@ -1,11 +1,7 @@
 import { FC } from 'react';
 import { UserPlus } from 'react-feather';
 
-interface IAssignUserProps {
-	onHandleAction: () => void;
-}
-
-export const AssignUser: FC<IAssignUserProps> = ({ onHandleAction }) => {
+export const AssignUser: FC<{ onHandleAction: () => void }> = ({ onHandleAction }) => {
 	return (
 		<button className='task-details-style mb-3' onClick={onHandleAction}>
 			<div className='task-details-button-style'>

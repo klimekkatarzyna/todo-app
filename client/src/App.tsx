@@ -8,6 +8,7 @@ import { SocketProvider } from './providers/SocketProvider';
 import { RecoilRoot } from 'recoil';
 import toast, { Toaster } from 'react-hot-toast';
 import { TasksContextMenuProvider } from './providers/TasksContextMenuProvider';
+import { ThemeProvider } from './providers/ThemeContext';
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -24,21 +25,23 @@ const App: FC = () => {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<RecoilRoot>
-				<AuthProvider>
-					<SocketProvider>
-						<ContextMenuProvider>
-							<TasksContextMenuProvider>
-								{/* <ReactQueryDevtools initialIsOpen /> */}
-								<BrowserRouter />
-								<Toaster
-									toastOptions={{
-										className: 'p-4 text-fontColor',
-									}}
-								/>
-							</TasksContextMenuProvider>
-						</ContextMenuProvider>
-					</SocketProvider>
-				</AuthProvider>
+				<ThemeProvider>
+					<AuthProvider>
+						<SocketProvider>
+							<ContextMenuProvider>
+								<TasksContextMenuProvider>
+									{/* <ReactQueryDevtools initialIsOpen /> */}
+									<BrowserRouter />
+									<Toaster
+										toastOptions={{
+											className: 'p-4 text-fontColor',
+										}}
+									/>
+								</TasksContextMenuProvider>
+							</ContextMenuProvider>
+						</SocketProvider>
+					</AuthProvider>
+				</ThemeProvider>
 			</RecoilRoot>
 		</QueryClientProvider>
 	);

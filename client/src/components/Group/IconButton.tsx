@@ -1,11 +1,7 @@
 import React, { FC } from 'react';
 import { FolderPlus } from 'react-feather';
 
-interface IIconButton {
-	onClick: () => void;
-}
-
-export const IconButton: FC<IIconButton> = ({ onClick }) => {
+export const IconButton: FC<{ onClick: () => void }> = ({ onClick }) => {
 	return (
 		<div onClick={onClick} className='flex flex-col bg-light-grey p-2 cursor-pointer border-none hover:bg-white'>
 			<div>

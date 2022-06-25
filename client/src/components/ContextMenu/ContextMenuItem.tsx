@@ -8,7 +8,7 @@ import { IGroup } from '@kkrawczyk/todo-common';
 
 interface IContextMenuItem {
 	listItem: IContextMenu;
-	elementDetails: IGroup | undefined;
+	elementDetails: any | undefined;
 	handleItemClick: ({ triggerEvent, event, props, data }: IHandleContextMenuItemClickProps) => void;
 	submenu?: unknown[];
 	contextMenuOption: ContextMenuOpion | undefined;
@@ -28,7 +28,7 @@ export const ContextMenuItem: FC<IContextMenuItem> = ({
 	return (
 		<>
 			<Item
-				data={{ ...listItem, elementId: elementDetails?._id, lists: elementDetails?.lists }}
+				data={{ ...listItem, elementId: elementDetails?._id, lists: elementDetails, listId: elementDetails?.parentFolderId }}
 				onClick={onHandleItemClick}
 				className='cursor-pointer border-t-[1px] border-solid first:border-none'>
 				<div className='icon-style text-fontColor'>{listItem.icon}</div>

@@ -8,7 +8,7 @@ import {
   boolean,
   SchemaOf,
 } from "yup";
-import { AppColorTypeEnum, IList } from "../types";
+import { AppColor, IList } from "../types";
 
 export const listIdRequiredSchema = object({
   _id: string().required(),
@@ -41,8 +41,8 @@ export const listIdSchema = object({
 
 export const createEditListSchema: SchemaOf<IList> = object({
   title: string().max(20, "Too Long!").required("Podaj tytuł listy"),
-  themeColor: mixed<AppColorTypeEnum>()
-    .oneOf(Object.values(AppColorTypeEnum) as AppColorTypeEnum[])
+  themeColor: mixed<AppColor>()
+    .oneOf(Object.values(AppColor) as AppColor[])
     .optional(),
   createdAt: date().optional(),
   userId: string().optional(),

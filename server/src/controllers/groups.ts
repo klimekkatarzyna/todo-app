@@ -1,3 +1,4 @@
+import { AppColor } from '@kkrawczyk/todo-common';
 import { Request, Response } from 'express';
 import { Group } from '../models/group';
 import { getSessionUserId } from '../utils/auth';
@@ -7,7 +8,7 @@ export const createGroup = async (req: Request, res: Response) => {
 
 	const newGroup = new Group({
 		title: req.body.title,
-		themeColor: 'blue',
+		themeColor: AppColor.blue,
 		createdAt: Date.now(),
 		userId: userId,
 		lists: [],
@@ -17,7 +18,7 @@ export const createGroup = async (req: Request, res: Response) => {
 		const group = await newGroup.save();
 		res.status(200).json({
 			body: {
-				id: group._id,
+				_id: group._id,
 				title: group.title,
 				themeColor: group.themeColor,
 				createdAt: group.createdAt,
@@ -55,10 +56,9 @@ export const removeGroup = async (req: Request, res: Response) => {
 	if (!group) {
 		res.status(404).json({ message: 'Group not found' });
 	}
-
 	try {
 		res.status(200).json({
-			body: group,
+			body: { _id: req.body._id },
 		});
 	} catch (err) {
 		res.status(500).json({
@@ -76,6 +76,7 @@ export const editGroup = async (req: Request, res: Response) => {
 
 	try {
 		res.status(200).json({
+			body: { _id: req.body._id },
 			message: `status changed successfully to ${req.body.title}`,
 		});
 	} catch (err) {
@@ -91,12 +92,18 @@ export const addListToGroup = async (req: Request, res: Response) => {
 		const isListAlreadyAddedToGroup = await Group.findOne({ userId, lists: req.body.listId });
 
 		const group = await Group.findOneAndUpdate({ _id: req.body._id }, { $push: { lists: req.body.listId } });
-		await Group.findOneAndUpdate({ userId, _id: isListAlreadyAddedToGroup?._id }, { $set: { lists: [] } });
+		await Group.findOneAndUpdate({ userId, _id: isListAlreadyAddedToGroup?._id }, { $pull: { lists: req.body.listId } });
 		if (!group) {
 			res.status(404).json({ message: 'group not found' });
 		}
 
-		res.status(200).json({ message: 'list has been added to the group' });
+		res.status(200).json({
+			body: {
+				_id: req.body._id,
+				listId: req.body.listId,
+			},
+			message: 'list has been added to the group',
+		});
 	} catch (err) {
 		res.status(500).json({
 			err,
@@ -114,7 +121,12 @@ export const unGroupLists = async (req: Request, res: Response) => {
 			res.status(404).json({ message: 'group not found' });
 		}
 
-		res.status(200).json({ message: 'ungrouped lists' });
+		res.status(200).json({
+			body: {
+				_id: req.body._id,
+			},
+			message: 'ungrouped lists',
+		});
 	} catch (err) {
 		res.status(500).json({
 			err,

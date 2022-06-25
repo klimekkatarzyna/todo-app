@@ -1,22 +1,15 @@
 import { FC, useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
 import { Loader } from 'react-feather';
 import { Button } from '../Button/Button';
 import { IShareLitDetails } from '../../actions/sharing';
-import { buildUrl } from '../../utils/paths';
-import { ROUTE } from '../../enums';
+import { useSwitchToFirstListItem } from '../../hooks/useSwitchToFirstListItem';
 
-interface IRedirectToList {
-	list: IShareLitDetails | undefined;
-	listDataLoading: boolean;
-}
-
-export const RedirectToList: FC<IRedirectToList> = ({ list, listDataLoading }) => {
-	const history = useHistory();
+export const RedirectToList: FC<{ list: IShareLitDetails | undefined; listDataLoading: boolean }> = ({ list, listDataLoading }) => {
+	const { onHandleSwitchToFirstListItem } = useSwitchToFirstListItem(list?.listData._id);
 
 	const redirectToList = useCallback(() => {
-		history.push(buildUrl(ROUTE.listsDetails, { listId: list?.listData._id || '' }));
-	}, [list]);
+		onHandleSwitchToFirstListItem();
+	}, []);
 
 	return (
 		<>

@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useMemo } from 'react';
+import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import Fuse from 'fuse.js';
 import { ROUTE, QueryKey } from '../enums';
 import { useQuery } from 'react-query';
@@ -19,6 +19,7 @@ export const SearchInput: FC = () => {
 
 	const history = useHistory();
 	const { data } = useQuery<ITask[] | undefined>([QueryKey.tasksList], () => getTasksAction());
+	const [searchValue, setSearchValue] = useState<string>('');
 
 	const fuse = useMemo(
 		() =>
@@ -44,6 +45,7 @@ export const SearchInput: FC = () => {
 		values => {
 			setIsLoading(true);
 			setSearchResults(searchWithFuse(values.title));
+			setSearchValue(values.title);
 			history.push(buildUrl(ROUTE.search));
 			setIsLoading(false);
 		},
@@ -61,9 +63,10 @@ export const SearchInput: FC = () => {
 
 	const initialValues: ITask = { title: '' };
 
-	// TODO:
-	// - refrest list after some changes on task details
-	// - add search query to url
+	useEffect(() => {
+		setSearchResults(searchWithFuse(searchValue));
+		setSearchValue(searchValue);
+	}, [data, searchValue]);
 
 	return (
 		<div className='bg-light-grey w-96'>

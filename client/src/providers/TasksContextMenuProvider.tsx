@@ -1,14 +1,13 @@
 import React, { FC, useCallback, useMemo, useState } from 'react';
 import { createContext } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
-import { changeTaskImportanceAction, taskInMyDayAction } from '../actions/tasks';
-import { ContextMenuOpion, QueryKey } from '../enums';
-import { IData, IHandleContextMenuItemClickProps, IQueryError } from '../interfaces/app';
-import toast from 'react-hot-toast';
-import { Importance } from '@kkrawczyk/todo-common';
-import { useTasks } from '../hooks/useTasks';
+import { ContextMenuOpion } from '../enums';
+import { IData, IHandleContextMenuItemClickProps } from '../interfaces/app';
+import { Importance, ITaskStatus } from '@kkrawczyk/todo-common';
 import { useRecoilState } from 'recoil';
 import { modalVisibilityState } from '../atoms/modal';
+import { useTaskImportance } from '../hooks/tasks/useTaskImportance';
+import useTasksStatus from '../hooks/tasks/useTasksStatus';
+import { useTasksInMyDay } from '../hooks/tasks/useTasksInMyDay';
 
 export interface TasksContextMenuContextType {
 	tasksContextlMenu: IData | undefined;
@@ -18,82 +17,54 @@ export interface TasksContextMenuContextType {
 
 export const TasksContextMenuContext = createContext<TasksContextMenuContextType>({} as TasksContextMenuContextType);
 
-interface ITasksContextMenuProvider {
-	children: React.ReactNode;
-}
-
-export const TasksContextMenuProvider: FC<ITasksContextMenuProvider> = ({ children }) => {
+export const TasksContextMenuProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
 	const [tasksContextlMenu, setTasksContextMenu] = useState<IData | undefined>();
-	const [isVisible, setIsVisible] = useRecoilState(modalVisibilityState);
-	const query = useQueryClient();
+	const [, setIsVisible] = useRecoilState(modalVisibilityState);
 
-	const { onMarkTaskAsCompleted, onMarkTaskAsInCompleted } = useTasks();
+	const { taskInMyDayMutation } = useTasksInMyDay();
+	const { changeTaskImportanceMutation } = useTaskImportance();
+	const { changeTaskStatusMutation } = useTasksStatus();
 
-	const { mutate: taskInMyDayMutation } = useMutation(taskInMyDayAction, {
-		onSuccess: () => {
-			query.invalidateQueries(QueryKey.tasksOfCurrentList);
-			query.invalidateQueries(QueryKey.getTask);
-			query.invalidateQueries(QueryKey.getMyDayTasks);
-			query.invalidateQueries(QueryKey.getImportanceTasks);
-			query.invalidateQueries(QueryKey.getAssignedTasks);
-			toast.success('Zadanie usunięte z widoku "Mój dzień"');
+	const handleItemClick = useCallback(
+		async ({ triggerEvent, event, props, data }: IHandleContextMenuItemClickProps) => {
+			setTasksContextMenu(data);
+
+			switch (data?.type) {
+				case ContextMenuOpion.add_to_myday:
+					await taskInMyDayMutation({ _id: data?.elementId, isMyDay: true, parentFolderId: data?.listId });
+					setTasksContextMenu(data);
+					break;
+				case ContextMenuOpion.remove_from_myday:
+					await taskInMyDayMutation({ _id: data?.elementId, isMyDay: false, parentFolderId: data?.listId });
+					setTasksContextMenu(data);
+					break;
+				case ContextMenuOpion.mark_as_important:
+					await changeTaskImportanceMutation({ _id: data?.elementId, parentFolderId: data?.listId, importance: Importance.high });
+					setTasksContextMenu(data);
+					break;
+				case ContextMenuOpion.remove_importance:
+					await changeTaskImportanceMutation({ _id: data?.elementId, parentFolderId: data?.listId, importance: Importance.normal });
+					setTasksContextMenu(data);
+					break;
+				case ContextMenuOpion.mark_as_complete:
+					await changeTaskStatusMutation({ _id: data?.elementId, parentFolderId: data?.listId, taskStatus: ITaskStatus.complete });
+					setTasksContextMenu(data);
+					break;
+				case ContextMenuOpion.mark_as_incomplete:
+					await changeTaskStatusMutation({ _id: data?.elementId, parentFolderId: data?.listId, taskStatus: ITaskStatus.inComplete });
+					setTasksContextMenu(data);
+					break;
+				case ContextMenuOpion.remove_task:
+					setIsVisible(true);
+					setTasksContextMenu(data);
+					break;
+				default:
+					setTasksContextMenu(undefined);
+					break;
+			}
 		},
-		onError: (error: IQueryError) => {
-			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
-		},
-	});
-
-	const { mutate: changeTaskImportanceMutation } = useMutation(changeTaskImportanceAction, {
-		onSuccess: () => {
-			query.invalidateQueries(QueryKey.getImportanceTasks);
-			query.invalidateQueries(QueryKey.tasksOfCurrentList);
-			query.invalidateQueries(QueryKey.getTask);
-			query.invalidateQueries(QueryKey.getMyDayTasks);
-			query.invalidateQueries(QueryKey.getAssignedTasks);
-			toast.success('Ważność zadanie zmieniona');
-		},
-		onError: (error: IQueryError) => {
-			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
-		},
-	});
-
-	const handleItemClick = useCallback(async ({ triggerEvent, event, props, data }: IHandleContextMenuItemClickProps) => {
-		setTasksContextMenu(data);
-
-		switch (data?.type) {
-			case ContextMenuOpion.add_to_myday:
-				await taskInMyDayMutation({ _id: data?.elementId, isMyDay: true });
-				setTasksContextMenu(data);
-				break;
-			case ContextMenuOpion.remove_from_myday:
-				await taskInMyDayMutation({ _id: data?.elementId, isMyDay: false });
-				setTasksContextMenu(data);
-				break;
-			case ContextMenuOpion.mark_as_important:
-				await changeTaskImportanceMutation({ _id: data?.elementId, parentFolderId: data?.listId, importance: Importance.high });
-				setTasksContextMenu(data);
-				break;
-			case ContextMenuOpion.remove_importance:
-				await changeTaskImportanceMutation({ _id: data?.elementId, parentFolderId: data?.listId, importance: Importance.normal });
-				setTasksContextMenu(data);
-				break;
-			case ContextMenuOpion.mark_as_complete:
-				onMarkTaskAsCompleted(data?.elementId);
-				setTasksContextMenu(data);
-				break;
-			case ContextMenuOpion.mark_as_incomplete:
-				onMarkTaskAsInCompleted(data?.elementId);
-				setTasksContextMenu(data);
-				break;
-			case ContextMenuOpion.remove_task:
-				setIsVisible(true);
-				setTasksContextMenu(data);
-				break;
-			default:
-				setTasksContextMenu(undefined);
-				break;
-		}
-	}, []);
+		[changeTaskImportanceMutation, changeTaskStatusMutation, setIsVisible, taskInMyDayMutation]
+	);
 
 	const value = useMemo(() => {
 		return {

@@ -18,7 +18,7 @@ export const SharingOptions: FC = () => {
 	const { invitationToken, onGenerateInvitationToken } = useGenerateInvitationToken();
 	const [step, setStep] = useState<number>(1);
 
-	const { data, isLoading, error } = useQuery<IList | undefined>(
+	const { data } = useQuery<IList | undefined>(
 		[QueryKey.getListById, contextualMenu?.elementId],
 		() => getListByIdAction({ _id: contextualMenu?.elementId }),
 		{ enabled: !!contextualMenu?.elementId }
@@ -34,7 +34,6 @@ export const SharingOptions: FC = () => {
 	);
 
 	useEffect(() => {
-		// TODO: zle sie wyswietla kto jest ownerem po stronie zaproszonej osoby bo caly czas leci ten endpoint  fix me!
 		(async () => {
 			if (!invitationToken) return;
 			await addInvitationTokenToListMutation({ _id: contextualMenu?.elementId, invitationToken: invitationToken, owner: authData?.email });

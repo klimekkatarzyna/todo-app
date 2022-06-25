@@ -12,13 +12,10 @@ import { ContextMenuOpion } from '../../../enums';
 interface ITaskItem {
 	task: ITask;
 	index: number;
-	onChangeTaskStatus: (taskId: string | undefined) => void;
-	isCompleted?: boolean;
-	changeTaskImportance: ({ parentFolderId: listId, _id: taskId, importance }: ITask) => void;
 	redirectTo: string;
 }
 
-export const TaskItem: FC<ITaskItem> = ({ task, index, onChangeTaskStatus, isCompleted = false, changeTaskImportance, redirectTo }) => {
+export const TaskItem: FC<ITaskItem> = ({ task, index, redirectTo }) => {
 	const { handleItemClick } = useContext(TasksContextMenuContext);
 	const { displayMenu } = useShowMenuContexify(task._id);
 	const [isElementVisible, setIsElementVisible] = useRecoilState(elementVisibilityState);
@@ -36,13 +33,7 @@ export const TaskItem: FC<ITaskItem> = ({ task, index, onChangeTaskStatus, isCom
 					key={index}
 					draggable
 					onClick={onSelectTask}>
-					<TaskDetails
-						taskData={task}
-						redirectTo={redirectTo}
-						onChangeTaskStatus={onChangeTaskStatus}
-						isCompleted={isCompleted}
-						changeTaskImportance={changeTaskImportance}
-					/>
+					<TaskDetails taskData={task} redirectTo={redirectTo} />
 				</div>
 			</div>
 			<ContextMenuComponent

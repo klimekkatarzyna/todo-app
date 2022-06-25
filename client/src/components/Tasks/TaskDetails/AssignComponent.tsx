@@ -12,6 +12,7 @@ import { assignUserToTaskAction } from '../../../actions/tasks';
 import { RemoveAssignment } from './RemoveAssignment';
 import { AssignUser } from './AssignUser';
 import { IQueryError } from '../../../interfaces/app';
+import { HttpResponse } from '../../../utils/http';
 
 interface IAssignComponentrops {
 	listId: string;
@@ -27,14 +28,27 @@ export const AssignComponent: FC<IAssignComponentrops> = ({ listId, taskId, task
 	const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 	const { authData } = useContext<AuthContextType>(AuthContext);
 
+	const taskAssigment = useCallback(
+		(tasks: ITask[] | undefined, response: HttpResponse<ITask>) =>
+			tasks?.map(task => (task._id === response.body?._id ? { ...task, assigned: response.body?.assigned } : task)),
+		[]
+	);
+
 	const { mutate, isLoading: assignLoading } = useMutation(assignUserToTaskAction, {
-		onSuccess: () => {
-			query.invalidateQueries([QueryKey.tasksOfCurrentList]);
-			query.invalidateQueries([QueryKey.getTask]);
-			query.invalidateQueries([QueryKey.getAssignedTasks]);
-			query.invalidateQueries([QueryKey.tasksList]);
-			query.invalidateQueries([QueryKey.getMyDayTasks]);
-			query.invalidateQueries([QueryKey.getImportanceTasks]);
+		onSuccess: async response => {
+			query.setQueryData<ITask[] | undefined>([QueryKey.getImportanceTasks], (tasks: ITask[] | undefined) => taskAssigment(tasks, response));
+			query.setQueryData<ITask[] | undefined>([QueryKey.tasksOfCurrentList, taskData?.parentFolderId], (tasks: ITask[] | undefined) =>
+				taskAssigment(tasks, response)
+			);
+			query.setQueryData<ITask | undefined>([QueryKey.getTask, response.body?._id], (task: ITask | undefined) =>
+				task?._id === response.body?._id ? { ...task, assigned: response.body?.assigned } : task
+			);
+			query.setQueryData<ITask[] | undefined>([QueryKey.getMyDayTasks], (tasks: ITask[] | undefined) => taskAssigment(tasks, response));
+			query.setQueryData<ITask[] | undefined>([QueryKey.getAssignedTasks, authData?._id], (tasks: ITask[] | undefined) =>
+				taskAssigment(tasks, response)
+			);
+			query.setQueryData<ITask[] | undefined>([QueryKey.tasksList], (tasks: ITask[] | undefined) => taskAssigment(tasks, response));
+
 			toast.success('Zadanie przypisane');
 			setIsModalVisible(false);
 		},
@@ -61,8 +75,9 @@ export const AssignComponent: FC<IAssignComponentrops> = ({ listId, taskId, task
 						<DisplayMember member={authData?._id} />
 						<span className='text-darkerGrey ml-auto text-xs absolute right-5'>{'przydziel do mnie'}</span>
 					</button>
-					{data?.members?.map(member => (
+					{data?.members?.map((member, index) => (
 						<button
+							key={index}
 							className='flex flex-row items-center p-1 hover:bg-hoverColor cursor-pointer w-full'
 							onClick={() => mutate({ _id: taskId, assigned: member })}>
 							<DisplayMember member={member} />

@@ -21,6 +21,7 @@ export const Sidebar: FC = () => {
 			<button className='border-none bg-inherit text-center p-2 ml-2' onClick={handleClick}>
 				{<Menu className='stroke-blue icon-style' />}
 			</button>
+
 			<div className='overflow-y-scroll w-full mt-6 h-full'>
 				<MainList isNavClosed={isNavClosed} />
 

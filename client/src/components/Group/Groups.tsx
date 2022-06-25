@@ -12,11 +12,7 @@ import { useRecoilValue } from 'recoil';
 import { modalVisibilityState } from '../../atoms/modal';
 import { IQueryError } from '../../interfaces/app';
 
-interface IGroupsProps {
-	isNavClosed: boolean;
-}
-
-export const Groups: FC<IGroupsProps> = ({ isNavClosed }) => {
+export const Groups: FC<{ isNavClosed: boolean }> = ({ isNavClosed }) => {
 	const query = useQueryClient();
 	const isVisible = useRecoilValue(modalVisibilityState);
 	const { contextualMenu } = useContext(ContextMenuContext);
@@ -24,8 +20,10 @@ export const Groups: FC<IGroupsProps> = ({ isNavClosed }) => {
 	const { isLoading: getGroupsLoading, data } = useQuery<IGroup[] | undefined>(QueryKey.groups, getGroups);
 
 	const { mutateAsync, error, isLoading } = useMutation(deleteGroup, {
-		onSuccess: () => {
-			query.invalidateQueries([QueryKey.groups]);
+		onSuccess: async response => {
+			query.setQueryData<IGroup[] | undefined>([QueryKey.groups], (groups: IGroup[] | undefined) =>
+				groups?.filter(group => group._id !== response.body?._id)
+			);
 			toast.success('Grupa usunięta');
 		},
 		onError: (error: IQueryError) => {
@@ -41,8 +39,8 @@ export const Groups: FC<IGroupsProps> = ({ isNavClosed }) => {
 	return (
 		<div>
 			{getGroupsLoading && <Loader />}
-			{data?.map(group => (
-				<Group key={group?._id} group={group} isNavClosed={isNavClosed} />
+			{data?.map((group, index) => (
+				<Group key={index} group={group} isNavClosed={isNavClosed} />
 			))}
 			{isVisible && (
 				<ContextualModal

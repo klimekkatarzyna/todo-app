@@ -2,11 +2,7 @@ import { IGroup } from '@kkrawczyk/todo-common';
 import { FC } from 'react';
 import { GroupedList } from './GroupedList';
 
-interface IGroupedListsProps {
-	group: IGroup;
-}
-
-export const GroupedLists: FC<IGroupedListsProps> = ({ group }) => {
+export const GroupedLists: FC<{ group: IGroup }> = ({ group }) => {
 	return (
 		<>
 			{!!group ? (

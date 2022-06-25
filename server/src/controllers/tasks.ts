@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import Task from '../models/task';
 import { taskSocket } from '../utils/socketsEvents';
-import { Importance } from '@kkrawczyk/todo-common';
+import { Importance, WebSocketEvent } from '@kkrawczyk/todo-common';
 import { getSessionUserId } from '../utils/auth';
 
 export const createTask = async (req: Request, res: Response) => {
@@ -19,13 +19,13 @@ export const createTask = async (req: Request, res: Response) => {
 		members: req.body.members,
 	});
 
-	taskSocket('add-task', req.body.parentFolderId, task);
+	taskSocket(WebSocketEvent.addTask, req.body.parentFolderId, task);
 
 	try {
 		await task.save();
 		res.status(200).json({
 			body: {
-				id: task._id,
+				_id: task._id,
 				title: task.title,
 				parentFolderId: task.parentFolderId,
 				importance: task.importance,
@@ -83,11 +83,14 @@ export const editTask = async (req: Request, res: Response) => {
 		parentFolderId: req.body.parentFolderId,
 	};
 
-	taskSocket('edit-task', req.body.parentFolderId, updatedTaskData);
+	taskSocket(WebSocketEvent.editTask, req.body.parentFolderId, updatedTaskData);
 
 	try {
 		res.status(200).json({
-			message: `title changed successfully to ${req.body.title}`,
+			body: {
+				_id: req.body._id,
+				title: req.body.title,
+			},
 		});
 		if (!task) return res.status(404).json({ message: 'Task not found' });
 	} catch (err) {
@@ -105,10 +108,15 @@ export const changeTaskStatus = async (req: Request, res: Response) => {
 		parentFolderId: req.body.parentFolderId,
 	};
 
-	taskSocket('change-task-status', req.body.parentFolderId, updatedTaskData);
+	taskSocket(WebSocketEvent.taskStatusChange, req.body.parentFolderId, updatedTaskData);
 
 	try {
 		res.status(200).json({
+			body: {
+				_id: req.params._id,
+				taskStatus: req.body.taskStatus,
+				parentFolderId: req.body.parentFolderId,
+			},
 			message: `status changed successfully to ${req.body.taskStatus}`,
 		});
 		if (!task) return res.status(404).json({ message: 'Task not found' });
@@ -123,11 +131,13 @@ export const removeTask = async (req: Request, res: Response) => {
 	const task = await Task.findById({ _id: req.body?._id || '' });
 
 	const data = await Task.deleteOne({ _id: req.body?._id || '' });
-	taskSocket('remove-task', req.body.parentFolderId, task);
+	taskSocket(WebSocketEvent.removeTask, req.body.parentFolderId, task);
 
 	try {
 		res.status(200).json({
 			body: {
+				_id: req.body?._id,
+				parentFolderId: req.body.parentFolderId,
 				tasks: data,
 			},
 		});
@@ -160,6 +170,11 @@ export const changeTaskImportance = async (req: Request, res: Response) => {
 	);
 	try {
 		res.status(200).json({
+			body: {
+				_id: req.params._id,
+				importance: req.body.importance,
+				parentFolderId: req.params.parentFolderId,
+			},
 			message: `importance has been successfully changed to ${req.body.importance}`,
 		});
 		if (!task) return res.status(404).json({ message: 'Task not found' });
@@ -175,6 +190,11 @@ export const taskInMyDay = async (req: Request, res: Response) => {
 
 	try {
 		res.status(200).json({
+			body: {
+				_id: req.params._id,
+				isMyDay: req.body.isMyDay,
+				parentFolderId: req.body.parentFolderId,
+			},
 			message: `task has been changed`,
 		});
 		if (!task) return res.status(404).json({ message: 'Task not found' });
@@ -228,7 +248,13 @@ export const assignUserToTask = async (req: Request, res: Response) => {
 		if (!task) {
 			res.status(404).json({ message: 'Task not found' });
 		}
-		res.status(200).json({ body: task, message: 'user assigned to task' });
+		res.status(200).json({
+			body: {
+				_id: req.body._id,
+				assigned: req.body.assigned,
+			},
+			message: 'user assigned to task',
+		});
 	} catch (err) {
 		res.status(500).json({
 			err,
@@ -249,7 +275,12 @@ export const removeUserFromTask = async (req: Request, res: Response) => {
 		if (!task) {
 			res.status(404).json({ message: 'Task not found' });
 		}
-		res.status(200).json({ body: task, message: 'remove assigment' });
+		res.status(200).json({
+			body: {
+				_id: req.body._id,
+			},
+			message: 'remove assigment',
+		});
 	} catch (err) {
 		res.status(500).json({
 			err,

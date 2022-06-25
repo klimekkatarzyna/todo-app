@@ -9,7 +9,7 @@ export const Redirect = () => {
 	const [isLoding, setIsloading] = useState<boolean>(true);
 
 	useEffect(() => {
-		sessionStorage.setItem('invitationTokenUrl', `${history.location.pathname}${history.location.search}`);
+		sessionStorage.setItem('invitationTokenUrl', `${history?.location?.pathname}${history?.location?.search}`);
 	}, [history]);
 
 	useEffect(() => {

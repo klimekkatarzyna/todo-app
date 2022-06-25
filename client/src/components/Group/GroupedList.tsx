@@ -6,11 +6,7 @@ import { getListByIdAction } from '../../actions/lists';
 import { QueryKey } from '../../enums';
 import { MenuListItem } from '../MenuListItem/MenuListItem';
 
-interface IGroupedListProps {
-	listId: string;
-}
-
-export const GroupedList: FC<IGroupedListProps> = ({ listId }) => {
+export const GroupedList: FC<{ listId: string }> = ({ listId }) => {
 	const { data, isLoading } = useQuery<IList | undefined>([QueryKey.getListById, listId], () => getListByIdAction({ _id: listId }), {
 		enabled: !!listId,
 	});

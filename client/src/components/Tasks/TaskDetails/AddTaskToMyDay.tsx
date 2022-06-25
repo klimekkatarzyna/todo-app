@@ -1,40 +1,20 @@
-import React, { FC, useState } from 'react';
-import { taskInMyDayAction } from '../../../actions/tasks';
+import { FC, useCallback } from 'react';
 import { Sun, X, Loader } from 'react-feather';
-import { useMutation, useQueryClient } from 'react-query';
-import toast from 'react-hot-toast';
 import { ITask } from '@kkrawczyk/todo-common';
-import { QueryKey } from '../../../enums';
-import { IQueryError } from '../../../interfaces/app';
+import { useTasksInMyDay } from '../../../hooks/tasks/useTasksInMyDay';
 
-interface IAddTaskToMyDay {
-	taskData: ITask | undefined;
-}
+export const AddTaskToMyDay: FC<{ taskData: ITask | undefined }> = ({ taskData }) => {
+	const { isMyDayTask, taskInMyDayLoading, taskInMyDayMutation } = useTasksInMyDay();
 
-export const AddTaskToMyDay: FC<IAddTaskToMyDay> = ({ taskData }) => {
-	const query = useQueryClient();
-	const [isMyDayTask, setIsMyDayTask] = useState<boolean>(false);
-
-	const { mutate, error, isLoading } = useMutation(taskInMyDayAction, {
-		onSuccess: () => {
-			query.invalidateQueries([QueryKey.tasksOfCurrentList]);
-			query.invalidateQueries([QueryKey.getTask]);
-			query.invalidateQueries([QueryKey.getMyDayTasks]);
-			query.invalidateQueries([QueryKey.tasksList]);
-			query.invalidateQueries([QueryKey.getImportanceTasks]);
-			query.invalidateQueries([QueryKey.getAssignedTasks]);
-			toast.success(taskData?.isMyDay ? 'Zadanie usunięte z widoku "Mój dzień"' : 'Zadanie dodane do "Mój dzień');
-			setIsMyDayTask(!isMyDayTask);
-		},
-		onError: (error: IQueryError) => {
-			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
-		},
-	});
+	const onHandleTaskInMyDay = useCallback(
+		() => taskInMyDayMutation({ _id: taskData?._id, isMyDay: isMyDayTask, parentFolderId: taskData?.parentFolderId }),
+		[taskData, isMyDayTask]
+	);
 
 	return (
 		<div className='task-details-style mb-6'>
-			{isLoading && <Loader />}
-			<button className='task-details-button-style' onClick={() => mutate({ _id: taskData?._id, isMyDay: isMyDayTask })}>
+			{taskInMyDayLoading && <Loader />}
+			<button className='task-details-button-style' onClick={onHandleTaskInMyDay}>
 				<Sun className='mr-2 icon-style' />
 				{taskData?.isMyDay ? (
 					<>

@@ -2,7 +2,7 @@ import { FC, memo, useCallback, useContext } from 'react';
 import { MenuListItem } from '../../MenuListItem/MenuListItem';
 import { Loader } from 'react-feather';
 import { ContextualModal } from '../../Modal/ContextualModal';
-import { ContextMenuOpion, QueryKey, ROUTE } from '../../../enums';
+import { ContextMenuOpion, QueryKey } from '../../../enums';
 import { SharingOptions } from '../../SharingOptions/SharingOptions';
 import { useMutation, useQueryClient } from 'react-query';
 import { IList } from '@kkrawczyk/todo-common';
@@ -13,18 +13,13 @@ import { updateMembersList } from '../../../actions/sharing';
 import { ContextMenuContext } from '../../../ContextMenuProvider';
 import { AuthContext } from '../../../AuthProvider';
 import toast from 'react-hot-toast';
-import { useHistory } from 'react-router-dom';
-import { buildUrl } from '../../../utils/paths';
 import { modalVisibilityState } from '../../../atoms/modal';
 import { IQueryError } from '../../../interfaces/app';
+import { useSwitchToFirstListItem } from '../../../hooks/useSwitchToFirstListItem';
 
-interface ILists {
-	isNavClosed: boolean;
-}
-
-const ListsComponents: FC<ILists> = ({ isNavClosed }) => {
+const ListsComponents: FC<{ isNavClosed: boolean }> = ({ isNavClosed }) => {
 	const query = useQueryClient();
-	const history = useHistory();
+	const { onHandleSwitchToFirstListItem } = useSwitchToFirstListItem();
 	const isVisible = useRecoilValue(modalVisibilityState);
 	const { getListsLoading, removeListMutation } = useList();
 	const list = useRecoilValue(listsState);
@@ -34,7 +29,7 @@ const ListsComponents: FC<ILists> = ({ isNavClosed }) => {
 	const removeList = useCallback(async () => {
 		if (contextualMenu?.type !== ContextMenuOpion.remove_list) return;
 		await removeListMutation({ _id: contextualMenu?.elementId });
-		history.push(buildUrl(ROUTE.listsDetails, { listId: list?.[0]?._id || '' }));
+		onHandleSwitchToFirstListItem();
 	}, [contextualMenu]);
 
 	const { mutate, isLoading, isError } = useMutation(updateMembersList, {

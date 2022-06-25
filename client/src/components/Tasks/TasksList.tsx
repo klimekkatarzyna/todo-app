@@ -1,37 +1,27 @@
 import { ITask } from '@kkrawczyk/todo-common';
-import { FC, useCallback } from 'react';
+import { FC, useCallback, useContext } from 'react';
 import { useRecoilValue } from 'recoil';
 import { modalVisibilityState } from '../../atoms/modal';
 import { ContextMenuOpion } from '../../enums';
-import { useTasks } from '../../hooks/useTasks';
+import { useRemoveTasks } from '../../hooks/tasks/useRemoveTasks';
+import { TasksContextMenuContext } from '../../providers/TasksContextMenuProvider';
 import { ContextualModal } from '../Modal/ContextualModal';
 import { TaskItem } from './TaskItem/TaskItem';
 
-interface ITasksListProps {
-	tasks: ITask[] | undefined;
-	redirectUrl: string;
-}
-
-export const TasksList: FC<ITasksListProps> = ({ tasks, redirectUrl }) => {
+export const TasksList: FC<{ tasks: ITask[] | undefined; redirectUrl: string }> = ({ tasks, redirectUrl }) => {
 	const isVisible = useRecoilValue(modalVisibilityState);
-	const { removeTaskMutation } = useTasks();
-	const { onChangeTaskStatus, changeTaskImportanceMutation } = useTasks();
+	const { removeTaskMutation } = useRemoveTasks();
+	const { tasksContextlMenu } = useContext(TasksContextMenuContext);
 
 	const onRemoveTask = useCallback(async (): Promise<void> => {
+		if (!tasksContextlMenu?.elementId) return;
 		await removeTaskMutation();
-	}, []);
+	}, [tasksContextlMenu, removeTaskMutation]);
 
 	return (
 		<>
 			{tasks?.map((task, index) => (
-				<TaskItem
-					key={task._id}
-					task={task}
-					index={index}
-					redirectTo={redirectUrl}
-					onChangeTaskStatus={onChangeTaskStatus}
-					changeTaskImportance={changeTaskImportanceMutation}
-				/>
+				<TaskItem key={index} task={task} index={index} redirectTo={redirectUrl} />
 			))}
 
 			{isVisible && (

@@ -1,19 +1,20 @@
 import { FC, useCallback, useEffect, useMemo } from 'react';
 import { getDay, getDayName, getMonth, parseUTCtoDate } from '../../utils/date';
 import { TaskDetails } from './TaskDetails';
-import { useTasks } from '../../hooks/useTasks';
-import { ITask, ITaskStatus } from '@kkrawczyk/todo-common';
 import { Loader, Bell, Calendar, Repeat, FilePlus, Trash2, XSquare } from 'react-feather';
 import { AddTaskToMyDay } from './TaskDetails/AddTaskToMyDay';
 import { useHistory } from 'react-router-dom';
 import { AssignComponent } from './TaskDetails/AssignComponent';
 import { useRecoilState } from 'recoil';
 import { elementVisibilityState } from '../../atoms/elementVisibility';
+import { useTask } from '../../hooks/tasks/useTask';
+import { useRemoveTasks } from '../../hooks/tasks/useRemoveTasks';
 
 export const TaskSidebarDetails: FC = () => {
 	const history = useHistory();
 	const [isElementVisible, setIsElementVisible] = useRecoilState(elementVisibilityState);
-	const { onChangeTaskStatus, taskData, taskDataLoading, removeTaskMutation, changeTaskImportanceMutation } = useTasks();
+	const { removeTaskMutation } = useRemoveTasks();
+	const { taskData, taskDataLoading } = useTask();
 
 	const [, url, listId, taskId] = useMemo(() => history.location.pathname.split('/'), [history]);
 
@@ -23,6 +24,7 @@ export const TaskSidebarDetails: FC = () => {
 	}, [listId, taskId]);
 
 	const handleClick = useCallback(async (): Promise<void> => {
+		if (!taskData?._id) return;
 		await removeTaskMutation();
 		onClose();
 	}, [taskData?._id]);
@@ -38,14 +40,7 @@ export const TaskSidebarDetails: FC = () => {
 			) : (
 				<div className='flex flex-col'>
 					<div className='flex p-4 flex-row mb-3 bg-white'>
-						<TaskDetails
-							taskData={taskData as ITask}
-							isCompleted={taskData?.taskStatus === ITaskStatus.complete}
-							onChangeTaskStatus={onChangeTaskStatus}
-							changeTaskImportance={changeTaskImportanceMutation}
-							isTaskDetailsView
-							redirectTo={`/${url}/`}
-						/>
+						<TaskDetails taskData={taskData} isTaskDetailsView redirectTo={`/${url}/`} />
 					</div>
 
 					<AddTaskToMyDay taskData={taskData} />

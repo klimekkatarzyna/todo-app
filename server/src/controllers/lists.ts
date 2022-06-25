@@ -1,4 +1,7 @@
+import { AppColor } from '@kkrawczyk/todo-common';
 import { Request, Response } from 'express';
+import { Group } from '../models/group';
+import Task from '../models/task';
 import { List } from '../models/list';
 import MainList from '../models/mainList';
 import { getSessionUserId } from '../utils/auth';
@@ -22,7 +25,7 @@ export const createList = async (req: Request, res: Response) => {
 	const userId = getSessionUserId(req);
 	const newList = new List({
 		title: req.body.title,
-		themeColor: 'blue',
+		themeColor: AppColor.dark,
 		createdAt: Date.now(),
 		userId: userId,
 		invitationToken: '',
@@ -34,7 +37,7 @@ export const createList = async (req: Request, res: Response) => {
 		const list = await newList.save();
 		res.status(200).json({
 			body: {
-				id: list._id,
+				_id: list._id,
 				title: list.title,
 				themeColor: list.themeColor,
 				createdAt: list.createdAt,
@@ -54,7 +57,7 @@ export const editList = async (req: Request, res: Response) => {
 	const list = await List.updateOne({ _id: req.body._id }, { $set: { title: req.body.title } });
 
 	try {
-		res.status(200).json({ body: req.body.title });
+		res.status(200).json({ body: { _id: req.body._id, title: req.body.title } });
 		if (!list) return res.status(404).json({ message: 'List not found' });
 	} catch (err) {
 		res.status(500).json({
@@ -121,7 +124,10 @@ export const removeList = async (req: Request, res: Response) => {
 			res.status(404).json({ message: 'List not found' });
 		}
 
-		res.status(200).json({ message: 'list has been deleted' });
+		res.status(200).json({
+			body: { _id: req.body._id },
+			message: 'list has been deleted',
+		});
 	} catch (error) {
 		res.status(500).json({ error });
 	}
@@ -190,11 +196,13 @@ export const addUserToMemberOfList = async (req: Request, res: Response) => {
 export const updateMembersList = async (req: Request, res: Response) => {
 	try {
 		const list = await List.findOneAndUpdate({ _id: req.body._id }, { $pull: { members: { $in: req.body.member } } });
+		await Group.findOneAndUpdate({ lists: { $in: req.body._id } }, { $pull: { lists: req.body._id } });
+
 		if (!list) {
 			res.status(404).json({ message: 'List not found' });
 		}
 
-		res.status(200).json({ message: 'member has been deleted' });
+		res.status(200).json({ body: { _id: req.body._id, member: req.body.member }, message: 'member has been deleted' });
 	} catch (err) {
 		res.status(500).json({
 			err,
@@ -210,6 +218,31 @@ export const changeInvitation = async (req: Request, res: Response) => {
 		}
 
 		res.status(200).json({ message: 'invitation has been deleted' });
+	} catch (err) {
+		res.status(500).json({
+			err,
+		});
+	}
+};
+
+export const listTheme = async (req: Request, res: Response) => {
+	try {
+		const loggedUserId = getSessionUserId(req);
+		if (req.body.userId !== loggedUserId) return;
+
+		const list = await List.findOneAndUpdate({ _id: req.body._id }, { $set: { themeColor: req.body.themeColor } });
+		await Task.updateMany({ parentFolderId: req.body._id }, { $set: { themeColor: req.body.themeColor } });
+		if (!list) {
+			res.status(404).json({ message: 'List not found' });
+		}
+
+		res.status(200).json({
+			body: {
+				_id: req.body._id,
+				themeColor: req.body.themeColor,
+			},
+			message: 'list theme has been changed',
+		});
 	} catch (err) {
 		res.status(500).json({
 			err,

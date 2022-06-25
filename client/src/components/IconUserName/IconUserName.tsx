@@ -6,12 +6,7 @@ import { Loader } from 'react-feather';
 import { getFirstLetters } from '../../utils/utilsFunctions';
 import { IUserData } from '@kkrawczyk/todo-common';
 
-interface IIconUserNameProps {
-	member: string | undefined;
-	isFullNameVisible?: boolean;
-}
-
-export const IconUserName: FC<IIconUserNameProps> = ({ member, isFullNameVisible }) => {
+export const IconUserName: FC<{ member: string | undefined; isFullNameVisible?: boolean }> = ({ member, isFullNameVisible }) => {
 	const { data, isLoading } = useQuery<IUserData | undefined>([QueryKey.getUser, member], () => getUserAction(member), { enabled: !!member });
 	const name = useMemo(() => getFirstLetters(data?.username), [data?.username]);
 

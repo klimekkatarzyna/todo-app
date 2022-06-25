@@ -2,7 +2,7 @@ import { FC, useCallback } from 'react';
 import { isStringContainsWhitespace } from '../../../utils/utilsFunctions';
 import { useMutation, useQueryClient } from 'react-query';
 import { createListAction } from '../../../actions/lists';
-import { createEditListSchema } from '@kkrawczyk/todo-common';
+import { createEditListSchema, IList } from '@kkrawczyk/todo-common';
 import { QueryKey } from '../../../enums';
 import toast from 'react-hot-toast';
 import { TitleForm } from '../../TitleForm';
@@ -11,8 +11,8 @@ export const CreateList: FC = () => {
 	const query = useQueryClient();
 
 	const { mutateAsync, isLoading, error } = useMutation(createListAction, {
-		onSuccess: () => {
-			query.invalidateQueries([QueryKey.lists]);
+		onSuccess: async response => {
+			query.setQueryData<IList[] | undefined>([QueryKey.lists], (lists: IList[] | undefined) => [...(lists || []), response.body || {}]);
 			toast.success('Lista dodana');
 		},
 	});
@@ -21,7 +21,6 @@ export const CreateList: FC = () => {
 		const title = isStringContainsWhitespace(values.title) ? 'Lista bez tytułu' : values.title;
 		await mutateAsync({ title });
 		resetForm();
-		//TODO: redirect on created list
 	}, []);
 
 	interface ICreateListValue {

@@ -17,11 +17,7 @@ export interface AuthContextType {
 // better do it in separate file because the values return by the context will be use in few files
 export const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
-interface IAuthProvider {
-	children: React.ReactNode;
-}
-
-export const AuthProvider: FC<IAuthProvider> = ({ children }) => {
+export const AuthProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
 	const [authData, setAuthData] = useState<IUserData | undefined>(undefined);
 	const [sessionChecked, setSessionChecked] = useState<boolean>(false);
 
@@ -35,7 +31,7 @@ export const AuthProvider: FC<IAuthProvider> = ({ children }) => {
 			if (!response) return;
 			setSessionChecked(true);
 		})();
-	}, []);
+	}, [checkSession]);
 
 	const value = useMemo(() => {
 		return {

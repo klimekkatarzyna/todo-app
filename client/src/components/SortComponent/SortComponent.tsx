@@ -2,11 +2,7 @@ import { FC } from 'react';
 import { SortTaskType } from '../../enums';
 import { useDropdown } from '../../hooks/useDropdown';
 
-interface ISortComponent {
-	requestSort: (event: any) => void;
-}
-
-export const SortComponent: FC<ISortComponent> = ({ requestSort }) => {
+export const SortComponent: FC<{ requestSort: (event: any) => void }> = ({ requestSort }) => {
 	const { elementeReference, toggleDropdown, dropdownOpen } = useDropdown();
 
 	return (

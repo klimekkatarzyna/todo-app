@@ -2,13 +2,8 @@ import { IList } from '@kkrawczyk/todo-common';
 import React, { FC, RefObject, useCallback, useRef } from 'react';
 import { ROUTE } from '../../enums';
 import { Button } from '../Button/Button';
-import { Input } from '../Input/Input';
 
-interface IShareLink {
-	listDataResponse: IList | undefined;
-}
-
-export const ShareLink: FC<IShareLink> = ({ listDataResponse }) => {
+export const ShareLink: FC<{ listDataResponse: IList | undefined }> = ({ listDataResponse }) => {
 	const inputRef: RefObject<HTMLInputElement> = useRef(null);
 
 	const copyToClipboard = useCallback((e: React.MouseEvent) => {
@@ -22,10 +17,12 @@ export const ShareLink: FC<IShareLink> = ({ listDataResponse }) => {
 
 	return (
 		<>
-			<Input
+			<input
+				className='w-full border-none outline-none text-sm bg-inherit text-blue'
 				value={`${process.env.REACT_APP_CONFIG_API}${ROUTE.sharing}?invitationToken=${listDataResponse?.invitationToken}`}
-				inputRef={inputRef}
+				ref={inputRef}
 				readOnly
+				type='text'
 				name='shareLink'
 			/>
 			<Button primary onClick={copyToClipboard}>

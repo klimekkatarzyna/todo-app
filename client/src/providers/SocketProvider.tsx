@@ -8,10 +8,7 @@ interface ISocketContext {
 }
 export const SocketContext = createContext<ISocketContext>({} as ISocketContext);
 
-interface ISocketProvider {
-	children: React.ReactNode;
-}
-export const SocketProvider: FC<ISocketProvider> = ({ children }) => {
+export const SocketProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
 	const [socket, setSocket] = useState<Socket<DefaultEventsMap, DefaultEventsMap>>();
 	const { authData } = useContext(AuthContext);
 

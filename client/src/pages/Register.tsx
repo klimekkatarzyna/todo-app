@@ -32,7 +32,8 @@ export const Register: FC = () => {
 	const { mutateAsync, isLoading, data } = useMutation(authenticateUserRequest);
 
 	const onSubmit = useCallback(async (values: RegisterValidationType, { resetForm }) => {
-		await mutateAsync({ username: values.username, email: values.email, password: values.password });
+		const { username, email, password } = values;
+		await mutateAsync({ username, email, password });
 		resetForm();
 	}, []);
 
@@ -54,20 +55,20 @@ export const Register: FC = () => {
 						<Form className='w-full mt-2'>
 							<div className='relative'>
 								<Input name='username' placeholder={'User name'} {...props} />
-								{errors.username && touched.username ? <ErrorMessageComponent name='username' /> : null}
+								{errors.username && touched.username && <ErrorMessageComponent name='username' />}
 							</div>
 							<div className='relative flex mt-2'>
 								<Input name='email' placeholder={'Email'} {...props} />
-								{errors.email && touched.email ? <ErrorMessageComponent name='email' /> : null}
+								{errors.email && touched.email && <ErrorMessageComponent name='email' />}
 							</div>
-							<div className='relative flex flex mt-2'>
+							<div className='relative flex mt-2'>
 								<Input
 									name='password'
 									type={showPassword ? InputType.text : InputType.password}
 									placeholder={'Password'}
 									{...props}
 								/>
-								{errors.password && touched.password ? <ErrorMessageComponent name='password' /> : null}
+								{errors.password && touched.password && <ErrorMessageComponent name='password' />}
 								<EyeComponent showPassword={showPassword} handledSetPassword={handledSetPassword} />
 							</div>
 							<Button primary type='submit' isLoading={isLoading} className='w-full'>
