@@ -55,7 +55,7 @@ const ListsComponents: FC<{ isNavClosed: boolean }> = ({ isNavClosed }) => {
 				<ContextualModal title='Czy chcesz usunąć listę?' onHandleAction={removeList} contextualType={ContextMenuOpion.remove_list} />
 			)}
 			{isVisible && (
-				<ContextualModal title='' onHandleAction={() => {}} contextualType={ContextMenuOpion.sharing_options} isActionButtonHidden>
+				<ContextualModal title='' contextualType={ContextMenuOpion.sharing_options} isActionButtonHidden>
 					<SharingOptions />
 				</ContextualModal>
 			)}

@@ -11,7 +11,7 @@ interface IContextualModalProps<T> {
 	children?: React.ReactNode;
 	title: string;
 	contextualType?: ContextMenuOpion;
-	onHandleAction: any;
+	onHandleAction?: any;
 	isActionButtonHidden?: boolean;
 	isLoading?: boolean;
 }

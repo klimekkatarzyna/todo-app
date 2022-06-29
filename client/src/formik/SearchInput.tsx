@@ -71,9 +71,15 @@ export const SearchInput: FC = () => {
 	return (
 		<div className='bg-light-grey w-96'>
 			<Formik initialValues={initialValues} onSubmit={onSearch}>
-				{({ errors, touched, ...props }) => (
+				{({ errors, touched, isSubmitting, ...props }) => (
 					<Form>
-						<Input className='w-full bg-light-grey focus:bg-white' name='title' type={InputType.search} {...props} />
+						<Input
+							className='w-full bg-light-grey focus:bg-white'
+							name='title'
+							type={InputType.search}
+							isSubmitting={isSubmitting}
+							{...props}
+						/>
 						{errors.title && touched.title && <ErrorMessageComponent name='title' margin />}
 					</Form>
 				)}

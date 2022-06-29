@@ -51,7 +51,7 @@ export const Register: FC = () => {
 				{data?.error && <span className='text-red p-2'>{data?.error}</span>}
 
 				<Formik initialValues={initialValues as RegisterValidationType} validationSchema={registerValidationSchema} onSubmit={onSubmit}>
-					{({ errors, touched, ...props }) => (
+					{({ errors, touched, isSubmitting, ...props }) => (
 						<Form className='w-full mt-2'>
 							<div className='relative'>
 								<Input name='username' placeholder={'User name'} {...props} />
@@ -71,7 +71,7 @@ export const Register: FC = () => {
 								{errors.password && touched.password && <ErrorMessageComponent name='password' />}
 								<EyeComponent showPassword={showPassword} handledSetPassword={handledSetPassword} />
 							</div>
-							<Button primary type='submit' isLoading={isLoading} className='w-full'>
+							<Button primary type='submit' isLoading={isLoading} className='w-full' disabled={isSubmitting}>
 								Uwrórz konto
 							</Button>
 						</Form>

@@ -18,7 +18,7 @@ interface ITaskItem {
 export const TaskItem: FC<ITaskItem> = ({ task, index, redirectTo }) => {
 	const { handleItemClick } = useContext(TasksContextMenuContext);
 	const { displayMenu } = useShowMenuContexify(task._id);
-	const [isElementVisible, setIsElementVisible] = useRecoilState(elementVisibilityState);
+	const [, setIsElementVisible] = useRecoilState(elementVisibilityState);
 	const { taskMenuListItems } = useBuidContextTaskMenu(task);
 
 	const onSelectTask = useCallback((): void => {

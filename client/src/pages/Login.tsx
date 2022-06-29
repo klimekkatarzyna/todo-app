@@ -61,7 +61,7 @@ export const Login: FC = () => {
 				{data?.error && <span className='text-red p-2'>{data?.error as string}</span>}
 
 				<Formik initialValues={initialValues as LoginValidationType} validationSchema={loginValidationSchema} onSubmit={onSubmit}>
-					{({ errors, touched, ...props }) => (
+					{({ errors, touched, isSubmitting, ...props }) => (
 						<Form className='w-full mt-2'>
 							<div className='relative'>
 								<Input name='email' placeholder={'Email'} {...props} />
@@ -79,7 +79,7 @@ export const Login: FC = () => {
 								<EyeComponent showPassword={showPassword} handledSetPassword={handledSetPassword} />
 							</div>
 
-							<Button primary type='submit' isLoading={isLoading} className='w-full'>
+							<Button primary type='submit' isLoading={isLoading} className='w-full' disabled={isSubmitting}>
 								<span>Zaloguj</span>
 							</Button>
 						</Form>

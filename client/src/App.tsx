@@ -1,14 +1,9 @@
 import { FC } from 'react';
 import { QueryCache, QueryClient, QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
-import { AuthProvider } from './AuthProvider';
 import BrowserRouter from './Router';
-import { ContextMenuProvider } from './ContextMenuProvider';
-import { SocketProvider } from './providers/SocketProvider';
 import { RecoilRoot } from 'recoil';
 import toast, { Toaster } from 'react-hot-toast';
-import { TasksContextMenuProvider } from './providers/TasksContextMenuProvider';
-import { ThemeProvider } from './providers/ThemeContext';
+import { ContextProviders } from './ContextProviders';
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -25,23 +20,15 @@ const App: FC = () => {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<RecoilRoot>
-				<ThemeProvider>
-					<AuthProvider>
-						<SocketProvider>
-							<ContextMenuProvider>
-								<TasksContextMenuProvider>
-									{/* <ReactQueryDevtools initialIsOpen /> */}
-									<BrowserRouter />
-									<Toaster
-										toastOptions={{
-											className: 'p-4 text-fontColor',
-										}}
-									/>
-								</TasksContextMenuProvider>
-							</ContextMenuProvider>
-						</SocketProvider>
-					</AuthProvider>
-				</ThemeProvider>
+				<ContextProviders>
+					{/* <ReactQueryDevtools initialIsOpen /> */}
+					<BrowserRouter />
+					<Toaster
+						toastOptions={{
+							className: 'p-4 text-fontColor',
+						}}
+					/>
+				</ContextProviders>
 			</RecoilRoot>
 		</QueryClientProvider>
 	);
