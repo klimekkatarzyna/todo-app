@@ -12,7 +12,7 @@ import { useRemoveTasks } from '../../hooks/tasks/useRemoveTasks';
 
 export const TaskSidebarDetails: FC = () => {
 	const history = useHistory();
-	const [isElementVisible, setIsElementVisible] = useRecoilState(elementVisibilityState);
+	const [, setIsElementVisible] = useRecoilState(elementVisibilityState);
 	const { removeTaskMutation } = useRemoveTasks();
 	const { taskData, taskDataLoading } = useTask();
 
@@ -27,7 +27,7 @@ export const TaskSidebarDetails: FC = () => {
 		if (!taskData?._id) return;
 		await removeTaskMutation();
 		onClose();
-	}, [taskData?._id]);
+	}, [taskData?._id, removeTaskMutation]);
 
 	const onClose = useCallback((): void => {
 		setIsElementVisible(false);

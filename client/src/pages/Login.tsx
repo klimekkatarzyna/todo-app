@@ -26,18 +26,21 @@ export const Login: FC = () => {
 
 	const initialValues = { email: '', password: '' };
 
-	const loginRequest = useCallback(async ({ email, password }: IUserData) => {
-		try {
-			const response = await loginAction({ email, password });
-			if (response.isSuccess && response?.body?._id) {
-				history.push(redirectUrl);
-				setAuthData(response?.body);
+	const loginRequest = useCallback(
+		async ({ email, password }: IUserData) => {
+			try {
+				const response = await loginAction({ email, password });
+				if (response.isSuccess && response?.body?._id) {
+					history.push(redirectUrl);
+					setAuthData(response?.body);
+				}
+				return response;
+			} catch (error) {
+				console.error(error);
 			}
-			return response;
-		} catch (error) {
-			console.error(error);
-		}
-	}, []);
+		},
+		[redirectUrl, history, setAuthData]
+	);
 
 	const { mutateAsync, isLoading, data } = useMutation(loginRequest);
 

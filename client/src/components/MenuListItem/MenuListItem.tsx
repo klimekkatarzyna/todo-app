@@ -27,8 +27,8 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed, isMai
 	const { handleItemClick } = useContext(ContextMenuContext);
 	const { displayMenu } = useShowMenuContexify(listItem?._id);
 	const { icon } = useGenerateMenuIcon(listItem);
-
 	const { isOwner } = useSharingData(listItem?.userId);
+
 	const { data } = useQuery<ITask[] | undefined>(
 		[QueryKey.tasksOfCurrentList, listItem?._id],
 		() => getTasksOfCurrentListAction({ parentFolderId: listItem?._id }),

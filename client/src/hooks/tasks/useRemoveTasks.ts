@@ -29,7 +29,7 @@ export const useRemoveTasks = () => {
 		return () => {
 			socket?.off(WebSocketEvent.removeTask, taskListener);
 		};
-	}, [listId]);
+	}, [listId, socket]);
 
 	const removeTask = useCallback(
 		(tasks: ITask[] | undefined, response: HttpResponse<ITask>) => tasks?.filter(task => task?._id !== response.body?._id),

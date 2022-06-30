@@ -31,7 +31,7 @@ export const CreateTask: FC<{ listTheme: AppColor | undefined }> = ({ listTheme 
 		return () => {
 			socket?.off(WebSocketEvent.addTask, taskListener);
 		};
-	}, [listId]);
+	}, [listId, socket]);
 
 	const { mutateAsync, isLoading } = useMutation(createTaskAction, {
 		onSuccess: async response => {
@@ -57,7 +57,7 @@ export const CreateTask: FC<{ listTheme: AppColor | undefined }> = ({ listTheme 
 			});
 			resetForm();
 		},
-		[parentFolderId]
+		[isStringContainsWhitespace, parentFolderId, listTheme, authData, membersArray]
 	);
 
 	return (

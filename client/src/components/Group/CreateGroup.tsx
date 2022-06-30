@@ -34,7 +34,7 @@ export const CreateGroup: FC = () => {
 			resetForm();
 			toggleDropdown();
 		},
-		[dropdownOpen]
+		[dropdownOpen, toggleDropdown]
 	);
 
 	return (

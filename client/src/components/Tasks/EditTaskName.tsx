@@ -27,7 +27,7 @@ export const EditTaskName: FC<{ taskData: ITask | undefined }> = ({ taskData }) 
 		return () => {
 			socket?.off(WebSocketEvent.editTask, taskListener);
 		};
-	}, [listId]);
+	}, [listId, socket]);
 
 	const updateTaskTitle = useCallback(
 		(tasks: ITask[] | undefined, response: HttpResponse<ITask>) =>
@@ -60,7 +60,7 @@ export const EditTaskName: FC<{ taskData: ITask | undefined }> = ({ taskData }) 
 			await mutateAsync({ _id: taskData?._id, title: values.title, parentFolderId: taskData?.parentFolderId });
 			resetForm();
 		},
-		[taskData]
+		[isStringContainsWhitespace, taskData]
 	);
 
 	return <TitleForm isLoading={isLoading} initialValues={initialValues} validationSchema={createEditTaskSchema} onSubmit={onSubmit} />;

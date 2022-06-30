@@ -11,7 +11,7 @@ export const Sidebar: FC = () => {
 
 	const handleClick = useCallback(() => {
 		setIsNavClosed(!isNavClosed);
-	}, [isNavClosed]);
+	}, [isNavClosed, setIsNavClosed]);
 
 	return (
 		<aside

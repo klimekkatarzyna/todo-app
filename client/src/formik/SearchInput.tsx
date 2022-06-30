@@ -38,7 +38,7 @@ export const SearchInput: FC = () => {
 			if (!query) return [];
 			return fuse?.search?.(query)?.map(result => result?.item);
 		},
-		[data]
+		[data, fuse]
 	);
 
 	const onSearch = useCallback(
@@ -49,7 +49,7 @@ export const SearchInput: FC = () => {
 			history.push(buildUrl(ROUTE.search));
 			setIsLoading(false);
 		},
-		[data]
+		[data, setIsLoading, setSearchResults, history]
 	);
 
 	useEffect(() => {
@@ -59,14 +59,14 @@ export const SearchInput: FC = () => {
 
 		document.addEventListener('search', handleClick);
 		return () => document.removeEventListener('search', handleClick);
-	}, []);
+	}, [history]);
 
 	const initialValues: ITask = { title: '' };
 
 	useEffect(() => {
 		setSearchResults(searchWithFuse(searchValue));
 		setSearchValue(searchValue);
-	}, [data, searchValue]);
+	}, [data, searchValue, setSearchResults, setSearchValue]);
 
 	return (
 		<div className='bg-light-grey w-96'>

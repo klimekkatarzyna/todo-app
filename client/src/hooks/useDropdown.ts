@@ -14,11 +14,11 @@ export const useDropdown = () => {
 
 		document.addEventListener('click', handleClick);
 		return () => document.removeEventListener('click', handleClick);
-	}, []);
+	}, [elementeReference, setDropdownOpen]);
 
 	const toggleDropdown = useCallback(() => {
 		setDropdownOpen(!dropdownOpen);
-	}, [dropdownOpen]);
+	}, [dropdownOpen, setDropdownOpen]);
 
 	return {
 		elementeReference,

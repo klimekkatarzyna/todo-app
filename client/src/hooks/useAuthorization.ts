@@ -19,7 +19,7 @@ export const useAuthorization = () => {
 			console.error(err);
 			history.push(buildUrl(ROUTE.login));
 		}
-	}, []);
+	}, [history]);
 
 	return {
 		checkSession,

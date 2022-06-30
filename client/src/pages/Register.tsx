@@ -19,15 +19,18 @@ export const Register: FC = () => {
 	const initialValues = { username: '', email: '', password: '' };
 	const { showPassword, handledSetPassword } = useTogglePasswordVisibility();
 
-	const authenticateUserRequest = useCallback(async ({ username, email, password }: IUserData): Promise<HttpResponse<IUserData> | undefined> => {
-		try {
-			const response = await registerAction({ username, email, password });
-			if (response?.isSuccess) history.push(buildUrl(ROUTE.home));
-			return response;
-		} catch (err) {
-			console.error(err);
-		}
-	}, []);
+	const authenticateUserRequest = useCallback(
+		async ({ username, email, password }: IUserData): Promise<HttpResponse<IUserData> | undefined> => {
+			try {
+				const response = await registerAction({ username, email, password });
+				if (response?.isSuccess) history.push(buildUrl(ROUTE.home));
+				return response;
+			} catch (err) {
+				console.error(err);
+			}
+		},
+		[history]
+	);
 
 	const { mutateAsync, isLoading, data } = useMutation(authenticateUserRequest);
 

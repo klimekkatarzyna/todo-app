@@ -9,7 +9,7 @@ export const RedirectToList: FC<{ list: IShareLitDetails | undefined; listDataLo
 
 	const redirectToList = useCallback(() => {
 		onHandleSwitchToFirstListItem();
-	}, []);
+	}, [onHandleSwitchToFirstListItem]);
 
 	return (
 		<>

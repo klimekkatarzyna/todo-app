@@ -15,7 +15,7 @@ export const Redirect = () => {
 	useEffect(() => {
 		history.push(buildUrl(ROUTE.login));
 		setIsloading(isLoding);
-	}, []);
+	}, [history]);
 
 	return <div>{isLoding && <Loader className='m-auto' />}</div>;
 };
