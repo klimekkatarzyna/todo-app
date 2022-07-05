@@ -1,5 +1,5 @@
 import { ITask, WebSocketEvent } from '@kkrawczyk/todo-common';
-import React, { useCallback, useContext, useEffect } from 'react';
+import { useCallback, useContext, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { useMutation, useQueryClient } from 'react-query';
 import { useParams } from 'react-router-dom';
@@ -29,7 +29,7 @@ export const useRemoveTasks = () => {
 		return () => {
 			socket?.off(WebSocketEvent.removeTask, taskListener);
 		};
-	}, [listId, socket]);
+	}, [query, listId, socket]);
 
 	const removeTask = useCallback(
 		(tasks: ITask[] | undefined, response: HttpResponse<ITask>) => tasks?.filter(task => task?._id !== response.body?._id),

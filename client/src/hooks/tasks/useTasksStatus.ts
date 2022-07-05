@@ -29,7 +29,7 @@ const useTasksStatus = () => {
 		return () => {
 			socket?.off(WebSocketEvent.taskStatusChange, taskListener);
 		};
-	}, [listId, socket]);
+	}, [query, listId, socket]);
 
 	const taskStatus = useCallback(
 		(tasks: ITask[] | undefined, response: HttpResponse<ITask>) =>

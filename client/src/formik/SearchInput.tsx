@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import Fuse from 'fuse.js';
 import { ROUTE, QueryKey } from '../enums';
 import { useQuery } from 'react-query';
@@ -38,7 +38,7 @@ export const SearchInput: FC = () => {
 			if (!query) return [];
 			return fuse?.search?.(query)?.map(result => result?.item);
 		},
-		[data, fuse]
+		[fuse]
 	);
 
 	const onSearch = useCallback(
@@ -49,7 +49,7 @@ export const SearchInput: FC = () => {
 			history.push(buildUrl(ROUTE.search));
 			setIsLoading(false);
 		},
-		[data, setIsLoading, setSearchResults, history]
+		[setIsLoading, setSearchResults, searchWithFuse, history]
 	);
 
 	useEffect(() => {
@@ -66,7 +66,7 @@ export const SearchInput: FC = () => {
 	useEffect(() => {
 		setSearchResults(searchWithFuse(searchValue));
 		setSearchValue(searchValue);
-	}, [data, searchValue, setSearchResults, setSearchValue]);
+	}, [data, searchValue, setSearchResults, searchWithFuse, setSearchValue]);
 
 	return (
 		<div className='bg-light-grey w-96'>

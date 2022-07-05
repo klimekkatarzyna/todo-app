@@ -1,6 +1,5 @@
 import { FC } from 'react';
 import { QueryCache, QueryClient, QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
 import { AuthProvider } from './AuthProvider';
 import BrowserRouter from './Router';
 import { ContextMenuProvider } from './ContextMenuProvider';
@@ -30,7 +29,6 @@ const App: FC = () => {
 						<SocketProvider>
 							<ContextMenuProvider>
 								<TasksContextMenuProvider>
-									{/* <ReactQueryDevtools initialIsOpen /> */}
 									<BrowserRouter />
 									<Toaster
 										toastOptions={{
