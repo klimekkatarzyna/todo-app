@@ -13,11 +13,12 @@ const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: {
 			refetchOnWindowFocus: false,
+			onError: (error: any): any => toast.error(error?.toString()),
+		},
+		mutations: {
+			onError: (error: any): any => toast.error(error?.toString()),
 		},
 	},
-	queryCache: new QueryCache({
-		onError: error => toast.error(`Something went wrong: ${error}`),
-	}),
 });
 
 const App: FC = () => {

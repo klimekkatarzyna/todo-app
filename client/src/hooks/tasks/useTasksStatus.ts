@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import { changeTaskStatusAction } from '../../actions/tasks';
 import { AuthContext, AuthContextType } from '../../AuthProvider';
 import { QueryKey } from '../../enums';
-import { IQueryError, IUseParams } from '../../interfaces/app';
+import { IUseParams } from '../../interfaces/app';
 import { SocketContext } from '../../providers/SocketProvider';
 import { HttpResponse } from '../../utils/http';
 
@@ -54,9 +54,6 @@ const useTasksStatus = () => {
 			);
 			query.setQueryData<ITask[] | undefined>([QueryKey.tasksList], (tasks: ITask[] | undefined) => taskStatus(tasks, response));
 			toast.success('Status zadania zmieniony');
-		},
-		onError: (error: IQueryError) => {
-			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 

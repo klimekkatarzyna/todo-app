@@ -11,7 +11,6 @@ import toast from 'react-hot-toast';
 import { assignUserToTaskAction } from '../../../actions/tasks';
 import { RemoveAssignment } from './RemoveAssignment';
 import { AssignUser } from './AssignUser';
-import { IQueryError } from '../../../interfaces/app';
 import { HttpResponse } from '../../../utils/http';
 
 interface IAssignComponentrops {
@@ -51,9 +50,6 @@ export const AssignComponent: FC<IAssignComponentrops> = ({ listId, taskId, task
 
 			toast.success('Zadanie przypisane');
 			setIsModalVisible(false);
-		},
-		onError: (error: IQueryError) => {
-			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 

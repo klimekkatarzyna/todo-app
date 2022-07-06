@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useContext, useEffect } from 'react';
+import { FC, useCallback, useContext, useEffect } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { editTaskAction } from '../../actions/tasks';
 import { ITask, createEditTaskSchema, CreateEditTaskType, WebSocketEvent } from '@kkrawczyk/todo-common';
@@ -6,7 +6,7 @@ import { isStringContainsWhitespace } from '../../utils/utilsFunctions';
 import { QueryKey } from '../../enums';
 import toast from 'react-hot-toast';
 import { TitleForm } from '../TitleForm';
-import { IQueryError, IUseParams } from '../../interfaces/app';
+import { IUseParams } from '../../interfaces/app';
 import { HttpResponse } from '../../utils/http';
 import { useParams } from 'react-router-dom';
 import { SocketContext } from '../../providers/SocketProvider';
@@ -46,9 +46,6 @@ export const EditTaskName: FC<{ taskData: ITask | undefined }> = ({ taskData }) 
 				title: response.body?.title,
 			}));
 			toast.success('Zadanie zmienione');
-		},
-		onError: (error: IQueryError) => {
-			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 

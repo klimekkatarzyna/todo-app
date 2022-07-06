@@ -14,7 +14,6 @@ import { ContextMenuContext } from '../../../ContextMenuProvider';
 import { AuthContext } from '../../../AuthProvider';
 import toast from 'react-hot-toast';
 import { modalVisibilityState } from '../../../atoms/modal';
-import { IQueryError } from '../../../interfaces/app';
 import { useSwitchToFirstListItem } from '../../../hooks/useSwitchToFirstListItem';
 
 const ListsComponents: FC<{ isNavClosed: boolean }> = ({ isNavClosed }) => {
@@ -37,9 +36,6 @@ const ListsComponents: FC<{ isNavClosed: boolean }> = ({ isNavClosed }) => {
 			query.invalidateQueries([QueryKey.getListById]);
 			query.invalidateQueries([QueryKey.lists]);
 			toast.success('Opuściłeś listę');
-		},
-		onError: (error: IQueryError) => {
-			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 

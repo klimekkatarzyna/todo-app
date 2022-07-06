@@ -5,7 +5,6 @@ import { useMutation, useQueryClient } from 'react-query';
 import { taskInMyDayAction } from '../../actions/tasks';
 import { AuthContext, AuthContextType } from '../../AuthProvider';
 import { QueryKey } from '../../enums';
-import { IQueryError } from '../../interfaces/app';
 import { HttpResponse } from '../../utils/http';
 import { useTask } from './useTask';
 
@@ -41,9 +40,6 @@ export const useTasksInMyDay = () => {
 			);
 			toast.success(taskData?.isMyDay ? 'Zadanie usunięte z widoku "Mój dzień"' : 'Zadanie dodane do "Mój dzień');
 			setIsMyDayTask(!isMyDayTask);
-		},
-		onError: (error: IQueryError) => {
-			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 

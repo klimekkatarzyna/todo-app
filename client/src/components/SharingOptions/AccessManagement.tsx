@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { Button } from '../Button/Button';
 import { IList } from '@kkrawczyk/todo-common';
 import { useMutation, useQueryClient } from 'react-query';
@@ -6,7 +6,6 @@ import { ArrowLeft } from 'react-feather';
 import { removeInvitationAction } from '../../actions/sharing';
 import { QueryKey, ROUTE } from '../../enums';
 import toast from 'react-hot-toast';
-import { IQueryError } from '../../interfaces/app';
 
 export const AccessManagement: FC<{ listDataResponse: IList | undefined; onPrevStep: () => void }> = ({ listDataResponse, onPrevStep }) => {
 	const query = useQueryClient();
@@ -15,9 +14,6 @@ export const AccessManagement: FC<{ listDataResponse: IList | undefined; onPrevS
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.getListById]);
 			toast.success('Udostępnianie zatrzymane');
-		},
-		onError: (error: IQueryError) => {
-			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 

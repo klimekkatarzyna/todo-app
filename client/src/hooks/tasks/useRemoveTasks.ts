@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import { deleteTaskAction } from '../../actions/tasks';
 import { AuthContext, AuthContextType } from '../../AuthProvider';
 import { QueryKey } from '../../enums';
-import { IQueryError, IUseParams } from '../../interfaces/app';
+import { IUseParams } from '../../interfaces/app';
 import { SocketContext } from '../../providers/SocketProvider';
 import { TasksContextMenuContext } from '../../providers/TasksContextMenuProvider';
 import { HttpResponse } from '../../utils/http';
@@ -50,9 +50,6 @@ export const useRemoveTasks = () => {
 				);
 				query.setQueryData<ITask[] | undefined>([QueryKey.tasksList], (tasks: ITask[] | undefined) => removeTask(tasks, response));
 				toast.success('Zadanie usunięte');
-			},
-			onError: (error: IQueryError) => {
-				toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 			},
 		}
 	);

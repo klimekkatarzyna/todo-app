@@ -13,7 +13,6 @@ import { buildUrl } from '../../utils/paths';
 import { useShowMenuContexify } from '../../hooks/useShowMenuContexify';
 import { addListToGroupAction, getGroups } from '../../actions/groups';
 import toast from 'react-hot-toast';
-import { IQueryError } from '../../interfaces/app';
 import { useGenerateMenuIcon } from '../../hooks/useGenerateMenuIcon';
 
 interface IMenuListItem {
@@ -48,9 +47,6 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed, isMai
 		onSuccess: async response => {
 			query.invalidateQueries([QueryKey.groups]);
 			toast.success('Lista dodana do grupy');
-		},
-		onError: (error: IQueryError) => {
-			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 

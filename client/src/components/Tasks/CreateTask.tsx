@@ -1,7 +1,7 @@
 import { FC, useCallback, useContext, useEffect } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { createTaskAction } from '../../actions/tasks';
-import { IQueryError, IUseParams } from '../../interfaces/app';
+import { IUseParams } from '../../interfaces/app';
 import { ITask, createEditTaskSchema, CreateEditTaskType, AppColor, WebSocketEvent } from '@kkrawczyk/todo-common';
 import { isStringContainsWhitespace } from '../../utils/utilsFunctions';
 import toast from 'react-hot-toast';
@@ -37,9 +37,6 @@ export const CreateTask: FC<{ listTheme: AppColor | undefined }> = ({ listTheme 
 		onSuccess: async response => {
 			query.setQueryData<ITask[] | undefined>([QueryKey.tasksList], (tasks: ITask[] | undefined) => [...(tasks || []), response.body || {}]);
 			toast.success('Zadanie dodane');
-		},
-		onError: (error: IQueryError) => {
-			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 

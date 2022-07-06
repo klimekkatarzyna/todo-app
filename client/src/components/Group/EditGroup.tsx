@@ -7,7 +7,6 @@ import { isStringContainsWhitespace } from '../../utils/utilsFunctions';
 import { createEditGroupSchema, CreateEditGroupType, IGroup } from '@kkrawczyk/todo-common';
 import toast from 'react-hot-toast';
 import { TitleForm } from '../TitleForm';
-import { IQueryError } from '../../interfaces/app';
 import { useFocusingHandling } from '../../hooks/useMouseHandling';
 
 interface IEditGroupProps {
@@ -28,9 +27,6 @@ export const EditGroup: FC<IEditGroupProps> = ({ title, groupId, isNavClosed }) 
 		onSuccess: async response => {
 			query.setQueryData<IGroup[] | undefined>([QueryKey.groups], (groups: IGroup[] | undefined) => [...(groups || []), response.body || {}]);
 			toast.success('Nazwa grupy zmieniona');
-		},
-		onError: (error: IQueryError) => {
-			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 

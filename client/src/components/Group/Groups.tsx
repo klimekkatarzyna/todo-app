@@ -10,7 +10,6 @@ import { ContextMenuContext } from '../../ContextMenuProvider';
 import toast from 'react-hot-toast';
 import { useRecoilValue } from 'recoil';
 import { modalVisibilityState } from '../../atoms/modal';
-import { IQueryError } from '../../interfaces/app';
 
 export const Groups: FC<{ isNavClosed: boolean }> = ({ isNavClosed }) => {
 	const query = useQueryClient();
@@ -25,9 +24,6 @@ export const Groups: FC<{ isNavClosed: boolean }> = ({ isNavClosed }) => {
 				groups?.filter(group => group._id !== response.body?._id)
 			);
 			toast.success('Grupa usunięta');
-		},
-		onError: (error: IQueryError) => {
-			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 

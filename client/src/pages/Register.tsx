@@ -6,9 +6,8 @@ import { ErrorMessageComponent } from '../formik/ErrorMessageComponent';
 import { Input } from '../formik/Input';
 import { Formik, Form } from 'formik';
 import { useMutation } from 'react-query';
-import { RegisterValidationType, registerValidationSchema, IUserData } from '@kkrawczyk/todo-common';
+import { RegisterValidationType, registerValidationSchema } from '@kkrawczyk/todo-common';
 import { registerAction } from '../actions/user';
-import { HttpResponse } from '../utils/http';
 import { ROUTE } from '../enums';
 import { buildUrl } from '../utils/paths';
 import { useTogglePasswordVisibility } from '../hooks/useTogglePasswordVisibility';
@@ -19,20 +18,11 @@ export const Register: FC = () => {
 	const initialValues = { username: '', email: '', password: '' };
 	const { showPassword, handledSetPassword } = useTogglePasswordVisibility();
 
-	const authenticateUserRequest = useCallback(
-		async ({ username, email, password }: IUserData): Promise<HttpResponse<IUserData> | undefined> => {
-			try {
-				const response = await registerAction({ username, email, password });
-				if (response?.isSuccess) history.push(buildUrl(ROUTE.home));
-				return response;
-			} catch (err) {
-				console.error(err);
-			}
+	const { mutateAsync, isLoading, data } = useMutation(registerAction, {
+		onSuccess: () => {
+			history.push(buildUrl(ROUTE.home));
 		},
-		[history]
-	);
-
-	const { mutateAsync, isLoading, data } = useMutation(authenticateUserRequest);
+	});
 
 	const onSubmit = useCallback(async (values: RegisterValidationType, { resetForm }) => {
 		const { username, email, password } = values;

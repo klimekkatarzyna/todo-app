@@ -6,7 +6,6 @@ import { removenUserFromTaskAction } from '../../../actions/tasks';
 import { QueryKey } from '../../../enums';
 import toast from 'react-hot-toast';
 import { Loader, X } from 'react-feather';
-import { IQueryError } from '../../../interfaces/app';
 import { HttpResponse } from '../../../utils/http';
 import { AuthContext, AuthContextType } from '../../../AuthProvider';
 
@@ -38,9 +37,6 @@ export const RemoveAssignment: FC<{ taskData: ITask }> = ({ taskData }) => {
 			query.setQueryData<ITask[] | undefined>([QueryKey.tasksList], (tasks: ITask[] | undefined) => taskRemoveAssigment(tasks, response));
 
 			toast.success('Przypisanie usunięte');
-		},
-		onError: (error: IQueryError) => {
-			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 

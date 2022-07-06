@@ -75,8 +75,9 @@ io.on('connection', socket => {
 
 	const parsedSocketHandShake = parse(socketHandShake as string);
 	const SECRET = '.Ge~!!Wcv|vREPrmRrm.p3m$pm.5.$';
-	const connectionToken = jwt?.verify(parsedSocketHandShake.access_token, SECRET) as any;
 
+	if (parsedSocketHandShake?.access_token === undefined) return;
+	const connectionToken = jwt?.verify(parsedSocketHandShake?.access_token || '', SECRET) as any;
 	allSocketConnections.push({
 		socketId: socket.id,
 		userId: connectionToken._id,
