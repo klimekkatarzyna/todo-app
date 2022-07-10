@@ -58,6 +58,7 @@ export const useList = () => {
 			query.setQueryData<IList[] | undefined>([QueryKey.lists], (lists: IList[] | undefined) =>
 				lists?.map(list => (list._id === response.body?._id ? { ...list, themeColor: response.body?.themeColor } : list))
 			);
+			toast.success(`Theme zmieniony na ${response.body?.themeColor}`);
 		},
 	});
 

@@ -24,7 +24,7 @@ export const ContextMenuComponent: FC<IContextMenuProps> = ({
 	mutateAsyncAction,
 }) => {
 	return (
-		<Menu id={elementDetails?._id as string} theme='light' className={`${contextMenuList?.length ? 'absolute' : 'hidden'}`}>
+		<Menu id={elementDetails?._id as string} theme='light' className={`${contextMenuList?.length ? 'opacity-100' : 'bg-inherit'}`}>
 			{contextMenuList?.map(listItem => (
 				<ContextMenuItem
 					key={listItem?.name}

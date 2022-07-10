@@ -10,7 +10,7 @@ export const Layout = () => {
 	return (
 		<div className='flex flex-col flex-1'>
 			{authData?._id && <Header userName={authData?.username || ''} />}
-			<div className='flex flex-1'>
+			<div className='flex flex-1 relative'>
 				{authData?._id && <Sidebar />}
 				<Outlet />
 			</div>

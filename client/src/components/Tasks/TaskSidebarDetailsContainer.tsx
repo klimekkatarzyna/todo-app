@@ -34,11 +34,11 @@ export const TaskSidebarDetails: FC = () => {
 	}, [setIsElementVisible]);
 
 	return (
-		<div className='bg-light-grey w-full p-4 absolute z-20 left-0 right-0 top-12 bottom-0 md:relative md:w-[360px] md:top-0'>
+		<div className='bg-light-grey w-full p-4 flex flex-1 absolute z-20 left-0 right-0  bottom-0 md:relative md:w-[360px] md:top-0'>
 			{taskDataLoading ? (
 				<Loader className='animate-spin m-auto' />
 			) : (
-				<div className='flex flex-col'>
+				<div className='flex flex-col w-full'>
 					<div className='flex p-4 flex-row mb-3 bg-white'>
 						<TaskDetails taskData={taskData} isTaskDetailsView redirectTo={`/${url}/`} />
 					</div>
