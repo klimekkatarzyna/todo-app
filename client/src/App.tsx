@@ -1,25 +1,15 @@
 import { FC } from 'react';
-import { QueryCache, QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { AuthProvider } from './AuthProvider';
-import BrowserRouter from './Router';
+import { BrowserRouter } from './Router';
 import { ContextMenuProvider } from './ContextMenuProvider';
 import { SocketProvider } from './providers/SocketProvider';
 import { RecoilRoot } from 'recoil';
-import toast, { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 import { TasksContextMenuProvider } from './providers/TasksContextMenuProvider';
 import { ThemeProvider } from './providers/ThemeContext';
 
-const queryClient = new QueryClient({
-	defaultOptions: {
-		queries: {
-			refetchOnWindowFocus: false,
-			onError: (error: any): any => toast.error(error?.toString()),
-		},
-		mutations: {
-			onError: (error: any): any => toast.error(error?.toString()),
-		},
-	},
-});
+const queryClient = new QueryClient({});
 
 const App: FC = () => {
 	return (

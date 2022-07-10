@@ -3,7 +3,7 @@ import { getDay, getDayName, getMonth, parseUTCtoDate } from '../../utils/date';
 import { TaskDetails } from './TaskDetails';
 import { Loader, Bell, Calendar, Repeat, FilePlus, Trash2, XSquare } from 'react-feather';
 import { AddTaskToMyDay } from './TaskDetails/AddTaskToMyDay';
-import { useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { AssignComponent } from './TaskDetails/AssignComponent';
 import { useRecoilState } from 'recoil';
 import { elementVisibilityState } from '../../atoms/elementVisibility';
@@ -11,12 +11,12 @@ import { useTask } from '../../hooks/tasks/useTask';
 import { useRemoveTasks } from '../../hooks/tasks/useRemoveTasks';
 
 export const TaskSidebarDetails: FC = () => {
-	const history = useHistory();
+	const location = useLocation();
 	const [, setIsElementVisible] = useRecoilState(elementVisibilityState);
 	const { removeTaskMutation } = useRemoveTasks();
 	const { taskData, taskDataLoading } = useTask();
 
-	const [, url, listId, taskId] = useMemo(() => history.location.pathname.split('/'), [history]);
+	const [, url, listId, taskId] = useMemo(() => location.pathname.split('/'), [location]);
 
 	useEffect(() => {
 		if (!!listId && !!taskId) return;

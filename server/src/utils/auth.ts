@@ -43,7 +43,7 @@ export const getSessionUserId = (req: Request) => {
 
 export const authorization = (req: Request, res: Response, next: NextFunction) => {
 	const token = req.cookies.access_token;
-	if (!token) return res.status(401).send('Access denied...No token provided...');
+	if (!token) return res.status(401).send({ message: 'Access denied...No token provided...', error: 401, token: undefined });
 	try {
 		const verified = jwt.verify(token, SECRET) as IJwtData;
 		if (!verified?._id) return;

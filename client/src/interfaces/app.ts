@@ -17,10 +17,10 @@ export enum IResponseStatus {
 	success = 'success',
 }
 
-export interface IUseParams {
+export type IUseParams = {
 	listId: string;
 	taskId: string;
-}
+};
 
 export interface LoginForm {
 	email: string;

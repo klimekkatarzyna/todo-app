@@ -1,5 +1,5 @@
 import { FC, useCallback, useContext, useMemo } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '../components/Button/Button';
 import { useMutation } from 'react-query';
 import { InputType } from '../interfaces/app';
@@ -15,7 +15,7 @@ import { EyeComponent } from '../components/EyeComponent/EyeComponent';
 import { useTogglePasswordVisibility } from '../hooks/useTogglePasswordVisibility';
 
 export const Login: FC = () => {
-	const history = useHistory();
+	const naviate = useNavigate();
 	const invitationTokenUrl = sessionStorage.getItem('invitationTokenUrl');
 	const { setAuthData } = useContext<AuthContextType>(AuthContext);
 	const redirectUrl = useMemo(
@@ -28,7 +28,7 @@ export const Login: FC = () => {
 
 	const { mutateAsync, isLoading, data } = useMutation(loginAction, {
 		onSuccess: response => {
-			history.push(redirectUrl);
+			naviate(redirectUrl);
 			setAuthData(response?.body);
 		},
 	});

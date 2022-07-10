@@ -1,5 +1,5 @@
 import { FC, useCallback } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '../components/Button/Button';
 import { InputType } from '../interfaces/app';
 import { ErrorMessageComponent } from '../formik/ErrorMessageComponent';
@@ -14,13 +14,13 @@ import { useTogglePasswordVisibility } from '../hooks/useTogglePasswordVisibilit
 import { EyeComponent } from '../components/EyeComponent/EyeComponent';
 
 export const Register: FC = () => {
-	const history = useHistory();
+	const navigate = useNavigate();
 	const initialValues = { username: '', email: '', password: '' };
 	const { showPassword, handledSetPassword } = useTogglePasswordVisibility();
 
 	const { mutateAsync, isLoading, data } = useMutation(registerAction, {
 		onSuccess: () => {
-			history.push(buildUrl(ROUTE.home));
+			navigate(buildUrl(ROUTE.home));
 		},
 	});
 

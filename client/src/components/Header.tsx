@@ -1,5 +1,5 @@
 import { FC, useContext, useMemo } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getFirstLetters } from '../utils/utilsFunctions';
 import { Button } from './Button/Button';
 import { AuthContext, AuthContextType } from '../AuthProvider';
@@ -11,13 +11,13 @@ import { buildUrl } from '../utils/paths';
 
 export const Header: FC<{ userName: string }> = ({ userName }) => {
 	const name = useMemo(() => getFirstLetters(userName), [userName]);
-	const history = useHistory();
+	const navigate = useNavigate();
 	const { setAuthData } = useContext<AuthContextType>(AuthContext);
 
 	const { mutate, isLoading } = useMutation(logoutUserAction, {
 		onSuccess: () => {
 			setAuthData(undefined);
-			history.push(buildUrl(ROUTE.login));
+			navigate(buildUrl(ROUTE.login), { replace: true });
 		},
 	});
 

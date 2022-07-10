@@ -1,107 +1,134 @@
-import { FC, useContext, lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { FC } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import { PrivateRoute } from './PrivateRoute';
-import { AuthContext, AuthContextType } from './AuthProvider';
-import { Loader } from 'react-feather';
 import { ROUTE } from './enums';
+import { MyDay } from './pages/MyDay';
+import { Login } from './pages/Login';
+import Register from './pages/Register';
+import { Searching } from './pages/Searching';
+import { Sharing } from './pages/Sharing';
+import { Tasks } from './pages/Tasks';
+import { Assigned } from './pages/Assigned';
+import { Planned } from './pages/Planned';
+import { Important } from './pages/Important';
+import { Redirect } from './pages/Redirect';
+import { Layout } from './pages/Layout';
+import { Inbox } from './pages/Inbox';
+import { NotFound } from './pages/NotFound';
 
-const BrowserRouter: FC = () => {
-	const MyDay = lazy(() => import('./pages/MyDay').then(module => ({ default: module.MyDay })));
-	const Important = lazy(() => import('./pages/Important').then(module => ({ default: module.Important })));
-	const Planned = lazy(() => import('./pages/Planned').then(module => ({ default: module.Planned })));
-	const Sidebar = lazy(() => import('./components/Sidebar').then(module => ({ default: module.Sidebar })));
-	const Inbox = lazy(() => import('./pages/Inbox').then(module => ({ default: module.Inbox })));
-	const Assigned = lazy(() => import('./pages/Assigned').then(module => ({ default: module.Assigned })));
-	const Login = lazy(() => import('./pages/Login').then(module => ({ default: module.Login })));
-	const Tasks = lazy(() => import('./pages/Tasks').then(module => ({ default: module.Tasks })));
-	const Header = lazy(() => import('./components/Header').then(module => ({ default: module.Header })));
-	const Sharing = lazy(() => import('./pages/Sharing').then(module => ({ default: module.Sharing })));
-	const Redirect = lazy(() => import('./pages/Redirect').then(module => ({ default: module.Redirect })));
-	const Register = lazy(() => import('./pages/Register').then(module => ({ default: module.Register })));
-	const Searching = lazy(() => import('./pages/Searching').then(module => ({ default: module.Searching })));
-	const NotFound = lazy(() => import('./pages/NotFound').then(module => ({ default: module.NotFound })));
-
-	const { authData, isCheckSessionLoading, sessionChecked } = useContext<AuthContextType>(AuthContext);
-
+export const BrowserRouter: FC = () => {
 	return (
-		<div className='flex flex-col flex-1'>
-			{isCheckSessionLoading && sessionChecked ? (
-				<Loader className='m-auto' />
-			) : (
-				<Router>
-					<Suspense fallback={<Loader className='m-auto' />}>
-						{authData?._id && <Header userName={authData?.username || ''} />}
-						<div className='flex flex-1'>
-							{authData?._id && <Sidebar />}
-							<Switch>
-								{authData?._id !== undefined && sessionChecked !== undefined ? (
-									<>
-										<PrivateRoute exact path={ROUTE.home}>
-											<MyDay />
-										</PrivateRoute>
-										<PrivateRoute exact path={ROUTE.myDay}>
-											<MyDay />
-										</PrivateRoute>
-										<PrivateRoute exact path={`${ROUTE.myDay}/:listId/:taskId`}>
-											<MyDay />
-										</PrivateRoute>
-										<PrivateRoute exact path={ROUTE.important}>
-											<Important />
-										</PrivateRoute>
-										<PrivateRoute exact path={`${ROUTE.important}/:listId/:taskId`}>
-											<Important />
-										</PrivateRoute>
-										<PrivateRoute exact path={ROUTE.planned}>
-											<Planned />
-										</PrivateRoute>
-										<PrivateRoute exact path={ROUTE.assigned}>
-											<Assigned />
-										</PrivateRoute>
-										<PrivateRoute exact path={`${ROUTE.assigned}/:listId/:taskId`}>
-											<Assigned />
-										</PrivateRoute>
-										<PrivateRoute exact path={ROUTE.inbox}>
-											<Inbox />
-										</PrivateRoute>
-										<PrivateRoute exact path={`${ROUTE.listsDetails}`}>
-											<Tasks />
-										</PrivateRoute>
-										<PrivateRoute exact path={`${ROUTE.tasks}/:listId/:taskId`}>
-											<Tasks />
-										</PrivateRoute>
-										<PrivateRoute exact path={`${ROUTE.jointToList}/sharing`}>
-											<Sharing />
-										</PrivateRoute>
-										<PrivateRoute exact path={ROUTE.search}>
-											<Searching />
-										</PrivateRoute>
-										<PrivateRoute exact path={`${ROUTE.search}/:listId/:taskId`}>
-											<Searching />
-										</PrivateRoute>
-										{/* <PrivateRoute exact path='*'>
-											<NotFound />
-										</PrivateRoute> */}
-									</>
-								) : (
-									<>
-										<Route path={ROUTE.register}>
-											<Register />
-										</Route>
-										<Route path={ROUTE.login}>
-											<Login />
-										</Route>
-										<Route path={ROUTE.sharing}>
-											<Redirect />
-										</Route>
-									</>
-								)}
-							</Switch>
-						</div>
-					</Suspense>
-				</Router>
-			)}
-		</div>
+		<Routes>
+			<Route path='/' element={<Layout />}>
+				<Route
+					path={ROUTE.home}
+					element={
+						<PrivateRoute>
+							<MyDay />
+						</PrivateRoute>
+					}></Route>
+				<Route
+					path={ROUTE.myDay}
+					element={
+						<PrivateRoute>
+							<MyDay />
+						</PrivateRoute>
+					}></Route>
+				<Route
+					path={`${ROUTE.myDay}/:listId/:taskId`}
+					element={
+						<PrivateRoute>
+							<MyDay />
+						</PrivateRoute>
+					}></Route>
+				<Route
+					path={ROUTE.important}
+					element={
+						<PrivateRoute>
+							<Important />
+						</PrivateRoute>
+					}></Route>
+				<Route
+					path={`${ROUTE.important}/:listId/:taskId`}
+					element={
+						<PrivateRoute>
+							<Important />
+						</PrivateRoute>
+					}></Route>
+				<Route
+					path={ROUTE.planned}
+					element={
+						<PrivateRoute>
+							<Planned />
+						</PrivateRoute>
+					}></Route>
+				<Route
+					path={ROUTE.assigned}
+					element={
+						<PrivateRoute>
+							<Assigned />
+						</PrivateRoute>
+					}></Route>
+				<Route
+					path={`${ROUTE.assigned}/:listId/:taskId`}
+					element={
+						<PrivateRoute>
+							<Assigned />
+						</PrivateRoute>
+					}></Route>
+				<Route
+					path={ROUTE.inbox}
+					element={
+						<PrivateRoute>
+							<Inbox />
+						</PrivateRoute>
+					}></Route>
+				<Route
+					path={`${ROUTE.listsDetails}`}
+					element={
+						<PrivateRoute>
+							<Tasks />
+						</PrivateRoute>
+					}></Route>
+				<Route
+					path={`${ROUTE.tasks}/:listId/:taskId`}
+					element={
+						<PrivateRoute>
+							<Tasks />
+						</PrivateRoute>
+					}></Route>
+				<Route
+					path={`${ROUTE.jointToList}/sharing`}
+					element={
+						<PrivateRoute>
+							<Sharing />
+						</PrivateRoute>
+					}></Route>
+				<Route
+					path={ROUTE.search}
+					element={
+						<PrivateRoute>
+							<Searching />
+						</PrivateRoute>
+					}></Route>
+				<Route
+					path={`${ROUTE.search}/:listId/:taskId`}
+					element={
+						<PrivateRoute>
+							<Searching />
+						</PrivateRoute>
+					}></Route>
+				<Route
+					path='*'
+					element={
+						<PrivateRoute>
+							<NotFound />
+						</PrivateRoute>
+					}></Route>
+				<Route path={ROUTE.register} element={<Register />} />
+				<Route path={ROUTE.login} element={<Login />} />
+				<Route path={ROUTE.sharing} element={<Redirect />} />
+			</Route>
+		</Routes>
 	);
 };
-
-export default BrowserRouter;

@@ -1,6 +1,6 @@
 import { FC, useCallback } from 'react';
 import { IList } from '@kkrawczyk/todo-common';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useSharingData } from '../../hooks/useSharingData';
 import { Loader } from 'react-feather';
 import { ROUTE } from '../../enums';
@@ -8,14 +8,14 @@ import { buildUrl } from '../../utils/paths';
 import { useList } from '../../hooks/useList';
 
 export const RemoveMember: FC<{ listDataResponse: IList | undefined; onNextStep: () => void }> = ({ listDataResponse, onNextStep }) => {
-	const history = useHistory();
+	const navigate = useNavigate();
 	const { isOwner, authData } = useSharingData(listDataResponse?.userId);
 	const { updateMembersListLoading, updateMembersListMutation } = useList();
 
 	const leaveList = useCallback(() => {
 		updateMembersListMutation({ _id: listDataResponse?._id, member: authData?._id });
-		history.push(buildUrl(ROUTE.home));
-	}, [listDataResponse, authData, history]);
+		navigate(buildUrl(ROUTE.home));
+	}, [listDataResponse, authData, navigate]);
 
 	return (
 		<>

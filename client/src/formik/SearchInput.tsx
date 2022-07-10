@@ -10,14 +10,14 @@ import { Formik, Form } from 'formik';
 import { InputType } from '../interfaces/app';
 import { useSetRecoilState } from 'recoil';
 import { loadingState, searchResultState } from '../atoms/serching';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { buildUrl } from '../utils/paths';
 
 export const SearchInput: FC = () => {
 	const setSearchResults = useSetRecoilState(searchResultState);
 	const setIsLoading = useSetRecoilState(loadingState);
 
-	const history = useHistory();
+	const navigate = useNavigate();
 	const { data } = useQuery<ITask[] | undefined>([QueryKey.tasksList], () => getTasksAction());
 	const [searchValue, setSearchValue] = useState<string>('');
 
@@ -46,20 +46,20 @@ export const SearchInput: FC = () => {
 			setIsLoading(true);
 			setSearchResults(searchWithFuse(values.title));
 			setSearchValue(values.title);
-			history.push(buildUrl(ROUTE.search));
+			navigate(buildUrl(ROUTE.search));
 			setIsLoading(false);
 		},
-		[setIsLoading, setSearchResults, searchWithFuse, history]
+		[setIsLoading, setSearchResults, searchWithFuse, navigate]
 	);
 
 	useEffect(() => {
 		const handleClick = (event: any) => {
-			if (event?.target?.value === '') history.push(buildUrl(ROUTE.home));
+			if (event?.target?.value === '') navigate(buildUrl(ROUTE.home));
 		};
 
 		document.addEventListener('search', handleClick);
 		return () => document.removeEventListener('search', handleClick);
-	}, [history]);
+	}, [navigate]);
 
 	const initialValues: ITask = { title: '' };
 
