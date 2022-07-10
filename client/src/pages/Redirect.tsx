@@ -1,22 +1,24 @@
-import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useContext, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Loader } from 'react-feather';
-import { buildUrl } from '../utils/paths';
-import { ROUTE } from '../enums';
+import { AuthContext, AuthContextType } from '../AuthProvider';
 
 export const Redirect = () => {
-	const navigate = useNavigate();
 	const location = useLocation();
-	const [isLoding, setIsloading] = useState<boolean>(true);
+	const { isCheckSessionLoading } = useContext<AuthContextType>(AuthContext);
 
 	useEffect(() => {
 		sessionStorage.setItem('invitationTokenUrl', `${location?.pathname}${location?.search}`);
-	}, [location]);
+	}, []);
 
-	useEffect(() => {
-		navigate(buildUrl(ROUTE.login));
-		setIsloading(isLoding);
-	}, [navigate, isLoding]);
-
-	return <div>{isLoding && <Loader className='m-auto' />}</div>;
+	return (
+		<div>
+			{isCheckSessionLoading && (
+				<div className='flex items-center flex-col'>
+					<Loader className='mb-2 mt-4' />
+					<span>{'Redirecting to login...'}</span>
+				</div>
+			)}
+		</div>
+	);
 };
