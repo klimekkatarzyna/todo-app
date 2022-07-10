@@ -36,7 +36,7 @@ export const TaskSidebarDetails: FC = () => {
 	return (
 		<div className='bg-light-grey w-full p-4 absolute z-20 left-0 right-0 top-12 bottom-0 md:relative md:w-[360px] md:top-0'>
 			{taskDataLoading ? (
-				<Loader className='m-auto' />
+				<Loader className='animate-spin m-auto' />
 			) : (
 				<div className='flex flex-col'>
 					<div className='flex p-4 flex-row mb-3 bg-white'>

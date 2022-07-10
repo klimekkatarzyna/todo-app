@@ -43,7 +43,7 @@ export const Button: FC<IButton> = ({
 				}`}
 				onClick={onClick}>
 				{children}
-				{isLoading && <Loader className='ml-2 text-sm' />}
+				{isLoading && <Loader className='animate-spin ml-2 text-sm' />}
 			</button>
 		</>
 	);

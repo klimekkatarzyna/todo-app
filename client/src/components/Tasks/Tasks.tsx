@@ -11,7 +11,7 @@ export const TasksList: FC = () => {
 		<div className='overflow-y-scroll h-full max-h-[80vh]'>
 			<div>
 				{isLoading ? (
-					<Loader className='m-auto' />
+					<Loader className='animate-spin m-auto' />
 				) : (
 					<>
 						<InCompletedTasks tasks={inCompletedTasks} requestSort={requestSort} />

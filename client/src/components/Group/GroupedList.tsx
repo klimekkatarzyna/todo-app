@@ -13,7 +13,7 @@ export const GroupedList: FC<{ listId: string }> = ({ listId }) => {
 
 	return (
 		<>
-			{isLoading && <Loader className='icon-style m-auto' />}
+			{isLoading && <Loader className='animate-spin icon-style m-auto' />}
 			<MenuListItem key={listId} listItem={data} />
 		</>
 	);

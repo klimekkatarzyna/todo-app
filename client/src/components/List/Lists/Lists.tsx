@@ -42,7 +42,7 @@ const ListsComponents: FC<{ isNavClosed: boolean }> = ({ isNavClosed }) => {
 	return (
 		<>
 			<div className='flex flex-col text-base'>
-				{getListsLoading && <Loader className='m-auto' />}
+				{getListsLoading && <Loader className='animate-spin m-auto' />}
 				{list?.map((list: IList, index: number) => (
 					<MenuListItem key={index} listItem={list} isNavClosed={isNavClosed} />
 				))}

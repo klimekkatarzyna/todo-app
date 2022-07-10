@@ -26,13 +26,13 @@ export const JoinToList: FC<{ listDataLoading: boolean; list: IShareLitDetails |
 			<h1 className='text-xl font-extralight m-4'>Dołącz do listy</h1>
 
 			<p className='font-extralight'>
-				{listDataLoading ? <Loader className='m-auto' /> : `Użytkownik`} <strong>{list?.listData?.owner}</strong> udostępnił Ci listę{' '}
-				<strong>{`${list?.listData?.title}`}</strong>
+				{listDataLoading ? <Loader className='animate-spin m-auto' /> : `Użytkownik`} <strong>{list?.listData?.owner}</strong> udostępnił Ci
+				listę <strong>{`${list?.listData?.title}`}</strong>
 			</p>
 
 			<Button primary onClick={() => mutate(getStringAfterCharacter(location.search, '='))}>
 				{'Dołącz do listy'}
-				{isLoading && <Loader className='ml-2' />}
+				{isLoading && <Loader className='animate-spin ml-2' />}
 			</Button>
 		</>
 	);

@@ -14,8 +14,8 @@ export const Redirect = () => {
 	return (
 		<div>
 			{isCheckSessionLoading && (
-				<div className='flex items-center flex-col'>
-					<Loader className='mb-2 mt-4' />
+				<div className='flex items-center flex-col absolute left-0 right-0'>
+					<Loader className='animate-spin mb-2 mt-4' />
 					<span>{'Redirecting to login...'}</span>
 				</div>
 			)}

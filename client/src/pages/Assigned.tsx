@@ -21,7 +21,7 @@ export const Assigned: FC = () => {
 	return (
 		<Board>
 			<Toolbar name={'Przypisane do mnie'} colorType={AppColor.green} />
-			{isLoading ? <Loader className='m-auto' /> : <TasksList tasks={data} redirectUrl={`${buildUrl(ROUTE.assigned)}/`} />}
+			{isLoading ? <Loader className='animate-spin m-auto' /> : <TasksList tasks={data} redirectUrl={`${buildUrl(ROUTE.assigned)}/`} />}
 		</Board>
 	);
 };

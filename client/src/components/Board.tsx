@@ -13,7 +13,7 @@ export const Board: FC<{ children: React.ReactNode }> = ({ children }) => {
 				{children}
 				<div className='w-full h-full list-background' />
 			</div>
-			<Suspense fallback={<Loader className='m-auto' />}>{isElementVisible && <TaskSidebarDetails />}</Suspense>
+			<Suspense fallback={<Loader className='animate-spin m-auto' />}>{isElementVisible && <TaskSidebarDetails />}</Suspense>
 		</div>
 	);
 };
