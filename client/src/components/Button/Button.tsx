@@ -14,6 +14,7 @@ interface IButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	isLoading?: boolean;
 	outlineWhite?: boolean;
 	className?: string;
+	label?: string;
 }
 
 export const Button: FC<IButton> = ({
@@ -27,6 +28,7 @@ export const Button: FC<IButton> = ({
 	onClick,
 	isLoading,
 	className,
+	label,
 	...props
 }) => {
 	return (

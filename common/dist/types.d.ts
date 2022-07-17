@@ -7,13 +7,13 @@ export interface IUserData {
 }
 export interface ITask {
     createdAt?: Date;
-    importance?: string;
+    importance?: Importance;
     parentFolderId?: string;
     groupName?: string;
     title?: string;
     themeColor?: AppColor | undefined;
     _id?: string | undefined;
-    taskStatus?: string;
+    taskStatus?: ITaskStatus;
     deadline?: string;
     isMyDay?: boolean;
     assigned?: string;

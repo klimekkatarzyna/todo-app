@@ -8,7 +8,7 @@ import {
   mixed,
   array,
 } from "yup";
-import { ITask, SortType, AppColor } from "../types";
+import { ITask, SortType, AppColor, Importance, ITaskStatus } from "../types";
 
 export const taskIdSchema = object({
   _id: string().required(),
@@ -20,7 +20,9 @@ export const listIdForTasksSchema = object({
 
 export const createEditTaskSchema: SchemaOf<ITask> = object({
   createdAt: date().optional(),
-  importance: string().optional(),
+  importance: mixed<Importance>()
+    .oneOf(Object.values(Importance) as Importance[])
+    .optional(),
   parentFolderId: string().optional(),
   groupName: string().optional(),
   title: string()
@@ -31,7 +33,9 @@ export const createEditTaskSchema: SchemaOf<ITask> = object({
     .oneOf(Object.values(AppColor) as AppColor[])
     .optional(),
   _id: string().optional(),
-  taskStatus: string().optional(),
+  taskStatus: mixed<ITaskStatus>()
+    .oneOf(Object.values(ITaskStatus) as ITaskStatus[])
+    .optional(),
   deadline: string().optional(),
   isMyDay: boolean().optional(),
   assigned: string().optional(),

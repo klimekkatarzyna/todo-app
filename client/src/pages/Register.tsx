@@ -11,7 +11,7 @@ import { registerAction } from '../actions/user';
 import { ROUTE } from '../enums';
 import { buildUrl } from '../utils/paths';
 import { useTogglePasswordVisibility } from '../hooks/useTogglePasswordVisibility';
-import { EyeComponent } from '../components/EyeComponent/EyeComponent';
+import { EyeOff, Eye } from 'react-feather';
 
 export const Register: FC = () => {
 	const navigate = useNavigate();
@@ -62,7 +62,11 @@ export const Register: FC = () => {
 									{...props}
 								/>
 								{errors.password && touched.password && <ErrorMessageComponent name='password' />}
-								<EyeComponent showPassword={showPassword} handledSetPassword={handledSetPassword} />
+								{!showPassword ? (
+									<Eye onClick={handledSetPassword} className='icon-style text-fontColor absolute right-5 top-2' />
+								) : (
+									<EyeOff onClick={handledSetPassword} className='icon-style text-fontColor absolute right-5 top-2' />
+								)}
 							</div>
 							<Button primary type='submit' isLoading={isLoading} className='w-full'>
 								Uwrórz konto
