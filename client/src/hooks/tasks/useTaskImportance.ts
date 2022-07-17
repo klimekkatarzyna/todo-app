@@ -5,7 +5,6 @@ import { useMutation, useQueryClient } from 'react-query';
 import { changeTaskImportanceAction } from '../../actions/tasks';
 import { AuthContext, AuthContextType } from '../../AuthProvider';
 import { QueryKey } from '../../enums';
-import { IQueryError } from '../../interfaces/app';
 import { HttpResponse } from '../../utils/http';
 
 export const useTaskImportance = () => {
@@ -33,9 +32,6 @@ export const useTaskImportance = () => {
 			);
 			query.setQueryData<ITask[] | undefined>([QueryKey.tasksList], (tasks: ITask[] | undefined) => taskImporgance(tasks, response));
 			toast.success('Ważność zadanie zmieniona');
-		},
-		onError: (error: IQueryError) => {
-			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 

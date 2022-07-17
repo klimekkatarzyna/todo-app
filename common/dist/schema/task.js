@@ -11,7 +11,9 @@ exports.listIdForTasksSchema = (0, yup_1.object)({
 });
 exports.createEditTaskSchema = (0, yup_1.object)({
     createdAt: (0, yup_1.date)().optional(),
-    importance: (0, yup_1.string)().optional(),
+    importance: (0, yup_1.mixed)()
+        .oneOf(Object.values(types_1.Importance))
+        .optional(),
     parentFolderId: (0, yup_1.string)().optional(),
     groupName: (0, yup_1.string)().optional(),
     title: (0, yup_1.string)()
@@ -22,7 +24,9 @@ exports.createEditTaskSchema = (0, yup_1.object)({
         .oneOf(Object.values(types_1.AppColor))
         .optional(),
     _id: (0, yup_1.string)().optional(),
-    taskStatus: (0, yup_1.string)().optional(),
+    taskStatus: (0, yup_1.mixed)()
+        .oneOf(Object.values(types_1.ITaskStatus))
+        .optional(),
     deadline: (0, yup_1.string)().optional(),
     isMyDay: (0, yup_1.boolean)().optional(),
     assigned: (0, yup_1.string)().optional(),

@@ -7,7 +7,7 @@ import { useRecoilState } from 'recoil';
 import { unGroupeListsAction } from './actions/groups';
 import { modalVisibilityState } from './atoms/modal';
 import { ContextMenuOpion, QueryKey } from './enums';
-import { IData, IHandleContextMenuItemClickProps, IQueryError } from './interfaces/app';
+import { IData, IHandleContextMenuItemClickProps } from './interfaces/app';
 
 export interface ContextMenuType {
 	setContextMenu: React.Dispatch<React.SetStateAction<IData | undefined>>;
@@ -28,9 +28,6 @@ export const ContextMenuProvider: FC<{ children: React.ReactNode }> = ({ childre
 				groups?.map(group => (group._id === response.body?._id ? { ...group, lists: [] } : group))
 			);
 			toast.success('Listy rozgrupowane');
-		},
-		onError: (error: IQueryError) => {
-			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 

@@ -42,11 +42,11 @@ export const SharingOptions: FC = () => {
 
 	const onNextStep = useCallback(() => {
 		setStep(step + 1);
-	}, [step]);
+	}, [step, setStep]);
 
 	const onPrevStep = useCallback(() => {
 		setStep(step - 1);
-	}, [step]);
+	}, [step, setStep]);
 
 	return (
 		<div>

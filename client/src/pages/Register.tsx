@@ -1,35 +1,28 @@
 import { FC, useCallback } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '../components/Button/Button';
 import { InputType } from '../interfaces/app';
 import { ErrorMessageComponent } from '../formik/ErrorMessageComponent';
 import { Input } from '../formik/Input';
 import { Formik, Form } from 'formik';
 import { useMutation } from 'react-query';
-import { RegisterValidationType, registerValidationSchema, IUserData } from '@kkrawczyk/todo-common';
+import { RegisterValidationType, registerValidationSchema } from '@kkrawczyk/todo-common';
 import { registerAction } from '../actions/user';
-import { HttpResponse } from '../utils/http';
 import { ROUTE } from '../enums';
 import { buildUrl } from '../utils/paths';
 import { useTogglePasswordVisibility } from '../hooks/useTogglePasswordVisibility';
-import { EyeComponent } from '../components/EyeComponent/EyeComponent';
+import { EyeOff, Eye } from 'react-feather';
 
 export const Register: FC = () => {
-	const history = useHistory();
+	const navigate = useNavigate();
 	const initialValues = { username: '', email: '', password: '' };
 	const { showPassword, handledSetPassword } = useTogglePasswordVisibility();
 
-	const authenticateUserRequest = useCallback(async ({ username, email, password }: IUserData): Promise<HttpResponse<IUserData> | undefined> => {
-		try {
-			const response = await registerAction({ username, email, password });
-			if (response?.isSuccess) history.push(buildUrl(ROUTE.home));
-			return response;
-		} catch (err) {
-			console.error(err);
-		}
-	}, []);
-
-	const { mutateAsync, isLoading, data } = useMutation(authenticateUserRequest);
+	const { mutateAsync, isLoading, data } = useMutation(registerAction, {
+		onSuccess: () => {
+			navigate(buildUrl(ROUTE.home));
+		},
+	});
 
 	const onSubmit = useCallback(async (values: RegisterValidationType, { resetForm }) => {
 		const { username, email, password } = values;
@@ -69,7 +62,11 @@ export const Register: FC = () => {
 									{...props}
 								/>
 								{errors.password && touched.password && <ErrorMessageComponent name='password' />}
-								<EyeComponent showPassword={showPassword} handledSetPassword={handledSetPassword} />
+								{!showPassword ? (
+									<Eye onClick={handledSetPassword} className='icon-style text-fontColor absolute right-5 top-2' />
+								) : (
+									<EyeOff onClick={handledSetPassword} className='icon-style text-fontColor absolute right-5 top-2' />
+								)}
 							</div>
 							<Button primary type='submit' isLoading={isLoading} className='w-full' disabled={isSubmitting}>
 								Uwrórz konto

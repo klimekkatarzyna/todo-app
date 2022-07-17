@@ -5,7 +5,7 @@ import { Plus, Circle, Loader } from 'react-feather';
 import { useFocusingHandling } from '../hooks/useMouseHandling';
 import { InputType } from '../interfaces/app';
 
-interface IInput<T = string | number | undefined> {
+interface IInput {
 	name: string;
 	placeholder?: string;
 	isIcon?: boolean;
@@ -32,7 +32,10 @@ export const Input: FC<IInput> = ({
 	...rest
 }) => {
 	const { onFocus, onBlur, isFocused } = useFocusingHandling();
-	const iconColor: string = useMemo(() => (colorType === InputVersion.primary && !isFocused ? 'text-blue' : 'text-fontColor'), [type, isFocused]);
+	const iconColor: string = useMemo(
+		() => (colorType === InputVersion.primary && !isFocused ? 'text-blue' : 'text-fontColor'),
+		[isFocused, colorType]
+	);
 
 	return (
 		<div className='flex items-center rounded py-0 cursor-pointer w-full relative'>

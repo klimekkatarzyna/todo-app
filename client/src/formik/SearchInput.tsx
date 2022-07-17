@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import Fuse from 'fuse.js';
 import { ROUTE, QueryKey } from '../enums';
 import { useQuery } from 'react-query';
@@ -10,14 +10,14 @@ import { Formik, Form } from 'formik';
 import { InputType } from '../interfaces/app';
 import { useSetRecoilState } from 'recoil';
 import { loadingState, searchResultState } from '../atoms/serching';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { buildUrl } from '../utils/paths';
 
 export const SearchInput: FC = () => {
 	const setSearchResults = useSetRecoilState(searchResultState);
 	const setIsLoading = useSetRecoilState(loadingState);
 
-	const history = useHistory();
+	const navigate = useNavigate();
 	const { data } = useQuery<ITask[] | undefined>([QueryKey.tasksList], () => getTasksAction());
 	const [searchValue, setSearchValue] = useState<string>('');
 
@@ -38,7 +38,7 @@ export const SearchInput: FC = () => {
 			if (!query) return [];
 			return fuse?.search?.(query)?.map(result => result?.item);
 		},
-		[data]
+		[fuse]
 	);
 
 	const onSearch = useCallback(
@@ -46,27 +46,27 @@ export const SearchInput: FC = () => {
 			setIsLoading(true);
 			setSearchResults(searchWithFuse(values.title));
 			setSearchValue(values.title);
-			history.push(buildUrl(ROUTE.search));
+			navigate(buildUrl(ROUTE.search));
 			setIsLoading(false);
 		},
-		[data]
+		[setIsLoading, setSearchResults, searchWithFuse, navigate]
 	);
 
 	useEffect(() => {
 		const handleClick = (event: any) => {
-			if (event?.target?.value === '') history.push(buildUrl(ROUTE.home));
+			if (event?.target?.value === '') navigate(buildUrl(ROUTE.home));
 		};
 
 		document.addEventListener('search', handleClick);
 		return () => document.removeEventListener('search', handleClick);
-	}, []);
+	}, [navigate]);
 
 	const initialValues: ITask = { title: '' };
 
 	useEffect(() => {
 		setSearchResults(searchWithFuse(searchValue));
 		setSearchValue(searchValue);
-	}, [data, searchValue]);
+	}, [data, searchValue, setSearchResults, searchWithFuse, setSearchValue]);
 
 	return (
 		<div className='bg-light-grey w-96'>

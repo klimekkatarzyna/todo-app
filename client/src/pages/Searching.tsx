@@ -19,7 +19,7 @@ export const Searching: FC = () => {
 
 			<h2 className='pl-2 font-semibold text-lg'>Zadania</h2>
 			{isLoading ? (
-				<Loader className='m-auto' />
+				<Loader className='animate-spin m-auto' />
 			) : (
 				<div className='mt-4'>
 					<TasksList tasks={searchResults} redirectUrl={`${buildUrl(ROUTE.search)}/`} />

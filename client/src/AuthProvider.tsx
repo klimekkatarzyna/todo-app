@@ -1,10 +1,13 @@
 import React, { FC, useEffect, useMemo, useState, createContext } from 'react';
-import { useQuery } from 'react-query';
-import { useAuthorization } from './hooks/useAuthorization';
+import { useQuery, useQueryClient } from 'react-query';
 import { IIUserDataResponse } from './interfaces/app';
 import { HttpResponse } from './utils/http';
 import { IUserData } from '@kkrawczyk/todo-common';
-import { QueryKey } from './enums';
+import { QueryKey, ROUTE } from './enums';
+import { checkSessionAction } from './actions/user';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { buildUrl } from './utils/paths';
+import toast from 'react-hot-toast';
 
 export interface AuthContextType {
 	isCheckSessionLoading: boolean;
@@ -20,18 +23,60 @@ export const AuthContext = createContext<AuthContextType>({} as AuthContextType)
 export const AuthProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
 	const [authData, setAuthData] = useState<IUserData | undefined>(undefined);
 	const [sessionChecked, setSessionChecked] = useState<boolean>(false);
+	const navigate = useNavigate();
+	const location = useLocation();
 
-	const { checkSession } = useAuthorization();
-	const { isLoading: isCheckSessionLoading } = useQuery<HttpResponse<IIUserDataResponse> | undefined>(QueryKey.checkSession, checkSession);
+	const query = useQueryClient();
+
+	const { isLoading: isCheckSessionLoading, data } = useQuery<HttpResponse<IIUserDataResponse> | undefined>(
+		QueryKey.checkSession,
+		checkSessionAction,
+		{
+			onSuccess: () => {
+				navigate(location.pathname);
+			},
+		}
+	);
 
 	useEffect(() => {
-		(async () => {
-			const response = await checkSession();
-			setAuthData(response?.body?.user);
-			if (!response) return;
+		query.setDefaultOptions({
+			queries: {
+				refetchOnWindowFocus: false,
+				onError: (error: any): any => {
+					if (error?.error === 401) {
+						setAuthData(undefined);
+						setSessionChecked(false);
+						navigate(buildUrl(ROUTE.login), { replace: true });
+					}
+					if (error?.error === 401) return;
+					toast.error(error?.message);
+				},
+			},
+			mutations: {
+				onError: (error: any): any => {
+					if (error?.error === 401) {
+						setAuthData(undefined);
+						setSessionChecked(false);
+						navigate(buildUrl(ROUTE.login), { replace: true });
+					}
+					if (error?.error === 401) return;
+					toast.error(error?.message);
+				},
+			},
+		});
+	}, []);
+
+	useEffect(() => {
+		if (data) {
+			navigate(location.pathname, { replace: true });
+			setAuthData(data.body?.user);
 			setSessionChecked(true);
-		})();
-	}, [checkSession]);
+		} else {
+			setAuthData(undefined);
+			setSessionChecked(false);
+			navigate(location.pathname, { replace: true });
+		}
+	}, [data, sessionChecked]);
 
 	const value = useMemo(() => {
 		return {

@@ -1,19 +1,17 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Router } from 'react-router-dom';
 import App from './App';
-import history from './history';
-import { History } from 'history';
 import './index.css';
+import { BrowserRouter } from 'react-router-dom';
 
 // because of bug in react-scripts
 (window as any).process = {};
 
 render(
 	<React.StrictMode>
-		<Router history={history as any}>
+		<BrowserRouter>
 			<App />
-		</Router>
+		</BrowserRouter>
 	</React.StrictMode>,
 	document.getElementById('root')
 );

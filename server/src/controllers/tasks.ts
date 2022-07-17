@@ -46,7 +46,7 @@ export const createTask = async (req: Request, res: Response) => {
 };
 
 export const getTasks = async (req: Request, res: Response) => {
-	const tasks = await Task.find({ parentFolderId: req.params.parentFolderId });
+	const tasks = await Task.find({ parentFolderId: req.params.parentFolderId }).sort({ title: 1 });
 
 	try {
 		res.status(200).json({
@@ -61,7 +61,7 @@ export const getTasks = async (req: Request, res: Response) => {
 };
 
 export const getAllTasks = async (req: Request, res: Response) => {
-	const tasks = await Task.find();
+	const tasks = await Task.find().sort({ title: 1 });
 
 	try {
 		res.status(200).json({
@@ -208,7 +208,7 @@ export const taskInMyDay = async (req: Request, res: Response) => {
 export const getImportanceTasks = async (req: Request, res: Response) => {
 	try {
 		const userId = getSessionUserId(req);
-		const tasks = await Task.find({ importance: Importance.high, members: { $in: userId } });
+		const tasks = await Task.find({ importance: Importance.high, members: { $in: userId } }).sort({ title: 1 });
 		res.status(200).json({
 			body: tasks,
 		});
@@ -223,7 +223,7 @@ export const getImportanceTasks = async (req: Request, res: Response) => {
 export const getMyDayTasks = async (req: Request, res: Response) => {
 	try {
 		const userId = getSessionUserId(req);
-		const tasks = await Task.find({ isMyDay: true, members: { $in: userId } });
+		const tasks = await Task.find({ isMyDay: true, members: { $in: userId } }).sort({ title: 1 });
 		res.status(200).json({
 			body: tasks,
 		});
@@ -291,7 +291,7 @@ export const removeUserFromTask = async (req: Request, res: Response) => {
 export const getAssignedTasks = async (req: Request, res: Response) => {
 	try {
 		const userId = getSessionUserId(req);
-		const tasks = await Task.find({ assigned: req.params.assigned, members: { $in: userId } });
+		const tasks = await Task.find({ assigned: req.params.assigned, members: { $in: userId } }).sort({ title: 1 });
 		if (!tasks) {
 			res.status(404).json({ message: 'Tasks not found' });
 		}

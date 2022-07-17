@@ -6,9 +6,13 @@ import { Loader } from 'react-feather';
 import { getFirstLetters } from '../../utils/utilsFunctions';
 import { IUserData } from '@kkrawczyk/todo-common';
 
-export const IconUserName: FC<{ member: string | undefined; isFullNameVisible?: boolean }> = ({ member, isFullNameVisible }) => {
+export const IconUserName: FC<{ member: string | undefined; isFullNameVisible?: boolean; userName?: string }> = ({
+	member,
+	isFullNameVisible,
+	userName,
+}) => {
 	const { data, isLoading } = useQuery<IUserData | undefined>([QueryKey.getUser, member], () => getUserAction(member), { enabled: !!member });
-	const name = useMemo(() => getFirstLetters(data?.username), [data?.username]);
+	const name = useMemo(() => getFirstLetters(data?.username || userName), [data?.username]);
 
 	return (
 		<div className='flex items-center p-0 task-details-button-style'>
@@ -16,7 +20,7 @@ export const IconUserName: FC<{ member: string | undefined; isFullNameVisible?: 
 				{isLoading && <Loader />}
 				<span className='text-white m-auto font-semibold'>{name}</span>
 			</div>
-			{isFullNameVisible && <span>{data?.username}</span>}
+			{isFullNameVisible && <span>{data?.username || userName}</span>}
 		</div>
 	);
 };

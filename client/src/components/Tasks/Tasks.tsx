@@ -1,27 +1,20 @@
-import { FC, useMemo } from 'react';
+import { FC } from 'react';
 import { useTasks } from '../../hooks/useTasks';
 import { Loader } from 'react-feather';
 import { ComplitedTasks } from './ComplitedTasks';
 import { InCompletedTasks } from './InCompletedTasks';
-import { ITaskStatus } from '@kkrawczyk/todo-common';
 
 export const TasksList: FC = () => {
-	const { tasksOfCurrentList, isLoading } = useTasks();
-
-	const inCompletedTasks = useMemo(
-		() => (tasksOfCurrentList || []).filter(task => task.taskStatus === ITaskStatus.inComplete),
-		[tasksOfCurrentList]
-	);
-	const completedTasks = useMemo(() => (tasksOfCurrentList || []).filter(task => task.taskStatus === ITaskStatus.complete), [tasksOfCurrentList]);
+	const { inCompletedTasks, completedTasks, isLoading, requestSort } = useTasks();
 
 	return (
 		<div className='overflow-y-scroll h-full max-h-[80vh]'>
 			<div>
 				{isLoading ? (
-					<Loader className='m-auto' />
+					<Loader className='animate-spin m-auto' />
 				) : (
 					<>
-						<InCompletedTasks tasks={inCompletedTasks} />
+						<InCompletedTasks tasks={inCompletedTasks} requestSort={requestSort} />
 						<ComplitedTasks tasks={completedTasks} />
 					</>
 				)}

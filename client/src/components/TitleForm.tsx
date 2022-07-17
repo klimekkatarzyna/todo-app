@@ -21,7 +21,7 @@ export const TitleForm: FC<ITitleFormProps> = ({ isLoading, initialValues, place
 				{({ errors, touched, isSubmitting, ...props }) => (
 					<Form>
 						{isLoading ? (
-							<Loader className='m-auto' />
+							<Loader className='animate-spin m-auto' />
 						) : (
 							<Input
 								name='title'

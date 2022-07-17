@@ -7,7 +7,6 @@ import { isStringContainsWhitespace } from '../../utils/utilsFunctions';
 import { createEditGroupSchema, CreateEditGroupType, IGroup } from '@kkrawczyk/todo-common';
 import toast from 'react-hot-toast';
 import { TitleForm } from '../TitleForm';
-import { IQueryError } from '../../interfaces/app';
 import { useFocusingHandling } from '../../hooks/useMouseHandling';
 
 interface IEditGroupProps {
@@ -29,25 +28,25 @@ export const EditGroup: FC<IEditGroupProps> = ({ title, groupId, isNavClosed }) 
 			query.setQueryData<IGroup[] | undefined>([QueryKey.groups], (groups: IGroup[] | undefined) => [...(groups || []), response.body || {}]);
 			toast.success('Nazwa grupy zmieniona');
 		},
-		onError: (error: IQueryError) => {
-			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
-		},
 	});
 
 	const initialValues: IGroup = { title: title };
 
-	const onSubmit = useCallback(async (values: CreateEditGroupType, { resetForm }) => {
-		if (isStringContainsWhitespace(values.title)) return;
-		await mutateAsync({ _id: groupId, title: values.title });
-		resetForm();
-		setIsInputVisible(false);
-		setContextMenu(undefined);
-		onBlur();
-	}, []);
+	const onSubmit = useCallback(
+		async (values: CreateEditGroupType, { resetForm }) => {
+			if (isStringContainsWhitespace(values.title)) return;
+			await mutateAsync({ _id: groupId, title: values.title });
+			resetForm();
+			setIsInputVisible(false);
+			setContextMenu(undefined);
+			onBlur();
+		},
+		[groupId, setIsInputVisible, setContextMenu, onBlur]
+	);
 
 	useEffect(() => {
 		setIsInputVisible((contextualMenu?.type === ContextMenuOpion.edit_group_name && contextualMenu?.elementId === groupId) || isFocused);
-	}, [contextualMenu, isFocused]);
+	}, [contextualMenu, groupId, isFocused]);
 
 	return (
 		<div ref={elementRef} onClick={onClick} onBlur={onBlur}>

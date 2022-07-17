@@ -17,7 +17,11 @@ export const Important: FC = () => {
 	return (
 		<Board>
 			<Toolbar name={'Wazne'} colorType={AppColor.blue} />
-			{isLoading ? <Loader className='m-auto' /> : <TasksList tasks={filteredTasks} redirectUrl={`${buildUrl(ROUTE.important)}/`} />}
+			{isLoading ? (
+				<Loader className='animate-spin m-auto' />
+			) : (
+				<TasksList tasks={filteredTasks} redirectUrl={`${buildUrl(ROUTE.important)}/`} />
+			)}
 		</Board>
 	);
 };

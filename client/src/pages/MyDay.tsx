@@ -17,7 +17,7 @@ export const MyDay: FC = () => {
 	return (
 		<Board>
 			<Toolbar name={'Mój dzień'} colorType={AppColor.grey} isDateVisible />
-			{isLoading ? <Loader className='m-auto' /> : <TasksList tasks={filteredTasks} redirectUrl={`${buildUrl(ROUTE.myDay)}/`} />}
+			{isLoading ? <Loader className='animate-spin m-auto' /> : <TasksList tasks={filteredTasks} redirectUrl={`${buildUrl(ROUTE.myDay)}/`} />}
 		</Board>
 	);
 };

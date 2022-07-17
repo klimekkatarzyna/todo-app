@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 export const useDropdown = () => {
 	const elementeReference = useRef<HTMLDivElement>(null);
@@ -14,11 +14,11 @@ export const useDropdown = () => {
 
 		document.addEventListener('click', handleClick);
 		return () => document.removeEventListener('click', handleClick);
-	}, []);
+	}, [elementeReference, setDropdownOpen]);
 
 	const toggleDropdown = useCallback(() => {
 		setDropdownOpen(!dropdownOpen);
-	}, [dropdownOpen]);
+	}, [dropdownOpen, setDropdownOpen]);
 
 	return {
 		elementeReference,

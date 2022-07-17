@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 import { editListAction } from '../../actions/lists';
 import { TitleForm } from '../TitleForm';
 import { useParams } from 'react-router-dom';
-import { IQueryError, IUseParams } from '../../interfaces/app';
+import { IUseParams } from '../../interfaces/app';
 import { HttpResponse } from '../../utils/http';
 import { useRecoilState } from 'recoil';
 import { formToEditListTitleVisibilityState } from '../../atoms';
@@ -32,9 +32,6 @@ export const EditListTitle: FC<{ title: string; className: string }> = ({ title 
 			query.setQueryData<IList[] | undefined>(QueryKey.getImportanceTasks, lists => updateListTitle(lists, response));
 			query.setQueryData<IList[] | undefined>(QueryKey.getMyDayTasks, lists => updateListTitle(lists, response));
 			toast.success('Nazwa listy zmieniona');
-		},
-		onError: (error: IQueryError) => {
-			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 

@@ -1,5 +1,5 @@
-import { FC, useCallback, useContext, useMemo } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { FC, useContext, useMemo } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { getFirstLetters } from '../utils/utilsFunctions';
 import { Button } from './Button/Button';
 import { AuthContext, AuthContextType } from '../AuthProvider';
@@ -8,21 +8,16 @@ import { useMutation } from 'react-query';
 import { ROUTE } from '../enums';
 import { SearchInput } from '../formik/SearchInput';
 import { buildUrl } from '../utils/paths';
-import toast from 'react-hot-toast';
-import { IQueryError } from '../interfaces/app';
 
 export const Header: FC<{ userName: string }> = ({ userName }) => {
 	const name = useMemo(() => getFirstLetters(userName), [userName]);
-	const history = useHistory();
+	const navigate = useNavigate();
 	const { setAuthData } = useContext<AuthContextType>(AuthContext);
 
 	const { mutate, isLoading } = useMutation(logoutUserAction, {
 		onSuccess: () => {
 			setAuthData(undefined);
-			history.push(buildUrl(ROUTE.login));
-		},
-		onError: (error: IQueryError) => {
-			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
+			navigate(buildUrl(ROUTE.login), { replace: true });
 		},
 	});
 

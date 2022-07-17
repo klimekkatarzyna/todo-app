@@ -9,8 +9,10 @@ import { QueryKey } from '../enums';
 
 export const Sharing: FC = () => {
 	const invitationTokenUrl = getStringAfterCharacter(sessionStorage.getItem('invitationTokenUrl') || '', '=');
-	const { data, isLoading } = useQuery<IShareLitDetails | undefined>([QueryKey.getListDatatoShare, invitationTokenUrl], () =>
-		getListDatatoShareAction({ invitationToken: invitationTokenUrl || '' })
+	const { data, isLoading } = useQuery<IShareLitDetails | undefined>(
+		[QueryKey.getListDatatoShare, invitationTokenUrl],
+		() => getListDatatoShareAction({ invitationToken: invitationTokenUrl || '' }),
+		{ enabled: !!invitationTokenUrl }
 	);
 
 	return (

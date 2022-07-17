@@ -13,7 +13,6 @@ import { buildUrl } from '../../utils/paths';
 import { useShowMenuContexify } from '../../hooks/useShowMenuContexify';
 import { addListToGroupAction, getGroups } from '../../actions/groups';
 import toast from 'react-hot-toast';
-import { IQueryError } from '../../interfaces/app';
 import { useGenerateMenuIcon } from '../../hooks/useGenerateMenuIcon';
 
 interface IMenuListItem {
@@ -27,8 +26,8 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed, isMai
 	const { handleItemClick } = useContext(ContextMenuContext);
 	const { displayMenu } = useShowMenuContexify(listItem?._id);
 	const { icon } = useGenerateMenuIcon(listItem);
-
 	const { isOwner } = useSharingData(listItem?.userId);
+
 	const { data } = useQuery<ITask[] | undefined>(
 		[QueryKey.tasksOfCurrentList, listItem?._id],
 		() => getTasksOfCurrentListAction({ parentFolderId: listItem?._id }),
@@ -49,9 +48,6 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed, isMai
 			query.invalidateQueries([QueryKey.groups]);
 			toast.success('Lista dodana do grupy');
 		},
-		onError: (error: IQueryError) => {
-			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
-		},
 	});
 
 	const groupsWithoutAddedList = useMemo(
@@ -60,7 +56,7 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed, isMai
 	);
 
 	return (
-		<NavLink to={redirectUrl} className='no-underline' activeClassName='bg-activeMenuItem'>
+		<NavLink to={redirectUrl} className={({ isActive }) => (isActive ? 'bg-activeMenuItem' : 'bg-none')}>
 			<div onContextMenu={displayMenu}>
 				<div className={'flex align-center px-4 py-2 text-sm hover:bg-white'}>
 					<div>{icon || <List className={`mr-2 stroke-${listItem?.themeColor} icon-style`} />}</div>

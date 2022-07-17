@@ -1,5 +1,5 @@
 import { FC, useCallback, useContext, useMemo } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '../components/Button/Button';
 import { useMutation } from 'react-query';
 import { InputType } from '../interfaces/app';
@@ -11,11 +11,11 @@ import { loginAction } from '../actions/user';
 import { AuthContext, AuthContextType } from '../AuthProvider';
 import { ROUTE } from '../enums';
 import { buildUrl } from '../utils/paths';
-import { EyeComponent } from '../components/EyeComponent/EyeComponent';
 import { useTogglePasswordVisibility } from '../hooks/useTogglePasswordVisibility';
+import { EyeOff, Eye } from 'react-feather';
 
 export const Login: FC = () => {
-	const history = useHistory();
+	const naviate = useNavigate();
 	const invitationTokenUrl = sessionStorage.getItem('invitationTokenUrl');
 	const { setAuthData } = useContext<AuthContextType>(AuthContext);
 	const redirectUrl = useMemo(
@@ -26,20 +26,12 @@ export const Login: FC = () => {
 
 	const initialValues = { email: '', password: '' };
 
-	const loginRequest = useCallback(async ({ email, password }: IUserData) => {
-		try {
-			const response = await loginAction({ email, password });
-			if (response.isSuccess && response?.body?._id) {
-				history.push(redirectUrl);
-				setAuthData(response?.body);
-			}
-			return response;
-		} catch (error) {
-			console.error(error);
-		}
-	}, []);
-
-	const { mutateAsync, isLoading, data } = useMutation(loginRequest);
+	const { mutateAsync, isLoading, data } = useMutation(loginAction, {
+		onSuccess: response => {
+			naviate(redirectUrl);
+			setAuthData(response?.body);
+		},
+	});
 
 	const onSubmit = useCallback(async (values: LoginValidationType, { resetForm }) => {
 		const { email, password } = values;
@@ -76,7 +68,11 @@ export const Login: FC = () => {
 									{...props}
 								/>
 								{errors.password && touched.password && <ErrorMessageComponent name='password' />}
-								<EyeComponent showPassword={showPassword} handledSetPassword={handledSetPassword} />
+								{!showPassword ? (
+									<Eye onClick={handledSetPassword} className='icon-style text-fontColor absolute right-5 top-2' />
+								) : (
+									<EyeOff onClick={handledSetPassword} className='icon-style text-fontColor absolute right-5 top-2' />
+								)}
 							</div>
 
 							<Button primary type='submit' isLoading={isLoading} className='w-full' disabled={isSubmitting}>

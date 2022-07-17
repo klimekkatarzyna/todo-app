@@ -74,7 +74,7 @@ export const ListSettings: FC = () => {
 					break;
 			}
 		},
-		[listId]
+		[listId, listDetails]
 	);
 
 	return (

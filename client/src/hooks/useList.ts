@@ -6,7 +6,6 @@ import { listsState } from '../atoms';
 import { IGroup, IList, ITask } from '@kkrawczyk/todo-common';
 import { QueryKey } from '../enums';
 import toast from 'react-hot-toast';
-import { IQueryError } from '../interfaces/app';
 import { groupState } from '../atoms/group';
 import { getGroups } from '../actions/groups';
 import { updateMembersList } from '../actions/sharing';
@@ -38,9 +37,6 @@ export const useList = () => {
 			);
 			toast.success('Lista usunięta');
 		},
-		onError: (error: IQueryError) => {
-			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
-		},
 	});
 
 	const { mutate: updateMembersListMutation, isLoading: updateMembersListLoading } = useMutation(updateMembersList, {
@@ -48,9 +44,6 @@ export const useList = () => {
 			query.invalidateQueries([QueryKey.getListById, response.body?._id]);
 			query.invalidateQueries([QueryKey.lists]);
 			toast.success('Użytkownik usunięty z listy');
-		},
-		onError: (error: IQueryError) => {
-			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
 		},
 	});
 
@@ -65,9 +58,7 @@ export const useList = () => {
 			query.setQueryData<IList[] | undefined>([QueryKey.lists], (lists: IList[] | undefined) =>
 				lists?.map(list => (list._id === response.body?._id ? { ...list, themeColor: response.body?.themeColor } : list))
 			);
-		},
-		onError: (error: IQueryError) => {
-			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
+			toast.success(`Theme zmieniony na ${response.body?.themeColor}`);
 		},
 	});
 

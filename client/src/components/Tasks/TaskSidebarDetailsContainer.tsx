@@ -3,7 +3,7 @@ import { getDay, getDayName, getMonth, parseUTCtoDate } from '../../utils/date';
 import { TaskDetails } from './TaskDetails';
 import { Loader, Bell, Calendar, Repeat, FilePlus, Trash2, XSquare } from 'react-feather';
 import { AddTaskToMyDay } from './TaskDetails/AddTaskToMyDay';
-import { useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { AssignComponent } from './TaskDetails/AssignComponent';
 import { useRecoilState } from 'recoil';
 import { elementVisibilityState } from '../../atoms/elementVisibility';
@@ -11,12 +11,12 @@ import { useTask } from '../../hooks/tasks/useTask';
 import { useRemoveTasks } from '../../hooks/tasks/useRemoveTasks';
 
 export const TaskSidebarDetails: FC = () => {
-	const history = useHistory();
-	const [isElementVisible, setIsElementVisible] = useRecoilState(elementVisibilityState);
+	const location = useLocation();
+	const [, setIsElementVisible] = useRecoilState(elementVisibilityState);
 	const { removeTaskMutation } = useRemoveTasks();
 	const { taskData, taskDataLoading } = useTask();
 
-	const [, url, listId, taskId] = useMemo(() => history.location.pathname.split('/'), [history]);
+	const [, url, listId, taskId] = useMemo(() => location.pathname.split('/'), [location]);
 
 	useEffect(() => {
 		if (!!listId && !!taskId) return;
@@ -27,18 +27,18 @@ export const TaskSidebarDetails: FC = () => {
 		if (!taskData?._id) return;
 		await removeTaskMutation();
 		onClose();
-	}, [taskData?._id]);
+	}, [taskData?._id, removeTaskMutation]);
 
 	const onClose = useCallback((): void => {
 		setIsElementVisible(false);
 	}, [setIsElementVisible]);
 
 	return (
-		<div className='bg-light-grey w-full p-4 absolute z-20 left-0 right-0 top-12 bottom-0 md:relative md:w-[360px] md:top-0'>
+		<div className='bg-light-grey w-full p-4 flex flex-1 absolute z-20 left-0 right-0  bottom-0 md:relative md:w-[360px] md:top-0'>
 			{taskDataLoading ? (
-				<Loader className='m-auto' />
+				<Loader className='animate-spin m-auto' />
 			) : (
-				<div className='flex flex-col'>
+				<div className='flex flex-col w-full'>
 					<div className='flex p-4 flex-row mb-3 bg-white'>
 						<TaskDetails taskData={taskData} isTaskDetailsView redirectTo={`/${url}/`} />
 					</div>

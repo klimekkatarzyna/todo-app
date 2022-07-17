@@ -11,7 +11,7 @@ export const Sidebar: FC = () => {
 
 	const handleClick = useCallback(() => {
 		setIsNavClosed(!isNavClosed);
-	}, [isNavClosed]);
+	}, [isNavClosed, setIsNavClosed]);
 
 	return (
 		<aside
@@ -30,7 +30,7 @@ export const Sidebar: FC = () => {
 					<Groups isNavClosed={isNavClosed} />
 				</div>
 			</div>
-			<div className='flex absolute left-0 right-0 bottom-0 border-solid border-2 w-full items-center'>
+			<div className={`flex absolute left-0 right-0 bottom-0 border-solid border-2 w-full items-center ${isNavClosed ? 'hidden' : 'flex'}`}>
 				<CreateList />
 				<CreateGroup />
 			</div>

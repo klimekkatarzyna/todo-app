@@ -9,7 +9,6 @@ import { createEditGroupSchema, CreateEditGroupType, IGroup } from '@kkrawczyk/t
 import { QueryKey } from '../../enums';
 import toast from 'react-hot-toast';
 import { TitleForm } from '../TitleForm';
-import { IQueryError } from '../../interfaces/app';
 
 export const CreateGroup: FC = () => {
 	const query = useQueryClient();
@@ -22,9 +21,6 @@ export const CreateGroup: FC = () => {
 			query.setQueryData<IGroup[] | undefined>([QueryKey.groups], (groups: IGroup[] | undefined) => [...(groups || []), response.body || {}]);
 			toast.success('Grupa utworzona');
 		},
-		onError: (error: IQueryError) => {
-			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
-		},
 	});
 
 	const onSubmit = useCallback(
@@ -34,7 +30,7 @@ export const CreateGroup: FC = () => {
 			resetForm();
 			toggleDropdown();
 		},
-		[dropdownOpen]
+		[dropdownOpen, toggleDropdown]
 	);
 
 	return (

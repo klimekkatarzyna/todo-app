@@ -1,26 +1,15 @@
 import { FC, useContext } from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { AuthContext, AuthContextType } from './AuthProvider';
 import { ROUTE } from './enums';
 
-export const PrivateRoute: FC<{ path: string; exact?: boolean }> = ({ children, ...rest }) => {
+export const PrivateRoute: FC<{ children: JSX.Element }> = ({ children }) => {
 	const { authData } = useContext<AuthContextType>(AuthContext);
+	const location = useLocation();
 
-	return (
-		<Route
-			{...rest}
-			render={({ location }) =>
-				authData?._id !== undefined ? (
-					children
-				) : (
-					<Redirect
-						to={{
-							pathname: ROUTE.login,
-							state: { from: location },
-						}}
-					/>
-				)
-			}
-		/>
-	);
+	if (!authData?._id) {
+		<Navigate to={ROUTE.login} state={{ from: location }} />;
+	}
+
+	return children;
 };

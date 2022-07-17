@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Loader } from 'react-feather';
-import { useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useMutation, useQueryClient } from 'react-query';
 import { addUserToMemberOfListAction, IShareLitDetails } from '../../actions/sharing';
 import { Button } from '../Button/Button';
@@ -10,7 +10,7 @@ import { useSwitchToFirstListItem } from '../../hooks/useSwitchToFirstListItem';
 
 export const JoinToList: FC<{ listDataLoading: boolean; list: IShareLitDetails | undefined }> = ({ listDataLoading, list }) => {
 	const query = useQueryClient();
-	const history = useHistory();
+	const location = useLocation();
 	const { onHandleSwitchToFirstListItem } = useSwitchToFirstListItem(list?.listData._id);
 
 	const { mutate, error, isLoading } = useMutation(addUserToMemberOfListAction, {
@@ -26,13 +26,13 @@ export const JoinToList: FC<{ listDataLoading: boolean; list: IShareLitDetails |
 			<h1 className='text-xl font-extralight m-4'>Dołącz do listy</h1>
 
 			<p className='font-extralight'>
-				{listDataLoading ? <Loader className='m-auto' /> : `Użytkownik`} <strong>{list?.listData?.owner}</strong> udostępnił Ci listę{' '}
-				<strong>{`${list?.listData?.title}`}</strong>
+				{listDataLoading ? <Loader className='animate-spin m-auto' /> : `Użytkownik`} <strong>{list?.listData?.owner}</strong> udostępnił Ci
+				listę <strong>{`${list?.listData?.title}`}</strong>
 			</p>
 
-			<Button primary onClick={() => mutate(getStringAfterCharacter(history.location.search, '='))}>
+			<Button primary onClick={() => mutate(getStringAfterCharacter(location.search, '='))}>
 				{'Dołącz do listy'}
-				{isLoading && <Loader className='ml-2' />}
+				{isLoading && <Loader className='animate-spin ml-2' />}
 			</Button>
 		</>
 	);

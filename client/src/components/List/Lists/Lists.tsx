@@ -14,7 +14,6 @@ import { ContextMenuContext } from '../../../ContextMenuProvider';
 import { AuthContext } from '../../../AuthProvider';
 import toast from 'react-hot-toast';
 import { modalVisibilityState } from '../../../atoms/modal';
-import { IQueryError } from '../../../interfaces/app';
 import { useSwitchToFirstListItem } from '../../../hooks/useSwitchToFirstListItem';
 
 const ListsComponents: FC<{ isNavClosed: boolean }> = ({ isNavClosed }) => {
@@ -30,7 +29,7 @@ const ListsComponents: FC<{ isNavClosed: boolean }> = ({ isNavClosed }) => {
 		if (contextualMenu?.type !== ContextMenuOpion.remove_list) return;
 		await removeListMutation({ _id: contextualMenu?.elementId });
 		onHandleSwitchToFirstListItem();
-	}, [contextualMenu]);
+	}, [contextualMenu, onHandleSwitchToFirstListItem]);
 
 	const { mutate, isLoading, isError } = useMutation(updateMembersList, {
 		onSuccess: () => {
@@ -38,15 +37,12 @@ const ListsComponents: FC<{ isNavClosed: boolean }> = ({ isNavClosed }) => {
 			query.invalidateQueries([QueryKey.lists]);
 			toast.success('Opuściłeś listę');
 		},
-		onError: (error: IQueryError) => {
-			toast.error(`Coś poszlo nie tak: ${error.err.message}`);
-		},
 	});
 
 	return (
 		<>
 			<div className='flex flex-col text-base'>
-				{getListsLoading && <Loader className='m-auto' />}
+				{getListsLoading && <Loader className='animate-spin m-auto' />}
 				{list?.map((list: IList, index: number) => (
 					<MenuListItem key={index} listItem={list} isNavClosed={isNavClosed} />
 				))}

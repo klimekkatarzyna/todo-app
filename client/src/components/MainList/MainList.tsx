@@ -19,7 +19,7 @@ const MainListComponent: FC<{ isNavClosed: boolean }> = ({ isNavClosed }) => {
 	return (
 		<div className='flex flex-col mb-8'>
 			{isLoading ? (
-				<Loader className='m-auto' />
+				<Loader className='animate-spin m-auto' />
 			) : (
 				data?.body?.mainLists?.map((listItem: IList) => (
 					<MenuListItem key={listItem?._id} listItem={listItem} isNavClosed={isNavClosed} isMainMenu />

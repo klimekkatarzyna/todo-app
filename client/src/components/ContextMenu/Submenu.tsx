@@ -14,9 +14,12 @@ interface ISubmenuComponentProps {
 }
 
 export const SubmenuComponent: FC<ISubmenuComponentProps> = ({ listItem, contextMenuOption, submenu, elementId, mutateAsyncAction }) => {
-	const onHandleSubitemItemClick = useCallback(({ data }) => {
-		mutateAsyncAction?.({ _id: data._id, listId: elementId });
-	}, []);
+	const onHandleSubitemItemClick = useCallback(
+		({ data }) => {
+			mutateAsyncAction?.({ _id: data._id, listId: elementId });
+		},
+		[elementId]
+	);
 
 	return (
 		<>
