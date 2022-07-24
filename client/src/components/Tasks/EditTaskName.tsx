@@ -2,7 +2,7 @@ import { FC, useCallback, useContext, useEffect } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { editTaskAction } from '../../actions/tasks';
 import { ITask, createEditTaskSchema, CreateEditTaskType, WebSocketEvent } from '@kkrawczyk/todo-common';
-import { isStringContainsWhitespace } from '../../utils/utilsFunctions';
+import { isStringContainsOnlyWhitespace } from '../../utils/utilsFunctions';
 import { QueryKey } from '../../enums';
 import toast from 'react-hot-toast';
 import { TitleForm } from '../TitleForm';
@@ -53,11 +53,11 @@ export const EditTaskName: FC<{ taskData: ITask | undefined }> = ({ taskData }) 
 
 	const onSubmit = useCallback(
 		async (values: CreateEditTaskType, { resetForm }) => {
-			if (isStringContainsWhitespace(values.title)) return;
+			if (isStringContainsOnlyWhitespace(values.title)) return;
 			await mutateAsync({ _id: taskData?._id, title: values.title, parentFolderId: taskData?.parentFolderId });
 			resetForm();
 		},
-		[isStringContainsWhitespace, taskData]
+		[isStringContainsOnlyWhitespace, taskData]
 	);
 
 	return <TitleForm isLoading={isLoading} initialValues={initialValues} validationSchema={createEditTaskSchema} onSubmit={onSubmit} />;

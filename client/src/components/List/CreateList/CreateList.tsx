@@ -1,5 +1,5 @@
 import { FC, useCallback } from 'react';
-import { isStringContainsWhitespace } from '../../../utils/utilsFunctions';
+import { isStringContainsOnlyWhitespace } from '../../../utils/utilsFunctions';
 import { useMutation, useQueryClient } from 'react-query';
 import { createListAction } from '../../../actions/lists';
 import { createEditListSchema, IList } from '@kkrawczyk/todo-common';
@@ -18,7 +18,7 @@ export const CreateList: FC = () => {
 	});
 
 	const onSubmit = useCallback(async (values: ICreateListValue, { resetForm }) => {
-		const title = isStringContainsWhitespace(values.title) ? 'Lista bez tytułu' : values.title;
+		const title = isStringContainsOnlyWhitespace(values.title) ? 'Lista bez tytułu' : values.title;
 		await mutateAsync({ title });
 		resetForm();
 	}, []);
