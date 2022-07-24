@@ -1,7 +1,7 @@
 import { FC, useCallback } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { CreateEditListType, createEditTaskSchema, IList } from '@kkrawczyk/todo-common';
-import { isStringContainsWhitespace } from '../../utils/utilsFunctions';
+import { isStringContainsOnlyWhitespace } from '../../utils/utilsFunctions';
 import { QueryKey } from '../../enums';
 import toast from 'react-hot-toast';
 import { editListAction } from '../../actions/lists';
@@ -39,7 +39,7 @@ export const EditListTitle: FC<{ title: string; className: string }> = ({ title 
 
 	const onSubmit = useCallback(
 		async (values: CreateEditListType, { resetForm }) => {
-			if (isStringContainsWhitespace(values.title)) return;
+			if (isStringContainsOnlyWhitespace(values.title)) return;
 			await mutateAsync({ _id: listId, title: values.title });
 			resetForm();
 			setIsFormVisible(false);

@@ -3,7 +3,7 @@ import { ContextMenuContext } from '../../ContextMenuProvider';
 import { ContextMenuOpion, QueryKey } from '../../enums';
 import { useMutation, useQueryClient } from 'react-query';
 import { editGroup } from '../../actions/groups';
-import { isStringContainsWhitespace } from '../../utils/utilsFunctions';
+import { isStringContainsOnlyWhitespace } from '../../utils/utilsFunctions';
 import { createEditGroupSchema, CreateEditGroupType, IGroup } from '@kkrawczyk/todo-common';
 import toast from 'react-hot-toast';
 import { TitleForm } from '../TitleForm';
@@ -34,7 +34,7 @@ export const EditGroup: FC<IEditGroupProps> = ({ title, groupId, isNavClosed }) 
 
 	const onSubmit = useCallback(
 		async (values: CreateEditGroupType, { resetForm }) => {
-			if (isStringContainsWhitespace(values.title)) return;
+			if (isStringContainsOnlyWhitespace(values.title)) return;
 			await mutateAsync({ _id: groupId, title: values.title });
 			resetForm();
 			setIsInputVisible(false);

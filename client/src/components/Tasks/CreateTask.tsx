@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { createTaskAction } from '../../actions/tasks';
 import { IUseParams } from '../../interfaces/app';
 import { ITask, createEditTaskSchema, CreateEditTaskType, AppColor, WebSocketEvent } from '@kkrawczyk/todo-common';
-import { isStringContainsWhitespace } from '../../utils/utilsFunctions';
+import { isStringContainsOnlyWhitespace } from '../../utils/utilsFunctions';
 import toast from 'react-hot-toast';
 import { TitleForm } from '../TitleForm';
 import { AuthContext, AuthContextType } from '../../AuthProvider';
@@ -44,7 +44,7 @@ export const CreateTask: FC<{ listTheme: AppColor | undefined }> = ({ listTheme 
 
 	const onSubmit = useCallback(
 		async (values: CreateEditTaskType, { resetForm }) => {
-			if (isStringContainsWhitespace(values.title)) return;
+			if (isStringContainsOnlyWhitespace(values.title)) return;
 			await mutateAsync({
 				title: values.title,
 				parentFolderId,
@@ -54,7 +54,7 @@ export const CreateTask: FC<{ listTheme: AppColor | undefined }> = ({ listTheme 
 			});
 			resetForm();
 		},
-		[isStringContainsWhitespace, parentFolderId, listTheme, authData, membersArray]
+		[isStringContainsOnlyWhitespace, parentFolderId, listTheme, authData, membersArray]
 	);
 
 	return (

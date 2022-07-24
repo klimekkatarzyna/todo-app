@@ -4,7 +4,7 @@ import { IconButton } from './IconButton';
 import { Folder } from 'react-feather';
 import { useMutation, useQueryClient } from 'react-query';
 import { createGroup } from '../../actions/groups';
-import { isStringContainsWhitespace } from '../../utils/utilsFunctions';
+import { isStringContainsOnlyWhitespace } from '../../utils/utilsFunctions';
 import { createEditGroupSchema, CreateEditGroupType, IGroup } from '@kkrawczyk/todo-common';
 import { QueryKey } from '../../enums';
 import toast from 'react-hot-toast';
@@ -25,7 +25,7 @@ export const CreateGroup: FC = () => {
 
 	const onSubmit = useCallback(
 		async (values: CreateEditGroupType, { resetForm }) => {
-			const title = isStringContainsWhitespace(values.title) ? 'Nowa grupa' : values.title;
+			const title = isStringContainsOnlyWhitespace(values.title) ? 'Nowa grupa' : values.title;
 			await mutateAsync({ title });
 			resetForm();
 			toggleDropdown();
