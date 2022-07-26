@@ -19,7 +19,7 @@ export const ShareLink: FC<{ listDataResponse: IList | undefined }> = ({ listDat
 		<>
 			<input
 				className='w-full border-none outline-none text-sm bg-inherit text-blue'
-				value={`${process.env.REACT_APP_CONFIG_API}${ROUTE.sharing}?invitationToken=${listDataResponse?.invitationToken}`}
+				value={`${process.env.REACT_APP_API_URL_LOCAL}${ROUTE.sharing}?invitationToken=${listDataResponse?.invitationToken}`}
 				ref={inputRef}
 				readOnly
 				type='text'
