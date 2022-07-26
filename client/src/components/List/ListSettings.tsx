@@ -98,7 +98,6 @@ export const ListSettings: FC = () => {
 				</Item>
 				<Separator />
 				{isOwner ? (
-					// TODO: przenies usuwanie i inne akcje do osobnych komponentow SOLID!
 					<Item data={{ elementId: ContextMenuItem.remove_list }} onClick={handleItemClick}>
 						Usuń listę
 					</Item>

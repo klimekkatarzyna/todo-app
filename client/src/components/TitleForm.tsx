@@ -18,19 +18,12 @@ export const TitleForm: FC<ITitleFormProps> = ({ isLoading, initialValues, place
 	return (
 		<div className='relative'>
 			<Formik initialValues={initialValues} enableReinitialize validationSchema={validationSchema} onSubmit={onSubmit}>
-				{({ errors, touched, isSubmitting, ...props }) => (
+				{({ errors, touched, ...props }) => (
 					<Form>
 						{isLoading ? (
 							<Loader className='animate-spin m-auto' />
 						) : (
-							<Input
-								name='title'
-								isIcon={isIcon}
-								{...props}
-								isLoading={isLoading}
-								placeholder={placeholder}
-								isSubmitting={isSubmitting}
-							/>
+							<Input name='title' isIcon={isIcon} {...props} isLoading={isLoading} placeholder={placeholder} />
 						)}
 						{errors.title && touched.title && <ErrorMessageComponent name='title' margin />}
 					</Form>

@@ -53,7 +53,7 @@ export const Login: FC = () => {
 				{data?.error && <span className='text-red p-2'>{data?.error as string}</span>}
 
 				<Formik initialValues={initialValues as LoginValidationType} validationSchema={loginValidationSchema} onSubmit={onSubmit}>
-					{({ errors, touched, isSubmitting, ...props }) => (
+					{({ errors, touched, ...props }) => (
 						<Form className='w-full mt-2'>
 							<div className='relative'>
 								<Input name='email' placeholder={'Email'} {...props} />
@@ -75,7 +75,7 @@ export const Login: FC = () => {
 								)}
 							</div>
 
-							<Button primary type='submit' isLoading={isLoading} className='w-full' disabled={isSubmitting}>
+							<Button primary type='submit' isLoading={isLoading} className='w-full'>
 								<span>Zaloguj</span>
 							</Button>
 						</Form>

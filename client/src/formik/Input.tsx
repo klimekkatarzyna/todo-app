@@ -15,7 +15,6 @@ interface IInput {
 	readOnly?: boolean;
 	isLoading?: boolean;
 	className?: string;
-	isSubmitting?: boolean;
 }
 
 export const Input: FC<IInput> = ({
@@ -28,7 +27,6 @@ export const Input: FC<IInput> = ({
 	readOnly,
 	isLoading,
 	className,
-	isSubmitting,
 	...rest
 }) => {
 	const { onFocus, onBlur, isFocused } = useFocusingHandling();
@@ -40,7 +38,7 @@ export const Input: FC<IInput> = ({
 	return (
 		<div className='flex items-center rounded py-0 cursor-pointer w-full relative'>
 			{isIcon && (
-				<button type='submit' className='bg-inherit border-none' disabled={isSubmitting}>
+				<button type='submit' className='bg-inherit border-none'>
 					<div>{isFocused ? <Circle className={`icon-style ${iconColor}`} /> : <Plus className={`icon-style ${iconColor}`} />}</div>
 					{isLoading && <Loader />}
 				</button>

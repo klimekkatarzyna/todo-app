@@ -27,7 +27,9 @@ export const ShareTokenView: FC<{ onNextStep: () => void; listDataResponse: ILis
 			))}{' '}
 			<ShareLink listDataResponse={listDataResponse} />
 			<RemoveMember onNextStep={onNextStep} listDataResponse={listDataResponse} />
-			{isVisible && <ContextualModal title='Czy chcesz opuścić listę?' contextualType={ContextMenuOpion.leave_list} />}
+			{isVisible && (
+				<ContextualModal title='Czy chcesz opuścić listę?' onHandleAction={() => {}} contextualType={ContextMenuOpion.leave_list} />
+			)}
 		</div>
 	);
 };
