@@ -53,3 +53,5 @@ styleguide
 .dccache
 
 build/
+
+.env
