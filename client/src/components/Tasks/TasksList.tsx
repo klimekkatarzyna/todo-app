@@ -7,23 +7,20 @@ import { useRemoveTasks } from '../../hooks/tasks/useRemoveTasks';
 import { TasksContextMenuContext } from '../../providers/TasksContextMenuProvider';
 import { ContextualModal } from '../Modal/ContextualModal';
 import { TaskItem } from './TaskItem/TaskItem';
-import { useAutoAnimate } from '@formkit/auto-animate/react';
+import { AutoAnimateWrapper } from '../../AutoAnimateWrapper';
 
 export const TasksList: FC<{ tasks: ITask[] | undefined; redirectUrl: string }> = ({ tasks, redirectUrl }) => {
 	const isVisible = useRecoilValue(modalVisibilityState);
 	const { removeTaskMutation } = useRemoveTasks();
 	const { tasksContextlMenu } = useContext(TasksContextMenuContext);
-	const [parent] = useAutoAnimate();
 
 	const onRemoveTask = useCallback(async (): Promise<void> => {
 		if (!tasksContextlMenu?.elementId) return;
 		await removeTaskMutation();
 	}, [tasksContextlMenu, removeTaskMutation]);
 
-	type parentType = React.LegacyRef<HTMLDivElement> | undefined;
-
 	return (
-		<div ref={parent as parentType}>
+		<AutoAnimateWrapper>
 			{tasks?.map((task, index) => (
 				<TaskItem key={index} task={task} index={index} redirectTo={redirectUrl} />
 			))}
@@ -36,6 +33,6 @@ export const TasksList: FC<{ tasks: ITask[] | undefined; redirectUrl: string }> 
 					<span>{'Tej akcji nie można cofnąć'}</span>
 				</ContextualModal>
 			)}
-		</div>
+		</AutoAnimateWrapper>
 	);
 };

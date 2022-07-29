@@ -28,7 +28,7 @@ const httpServer = createServer(app);
 
 app.use(
 	cors({
-		origin: 'http://localhost:8080', // port which will fetch to server <= frontend port
+		origin: process.env.FRONTEND, // port which will fetch to server <= frontend port
 		credentials: true,
 	})
 );
