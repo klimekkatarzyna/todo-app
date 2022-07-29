@@ -26,7 +26,7 @@ const cookieOptions = ({ days }: IDaysNumber): CookieOptions => ({
 	secure: false, // ? is required but why?
 	httpOnly: true, // block reading this cookie from client-side
 	expires: dayjs().add(days, 'days').toDate(),
-	sameSite: 'lax', // is 'strict' required when requests are bettwen differents domains
+	sameSite: 'none', // is 'strict' required when requests are bettwen differents domains
 	domain: process.env.FRONTEND_DOMAIN,
 });
 
