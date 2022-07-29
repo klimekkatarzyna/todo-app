@@ -59,7 +59,7 @@ app.use('/api', groups);
 
 const io = new Server(httpServer, {
 	cors: {
-		origin: 'http://localhost:8080',
+		origin: process.env.FRONTEND,
 		credentials: true,
 	},
 });

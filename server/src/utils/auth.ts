@@ -27,7 +27,7 @@ const cookieOptions = ({ days }: IDaysNumber): CookieOptions => ({
 	httpOnly: true, // block reading this cookie from client-side
 	expires: dayjs().add(days, 'days').toDate(),
 	sameSite: 'strict', // is 'strict' required when requests are bettwen differents domains
-	domain: 'localhost',
+	domain: process.env.FRONTEND_DOMAIN,
 });
 
 export const setTokenCookie = (res: Response, token: string) => {
