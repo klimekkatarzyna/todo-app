@@ -5,6 +5,11 @@
 	"repository": "git@bitbucket.org:katarzynaszalkowska/todo.git",
 	"author": "Katarzyna Krawczyk",
 	"license": "MIT",
+	"workspaces": {
+		"nohoist": [
+			"**"
+		]
+	},
 	"dependencies": {
 		"bcryptjs": "^2.4.3",
 		"body-parser": "^1.19.0",
@@ -26,8 +31,9 @@
 	},
 	"scripts": {
 		"start": "nodemon src/app.ts",
+		"start:prod": "node src/app.ts",
 		"start:watch": "tsc-watch -b --onSuccess 'node dist/app.js'",
-		"build": "react-scripts build",
+		"build": "yarn workspace @kkrawczyk/todo-common build && tsc",
 		"worskpace-run": "yarn workspaces run todo-common"
 	},
 	"devDependencies": {
