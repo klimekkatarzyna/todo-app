@@ -23,7 +23,7 @@ interface IDaysNumber {
 }
 
 const cookieOptions = ({ days }: IDaysNumber): CookieOptions => ({
-	secure: false, // ? is required but why?
+	secure: true, // required for cross domain cookies
 	httpOnly: true, // block reading this cookie from client-side
 	expires: dayjs().add(days, 'days').toDate(),
 	sameSite: 'none', // is 'strict' required when requests are bettwen differents domains
