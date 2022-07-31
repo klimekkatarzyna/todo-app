@@ -43,12 +43,8 @@ app.get('/', (req, res) => {
 	res.send('API working');
 });
 
-httpServer.listen(process.env.SOCKET_PORT, () => {
-	console.log(`socket io running on port ${process.env.SOCKET_PORT}`);
-});
-
-app.listen(process.env.PORT, () => {
-	console.log(`server started on port ${process.env.PORT}, Hello World  🤘`);
+httpServer.listen(process.env.PORT, () => {
+	console.log(`server running on port ${process.env.PORT}`);
 });
 
 app.use('/api', auth);

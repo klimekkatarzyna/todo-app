@@ -23,10 +23,10 @@ interface IDaysNumber {
 }
 
 const cookieOptions = ({ days }: IDaysNumber): CookieOptions => ({
-	secure: true, // required for cross domain cookies
+	secure: process.env.NODE_ENV === 'production', // on local (cookies on http), on produstion with secure (cookies with https)
 	httpOnly: true, // block reading this cookie from client-side
 	expires: dayjs().add(days, 'days').toDate(),
-	sameSite: 'none', // is 'strict' required when requests are bettwen differents domains
+	sameSite: 'strict', // is 'strict' required when requests are bettwen differents domains
 	domain: process.env.FRONTEND_DOMAIN,
 });
 
