@@ -1,4 +1,5 @@
-import express, { RequestHandler } from 'express';
+require('dotenv').config();
+import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import auth from './routes/auth';
@@ -21,7 +22,6 @@ interface IAllSocketConnections {
 connect(process.env.MONGODB_CONNECTION!);
 
 /* MAIN SET UP */
-require('dotenv').config();
 
 const app = express();
 const httpServer = createServer(app);
