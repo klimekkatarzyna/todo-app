@@ -18,7 +18,7 @@ interface IAllSocketConnections {
 }
 
 // connect to mongoDB server
-connect('mongodb+srv://user1:Klimek09@cluster0.hgr10.mongodb.net/User?retryWrites=true&w=majority');
+connect(process.env.MONGODB_CONNECTION!);
 
 /* MAIN SET UP */
 require('dotenv').config();
@@ -70,7 +70,7 @@ io.on('connection', socket => {
 	if (socketHandShake === '') return;
 
 	const parsedSocketHandShake = parse(socketHandShake as string);
-	const SECRET = '.Ge~!!Wcv|vREPrmRrm.p3m$pm.5.$';
+	const SECRET = process.env.SECRET_KEY!;
 
 	if (parsedSocketHandShake?.access_token === undefined) return;
 	const connectionToken = jwt?.verify(parsedSocketHandShake?.access_token || '', SECRET) as any;

@@ -9,8 +9,8 @@ interface IJwtData {
 	exp: number;
 }
 
-// const SECRET = process.env.SECRET_KEY_LOCAL as jwt.Secret; provess.env is undefined but WHY?
-const SECRET = '.Ge~!!Wcv|vREPrmRrm.p3m$pm.5.$';
+// const SECRET = process.env.SECRET_KEY as jwt.Secret; provess.env is undefined but WHY?
+const SECRET = process.env.SECRET_KEY!;
 
 export const signJwt = (_id: string | undefined) => {
 	return jwt.sign({ _id }, SECRET, { expiresIn: '1d' });
