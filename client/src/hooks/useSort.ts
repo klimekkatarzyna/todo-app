@@ -1,14 +1,17 @@
 export type Direction = 'asc' | 'desc';
 
 export const useSort = <T>() => {
+	type dateType = string | number | Date;
+
 	const sorter = {
-		date: (sortKey: string, direction: Direction) => (a: any, b: any) => {
+		date: (sortKey: string) => (a: any, b: any) => {
 			// TODO: fix type
+			console.log(a, b);
 			return (new Date(a[sortKey]) as any) - (new Date(b[sortKey]) as any);
 		},
-		string: (sortKey: string, direction: Direction) => (a: any, b: any) => {
+		string: (sortKey: string) => (a: any, b: any) => {
 			// TODO: fix type
-			return a[sortKey].toLowerCase().localeCompare(b[sortKey].toLowerCase());
+			return a[sortKey]?.toLowerCase().localeCompare(b[sortKey]?.toLowerCase());
 		},
 	};
 

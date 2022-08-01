@@ -8,7 +8,7 @@ export const Layout = () => {
 	const { authData } = useContext<AuthContextType>(AuthContext);
 
 	return (
-		<div className='flex flex-col flex-1'>
+		<div className='flex flex-col flex-1 h-full overflow-hidden'>
 			{authData?._id && <Header userName={authData?.username || ''} />}
 			<div className='flex flex-1 relative'>
 				{authData?._id && <Sidebar />}

@@ -63,10 +63,10 @@ export enum SortType {
 }
 
 export enum SortTaskType {
-	createdAt = 'createdAt',
-	title = 'title',
-	importance = 'importance',
-	deadline = 'deadline',
+	createdAt = 'Data utworzenia',
+	title = 'Alfabetycznie',
+	importance = 'Ważność',
+	deadline = 'Data wykonania',
 }
 
 export enum QueryKey {

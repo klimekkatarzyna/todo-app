@@ -5,16 +5,16 @@ import { ComplitedTasks } from './ComplitedTasks';
 import { InCompletedTasks } from './InCompletedTasks';
 
 export const TasksList: FC = () => {
-	const { inCompletedTasks, completedTasks, isLoading, requestSort } = useTasks();
+	const { inCompletedTasks, completedTasks, isLoading } = useTasks();
 
 	return (
-		<div className='overflow-y-scroll h-full max-h-[80vh]'>
+		<div className='flex overflow-y-scroll overflow-x-hidden flex-1 flex-col'>
 			<div>
 				{isLoading ? (
 					<Loader className='animate-spin m-auto' />
 				) : (
 					<>
-						<InCompletedTasks tasks={inCompletedTasks} requestSort={requestSort} />
+						<InCompletedTasks tasks={inCompletedTasks} />
 						<ComplitedTasks tasks={completedTasks} />
 					</>
 				)}

@@ -8,7 +8,7 @@ export const GroupedLists: FC<{ group: IGroup }> = ({ group }) => {
 			{!!group ? (
 				group.lists?.map((list, index) => <GroupedList key={index} listId={list} />)
 			) : (
-				<div className='pl-2 pt-4 pb-4 text-sm'>Pusta grupa. Dodaj listę</div>
+				<div className='pl-2 pt-4 pb-4 text-base md:text-sm'>Pusta grupa. Dodaj listę</div>
 			)}
 		</>
 	);

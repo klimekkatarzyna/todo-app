@@ -4,10 +4,10 @@ import { SideMenu } from '../../enums';
 import { TasksList } from './TasksList';
 import { ITask } from '@kkrawczyk/todo-common';
 
-const InCompletedTasksComponent: FC<{ tasks: ITask[]; requestSort: (event: any) => void }> = ({ tasks, requestSort }) => {
+const InCompletedTasksComponent: FC<{ tasks: ITask[] }> = ({ tasks }) => {
 	return (
 		<>
-			<SortComponent requestSort={requestSort} />
+			<SortComponent />
 			<TasksList tasks={tasks} redirectUrl={`/${SideMenu.tasks}/`} />
 		</>
 	);
