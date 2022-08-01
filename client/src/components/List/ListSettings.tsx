@@ -27,7 +27,7 @@ enum ContextMenuItem {
 
 export const ListSettings: FC = () => {
 	const { show } = useContextMenu({
-		id: 'listSettings',
+		id: MENU_ID,
 	});
 	const { onHandleSwitchToFirstListItem } = useSwitchToFirstListItem();
 	const { listId } = useParams<IUseParams>();

@@ -34,7 +34,7 @@ export const TaskSidebarDetails: FC = () => {
 	}, [setIsElementVisible]);
 
 	return (
-		<div className='bg-light-grey w-full p-4 flex flex-1 absolute z-20 left-0 right-0  bottom-0 md:relative md:w-[360px] md:top-0'>
+		<div className='bg-light-grey w-full p-4 flex flex-1 absolute z-20 left-0 right-0 top-0 shadow-md bottom-0 mr-[-1.5rem] md:relative md:max-w-[360px] md:ml-6'>
 			{taskDataLoading ? (
 				<Loader className='animate-spin m-auto' />
 			) : (

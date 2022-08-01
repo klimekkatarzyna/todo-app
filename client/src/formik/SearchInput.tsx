@@ -69,7 +69,7 @@ export const SearchInput: FC = () => {
 	}, [data, searchValue, setSearchResults, searchWithFuse, setSearchValue]);
 
 	return (
-		<div className='bg-light-grey w-96'>
+		<div className='bg-light-grey w-auto md:w-96'>
 			<Formik initialValues={initialValues} onSubmit={onSearch}>
 				{({ errors, touched, ...props }) => (
 					<Form>

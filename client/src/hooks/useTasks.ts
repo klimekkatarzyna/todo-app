@@ -9,7 +9,6 @@ import { ITask, ITaskStatus } from '@kkrawczyk/todo-common';
 
 interface SortType {
 	key: SortTaskType;
-	direction: 'asc' | 'desc';
 	keyType: KeyType;
 }
 
@@ -25,15 +24,10 @@ export const useTasks = () => {
 		{ enabled: !!listId }
 	);
 
-	const [sort, setSort] = useState<SortType>({ key: SortTaskType.title, direction: 'asc', keyType: 'string' });
-	const sortedTasks = useMemo(
-		() => [...(tasksOfCurrentList || []).sort(sorter[sort.keyType](sort.key, sort.direction))],
-		[tasksOfCurrentList, sort]
-	);
+	const [sort, setSort] = useState<SortType>({ key: SortTaskType.title, keyType: 'string' });
 
-	const requestSort = useCallback(event => {
-		const property = event.target.value.split(',');
-		setSort(state => ({ ...state, key: property[0], keyType: property[1] }));
+	const requestSort = useCallback((data: SortTaskType, type: KeyType) => {
+		setSort(state => ({ ...state, key: data, keyType: type }));
 	}, []);
 
 	const inCompletedTasks = useMemo(
@@ -41,6 +35,8 @@ export const useTasks = () => {
 		[tasksOfCurrentList]
 	);
 	const completedTasks = useMemo(() => (tasksOfCurrentList || []).filter(task => task.taskStatus === ITaskStatus.complete), [tasksOfCurrentList]);
+
+	const sortedTasks = useMemo(() => [...(tasksOfCurrentList || []).sort(sorter[sort.keyType](sort.key))], [tasksOfCurrentList, sort]);
 
 	return {
 		requestSort,

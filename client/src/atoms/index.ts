@@ -10,3 +10,8 @@ export const formToEditListTitleVisibilityState = atom<boolean>({
 	key: 'formToEditListTitleVisibilityState',
 	default: false,
 });
+
+export const mobileNavVisibilityState = atom<boolean>({
+	key: 'mobileNavVisibility',
+	default: true,
+});

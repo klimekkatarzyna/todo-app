@@ -60,7 +60,7 @@ export const EditGroup: FC<IEditGroupProps> = ({ title, groupId, isNavClosed }) 
 					onSubmit={onSubmit}
 				/>
 			) : (
-				<p className={`text-sm my-0 mx-2 font-semibold ${isNavClosed ? 'hidden' : 'flex'}`}>{title}</p>
+				<p className={`my-0 mx-2 font-semibold ${isNavClosed ? 'hidden' : 'flex'} text-base md:text-sm`}>{title}</p>
 			)}
 		</div>
 	);
