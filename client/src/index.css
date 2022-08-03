@@ -31,7 +31,7 @@
 	}
 
 	.task-details-style {
-		@apply flex flex-col mb-3 bg-white hover:bg-hoverColor;
+		@apply flex flex-col mb-1 bg-white hover:bg-hoverColor rounded;
 	}
 
 	.task-details-button-style {
