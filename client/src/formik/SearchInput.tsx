@@ -8,14 +8,16 @@ import { Input } from '../formik/Input';
 import { ErrorMessageComponent } from '../formik/ErrorMessageComponent';
 import { Formik, Form } from 'formik';
 import { InputType } from '../interfaces/app';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { loadingState, searchResultState } from '../atoms/serching';
 import { useNavigate } from 'react-router-dom';
 import { buildUrl } from '../utils/paths';
+import { mobileNavVisibilityState } from '../atoms';
 
 export const SearchInput: FC = () => {
 	const setSearchResults = useSetRecoilState(searchResultState);
 	const setIsLoading = useSetRecoilState(loadingState);
+	const [, setIsVisible] = useRecoilState(mobileNavVisibilityState);
 
 	const navigate = useNavigate();
 	const { data } = useQuery<ITask[] | undefined>([QueryKey.tasksList], () => getTasksAction());
@@ -47,6 +49,7 @@ export const SearchInput: FC = () => {
 			setSearchResults(searchWithFuse(values.title));
 			setSearchValue(values.title);
 			navigate(buildUrl(ROUTE.search));
+			setIsVisible(false);
 			setIsLoading(false);
 		},
 		[setIsLoading, setSearchResults, searchWithFuse, navigate]
