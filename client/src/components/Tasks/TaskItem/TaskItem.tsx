@@ -29,7 +29,7 @@ export const TaskItem: FC<ITaskItem> = ({ task, index, redirectTo }) => {
 		<>
 			<div onContextMenu={displayMenu}>
 				<div
-					className={`flex items-center relative h-[3.5rem] p-[0.9rem] bg-white mb-1 md:mb-2 cursor-pointer shadow-sm hover:bg-lightBlue active:bg-lightBlue border-solid border-b-[1px] border-border-500 `}
+					className={`flex items-center relative h-[3.5rem] p-[0.9rem] bg-white mb-1 md:mb-2 cursor-pointer shadow-sm hover:bg-lightBlue active:bg-lightBlue border-solid border-b-[1px] border-border-500 rounded`}
 					key={index}
 					draggable
 					onClick={onSelectTask}>
