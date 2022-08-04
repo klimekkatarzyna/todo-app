@@ -1,17 +1,28 @@
 import { IList } from '@kkrawczyk/todo-common';
-import React, { FC, RefObject, useCallback, useRef } from 'react';
+import React, { FC, RefObject, useCallback, useEffect, useRef } from 'react';
 import { ROUTE } from '../../enums';
 import { Button } from '../Button/Button';
 
 export const ShareLink: FC<{ listDataResponse: IList | undefined }> = ({ listDataResponse }) => {
 	const inputRef: RefObject<HTMLInputElement> = useRef(null);
 
-	const copyToClipboard = useCallback((e: React.MouseEvent) => {
+	const copyToClipboard = useCallback(async (e: React.MouseEvent) => {
 		const input = inputRef?.current;
 
 		if (input) {
 			input.select();
 			document.execCommand('copy');
+		}
+
+		if (navigator) {
+			try {
+				await navigator.share({
+					title: 'url',
+					url: inputRef?.current?.value,
+				});
+			} catch (error) {
+				console.error(error);
+			}
 		}
 	}, []);
 
