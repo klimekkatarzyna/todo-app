@@ -16,7 +16,7 @@ export const ShareLink: FC<{ listDataResponse: IList | undefined }> = ({ listDat
 
 		if (navigator) {
 			try {
-				await navigator.share({
+				await navigator?.share({
 					title: 'url',
 					url: inputRef?.current?.value,
 				});
@@ -36,7 +36,7 @@ export const ShareLink: FC<{ listDataResponse: IList | undefined }> = ({ listDat
 				type='text'
 				name='shareLink'
 			/>
-			<Button primary onClick={copyToClipboard}>
+			<Button onClick={copyToClipboard} className='button-primary'>
 				{'Kopiuj link'}
 			</Button>
 		</>

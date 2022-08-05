@@ -25,7 +25,7 @@ export const TitleForm: FC<ITitleFormProps> = ({ isLoading, initialValues, place
 						) : (
 							<Input name='title' isIcon={isIcon} {...props} isLoading={isLoading} placeholder={placeholder} />
 						)}
-						{errors.title && touched.title && <ErrorMessageComponent name='title' margin />}
+						{errors.title && touched.title && <ErrorMessageComponent name='title' />}
 					</Form>
 				)}
 			</Formik>

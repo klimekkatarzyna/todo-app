@@ -30,7 +30,7 @@ export const JoinToList: FC<{ listDataLoading: boolean; list: IShareLitDetails |
 				listę <strong>{`${list?.listData?.title}`}</strong>
 			</p>
 
-			<Button primary onClick={() => mutate(getStringAfterCharacter(location.search, '='))}>
+			<Button className='button-primary' onClick={() => mutate(getStringAfterCharacter(location.search, '='))}>
 				{'Dołącz do listy'}
 				{isLoading && <Loader className='animate-spin ml-2' />}
 			</Button>

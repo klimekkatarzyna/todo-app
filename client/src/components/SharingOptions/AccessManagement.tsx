@@ -27,7 +27,7 @@ export const AccessManagement: FC<{ listDataResponse: IList | undefined; onPrevS
 			</h2>
 			<h3 className='text-sm text-darkerGrey'>{'Link do zapraszania'}</h3>
 			<div className='w-80 break-all text-center mb-4 font-extralight'>{`${process.env.REACT_APP_API_URL_LOCAL}${ROUTE.sharing}?invitationToken=${listDataResponse?.invitationToken}`}</div>
-			<Button secondary onClick={() => mutate({ _id: listDataResponse?._id })} isLoading={isLoading}>
+			<Button className='button-secondary' onClick={() => mutate({ _id: listDataResponse?._id })} isLoading={isLoading}>
 				{'Zatrzymaj udostępnianie'}
 			</Button>
 		</div>

@@ -59,12 +59,12 @@ export const Login: FC = () => {
 				<Formik initialValues={initialValues as LoginValidationType} validationSchema={loginValidationSchema} onSubmit={onSubmit}>
 					{({ errors, touched, ...props }) => (
 						<Form className='w-full mt-2'>
-							<div className='relative'>
+							<div className='relative flex flex-col'>
 								<Input name='email' placeholder={'Email'} {...props} />
 								{errors.email && touched.email && <ErrorMessageComponent name='email' />}
 							</div>
 
-							<div className='relative flex mt-2'>
+							<div className='relative flex mt-2 flex-col'>
 								<Input
 									name='password'
 									type={showPassword ? InputType.text : InputType.password}
@@ -79,7 +79,7 @@ export const Login: FC = () => {
 								)}
 							</div>
 
-							<Button primary type='submit' isLoading={isLoading} className='w-full mt-8'>
+							<Button type='submit' isLoading={isLoading} className='w-full mt-6 button-primary'>
 								<span>Zaloguj</span>
 							</Button>
 						</Form>

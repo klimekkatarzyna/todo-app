@@ -42,4 +42,24 @@
 		background: linear-gradient(180deg, #fff, #fff 3.5rem, #eaeaea 3.5rem, #eaeaea 3.5rem);
 		background-size: 100% 3.6rem;
 	}
+
+	.button-primary {
+		@apply bg-blue text-white w-full border border-transparent hover:bg-blue;
+	}
+
+	.button-secondary {
+		@apply bg-red text-white ml-2 w-full border border-transparent hover:bg-rose-800;
+	}
+
+	.button-outline {
+		@apply bg-none text-fontColor border border-grey mt-3 w-full bg-white hover:bg-gray-50 sm:mt-0;
+	}
+
+	.button-disabled {
+		@apply disabled:bg-lightBlue cursor-not-allowed;
+	}
+
+	.button-outlineWhite {
+		@apply bg-none text-white border border-white;
+	}
 }

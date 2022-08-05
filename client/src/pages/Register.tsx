@@ -12,6 +12,7 @@ import { ROUTE } from '../enums';
 import { buildUrl } from '../utils/paths';
 import { useTogglePasswordVisibility } from '../hooks/useTogglePasswordVisibility';
 import { EyeOff, Eye } from 'react-feather';
+import toast from 'react-hot-toast';
 
 export const Register: FC = () => {
 	const navigate = useNavigate();
@@ -21,6 +22,9 @@ export const Register: FC = () => {
 	const { mutateAsync, isLoading, data } = useMutation(registerAction, {
 		onSuccess: () => {
 			navigate(buildUrl(ROUTE.home));
+		},
+		onError: (error: any): any => {
+			toast.error(error?.error);
 		},
 	});
 
@@ -46,15 +50,15 @@ export const Register: FC = () => {
 				<Formik initialValues={initialValues as RegisterValidationType} validationSchema={registerValidationSchema} onSubmit={onSubmit}>
 					{({ errors, touched, ...props }) => (
 						<Form className='w-full mt-2'>
-							<div className='relative'>
+							<div className='relative flex flex-col'>
 								<Input name='username' placeholder={'User name'} {...props} />
 								{errors.username && touched.username && <ErrorMessageComponent name='username' />}
 							</div>
-							<div className='relative flex mt-2'>
+							<div className='relative flex flex-col mt-2'>
 								<Input name='email' placeholder={'Email'} {...props} />
 								{errors.email && touched.email && <ErrorMessageComponent name='email' />}
 							</div>
-							<div className='relative flex mt-2'>
+							<div className='relative flex flex-col mt-2'>
 								<Input
 									name='password'
 									type={showPassword ? InputType.text : InputType.password}
@@ -68,7 +72,7 @@ export const Register: FC = () => {
 									<EyeOff onClick={handledSetPassword} className='icon-style text-fontColor absolute right-5 top-2' />
 								)}
 							</div>
-							<Button primary type='submit' isLoading={isLoading} className='w-full'>
+							<Button type='submit' isLoading={isLoading} className='w-full button-primary mt-6'>
 								Uwrórz konto
 							</Button>
 						</Form>

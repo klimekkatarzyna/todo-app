@@ -8,7 +8,7 @@ export const GenerateTokenView: FC<{ isLoading: boolean; onGenerateInvitationTok
 				<strong>Udostępnij listę</strong>
 			</h2>
 			<p>Zaproś inne osoby. Gdy dołączą zostaną tutaj zaproszone.</p>
-			<Button primary onClick={onGenerateInvitationToken} isLoading={isLoading}>
+			<Button className='button-primary' onClick={onGenerateInvitationToken} isLoading={isLoading}>
 				{'Utwórz link zaproszenia'}
 			</Button>
 		</div>
