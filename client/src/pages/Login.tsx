@@ -13,6 +13,7 @@ import { ROUTE } from '../enums';
 import { buildUrl } from '../utils/paths';
 import { useTogglePasswordVisibility } from '../hooks/useTogglePasswordVisibility';
 import { EyeOff, Eye } from 'react-feather';
+import toast from 'react-hot-toast';
 
 export const Login: FC = () => {
 	const naviate = useNavigate();
@@ -30,6 +31,9 @@ export const Login: FC = () => {
 		onSuccess: response => {
 			naviate(redirectUrl);
 			setAuthData(response?.body);
+		},
+		onError: (error: any): any => {
+			toast.error(error?.error);
 		},
 	});
 
@@ -75,7 +79,7 @@ export const Login: FC = () => {
 								)}
 							</div>
 
-							<Button primary type='submit' isLoading={isLoading} className='w-full'>
+							<Button primary type='submit' isLoading={isLoading} className='w-full mt-8'>
 								<span>Zaloguj</span>
 							</Button>
 						</Form>

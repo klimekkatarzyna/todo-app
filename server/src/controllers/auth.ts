@@ -46,13 +46,13 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
 export const login = async (req: Request, res: Response) => {
 	try {
 		const user = await User.findOne({ email: req.body.email });
-		if (!user) return res.status(403).json({ error: 'Wrong credentials' });
+		if (!user) return res.status(401).json({ error: 'Wrong credentials' });
 
 		const token = signJwt(user?._id?.toString());
 		setTokenCookie(res, token);
 
 		const validPassword = await bcrypt.compare(req.body.password, user.password);
-		if (!validPassword) return res.status(400).json({ error: 'Wrong credentials' });
+		if (!validPassword) return res.status(401).json({ error: 'Wrong credentials' });
 
 		res.json({
 			body: {
