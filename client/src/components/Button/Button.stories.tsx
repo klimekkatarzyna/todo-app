@@ -7,39 +7,41 @@ export default {
 	component: Button,
 } as ComponentMeta<typeof Button>;
 
-const Template: ComponentStory<typeof Button> = args => <Button {...args} />;
+const PrimaryTemplate: ComponentStory<typeof Button> = args => <Button {...args} className='button-primary' />;
 
-export const Primary = Template.bind({});
+export const Primary = PrimaryTemplate.bind({});
 Primary.args = {
-	primary: true,
 	type: 'button',
 	children: 'Button',
 };
 
-export const Secondary = Template.bind({});
+const SecondaryTemplate: ComponentStory<typeof Button> = args => <Button {...args} className='button-secondary' />;
+
+export const Secondary = SecondaryTemplate.bind({});
 Secondary.args = {
-	secondary: true,
 	type: 'button',
 	children: 'Button',
 };
 
-export const Outline = Template.bind({});
+const OutlineTemplate: ComponentStory<typeof Button> = args => <Button {...args} className='button-outline' />;
+
+export const Outline = OutlineTemplate.bind({});
 Outline.args = {
-	outline: true,
 	type: 'button',
 	children: 'Button',
 };
 
-export const Disabled = Template.bind({});
+const DisabledTemplate: ComponentStory<typeof Button> = args => <Button {...args} className='button-disable' />;
+
+export const Disabled = DisabledTemplate.bind({});
 Disabled.args = {
 	disabled: true,
 	type: 'button',
 	children: 'Button',
 };
 
-export const TypeSubmit = Template.bind({});
+export const TypeSubmit = PrimaryTemplate.bind({});
 TypeSubmit.args = {
-	primary: true,
 	type: 'submit',
 	children: 'Button',
 };

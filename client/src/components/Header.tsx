@@ -31,7 +31,7 @@ export const Header: FC<{ userName: string }> = ({ userName }) => {
 				<div className='text-white mr-4 p-2 rounded-full border-solid border-2 border-white w-9 h-9 flex items-center justify-center'>
 					{name}
 				</div>
-				<Button outlineWhite onClick={() => mutate()} isLoading={isLoading}>
+				<Button className='button-outlineWhite' onClick={() => mutate()} isLoading={isLoading}>
 					Logout
 				</Button>
 			</div>

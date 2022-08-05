@@ -61,10 +61,10 @@ export const ModalComponent: FC<IModalComponentProps<unknown>> = ({
 				<div className='text-sm pt-4'>{children}</div>
 				{!isActionButtonHidden && (
 					<div className='flex justify-end mt-auto'>
-						<Button onClick={onHide} outline>
+						<Button onClick={onHide} className='button-outline'>
 							{'Anuluj'}
 						</Button>
-						<Button type='button' secondary onClick={onHandleActionAndClose} isLoading={isLoading}>
+						<Button type='button' className='button-secondary' onClick={onHandleActionAndClose} isLoading={isLoading}>
 							{'Usuń'}
 						</Button>
 					</div>

@@ -44,7 +44,7 @@ export const Input: FC<IInput> = ({
 				</button>
 			)}
 			<Field
-				className={`${className} w-full outline-none text-base md:text-sm appearance-none rounded relative block border border-border placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue focus:border-blue focus:z-10 ${
+				className={`${className} w-full outline-none text-lg md:text-sm appearance-none rounded relative block border border-border placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue focus:border-blue focus:z-10 ${
 					colorType === InputVersion.primary ? `bg-white` : 'bg-grey'
 				} ${colorType === InputVersion.primary ? 'text-blue' : 'text-white'}`}
 				name={name}

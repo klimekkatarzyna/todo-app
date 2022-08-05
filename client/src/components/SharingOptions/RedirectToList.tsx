@@ -20,7 +20,7 @@ export const RedirectToList: FC<{ list: IShareLitDetails | undefined; listDataLo
 				<strong>{`${list?.listData?.title}`}</strong>
 			</p>
 
-			<Button primary onClick={redirectToList}>
+			<Button onClick={redirectToList} className='button-primary'>
 				{'Otwórz'}
 			</Button>
 		</>

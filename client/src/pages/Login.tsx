@@ -13,6 +13,7 @@ import { ROUTE } from '../enums';
 import { buildUrl } from '../utils/paths';
 import { useTogglePasswordVisibility } from '../hooks/useTogglePasswordVisibility';
 import { EyeOff, Eye } from 'react-feather';
+import toast from 'react-hot-toast';
 
 export const Login: FC = () => {
 	const naviate = useNavigate();
@@ -30,6 +31,9 @@ export const Login: FC = () => {
 		onSuccess: response => {
 			naviate(redirectUrl);
 			setAuthData(response?.body);
+		},
+		onError: (error: any): any => {
+			toast.error(error?.error);
 		},
 	});
 
@@ -55,12 +59,12 @@ export const Login: FC = () => {
 				<Formik initialValues={initialValues as LoginValidationType} validationSchema={loginValidationSchema} onSubmit={onSubmit}>
 					{({ errors, touched, ...props }) => (
 						<Form className='w-full mt-2'>
-							<div className='relative'>
+							<div className='relative flex flex-col'>
 								<Input name='email' placeholder={'Email'} {...props} />
 								{errors.email && touched.email && <ErrorMessageComponent name='email' />}
 							</div>
 
-							<div className='relative flex mt-2'>
+							<div className='relative flex mt-2 flex-col'>
 								<Input
 									name='password'
 									type={showPassword ? InputType.text : InputType.password}
@@ -75,7 +79,7 @@ export const Login: FC = () => {
 								)}
 							</div>
 
-							<Button primary type='submit' isLoading={isLoading} className='w-full'>
+							<Button type='submit' isLoading={isLoading} className='w-full mt-6 button-primary'>
 								<span>Zaloguj</span>
 							</Button>
 						</Form>
