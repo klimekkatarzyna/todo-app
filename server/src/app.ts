@@ -1,4 +1,5 @@
 require('dotenv').config();
+import { validateEnv } from 'valid-env';
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
@@ -20,6 +21,8 @@ interface IAllSocketConnections {
 
 // connect to mongoDB server
 connect(process.env.MONGODB_CONNECTION!);
+
+validateEnv(['SECRET_KEY', 'PORT', 'FRONTEND', 'FRONTEND_DOMAIN', 'MONGODB_CONNECTION']);
 
 /* MAIN SET UP */
 
