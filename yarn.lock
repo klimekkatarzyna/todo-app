@@ -8518,7 +8518,7 @@ express-validator@^6.14.0:
     lodash "^4.17.21"
     validator "^13.7.0"
 
-express@^4.17.1, express@^4.17.3:
+express@^4.17.1:
   version "4.17.3"
   resolved "https://registry.yarnpkg.com/express/-/express-4.17.3.tgz#f6c7302194a4fb54271b73a1fe7a06478c8f85a1"
   integrity sha512-yuSQpz5I+Ch7gFrPCk4/c+dIBKlQUxtgwqzph132bsT6qhuzss6I8cLJQz7B3rFblzd6wtcI0ZbGltH/C4LjUg==
@@ -12009,7 +12009,7 @@ mongodb@4.3.1:
   optionalDependencies:
     saslprep "^1.0.3"
 
-mongoose@*, mongoose@^6.2.7:
+mongoose@*:
   version "6.2.7"
   resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-6.2.7.tgz#d8ea2fce4c19200d316c3ac4a8377f3af4fb4450"
   integrity sha512-yqTZcM3u0+aLzl6cirtXy6vr24kt+kFyTucCQ3pyncvO1jGn/M1R09qkC/v54QoPXeVJdpcuS5eQWn0NLlDvKA==
@@ -16863,6 +16863,11 @@ v8-to-istanbul@^8.0.0, v8-to-istanbul@^8.1.0:
     "@types/istanbul-lib-coverage" "^2.0.1"
     convert-source-map "^1.6.0"
     source-map "^0.7.3"
+
+valid-env@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/valid-env/-/valid-env-1.1.1.tgz#a4fa867e0654f3f92da7f5f6ea3d484af1182e10"
+  integrity sha512-1DgpagFCCwhN/EVUCkgKfqZWUDPbM7d5+tCrngbc4Z9ZeRW1LX+m47JWq7o0aRtr8uLvQlWHVZVxh0KvLeV4pQ==
 
 validate-npm-package-license@^3.0.1:
   version "3.0.4"
