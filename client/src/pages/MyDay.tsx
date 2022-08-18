@@ -10,8 +10,7 @@ import { buildUrl } from '../utils/paths';
 import { TasksList } from '../components/Tasks/TasksList';
 
 export const MyDay: FC = () => {
-	const { data, isLoading } = useQuery<ITask[] | undefined>(QueryKey.getMyDayTasks, onGetMayDayTasksAction);
-
+	const { data, isLoading } = useQuery<ITask[] | undefined>([QueryKey.getMyDayTasks], onGetMayDayTasksAction);
 	const filteredTasks = useMemo(() => data?.filter(task => task.isMyDay === true), [data]);
 
 	return (

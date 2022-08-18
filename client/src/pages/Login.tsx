@@ -6,7 +6,7 @@ import { InputType } from '../interfaces/app';
 import { ErrorMessageComponent } from '../formik/ErrorMessageComponent';
 import { Input } from '../formik/Input';
 import { Formik, Form } from 'formik';
-import { loginValidationSchema, LoginValidationType, IUserData } from '@kkrawczyk/todo-common';
+import { loginValidationSchema, LoginValidationType } from '@kkrawczyk/todo-common';
 import { loginAction } from '../actions/user';
 import { AuthContext, AuthContextType } from '../AuthProvider';
 import { ROUTE } from '../enums';

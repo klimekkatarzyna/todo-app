@@ -20,13 +20,13 @@ export const SortComponent: FC = () => {
 
 	return (
 		<button className='ml-2 p-2 hover:bg-lightGrey absolute right-0 top-10 md:top-2 md:right-5'>
-			<p onClick={handleContextMenu}>
+			<button onClick={handleContextMenu}>
 				<div className='flex'>
 					<ArrowUp className='icon-style text-grey' />
 					<ArrowDown className='icon-style text-grey' />
 				</div>
 				Sortuj
-			</p>
+			</button>
 			<Menu id={MENU_ID}>
 				<Submenu label='sortuj według'>
 					{Object?.entries(SortTaskType)?.map(([key, value]) => {

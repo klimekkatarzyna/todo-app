@@ -14,7 +14,7 @@ export const Tooltip: FC<ITooltip> = ({ children, position, text }) => {
 	return (
 		<div className='relative'>
 			<div
-				className={`bg-white p-3 absolute text-sm z-20 top-[-52px] w-fit shadow-md ${show ? 'flex' : 'hidden'} rounded-md ${
+				className={`bg-white p-2 absolute text-xs z-20 top-[20px] w-fit shadow-md ${show ? 'flex' : 'hidden'} rounded-md ${
 					position === 'left' ? 'left-[-10px]' : 'left-auto'
 				} ${position === 'right' ? 'right-[-10px]' : 'right-auto'}`}>
 				<span className='whitespace-nowrap'>{text}</span>

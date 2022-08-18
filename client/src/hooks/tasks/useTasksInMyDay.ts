@@ -6,13 +6,11 @@ import { taskInMyDayAction } from '../../actions/tasks';
 import { AuthContext, AuthContextType } from '../../AuthProvider';
 import { QueryKey } from '../../enums';
 import { HttpResponse } from '../../utils/http';
-import { useTask } from './useTask';
 
 export const useTasksInMyDay = () => {
 	const query = useQueryClient();
 	const [isMyDayTask, setIsMyDayTask] = useState<boolean>(false);
 	const { authData } = useContext<AuthContextType>(AuthContext);
-	const { taskData } = useTask();
 
 	const taskInMyDay = useCallback(
 		(tasks: ITask[] | undefined, response: HttpResponse<ITask>) =>
@@ -38,7 +36,7 @@ export const useTasksInMyDay = () => {
 			query.setQueryData<ITask | undefined>([QueryKey.getTask, response.body?._id], (task: ITask | undefined) =>
 				task?._id === response.body?._id ? { ...task, isMyDay: response.body?.isMyDay } : task
 			);
-			toast.success(taskData?.isMyDay ? 'Zadanie usunięte z widoku "Mój dzień"' : 'Zadanie dodane do "Mój dzień');
+			toast.success(response.body?.isMyDay ? 'Zadanie dodane do "Mój dzień' : 'Zadanie usunięte z widoku "Mój dzień"');
 			setIsMyDayTask(!isMyDayTask);
 		},
 	});

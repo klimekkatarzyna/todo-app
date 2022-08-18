@@ -10,9 +10,6 @@ export const me = `${process.env.REACT_APP_LOCAL_BACKEND}/api/me`;
 export const logout = `${process.env.REACT_APP_LOCAL_BACKEND}/api/logout`;
 export const user = `${process.env.REACT_APP_LOCAL_BACKEND}/api/user`;
 
-// main list
-export const getMainList = `${process.env.REACT_APP_LOCAL_BACKEND}/api/mainList`;
-
 // list
 export const getLists = `${process.env.REACT_APP_LOCAL_BACKEND}/api/lists`;
 export const getListById = `${process.env.REACT_APP_LOCAL_BACKEND}/api/listDetails`;

@@ -77,7 +77,5 @@ export const ContextMenuProvider: FC<{ children: React.ReactNode }> = ({ childre
 		};
 	}, [contextualMenu, handleItemClick]);
 
-	console.log({ contextualMenu });
-
 	return <ContextMenuContext.Provider value={value}>{children}</ContextMenuContext.Provider>;
 };
