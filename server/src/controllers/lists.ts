@@ -3,23 +3,7 @@ import { Request, Response } from 'express';
 import { Group } from '../models/group';
 import Task from '../models/task';
 import { List } from '../models/list';
-import MainList from '../models/mainList';
 import { getSessionUserId } from '../utils/auth';
-
-export const getMainList = async (req: Request, res: Response) => {
-	try {
-		const mainList = await MainList.find();
-		res.status(200).json({
-			body: {
-				mainLists: mainList,
-			},
-		});
-	} catch (error) {
-		res.status(500).json({
-			error,
-		});
-	}
-};
 
 export const createList = async (req: Request, res: Response) => {
 	const userId = getSessionUserId(req);

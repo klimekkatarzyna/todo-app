@@ -1,30 +1,47 @@
-import { FC, useCallback, memo } from 'react';
+import { FC, memo } from 'react';
 import { MenuListItem } from '../MenuListItem/MenuListItem';
-import { Loader } from 'react-feather';
-import { http, HttpResponse } from '../../utils/http';
-import * as api from '../../services';
-import { useQuery } from 'react-query';
-import { IList } from '@kkrawczyk/todo-common';
-import { QueryKey } from '../../enums';
+import { AppColor, IList } from '@kkrawczyk/todo-common';
+import { ROUTE } from '../../enums';
 
-export interface IMainListResponse {
-	mainLists: IList[];
-}
+const constantMenuList = [
+	{
+		title: 'Mój dzień',
+		url: ROUTE.myDay,
+		isMainList: true,
+		themeColor: AppColor.dark,
+	},
+	{
+		title: 'Ważne',
+		url: ROUTE.important,
+		isMainList: true,
+		themeColor: AppColor.dark,
+	},
+	{
+		title: 'Zaplanowane',
+		url: ROUTE.planned,
+		isMainList: true,
+		themeColor: AppColor.blue,
+	},
+	{
+		title: 'Przydzielone dla Ciebie',
+		url: ROUTE.assigned,
+		isMainList: true,
+		themeColor: AppColor.dark,
+	},
+	{
+		title: 'Zadania',
+		url: ROUTE.inbox,
+		isMainList: true,
+		themeColor: AppColor.red,
+	},
+];
 
 const MainListComponent: FC<{ isNavClosed: boolean }> = ({ isNavClosed }) => {
-	// TODO: endpomt to update tasksNumber
-	const getMainListAction = useCallback(async () => await http<IMainListResponse>(api.getMainList, 'GET'), []);
-	const { data, isLoading } = useQuery<HttpResponse<IMainListResponse>>(QueryKey.getMainList, getMainListAction);
-
 	return (
 		<div className='flex flex-col mb-8'>
-			{isLoading ? (
-				<Loader className='animate-spin m-auto' />
-			) : (
-				data?.body?.mainLists?.map((listItem: IList) => (
-					<MenuListItem key={listItem?._id} listItem={listItem} isNavClosed={isNavClosed} isMainMenu />
-				))
-			)}
+			{constantMenuList?.map((listItem: IList, index) => (
+				<MenuListItem key={index} listItem={listItem} isNavClosed={isNavClosed} isMainMenu />
+			))}
 		</div>
 	);
 };

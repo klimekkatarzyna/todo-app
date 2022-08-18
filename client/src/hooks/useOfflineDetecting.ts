@@ -19,8 +19,6 @@ export const useOfflineDetecting = () => {
 		setOnLineStatus(navigator.onLine);
 	}, []);
 
-	console.log({ navigator });
-
 	return {
 		onLineStatus,
 	};

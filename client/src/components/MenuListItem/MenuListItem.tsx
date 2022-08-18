@@ -26,7 +26,7 @@ interface IMenuListItem {
 const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed, isMainMenu = false }) => {
 	const query = useQueryClient();
 	const { handleItemClick } = useContext(ContextMenuContext);
-	const { displayMenu } = useShowMenuContexify(listItem?._id);
+	const { displayMenu } = useShowMenuContexify(listItem?._id, isMainMenu);
 	const { icon } = useGenerateMenuIcon(listItem);
 	const { isOwner } = useSharingData(listItem?.userId);
 
@@ -73,14 +73,16 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed, isMai
 					)}
 				</div>
 			</div>
-			<ContextMenuComponent
-				contextMenuList={isMainMenu ? [] : contextMenuList}
-				elementDetails={listItem}
-				handleItemClick={handleItemClick}
-				submenu={groupsWithoutAddedList}
-				contextMenuOption={ContextMenuOpion.move_list_to}
-				mutateAsyncAction={mutateAsync}
-			/>
+			{!isMainMenu && (
+				<ContextMenuComponent
+					contextMenuList={contextMenuList}
+					elementDetails={listItem}
+					handleItemClick={handleItemClick}
+					submenu={groupsWithoutAddedList}
+					contextMenuOption={ContextMenuOpion.move_list_to}
+					mutateAsyncAction={mutateAsync}
+				/>
+			)}
 		</NavLink>
 	);
 };

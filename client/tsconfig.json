@@ -16,8 +16,5 @@
 		"noEmit": true,
 		"jsx": "react-jsx"
 	},
-	"include": ["src"],
-	"rules": {
-		"no-mixed-operators": 0
-	}
+	"include": ["src"]
 }

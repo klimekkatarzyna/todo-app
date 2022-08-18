@@ -18,7 +18,6 @@ import {
 	getList,
 	getListDatatoShare,
 	getLists,
-	getMainList,
 	changeInvitation,
 	removeList,
 	updateMembersList,
@@ -38,8 +37,6 @@ lists.get('/lists', authorization, getLists);
 lists.get('/listDetails/:_id', authorization, validateParams(listIdSchema), getList);
 
 lists.delete('/lists', authorization, validateBody<ListIdType>(listIdRequiredSchema), removeList);
-
-lists.get('/mainList', authorization, getMainList);
 
 lists.post('/invitationToken', authorization, validateBody<AddInvitationTokenToListType>(addInvitationTokenToListSchema), addInvitationTokenToList);
 
