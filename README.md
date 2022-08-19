@@ -35,20 +35,54 @@ v16.0.0
 
 ### Installation
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
+Short instruction step by step how install and run the app.
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   git clone git@github.com:klimekkatarzyna/todo-app.git
    ```
-2. Install NPM packages
+2. Install packages
    ```sh
-   npm install
+   yarn install                                                                       
    ```
-3. Enter your API in `config.js`
+3. Add docker
+   - You can dowloand docker here: https://www.docker.com/products/docker-desktop/
+   - Install docker
+   - Add docker extension to your code editor
+   - Run command ```Compose start```
+
+4. Build global types
+   - Go to common folder and in terminal type command:
+   ```sh
+   yarn build                                                                    
+   ```
+5. Run frontend
+   - Go to client folder 
+   - Create `.env` file and add environment variables:
+   ```sh
+   REACT_APP_API_URL_LOCAL=http://localhost:8080
+   REACT_APP_LOCAL_BACKEND=http://localhost:3000
+   REACT_APP_SOCKET_LOCAL_URL=http://localhost:3000
+   ```
+   - Type in terminal:
    ```js
-   const API_KEY = 'ENTER YOUR API';
+   yarn start
    ```
+6. Run backend
+   - Go to server folder
+   - Create `.env` file and add environment variables:
+   ```sh
+   SECRET_KEY=.Ge~!!Wcv|vREPrmRrm.p3m$pm.5.$
+   PORT=3000
+   FRONTEND=http://localhost:8080
+   FRONTEND_DOMAIN=localhost
+   MONGODB_CONNECTION=mongodb://localhost:/todo
+   ```
+   - Type in terminal:
+   ```js
+   yarn start
+   ```
+7. And that's it! Go to browser and check the url `http://localhost:8080`
 
 ## License
 
