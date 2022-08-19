@@ -11,23 +11,23 @@ https://todo.houseof.software/login
 
 ## Goals
 
-1. Create full stack app frontend & backend
-2. Monorepo
-3. Sharing types between frontend and backend
-4. Real-time data update
-5. Strong typing
-6. Try React Query and Recoill
-7. Try TailwindCss
-8. Offline mode
-9. Cypress and Jest
-10. Storybook
-11. Deploy app on render.com
+- Create full stack app frontend & backend
+- Monorepo
+- Sharing types between frontend and backend
+- Real-time data update
+- Strong typing
+- Try React Query and Recoill
+- Try TailwindCss
+- Offline mode
+- Cypress and Jest
+- Storybook
+- Deploy app on render.com
 
 ## Tech Stack
 
-**Client:** React, Typescript, React Query, Recoil, TailwindCSS, Storybook, Jest, Cypress, Docker
+**Client:** React, Typescript, React-Query, Recoil, TailwindCSS, Storybook, Jest, Cypress, Docker, Socket.io
 
-**Server:** Node, Express
+**Server:** Node, Express, Socket.io, MongoDB
 
 ## Node version
 
@@ -66,33 +66,28 @@ Short instruction step by step how install and run the app.
    ```sh
    yarn install
    ```
-3. Add docker
-
+3. Run database via docker
    - You can dowloand docker here: https://www.docker.com/products/docker-desktop/
    - Install docker
-   - Add docker extension to your code editor
-   - Run command `Compose start`
+   - Run command `docker-compose up -d`
 
 4. Build global types
-   - Go to common folder and in terminal type command:
    ```sh
-   yarn build
+   cd common && yarn build
    ```
 5. Run frontend
-   - Go to client folder
-   - Create `.env` file and add environment variables:
+   - Create `.env` file in `./client` folder and add environment variables:
    ```sh
    REACT_APP_API_URL_LOCAL=http://localhost:8080
    REACT_APP_LOCAL_BACKEND=http://localhost:3000
    REACT_APP_SOCKET_LOCAL_URL=http://localhost:3000
    ```
    - Type in terminal:
-   ```js
-   yarn start
+   ```sh
+   cd client && yarn start
    ```
 6. Run backend
-   - Go to server folder
-   - Create `.env` file and add environment variables:
+   - Create `.env` file in `./server` folder and add environment variables:
    ```sh
    SECRET_KEY=.Ge~!!Wcv|vREPrmRrm.p3m$pm.5.$
    PORT=3000
@@ -102,7 +97,7 @@ Short instruction step by step how install and run the app.
    ```
    - Type in terminal:
    ```js
-   yarn start
+   cd server && yarn start
    ```
 7. And that's it! Go to browser and check the url `http://localhost:8080`
 
