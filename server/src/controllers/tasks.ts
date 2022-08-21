@@ -88,7 +88,7 @@ export const editTask = async (req: Request, res: Response) => {
 	try {
 		res.status(200).json({
 			body: {
-				_id: req.body._id,
+				_id: req.params._id,
 				title: req.body.title,
 			},
 		});
