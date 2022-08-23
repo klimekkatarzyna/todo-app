@@ -9,7 +9,7 @@ import toast from 'react-hot-toast';
 import { useFocusingHandling } from '../../hooks/useMouseHandling';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Folder, Loader } from 'react-feather';
+import { Loader } from 'react-feather';
 import { InputType } from '../../interfaces/app';
 
 interface IEditGroupProps {
@@ -24,7 +24,7 @@ export const EditGroup: FC<IEditGroupProps> = ({ title, groupId, isNavClosed }) 
 	const { contextualMenu, setContextMenu } = useContext(ContextMenuContext);
 
 	const elementRef: RefObject<HTMLInputElement> = useRef(null);
-	const { isFocused, onClick, onBlur, onFocus } = useFocusingHandling(elementRef);
+	const { onBlur, onFocus } = useFocusingHandling(elementRef);
 	const {
 		register,
 		handleSubmit,
@@ -35,7 +35,9 @@ export const EditGroup: FC<IEditGroupProps> = ({ title, groupId, isNavClosed }) 
 
 	const { mutateAsync, isLoading } = useMutation(editGroup, {
 		onSuccess: async response => {
-			query.setQueryData<IGroup[] | undefined>([QueryKey.groups], groups => [...(groups || []), response.body || {}]);
+			query.setQueryData<IGroup[] | undefined>([QueryKey.groups], groups =>
+				groups?.map(group => (group._id === response.body?._id ? { ...group, title: response.body?.title } : group))
+			);
 			toast.success('Nazwa grupy zmieniona');
 		},
 	});
@@ -43,7 +45,7 @@ export const EditGroup: FC<IEditGroupProps> = ({ title, groupId, isNavClosed }) 
 	const onSubmit: SubmitHandler<IGroup> = useCallback(
 		async (data, e) => {
 			if (isStringContainsOnlyWhitespace(data.title)) return;
-			await mutateAsync({ _id: groupId, title: data.title });
+			await mutateAsync({ _id: contextualMenu?.elementId, title: data.title });
 			e?.target.reset();
 			setIsInputVisible(false);
 			setContextMenu(undefined);
@@ -53,19 +55,15 @@ export const EditGroup: FC<IEditGroupProps> = ({ title, groupId, isNavClosed }) 
 	);
 
 	useEffect(() => {
-		setIsInputVisible((contextualMenu?.type === ContextMenuOpion.edit_group_name && contextualMenu?.elementId === groupId) || isFocused);
-	}, [contextualMenu, groupId, isFocused]);
+		setIsInputVisible(contextualMenu?.type === ContextMenuOpion.edit_group_name && contextualMenu?.elementId === groupId);
+	}, [contextualMenu, groupId]);
 
 	return (
-		<div ref={elementRef} onClick={onClick} onBlur={onBlur}>
+		<div>
 			{isInputVisible ? (
 				<form className='w-full mt-2 flex' onSubmit={handleSubmit(onSubmit)}>
-					<button type='submit' className='bg-inherit border-none mr-2'>
-						<Folder className='icon-style text-grey' />
+					<div className='w-full flex items-center border-none outline-none pt-2 pr-0 pb-2 pl-2'>
 						{isLoading && <Loader />}
-					</button>
-
-					<div className='w-full border-none outline-none pt-2 pr-0 pb-2 pl-2'>
 						<input
 							autoFocus
 							className='input-styles'

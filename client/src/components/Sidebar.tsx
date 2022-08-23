@@ -33,7 +33,10 @@ export const Sidebar: FC = () => {
 					<Groups isNavClosed={isNavClosed} />
 				</div>
 			</div>
-			<div className={`flex absolute left-0 right-0 bottom-0 border-solid border-2 w-full items-center ${isNavClosed ? 'hidden' : 'flex'}`}>
+			<div
+				className={`flex absolute left-0 right-0 bottom-0 border-solid border-2 w-full items-end bg-light-grey pb-2 ${
+					isNavClosed ? 'hidden' : 'flex'
+				}`}>
 				<CreateList />
 				<CreateGroup />
 			</div>

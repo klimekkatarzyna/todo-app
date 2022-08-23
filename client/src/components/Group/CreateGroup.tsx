@@ -46,7 +46,7 @@ export const CreateGroup: FC = () => {
 		<div ref={elementeReference}>
 			<IconButton onClick={toggleDropdown} />
 			{dropdownOpen && (
-				<div className='absolute bottom-11 left-0 right-0 w-full flex items-center py-0 px-4 bg-input-color'>
+				<div className='absolute bottom-[3.55rem] left-0 right-0 w-full flex items-center py-0 px-4 bg-input-color'>
 					<form className='w-full mt-2 flex' onSubmit={handleSubmit(onSubmit)}>
 						<button type='submit' className='bg-inherit border-none mr-2'>
 							<Folder className='icon-style text-grey' />

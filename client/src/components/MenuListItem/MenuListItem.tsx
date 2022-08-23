@@ -46,7 +46,7 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed, isMai
 	const { data: groupsList } = useQuery<IGroup[] | undefined>(QueryKey.groups, getGroups);
 
 	const { mutateAsync } = useMutation(addListToGroupAction, {
-		onSuccess: async response => {
+		onSuccess: () => {
 			query.invalidateQueries([QueryKey.groups]);
 			toast.success('Lista dodana do grupy');
 		},

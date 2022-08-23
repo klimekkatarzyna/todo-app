@@ -76,7 +76,7 @@ export const SearchInput: FC = () => {
 	return (
 		<div className='bg-light-grey w-auto md:w-96'>
 			<div className='flex items-center rounded py-0 cursor-pointer w-full relative'>
-				<form className='w-full mt-2 flex' onSubmit={handleSubmit(onSearch)}>
+				<form className='w-full flex' onSubmit={handleSubmit(onSearch)}>
 					{isLoading && <Loader />}
 					<input autoFocus className='input-styles' type={InputType.search} {...register('title', { required: true })} />
 					{errors.title && <div className='input-error-styles'>{errors.title?.message}</div>}
