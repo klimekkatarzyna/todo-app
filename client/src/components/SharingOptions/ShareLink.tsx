@@ -14,7 +14,7 @@ export const ShareLink: FC<{ listDataResponse: IList | undefined }> = ({ listDat
 			document.execCommand('copy');
 		}
 
-		if (navigator) {
+		if (navigator?.share !== undefined) {
 			try {
 				await navigator?.share({
 					title: 'url',
@@ -27,7 +27,7 @@ export const ShareLink: FC<{ listDataResponse: IList | undefined }> = ({ listDat
 	}, []);
 
 	return (
-		<>
+		<div className='mt-4'>
 			<input
 				className='w-full border-none outline-none text-sm bg-inherit text-blue'
 				value={`${process.env.REACT_APP_API_URL_LOCAL}${ROUTE.sharing}?invitationToken=${listDataResponse?.invitationToken}`}
@@ -36,9 +36,9 @@ export const ShareLink: FC<{ listDataResponse: IList | undefined }> = ({ listDat
 				type='text'
 				name='shareLink'
 			/>
-			<Button onClick={copyToClipboard} className='button-primary'>
+			<Button onClick={copyToClipboard} className='button-primary mt-4'>
 				{'Kopiuj link'}
 			</Button>
-		</>
+		</div>
 	);
 };

@@ -74,7 +74,7 @@ export const AssignComponent: FC<IAssignComponentrops> = ({ listId, taskId, task
 					{data?.members?.map((member, index) => (
 						<button
 							key={index}
-							className='flex flex-row items-center p-1 hover:bg-hoverColor cursor-pointer w-full'
+							className='flex flex-row items-center hover:bg-hoverColor cursor-pointer w-full'
 							onClick={() => mutate({ _id: taskId, assigned: member })}>
 							<DisplayMember member={member} />
 						</button>

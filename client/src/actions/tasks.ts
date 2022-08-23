@@ -65,3 +65,6 @@ export const getAssignedTasksAction = async ({ assigned }: ITask) => {
 	const response = await http<ITask[]>(`${api.assignedTasks}/${assigned}`, 'GET');
 	return response.body;
 };
+
+export const removeUsersFromTasksAction = async ({ parentFolderId }: ITask) =>
+	await http<ITask>(`${api.removeMembersFromTasks}`, 'DELETE', { parentFolderId });

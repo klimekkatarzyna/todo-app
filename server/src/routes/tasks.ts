@@ -16,6 +16,7 @@ import {
 	removeUserFromTask,
 	getAssignedTasks,
 	getAllTasks,
+	removeUsersFromTasks,
 } from '../controllers/tasks';
 import { authorization } from '../utils/auth';
 
@@ -46,6 +47,8 @@ tasks.get('/myDayTasks', authorization, getMyDayTasks);
 tasks.post('/membersTask', authorization, assignUserToTask);
 
 tasks.delete('/membersTask', authorization, removeUserFromTask);
+
+tasks.delete('/membersTasks', authorization, removeUsersFromTasks);
 
 tasks.get('/assignedTasks/:assigned', authorization, getAssignedTasks);
 

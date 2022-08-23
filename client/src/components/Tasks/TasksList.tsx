@@ -1,6 +1,6 @@
 import { ITask } from '@kkrawczyk/todo-common';
 import { FC, useCallback, useContext } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { modalVisibilityState } from '../../atoms/modal';
 import { ContextMenuOpion, ROUTE } from '../../enums';
 import { useRemoveTasks } from '../../hooks/tasks/useRemoveTasks';
@@ -9,17 +9,20 @@ import { ContextualModal } from '../Modal/ContextualModal';
 import { TaskItem } from './TaskItem/TaskItem';
 import { AutoAnimateWrapper } from '../../AutoAnimateWrapper';
 import { useMatch } from 'react-router-dom';
+import { elementVisibilityState } from '../../atoms/elementVisibility';
 
 export const TasksList: FC<{ tasks: ITask[] | undefined; redirectUrl: string }> = ({ tasks, redirectUrl }) => {
 	const isVisible = useRecoilValue(modalVisibilityState);
 	const { removeTaskMutation } = useRemoveTasks();
 	const { tasksContextlMenu } = useContext(TasksContextMenuContext);
 	const match = useMatch(ROUTE.search);
+	const [, setIsElementVisible] = useRecoilState(elementVisibilityState);
 
 	const onRemoveTask = useCallback(async (): Promise<void> => {
 		if (!tasksContextlMenu?.elementId) return;
 		await removeTaskMutation();
-	}, [tasksContextlMenu, removeTaskMutation]);
+		setIsElementVisible(false);
+	}, [tasksContextlMenu, removeTaskMutation, setIsElementVisible]);
 
 	return (
 		<AutoAnimateWrapper>

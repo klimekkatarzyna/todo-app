@@ -9,6 +9,7 @@ import toast from 'react-hot-toast';
 import { groupState } from '../atoms/group';
 import { getGroups } from '../actions/groups';
 import { updateMembersList } from '../actions/sharing';
+import { removeUsersFromTasksAction } from '../actions/tasks';
 
 export const useList = () => {
 	const query = useQueryClient();
@@ -39,11 +40,24 @@ export const useList = () => {
 		},
 	});
 
+	const removenUserFromTasksMutation = useMutation(removeUsersFromTasksAction, {
+		onSuccess: async response => {
+			query.setQueryData<ITask[] | undefined>([QueryKey.tasksOfCurrentList, response.body?.parentFolderId], (tasks: ITask[] | undefined) =>
+				tasks?.map(task => {
+					return { ...task, assigned: undefined };
+				})
+			);
+			toast.success('Przypisania usunięte');
+		},
+	});
+
 	const { mutate: updateMembersListMutation, isLoading: updateMembersListLoading } = useMutation(updateMembersList, {
 		onSuccess: async response => {
 			query.invalidateQueries([QueryKey.getListById, response.body?._id]);
 			query.invalidateQueries([QueryKey.lists]);
 			toast.success('Użytkownik usunięty z listy');
+
+			if (!!response.body?._id) removenUserFromTasksMutation.mutate({ parentFolderId: response.body?._id });
 		},
 	});
 
