@@ -19,7 +19,7 @@ export const SortComponent: FC = () => {
 	}, []);
 
 	return (
-		<button className='ml-2 p-2 hover:bg-lightGrey absolute right-0 top-10 md:top-2 md:right-5'>
+		<div className='ml-2 p-2 hover:bg-lightGrey absolute right-0 top-10 md:top-2 md:right-5'>
 			<button onClick={handleContextMenu}>
 				<div className='flex'>
 					<ArrowUp className='icon-style text-grey' />
@@ -43,6 +43,6 @@ export const SortComponent: FC = () => {
 					})}
 				</Submenu>
 			</Menu>
-		</button>
+		</div>
 	);
 };

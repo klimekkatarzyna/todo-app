@@ -14,6 +14,7 @@
 		"@babel/preset-react": "^7.14.5",
 		"@babel/preset-typescript": "^7.15.0",
 		"@formkit/auto-animate": "^1.0.0-beta.1",
+		"@hookform/resolvers": "^2.9.7",
 		"@kkrawczyk/todo-common": "1.0.0",
 		"@playwright/test": "^1.21.1",
 		"@storybook/react": "^6.5.9",
@@ -42,7 +43,6 @@
 		"cookie-parser": "^1.4.5",
 		"cors": "^2.8.5",
 		"dayjs": "^1.11.0",
-		"formik": "^2.2.9",
 		"fuse.js": "^6.6.1",
 		"history": "^5.0.1",
 		"husky": "^7.0.4",
@@ -57,6 +57,7 @@
 		"react-docgen-typescript": "^2.1.0",
 		"react-dom": "^17.0.2",
 		"react-feather": "^2.0.9",
+		"react-hook-form": "^7.34.2",
 		"react-hot-toast": "^2.2.0",
 		"react-query": "^3.25.1",
 		"react-router-dom": "^6.3.0",
@@ -69,7 +70,8 @@
 		"tailwindcss": "^3.0.23",
 		"typescript": "^4.5.2",
 		"uuid": "^8.3.2",
-		"web-vitals": "^1.0.1"
+		"web-vitals": "^1.0.1",
+		"yup": "^0.32.11"
 	},
 	"scripts": {
 		"start": "PORT=8080 react-scripts start",

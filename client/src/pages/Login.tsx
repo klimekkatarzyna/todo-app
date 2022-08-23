@@ -3,10 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '../components/Button/Button';
 import { useMutation } from 'react-query';
 import { InputType } from '../interfaces/app';
-import { ErrorMessageComponent } from '../formik/ErrorMessageComponent';
-import { Input } from '../formik/Input';
-import { Formik, Form } from 'formik';
-import { loginValidationSchema, LoginValidationType } from '@kkrawczyk/todo-common';
+import { IUserData, loginValidationSchema } from '@kkrawczyk/todo-common';
 import { loginAction } from '../actions/user';
 import { AuthContext, AuthContextType } from '../AuthProvider';
 import { ROUTE } from '../enums';
@@ -14,9 +11,19 @@ import { buildUrl } from '../utils/paths';
 import { useTogglePasswordVisibility } from '../hooks/useTogglePasswordVisibility';
 import { EyeOff, Eye } from 'react-feather';
 import toast from 'react-hot-toast';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 export const Login: FC = () => {
-	const naviate = useNavigate();
+	const navigate = useNavigate();
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<IUserData>({
+		resolver: yupResolver(loginValidationSchema),
+	});
+
 	const invitationTokenUrl = sessionStorage.getItem('invitationTokenUrl');
 	const { setAuthData } = useContext<AuthContextType>(AuthContext);
 	const redirectUrl = useMemo(
@@ -25,11 +32,9 @@ export const Login: FC = () => {
 	);
 	const { showPassword, handledSetPassword } = useTogglePasswordVisibility();
 
-	const initialValues = { email: '', password: '' };
-
 	const { mutateAsync, isLoading, data } = useMutation(loginAction, {
 		onSuccess: response => {
-			naviate(redirectUrl);
+			navigate(redirectUrl);
 			setAuthData(response?.body);
 		},
 		onError: (error: any): any => {
@@ -37,10 +42,10 @@ export const Login: FC = () => {
 		},
 	});
 
-	const onSubmit = useCallback(async (values: LoginValidationType, { resetForm }) => {
-		const { email, password } = values;
+	const onSubmit: SubmitHandler<IUserData> = useCallback(async (data, e) => {
+		const { email, password } = data;
 		await mutateAsync({ email, password });
-		resetForm();
+		e?.target.reset();
 	}, []);
 
 	return (
@@ -56,35 +61,38 @@ export const Login: FC = () => {
 
 				{data?.error && <span className='text-red p-2'>{data?.error as string}</span>}
 
-				<Formik initialValues={initialValues as LoginValidationType} validationSchema={loginValidationSchema} onSubmit={onSubmit}>
-					{({ errors, touched, ...props }) => (
-						<Form className='w-full mt-2'>
-							<div className='relative flex flex-col'>
-								<Input name='email' placeholder={'Email'} {...props} />
-								{errors.email && touched.email && <ErrorMessageComponent name='email' />}
-							</div>
+				<form className='w-full mt-2' onSubmit={handleSubmit(onSubmit)}>
+					<div className='relative flex flex-col'>
+						<label htmlFor='email'>Email</label>
+						<input
+							autoFocus
+							className='input-styles'
+							type={InputType.text}
+							placeholder={'Email'}
+							{...register('email', { required: true })}
+						/>
+						{errors.email && <div className='input-error-styles'>{errors.email?.message}</div>}
+					</div>
 
-							<div className='relative flex mt-2 flex-col'>
-								<Input
-									name='password'
-									type={showPassword ? InputType.text : InputType.password}
-									placeholder={'Password'}
-									{...props}
-								/>
-								{errors.password && touched.password && <ErrorMessageComponent name='password' />}
-								{!showPassword ? (
-									<Eye onClick={handledSetPassword} className='icon-style text-fontColor absolute right-5 top-2' />
-								) : (
-									<EyeOff onClick={handledSetPassword} className='icon-style text-fontColor absolute right-5 top-2' />
-								)}
-							</div>
+					<div className='relative flex mt-2 flex-col'>
+						<label htmlFor='password'>Hasło</label>
+						<input
+							className='input-styles'
+							type={showPassword ? InputType.text : InputType.password}
+							{...register('password', { required: true })}
+						/>
+						{errors.password && <div className='input-error-styles'>{errors.password?.message}</div>}
+						{!showPassword ? (
+							<Eye onClick={handledSetPassword} className='eye-icon' />
+						) : (
+							<EyeOff onClick={handledSetPassword} className='eye-icon' />
+						)}
+					</div>
 
-							<Button type='submit' isLoading={isLoading} className='w-full mt-6 button-primary'>
-								<span>Zaloguj</span>
-							</Button>
-						</Form>
-					)}
-				</Formik>
+					<Button type='submit' isLoading={isLoading} className='w-full mt-6 button-primary'>
+						<span>Zaloguj</span>
+					</Button>
+				</form>
 			</div>
 		</div>
 	);

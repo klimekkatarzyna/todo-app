@@ -1,5 +1,5 @@
 import { ITask, WebSocketEvent } from '@kkrawczyk/todo-common';
-import { useContext, useEffect } from 'react';
+import { useCallback, useContext, useEffect } from 'react';
 import { useQueryClient } from 'react-query';
 import { useParams } from 'react-router-dom';
 import { QueryKey } from '../enums';
@@ -39,6 +39,11 @@ export const useSocketEvents = () => {
 		};
 	}, [query, listId, socket]);
 
+	const updateTaskTitle = useCallback(
+		(tasks: ITask[] | undefined, newTask: ITask) => tasks?.map(task => (task._id === newTask._id ? { ...task, title: newTask.title } : task)),
+		[]
+	);
+
 	useEffect(() => {
 		const taskListener = (newTask: ITask) => {
 			query.setQueryData<ITask[] | undefined>([QueryKey.tasksOfCurrentList, newTask?.parentFolderId], (tasks: ITask[] | undefined) =>
@@ -47,6 +52,10 @@ export const useSocketEvents = () => {
 			query.setQueryData<ITask | undefined>([QueryKey.getTask, newTask?._id], (task: ITask | undefined) =>
 				listId === newTask?.parentFolderId ? { ...task, title: newTask?.title } : task
 			);
+			query.setQueriesData<ITask[] | undefined>(QueryKey.getImportanceTasks, tasks => updateTaskTitle(tasks, newTask));
+			query.setQueryData<ITask[] | undefined>(QueryKey.getMyDayTasks, tasks => updateTaskTitle(tasks, newTask));
+			query.setQueryData<ITask[] | undefined>(QueryKey.getAssignedTasks, tasks => updateTaskTitle(tasks, newTask));
+			query.setQueryData<ITask[] | undefined>(QueryKey.tasksList, tasks => updateTaskTitle(tasks, newTask));
 		};
 		socket?.on(WebSocketEvent.editTask, taskListener);
 
