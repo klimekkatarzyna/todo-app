@@ -6,7 +6,7 @@ import { AuthContext, AuthContextType } from '../AuthProvider';
 import { logoutUserAction } from '../actions/user';
 import { useMutation } from 'react-query';
 import { ROUTE } from '../enums';
-import { SearchInput } from '../formik/SearchInput';
+import { SearchInput } from './SearchInput';
 import { buildUrl } from '../utils/paths';
 
 export const Header: FC<{ userName: string }> = ({ userName }) => {
