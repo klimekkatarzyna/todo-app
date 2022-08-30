@@ -54,7 +54,7 @@ export const Login: FC = () => {
 				<h2 className='text-fontColor mt-6 text-center text-3xl font-extrabold mb-2'>Zaloguj się do TODO app</h2>
 				<p className='mt-2 text-center text-sm text-gray-600 mb-4'>
 					Nie masz masz konta?{' '}
-					<Link className='text-blue' to={buildUrl(ROUTE.register)}>
+					<Link className='text-blue go-to-register' to={buildUrl(ROUTE.register)}>
 						Rejestruj się
 					</Link>
 				</p>
@@ -68,7 +68,7 @@ export const Login: FC = () => {
 							autoFocus
 							className='input-styles'
 							type={InputType.text}
-							placeholder={'Email'}
+							placeholder={'example.com'}
 							{...register('email', { required: true })}
 						/>
 						{errors.email && <div className='input-error-styles'>{errors.email?.message}</div>}
@@ -79,6 +79,7 @@ export const Login: FC = () => {
 						<input
 							className='input-styles'
 							type={showPassword ? InputType.text : InputType.password}
+							placeholder={'Test1111'}
 							{...register('password', { required: true })}
 						/>
 						{errors.password && <div className='input-error-styles'>{errors.password?.message}</div>}

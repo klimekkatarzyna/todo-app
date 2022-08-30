@@ -1,5 +1,5 @@
 import { FC, useCallback, useEffect } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation } from 'react-query';
 import { editTaskAction } from '../../actions/tasks';
 import { ITask, createEditTaskSchema } from '@kkrawczyk/todo-common';
 import { isStringContainsOnlyWhitespace } from '../../utils/utilsFunctions';
@@ -10,7 +10,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Loader } from 'react-feather';
 
 export const EditTaskName: FC<{ taskData: ITask | undefined }> = ({ taskData }) => {
-	const query = useQueryClient();
 	const {
 		register,
 		handleSubmit,

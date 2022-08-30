@@ -89,7 +89,7 @@ export const Register: FC = () => {
 					</div>
 
 					<Button type='submit' isLoading={isLoading} className='w-full button-primary mt-6'>
-						Uwrórz konto
+						Utwórz konto
 					</Button>
 				</form>
 			</div>

@@ -3,15 +3,18 @@ import { isStringContainsOnlyWhitespace } from '../../../utils/utilsFunctions';
 import { useMutation, useQueryClient } from 'react-query';
 import { createListAction } from '../../../actions/lists';
 import { createEditListSchema, IList } from '@kkrawczyk/todo-common';
-import { QueryKey } from '../../../enums';
+import { QueryKey, ROUTE } from '../../../enums';
 import toast from 'react-hot-toast';
 import { InputType } from '../../../interfaces/app';
 import { Loader, Plus } from 'react-feather';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useNavigate } from 'react-router-dom';
+import { buildUrl } from '../../../utils/paths';
 
 export const CreateList: FC = () => {
 	const query = useQueryClient();
+	const navigate = useNavigate();
 	const {
 		register,
 		handleSubmit,
@@ -24,6 +27,7 @@ export const CreateList: FC = () => {
 		onSuccess: async response => {
 			query.setQueryData<IList[] | undefined>([QueryKey.lists], lists => [...(lists || []), response.body || {}]);
 			toast.success('Lista dodana');
+			navigate(buildUrl(ROUTE.listsDetails, { listId: response?.body?._id || '' }));
 		},
 	});
 

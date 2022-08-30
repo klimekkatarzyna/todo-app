@@ -117,6 +117,22 @@ export const removeList = async (req: Request, res: Response) => {
 	}
 };
 
+export const removeAllLists = async (req: Request, res: Response) => {
+	try {
+		const lists = await List.deleteMany();
+
+		if (!lists) {
+			res.status(404).json({ message: 'List not found' });
+		}
+
+		res.status(200).json({
+			message: 'lists has been deleted',
+		});
+	} catch (error) {
+		res.status(500).json({ error });
+	}
+};
+
 export const addInvitationTokenToList = async (req: Request, res: Response) => {
 	try {
 		const list = await List.updateMany(

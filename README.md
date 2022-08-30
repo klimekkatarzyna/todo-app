@@ -4,7 +4,6 @@ Clone of Microsoft todo list.
 
 <img width="1440" alt="Zrzut ekranu 2022-08-19 o 13 40 21" src="https://user-images.githubusercontent.com/16631618/185629635-0c5cf098-a630-4232-87cc-6b7f9431abd6.png">
 
-
 ## Demo version
 
 https://todo.houseof.software/login
@@ -51,7 +50,7 @@ v16.0.0
 - [ ] Task reminder
 - [ ] Planned task
 - [ ] Remember / reset password
-- [ ] tests in cypress
+- [x] tests in playwright
 - [ ] offline mode
 
 ### Installation
@@ -67,6 +66,7 @@ Short instruction step by step how install and run the app.
    yarn install
    ```
 3. Run database via docker
+
    - You can dowloand docker here: https://www.docker.com/products/docker-desktop/
    - Install docker
    - Run command `docker-compose up -d`

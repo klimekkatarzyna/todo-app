@@ -25,7 +25,7 @@ export const Toolbar: FC<IToolbar> = ({ name, colorType, isDateVisible, children
 	const [, setIsVisible] = useRecoilState(mobileNavVisibilityState);
 
 	return (
-		<div>
+		<>
 			<div className='mt-2 block md:hidden'>
 				<button className='text-base font-semibold mb-4' onClick={() => setIsVisible(true)}>
 					{'< Listy'}
@@ -43,6 +43,6 @@ export const Toolbar: FC<IToolbar> = ({ name, colorType, isDateVisible, children
 				{isListItem && <ListSettings />}
 				<div className='flex pl-2 text-sm color-fontColor'>{isDateVisible && `${getDayName(date)}, ${getDay(date)} ${getMonth(date)}`}</div>
 			</div>
-		</div>
+		</>
 	);
 };
