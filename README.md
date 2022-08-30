@@ -18,13 +18,13 @@ https://todo.houseof.software/login
 - Try React Query and Recoill
 - Try TailwindCss
 - Offline mode
-- Cypress and Jest
+- Playwright and Jest
 - Storybook
 - Deploy app on render.com
 
 ## Tech Stack
 
-**Client:** React, Typescript, React-Query, Recoil, TailwindCSS, Storybook, Jest, Cypress, Docker, Socket.io
+**Client:** React, Typescript, React-Query, Recoil, TailwindCSS, Storybook, Jest, Playwright, Docker, Socket.io
 
 **Server:** Node, Express, Socket.io, MongoDB
 
