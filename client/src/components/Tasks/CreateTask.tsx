@@ -55,7 +55,7 @@ export const CreateTask: FC<{ listTheme: AppColor | undefined }> = ({ listTheme 
 			<div className='relative flex flex-col w-full'>
 				<input
 					autoFocus
-					className='input-styles'
+					className='input-styles create-task'
 					type={InputType.text}
 					placeholder={'Dodaj zadanie'}
 					{...register('title', { required: true })}

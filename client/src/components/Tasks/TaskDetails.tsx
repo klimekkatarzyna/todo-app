@@ -50,6 +50,7 @@ const TaskDetailsComponent: FC<ITaskDetailsProps> = ({ taskData, isTaskDetailsVi
 	return (
 		<>
 			<Checkbox
+				name='status'
 				checked={taskData?.taskStatus === ITaskStatus.complete}
 				onChange={onHandleChange}
 				tooltipText={tooltipText}
