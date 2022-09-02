@@ -45,7 +45,7 @@ export const EditTaskName: FC<{ taskData: ITask | undefined }> = ({ taskData }) 
 					<div className='relative flex flex-col w-full'>
 						<input
 							autoFocus
-							className='input-styles'
+							className='input-styles task-title'
 							type={InputType.text}
 							defaultValue={taskData?.title}
 							{...register('title', { required: true })}

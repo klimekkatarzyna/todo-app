@@ -35,7 +35,7 @@ const TaskDetailsComponent: FC<ITaskDetailsProps> = ({ taskData, isTaskDetailsVi
 	}, [taskData, setIsImportanceButtonChecked]);
 
 	const onHandleChange = useCallback(async () => {
-		const taskStatus = taskData?.taskStatus === ITaskStatus.inComplete ? ITaskStatus.complete : ITaskStatus.inComplete;
+		const taskStatus = taskData?.taskStatus === ITaskStatus.unComplete ? ITaskStatus.complete : ITaskStatus.unComplete;
 		await changeTaskStatusMutation({ _id: taskData?._id, parentFolderId: taskData?.parentFolderId, taskStatus });
 	}, [taskData]);
 
@@ -61,6 +61,7 @@ const TaskDetailsComponent: FC<ITaskDetailsProps> = ({ taskData, isTaskDetailsVi
 				draggable
 				className='flex flex-col flex-1 text-left ml-4 mr-auto border-none bg-inherit outline-none cursor-pointer no-underline'>
 				<div
+					id='task-title-element'
 					className={`cursor-pointer ${isCompleted && 'line-through'} ${isCompleted ? 'text-darkerGrey' : 'text-fontColor'} ${
 						isTaskDetailsView && 'hover:bg-lightGrey'
 					}`}

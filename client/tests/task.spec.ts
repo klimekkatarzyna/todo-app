@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 
 const taskName = 'Zadanie 1';
 const createdListLocator = '#list-items div:has-text("Lista 1") >> nth=1';
+const taskCheckboxLocator = '.tasks-list > div > div > div > div:nth-child(2) > label > input';
 
 const checkIfTaskExist = async ({ page }) => {
 	await expect(page.locator(`.tasks-list > div`)).toHaveCount(1);
@@ -10,6 +11,12 @@ const checkIfTaskExist = async ({ page }) => {
 
 const goToList = async ({ page }) => {
 	await page.locator(createdListLocator).click();
+};
+
+const checkAndClickAccordion = async ({ page }) => {
+	await expect(page.locator('button.accordion')).toBeVisible();
+	await expect(page.locator('span.completed')).toHaveText('1');
+	await page.locator('button.accordion').click();
 };
 
 test.beforeEach(async ({ page }) => {
@@ -42,7 +49,6 @@ test.describe('task actions', () => {
 	test('should create task', async ({ page }) => {
 		await goToList({ page });
 
-		// create task in list
 		await page.locator('.create-task').fill(taskName);
 		await page.locator('.create-task').press('Enter');
 
@@ -54,7 +60,6 @@ test.describe('task actions', () => {
 
 		await checkIfTaskExist({ page });
 
-		// mark task as important
 		await page.locator('.tasks-list > div > div > button').press('Enter');
 		const starLocator = await page.locator('.tasks-list > div > div > button > div > div:nth-child(2) > div > svg');
 		const color = await starLocator.evaluate(e => {
@@ -63,22 +68,55 @@ test.describe('task actions', () => {
 		expect(color).toBe('rgb(0, 120, 215)');
 	});
 
-	test('should change task status as completes', async ({ page }) => {
+	test('should change task status to completed', async ({ page }) => {
 		await goToList({ page });
 
 		await checkIfTaskExist({ page });
 
-		// change status
-		await page.locator('.tasks-list > div > div > div > div:nth-child(2) > label > input').click();
+		await page.locator(taskCheckboxLocator).click();
 		await expect(page.locator('.tasks-list > div')).toBeVisible();
-		await expect(page.locator('button.accordion')).toBeVisible();
-		await expect(page.locator('span.completed')).toHaveText('1');
-		await page.locator('button.accordion').click();
 
-		expect(await page.locator('.tasks-list > div > div > div > div:nth-child(2) > label > input').isChecked()).toBeTruthy();
+		await checkAndClickAccordion({ page });
+
+		expect(await page.locator(taskCheckboxLocator).isChecked()).toBeTruthy();
 	});
 
-	test('should edit task title', async ({ page }) => {});
+	test('should change task status to uncompleted', async ({ page }) => {
+		await goToList({ page });
 
-	test('should remove task', async ({ page }) => {});
+		await checkAndClickAccordion({ page });
+
+		await page.locator(taskCheckboxLocator).click();
+		expect(await page.locator(taskCheckboxLocator).isChecked()).toBeFalsy();
+	});
+
+	test('should edit task title', async ({ page }) => {
+		await goToList({ page });
+
+		await checkIfTaskExist({ page });
+
+		await page.locator('div.task-item').click();
+		await expect(page.locator('#task-details')).toBeVisible();
+
+		await page.locator('#task-details > div > div > a > #task-title-element').click();
+
+		await page.locator(`input[value="${taskName}"]`).fill('Zadanie 2');
+		await page.locator(`input[value="${taskName}"]`).press('Enter');
+
+		await expect(page.locator('.tasks-list > div > div > a > div:nth-child(1)')).toHaveText('Zadanie 2');
+	});
+
+	test('should remove task', async ({ page }) => {
+		await goToList({ page });
+
+		await expect(page.locator(`.tasks-list > div`)).toHaveCount(1);
+		await expect(page.locator('.tasks-list > div > div > a > div:nth-child(1)')).toHaveText('Zadanie 2');
+		await page.locator('div.task-item').click();
+		await expect(page.locator('#task-details')).toBeVisible();
+
+		await page.locator('button.remove-task').press('Enter');
+
+		await expect(page.locator('.tasks-list > div')).toBeVisible();
+		await expect(page.locator(`.tasks-list > div`)).toHaveCount(0);
+	});
 });

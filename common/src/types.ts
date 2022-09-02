@@ -33,7 +33,7 @@ export enum AppColor {
 }
 
 export enum ITaskStatus {
-  inComplete = "inComplete",
+  unComplete = "unComplete",
   complete = "complete",
 }
 

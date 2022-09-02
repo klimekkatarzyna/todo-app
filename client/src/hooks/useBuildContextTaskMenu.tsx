@@ -41,10 +41,10 @@ export const useBuidContextTaskMenu = (task: ITask) => {
 		type: ContextMenuOpion.mark_as_complete,
 	};
 
-	const MarkAsIncompleteContextMenuItem: IContextMenu = {
+	const MarkAsUncompleteContextMenuItem: IContextMenu = {
 		icon: <CheckCircle className='icon-style' />,
 		name: 'Oznacz jako niewykonane',
-		type: ContextMenuOpion.mark_as_incomplete,
+		type: ContextMenuOpion.mark_as_uncomplete,
 	};
 
 	const DateTodayContextMenuItem: IContextMenu = {
@@ -69,7 +69,7 @@ export const useBuidContextTaskMenu = (task: ITask) => {
 		() => [
 			task?.isMyDay ? RemoveFromMyDayContextMenuItem : AddToMyDayContextMenuItem,
 			task?.importance === Importance.high ? RemoveImportanceContextMenuItem : MarkAsImportantContextMenuItem,
-			task?.taskStatus === ITaskStatus.inComplete ? MarkAsCompleteContextMenuItem : MarkAsIncompleteContextMenuItem,
+			task?.taskStatus === ITaskStatus.unComplete ? MarkAsCompleteContextMenuItem : MarkAsUncompleteContextMenuItem,
 			DateTodayContextMenuItem,
 			DateTomorrowContextMenuItem,
 			MoveTaskContextMenuItem,

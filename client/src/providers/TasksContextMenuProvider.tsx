@@ -50,8 +50,8 @@ export const TasksContextMenuProvider: FC<{ children: React.ReactNode }> = ({ ch
 					await changeTaskStatusMutation({ _id: data?.elementId, parentFolderId: data?.listId, taskStatus: ITaskStatus.complete });
 					setTasksContextMenu(data);
 					break;
-				case ContextMenuOpion.mark_as_incomplete:
-					await changeTaskStatusMutation({ _id: data?.elementId, parentFolderId: data?.listId, taskStatus: ITaskStatus.inComplete });
+				case ContextMenuOpion.mark_as_uncomplete:
+					await changeTaskStatusMutation({ _id: data?.elementId, parentFolderId: data?.listId, taskStatus: ITaskStatus.unComplete });
 					setTasksContextMenu(data);
 					break;
 				case ContextMenuOpion.remove_task:

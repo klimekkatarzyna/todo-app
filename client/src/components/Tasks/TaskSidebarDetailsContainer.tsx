@@ -34,7 +34,9 @@ export const TaskSidebarDetails: FC = () => {
 	}, [setIsElementVisible]);
 
 	return (
-		<div className='bg-light-grey w-full p-4 flex flex-1 absolute z-20 left-0 right-0 top-0 shadow-md bottom-0 mr-[-1.5rem] md:relative md:max-w-[360px] md:ml-6 h-[calc(100%-10px)] md:h-full'>
+		<div
+			id='task-details'
+			className='bg-light-grey w-full p-4 flex flex-1 absolute z-20 left-0 right-0 top-0 shadow-md bottom-0 mr-[-1.5rem] md:relative md:max-w-[360px] md:ml-6 h-[calc(100%-10px)] md:h-full'>
 			{taskDataLoading ? (
 				<Loader className='animate-spin m-auto' />
 			) : (
@@ -84,7 +86,7 @@ export const TaskSidebarDetails: FC = () => {
 						{`Utworzone ${getDayName(parseUTCtoDate(taskData?.createdAt || ''))}, ${getDay(
 							parseUTCtoDate(taskData?.createdAt || '')
 						)} ${getMonth(parseUTCtoDate(taskData?.createdAt || ''))}`}
-						<button onClick={handleClick} className='border-none bg-inherit cursor-pointer'>
+						<button onClick={handleClick} className='remove-task border-none bg-inherit cursor-pointer'>
 							<Trash2 className='icon-style text-fontColor ml-4' />
 						</button>
 					</footer>

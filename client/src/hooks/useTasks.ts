@@ -30,8 +30,8 @@ export const useTasks = () => {
 		setSort(state => ({ ...state, key: data, keyType: type }));
 	}, []);
 
-	const inCompletedTasks = useMemo(
-		() => (tasksOfCurrentList || []).filter(task => task.taskStatus === ITaskStatus.inComplete),
+	const unCompletedTasks = useMemo(
+		() => (tasksOfCurrentList || []).filter(task => task.taskStatus === ITaskStatus.unComplete),
 		[tasksOfCurrentList]
 	);
 	const completedTasks = useMemo(() => (tasksOfCurrentList || []).filter(task => task.taskStatus === ITaskStatus.complete), [tasksOfCurrentList]);
@@ -42,7 +42,7 @@ export const useTasks = () => {
 		requestSort,
 		listId,
 		isLoading,
-		inCompletedTasks,
+		unCompletedTasks,
 		completedTasks,
 	};
 };

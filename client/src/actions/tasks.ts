@@ -9,7 +9,7 @@ export const createTaskAction = async ({ title, parentFolderId, importance, them
 		importance: importance || Importance.normal,
 		parentFolderId,
 		themeColor: themeColor,
-		taskStatus: ITaskStatus.inComplete,
+		taskStatus: ITaskStatus.unComplete,
 		sortType: SortType.createdAt,
 		isMyDay: false,
 		createdBy,
