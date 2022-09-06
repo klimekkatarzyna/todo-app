@@ -1,5 +1,5 @@
 import { IList } from '@kkrawczyk/todo-common';
-import React, { FC, RefObject, useCallback, useEffect, useRef } from 'react';
+import React, { FC, RefObject, useCallback, useRef } from 'react';
 import { ROUTE } from '../../enums';
 import { Button } from '../Button/Button';
 

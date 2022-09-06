@@ -4,14 +4,14 @@ import { X } from 'react-feather';
 import { useModal } from '../../hooks/useModal';
 import { Button } from '../Button/Button';
 
-interface IModalComponentProps<T> {
+interface IModalComponentProps {
 	children?: React.ReactNode;
 	title?: string;
 	isLoading?: boolean;
 	onHandleAction?: () => void;
 }
 
-export const ConfirmModal: FC<IModalComponentProps<unknown>> = ({ children, title, onHandleAction, isLoading }) => {
+export const ConfirmModal: FC<IModalComponentProps> = ({ children, title, onHandleAction, isLoading }) => {
 	const { hideModal } = useModal();
 
 	useEffect(() => {

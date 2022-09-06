@@ -39,7 +39,7 @@ export const CreateGroup: FC = () => {
 			setValue('title', '');
 			toggleDropdown();
 		},
-		[dropdownOpen, toggleDropdown]
+		[toggleDropdown, mutateAsync, setValue]
 	);
 
 	return (

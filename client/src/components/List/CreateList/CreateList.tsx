@@ -23,7 +23,7 @@ export const CreateList: FC = () => {
 		resolver: yupResolver(createEditListSchema),
 	});
 
-	const { mutateAsync, isLoading, error } = useMutation(createListAction, {
+	const { mutateAsync, isLoading } = useMutation(createListAction, {
 		onSuccess: async response => {
 			query.setQueryData<IList[] | undefined>([QueryKey.lists], lists => [...(lists || []), response.body || {}]);
 			toast.success('Lista dodana');

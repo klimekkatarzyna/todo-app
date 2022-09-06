@@ -10,7 +10,7 @@ import toast from 'react-hot-toast';
 export const AccessManagement: FC<{ listDataResponse: IList | undefined; onPrevStep: () => void }> = ({ listDataResponse, onPrevStep }) => {
 	const query = useQueryClient();
 
-	const { mutate, isLoading, isError } = useMutation(removeInvitationAction, {
+	const { mutate, isLoading } = useMutation(removeInvitationAction, {
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.getListById]);
 			query.invalidateQueries([QueryKey.lists]);
