@@ -14,7 +14,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
 				username: req.body.username,
 				email: req.body.email,
 				password: passwordHash(req.body.password),
-				id: req.body._id,
+				_id: req.body._id,
 				createdAt: Date.now(),
 			});
 			const token = signJwt(user?._id?.toString());
@@ -27,7 +27,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
 				body: {
 					username: user.username,
 					email: user.email,
-					id: user._id,
+					_id: user._id,
 					createdAt: user.createdAt,
 				},
 				message: `registered user with email ${req.body.email}`,

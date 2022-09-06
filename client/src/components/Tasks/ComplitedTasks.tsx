@@ -8,7 +8,7 @@ const ComplitedTasksComponent: FC<{ tasks: ITask[] }> = ({ tasks }) => {
 	return (
 		<>
 			{!!tasks?.length && (
-				<Accordion title={'Wykonane'} details={<span className='ml-1 text-base text-darkerGrey'>{tasks?.length}</span>}>
+				<Accordion title={'Wykonane'} details={<span className='ml-1 text-base text-darkerGrey completed'>{tasks?.length}</span>}>
 					<TasksList tasks={tasks} redirectUrl={`/${SideMenu.tasks}/`} />
 				</Accordion>
 			)}

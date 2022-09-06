@@ -9,7 +9,7 @@ export const createTaskAction = async ({ title, parentFolderId, importance, them
 		importance: importance || Importance.normal,
 		parentFolderId,
 		themeColor: themeColor,
-		taskStatus: ITaskStatus.inComplete,
+		taskStatus: ITaskStatus.unComplete,
 		sortType: SortType.createdAt,
 		isMyDay: false,
 		createdBy,
@@ -65,3 +65,6 @@ export const getAssignedTasksAction = async ({ assigned }: ITask) => {
 	const response = await http<ITask[]>(`${api.assignedTasks}/${assigned}`, 'GET');
 	return response.body;
 };
+
+export const removeUsersFromTasksAction = async ({ parentFolderId }: ITask) =>
+	await http<ITask>(`${api.removeMembersFromTasks}`, 'DELETE', { parentFolderId });

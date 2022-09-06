@@ -2,10 +2,10 @@ import { FC } from 'react';
 import { useTasks } from '../../hooks/useTasks';
 import { Loader } from 'react-feather';
 import { ComplitedTasks } from './ComplitedTasks';
-import { InCompletedTasks } from './InCompletedTasks';
+import { UnCompletedTasks } from './UnCompletedTasks';
 
 export const TasksList: FC = () => {
-	const { inCompletedTasks, completedTasks, isLoading } = useTasks();
+	const { unCompletedTasks, completedTasks, isLoading } = useTasks();
 
 	return (
 		<div className='flex overflow-y-scroll overflow-x-hidden flex-1 flex-col max-h-[70vh]'>
@@ -14,7 +14,7 @@ export const TasksList: FC = () => {
 					<Loader className='animate-spin m-auto' />
 				) : (
 					<>
-						<InCompletedTasks tasks={inCompletedTasks} />
+						<UnCompletedTasks tasks={unCompletedTasks} />
 						<ComplitedTasks tasks={completedTasks} />
 					</>
 				)}

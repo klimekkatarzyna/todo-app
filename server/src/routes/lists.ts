@@ -23,6 +23,7 @@ import {
 	updateMembersList,
 	editList,
 	listTheme,
+	removeAllLists,
 } from '../controllers/lists';
 import { authorization } from '../utils/auth';
 
@@ -37,6 +38,8 @@ lists.get('/lists', authorization, getLists);
 lists.get('/listDetails/:_id', authorization, validateParams(listIdSchema), getList);
 
 lists.delete('/lists', authorization, validateBody<ListIdType>(listIdRequiredSchema), removeList);
+
+lists.delete('/allLists', authorization, validateBody, removeAllLists);
 
 lists.post('/invitationToken', authorization, validateBody<AddInvitationTokenToListType>(addInvitationTokenToListSchema), addInvitationTokenToList);
 

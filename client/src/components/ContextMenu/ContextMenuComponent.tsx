@@ -25,10 +25,10 @@ export const ContextMenuComponent: FC<IContextMenuProps> = ({
 }) => {
 	return (
 		<Menu id={elementDetails?._id as string} theme='light' className={`${contextMenuList?.length ? 'opacity-100' : 'bg-inherit'}`}>
-			{contextMenuList?.map(listItem => (
+			{contextMenuList?.map(elementItem => (
 				<ContextMenuItem
-					key={listItem?.name}
-					listItem={listItem}
+					key={elementItem?.name}
+					elementItem={elementItem}
 					elementDetails={elementDetails}
 					handleItemClick={handleItemClick}
 					submenu={submenu}

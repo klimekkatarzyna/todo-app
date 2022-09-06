@@ -1,17 +1,28 @@
 import { FC, useCallback, useContext } from 'react';
 import { useMutation } from 'react-query';
 import { createTaskAction } from '../../actions/tasks';
-import { ITask, createEditTaskSchema, CreateEditTaskType, AppColor } from '@kkrawczyk/todo-common';
+import { ITask, createEditTaskSchema, AppColor } from '@kkrawczyk/todo-common';
 import { isStringContainsOnlyWhitespace } from '../../utils/utilsFunctions';
 import toast from 'react-hot-toast';
-import { TitleForm } from '../TitleForm';
 import { AuthContext, AuthContextType } from '../../AuthProvider';
 import { useListDetails } from '../../hooks/useListDetails';
+import { Circle, Loader } from 'react-feather';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { InputType } from '../../interfaces/app';
 
 export const CreateTask: FC<{ listTheme: AppColor | undefined }> = ({ listTheme }) => {
 	const { authData } = useContext<AuthContextType>(AuthContext);
 	const { members, parentFolderId } = useListDetails();
 	const membersArray = [authData?._id].concat(members);
+
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<ITask>({
+		resolver: yupResolver(createEditTaskSchema),
+	});
 
 	const { mutateAsync, isLoading } = useMutation(createTaskAction, {
 		onSuccess: () => {
@@ -19,31 +30,38 @@ export const CreateTask: FC<{ listTheme: AppColor | undefined }> = ({ listTheme 
 		},
 	});
 
-	const initialValues: ITask = { title: '' };
-
-	const onSubmit = useCallback(
-		async (values: CreateEditTaskType, { resetForm }) => {
-			if (isStringContainsOnlyWhitespace(values.title)) return;
+	const onSubmit: SubmitHandler<ITask> = useCallback(
+		async (data, e) => {
+			if (isStringContainsOnlyWhitespace(data.title)) return;
 			await mutateAsync({
-				title: values.title,
+				title: data.title,
 				parentFolderId,
 				themeColor: listTheme,
 				createdBy: authData?._id,
 				members: membersArray as string[],
 			});
-			resetForm();
+			e?.target.reset();
 		},
 		[isStringContainsOnlyWhitespace, parentFolderId, listTheme, authData, membersArray]
 	);
 
 	return (
-		<TitleForm
-			isLoading={isLoading}
-			placeholder={'Dodaj zadanie'}
-			initialValues={initialValues as CreateEditTaskType}
-			validationSchema={createEditTaskSchema}
-			onSubmit={onSubmit}
-			isIcon
-		/>
+		<form className='w-full mt-2 flex' onSubmit={handleSubmit(onSubmit)}>
+			<button type='submit' className='bg-inherit border-none mr-2'>
+				<Circle className='icon-style' />
+				{isLoading && <Loader />}
+			</button>
+
+			<div className='relative flex flex-col w-full'>
+				<input
+					autoFocus
+					className='input-styles create-task'
+					type={InputType.text}
+					placeholder={'Dodaj zadanie'}
+					{...register('title', { required: true })}
+				/>
+				{errors.title && <div className='input-error-styles'>{errors.title?.message}</div>}
+			</div>
+		</form>
 	);
 };

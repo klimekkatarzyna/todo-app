@@ -4,7 +4,7 @@ import { PrivateRoute } from './PrivateRoute';
 import { ROUTE } from './enums';
 import { MyDay } from './pages/MyDay';
 import { Login } from './pages/Login';
-import Register from './pages/Register';
+import { Register } from './pages/Register';
 import { Searching } from './pages/Searching';
 import { Sharing } from './pages/Sharing';
 import { Tasks } from './pages/Tasks';

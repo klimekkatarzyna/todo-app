@@ -81,7 +81,7 @@ export const ListSettings: FC = () => {
 		<button className='ml-2 p-2 hover:bg-lightGrey'>
 			<p onClick={handleContextMenu}>. . .</p>
 			<Menu id={MENU_ID}>
-				<Item data={{ elementId: ContextMenuItem.change_title }} onClick={handleItemClick}>
+				<Item className='list-settings-edit' data={{ elementId: ContextMenuItem.change_title }} onClick={handleItemClick}>
 					Zmień nazwę
 				</Item>
 				{isOwner && (
@@ -98,7 +98,7 @@ export const ListSettings: FC = () => {
 				</Item>
 				<Separator />
 				{isOwner ? (
-					<Item data={{ elementId: ContextMenuItem.remove_list }} onClick={handleItemClick}>
+					<Item className='list-settings-remove' data={{ elementId: ContextMenuItem.remove_list }} onClick={handleItemClick}>
 						Usuń listę
 					</Item>
 				) : (

@@ -23,7 +23,7 @@ export const RemoveMember: FC<{ listDataResponse: IList | undefined; onNextStep:
 				!!listDataResponse?.members?.length && (
 					<button
 						onClick={onNextStep}
-						className='flex p4 cursor-pointer text-blue bg-inherit text-center border-none border-y-2 border-solid mt-4 mx-auto mb-0 text-red hover:bg-white hover:border'>
+						className='flex p4 cursor-pointer bg-inherit text-center border-none border-y-2 mt-4 mx-auto mb-0 text-red hover:bg-white hover:border'>
 						{'Zarządzaj dostępem'}
 					</button>
 				)

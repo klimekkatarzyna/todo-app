@@ -1,15 +1,15 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { Modal } from './Modal';
+import { RegularModal } from './RegularModal';
 import 'tailwindcss/tailwind.css';
 
 export default {
 	title: 'Example/Modal',
-	component: Modal,
-} as ComponentMeta<typeof Modal>;
+	component: RegularModal,
+} as ComponentMeta<typeof RegularModal>;
 
-const Template: ComponentStory<typeof Modal> = args => (
+const Template: ComponentStory<typeof RegularModal> = args => (
 	<div className='mt-10 w-[200px]'>
-		<Modal {...args} />
+		<RegularModal {...args} />
 	</div>
 );
 

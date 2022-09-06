@@ -62,4 +62,16 @@
 	.button-outlineWhite {
 		@apply bg-none text-white border border-white;
 	}
+
+	.input-styles {
+		@apply w-full outline-none text-lg md:text-sm appearance-none rounded relative block border border-border placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue focus:border-blue focus:z-10 bg-white;
+	}
+
+	.input-error-styles {
+		@apply text-sm relative text-blue left-2;
+	}
+
+	.eye-icon {
+		@apply icon-style text-fontColor absolute right-5 top-8;
+	}
 }

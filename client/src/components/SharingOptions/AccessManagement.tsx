@@ -13,6 +13,7 @@ export const AccessManagement: FC<{ listDataResponse: IList | undefined; onPrevS
 	const { mutate, isLoading, isError } = useMutation(removeInvitationAction, {
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.getListById]);
+			query.invalidateQueries([QueryKey.lists]);
 			toast.success('Udostępnianie zatrzymane');
 		},
 	});

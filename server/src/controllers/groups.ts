@@ -76,7 +76,7 @@ export const editGroup = async (req: Request, res: Response) => {
 
 	try {
 		res.status(200).json({
-			body: { _id: req.body._id },
+			body: { _id: req.body._id, title: req.body.title },
 			message: `status changed successfully to ${req.body.title}`,
 		});
 	} catch (err) {

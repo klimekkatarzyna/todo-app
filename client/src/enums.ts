@@ -9,7 +9,7 @@ export enum ContextMenuOpion {
 	mark_as_important = 'mark_as_important',
 	remove_importance = 'remove_importance',
 	mark_as_complete = 'mark_as_complete',
-	mark_as_incomplete = 'mark_as_incomplete',
+	mark_as_uncomplete = 'mark_as_uncomplete',
 	date_today = 'date_today',
 	date_tomorrow = 'date_tomorrow',
 	move_task = 'move_task',
@@ -83,4 +83,10 @@ export enum QueryKey {
 	getUser = 'getUser',
 	getAssignedTasks = 'getAssignedTasks',
 	tasksList = 'tasksList',
+}
+
+export enum ModalType {
+	confirm = 'confirm',
+	sharing = 'sharing',
+	assigment = 'assigment',
 }

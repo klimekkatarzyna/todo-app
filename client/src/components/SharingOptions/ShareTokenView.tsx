@@ -1,22 +1,18 @@
 import { FC } from 'react';
 import { ContextMenuOpion } from '../../enums';
 import { IList } from '@kkrawczyk/todo-common';
-import { ContextualModal } from '../Modal/ContextualModal';
 import { Member } from './Member';
 import { RemoveMember } from './RemoveMember';
 import { ShareLink } from './ShareLink';
 import { DisplayMember } from './DisplayMember';
-import { useRecoilValue } from 'recoil';
-import { modalVisibilityState } from '../../atoms/modal';
+import { ConfirmModal } from '../Modal/ConfirmModal';
+import { useModal } from '../../hooks/useModal';
 
 export const ShareTokenView: FC<{ onNextStep: () => void; listDataResponse: IList | undefined }> = ({ onNextStep, listDataResponse }) => {
-	const isVisible = useRecoilValue(modalVisibilityState);
+	const { modalType } = useModal();
 
 	return (
 		<div>
-			<h2 className='text-center'>
-				<strong>Udostępnij listę</strong>
-			</h2>
 			<h3 className='text-darkerGrey text-sm'>Członkowie listy</h3>
 			<div className='flex items-center'>
 				<DisplayMember member={listDataResponse?.userId} />
@@ -27,9 +23,7 @@ export const ShareTokenView: FC<{ onNextStep: () => void; listDataResponse: ILis
 			))}{' '}
 			<ShareLink listDataResponse={listDataResponse} />
 			<RemoveMember onNextStep={onNextStep} listDataResponse={listDataResponse} />
-			{isVisible && (
-				<ContextualModal title='Czy chcesz opuścić listę?' onHandleAction={() => {}} contextualType={ContextMenuOpion.leave_list} />
-			)}
+			{modalType === ContextMenuOpion.leave_list && <ConfirmModal title='Czy chcesz opuścić listę?' />}
 		</div>
 	);
 };

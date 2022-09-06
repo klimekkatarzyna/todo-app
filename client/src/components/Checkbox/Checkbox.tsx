@@ -9,9 +9,10 @@ interface CheckboxProps {
 	key?: string;
 	disabled?: boolean;
 	tooltipText?: string;
+	name?: string;
 }
 
-export const Checkbox: FC<CheckboxProps> = ({ disabled, color, checked, onChange, id, key, children, tooltipText }) => {
+export const Checkbox: FC<CheckboxProps> = ({ disabled, color, checked, onChange, id, key, children, tooltipText, name }) => {
 	const colorDefinition = useMemo(
 		() =>
 			(color === 'red' && 'border-red') ||
@@ -25,6 +26,7 @@ export const Checkbox: FC<CheckboxProps> = ({ disabled, color, checked, onChange
 		<Tooltip position={'left'} text={tooltipText}>
 			<label className='relative cursor-pointer flex items-center leading-5'>
 				<input
+					name={name}
 					type='checkbox'
 					checked={!!checked}
 					onChange={onChange}

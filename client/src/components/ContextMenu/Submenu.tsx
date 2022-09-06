@@ -6,14 +6,14 @@ import { ContextMenuOpion } from '../../enums';
 import { IContextMenu } from '../../interfaces/app';
 
 interface ISubmenuComponentProps {
-	listItem: IContextMenu;
+	elementItem: IContextMenu;
 	submenu?: unknown[];
 	contextMenuOption: ContextMenuOpion | undefined;
 	elementId: string | undefined;
 	mutateAsyncAction?: ({ _id, listId }: IGroup) => void;
 }
 
-export const SubmenuComponent: FC<ISubmenuComponentProps> = ({ listItem, contextMenuOption, submenu, elementId, mutateAsyncAction }) => {
+export const SubmenuComponent: FC<ISubmenuComponentProps> = ({ elementItem, contextMenuOption, submenu, elementId, mutateAsyncAction }) => {
 	const onHandleSubitemItemClick = useCallback(
 		({ data }) => {
 			mutateAsyncAction?.({ _id: data._id, listId: elementId });
@@ -23,7 +23,7 @@ export const SubmenuComponent: FC<ISubmenuComponentProps> = ({ listItem, context
 
 	return (
 		<>
-			{listItem.type === contextMenuOption && (
+			{elementItem.type === contextMenuOption && (
 				<Submenu label='' arrow={<ArrowRight className='icon-style text-grey' />}>
 					{submenu?.map((item: any, index: number) => (
 						<Item

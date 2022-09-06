@@ -8,9 +8,12 @@ import { buildUrl } from '../utils/paths';
 export const useSwitchToFirstListItem = (listId?: string | undefined) => {
 	const navigate = useNavigate();
 	const list = useRecoilValue(listsState);
+	const urlToMyDay = buildUrl(ROUTE.myDay);
+	const urlToFirstList = buildUrl(ROUTE.listsDetails, { listId: listId || list?.[0]?._id || '' });
+	const minListLength = 1;
 
 	const onHandleSwitchToFirstListItem = useCallback(() => {
-		navigate(buildUrl(ROUTE.listsDetails, { listId: listId || list?.[0]._id || '' }));
+		navigate(list?.length === minListLength ? urlToMyDay : urlToFirstList);
 	}, [navigate, list]);
 
 	return {

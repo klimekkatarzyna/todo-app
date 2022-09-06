@@ -279,7 +279,34 @@ export const removeUserFromTask = async (req: Request, res: Response) => {
 			body: {
 				_id: req.body._id,
 			},
-			message: 'remove assigment',
+			message: 'removed assigment',
+		});
+	} catch (err) {
+		res.status(500).json({
+			err,
+		});
+	}
+};
+
+export const removeUsersFromTasks = async (req: Request, res: Response) => {
+	try {
+		const tasks = await Task.updateMany(
+			{ parentFolderId: req.body.parentFolderId },
+			{
+				$set: {
+					assigned: null,
+				},
+			}
+		);
+
+		if (!tasks) {
+			res.status(404).json({ message: 'Tasks not found' });
+		}
+		res.status(200).json({
+			body: {
+				parentFolderId: req.body.parentFolderId,
+			},
+			message: 'removed assigments',
 		});
 	} catch (err) {
 		res.status(500).json({

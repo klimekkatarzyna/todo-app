@@ -53,3 +53,4 @@ export const getMyDayTasks = `${process.env.REACT_APP_LOCAL_BACKEND}/api/myDayTa
 // assinged tasks
 export const membersTask = `${process.env.REACT_APP_LOCAL_BACKEND}/api/membersTask`;
 export const assignedTasks = `${process.env.REACT_APP_LOCAL_BACKEND}/api/assignedTasks`;
+export const removeMembersFromTasks = `${process.env.REACT_APP_LOCAL_BACKEND}/api/membersTasks`;

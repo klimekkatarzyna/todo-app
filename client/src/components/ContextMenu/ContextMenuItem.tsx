@@ -7,7 +7,7 @@ import { SubmenuComponent } from './Submenu';
 import { IGroup } from '@kkrawczyk/todo-common';
 
 interface IContextMenuItem {
-	listItem: IContextMenu;
+	elementItem: IContextMenu;
 	elementDetails: any | undefined;
 	handleItemClick: ({ triggerEvent, event, props, data }: IHandleContextMenuItemClickProps) => void;
 	submenu?: unknown[];
@@ -16,7 +16,7 @@ interface IContextMenuItem {
 }
 
 export const ContextMenuItem: FC<IContextMenuItem> = ({
-	listItem,
+	elementItem,
 	elementDetails,
 	handleItemClick,
 	submenu,
@@ -28,14 +28,14 @@ export const ContextMenuItem: FC<IContextMenuItem> = ({
 	return (
 		<>
 			<Item
-				data={{ ...listItem, elementId: elementDetails?._id, lists: elementDetails, listId: elementDetails?.parentFolderId }}
+				data={{ ...elementItem, elementId: elementDetails?._id, lists: elementDetails, listId: elementDetails?.parentFolderId }}
 				onClick={onHandleItemClick}
 				className='cursor-pointer border-t-[1px] border-solid first:border-none'>
-				<div className='icon-style text-fontColor'>{listItem.icon}</div>
-				<div className='text-sm ml-4 text-fontColor'>{listItem.name}</div>
+				<div className='icon-style text-fontColor'>{elementItem.icon}</div>
+				<div className='text-sm ml-4 text-fontColor'>{elementItem.name}</div>
 				{!!submenu?.length && (
 					<SubmenuComponent
-						listItem={listItem}
+						elementItem={elementItem}
 						submenu={submenu}
 						contextMenuOption={contextMenuOption}
 						elementId={elementDetails?._id}

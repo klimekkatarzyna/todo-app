@@ -16,7 +16,7 @@ const AccordionComponent: FC<IAccordion> = ({ title, details, children }) => {
 
 	return (
 		<div>
-			<button onClick={onToogle} className='flex items-center text-sm border-none cursor-pointer bg-inherit p-3'>
+			<button onClick={onToogle} className='accordion flex items-center text-sm border-none cursor-pointer bg-inherit p-3'>
 				<div>{isActive ? <ArrowDown className='icon-style text-grey' /> : <ArrowRight className='icon-style text-grey' />}</div>
 				<h3 className='ml-1 m-0 font-semibold text-sm'>{title}</h3>
 				{details}

@@ -6,7 +6,9 @@ export const AutoAnimateWrapper: FC<{ children: React.ReactNode }> = ({ children
 	type parentType = React.LegacyRef<HTMLDivElement> | undefined;
 
 	return (
-		<div ref={parent as parentType} className='flex flex-col overflow-hidden overflow-y-scroll flex-1 pb-4 max-h-[80vh] md:max-h-[90vh]'>
+		<div
+			ref={parent as parentType}
+			className='tasks-list flex flex-col overflow-hidden overflow-y-scroll flex-1 pb-4 max-h-[80vh] md:max-h-[90vh]'>
 			{children}
 		</div>
 	);

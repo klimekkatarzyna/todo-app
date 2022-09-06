@@ -1,10 +1,9 @@
-import { FC, useCallback, useContext, useState } from 'react';
+import { FC, useCallback, useContext } from 'react';
 import { Loader } from 'react-feather';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { QueryKey } from '../../../enums';
+import { ModalType, QueryKey } from '../../../enums';
 import { getListByIdAction } from '../../../actions/lists';
 import { IList, ITask } from '@kkrawczyk/todo-common';
-import { Modal } from '../../Modal/Modal';
 import { DisplayMember } from '../../SharingOptions/DisplayMember';
 import { AuthContext, AuthContextType } from '../../../AuthProvider';
 import toast from 'react-hot-toast';
@@ -12,6 +11,8 @@ import { assignUserToTaskAction } from '../../../actions/tasks';
 import { RemoveAssignment } from './RemoveAssignment';
 import { AssignUser } from './AssignUser';
 import { HttpResponse } from '../../../utils/http';
+import { RegularModal } from '../../Modal/RegularModal';
+import { useModal } from '../../../hooks/useModal';
 
 interface IAssignComponentrops {
 	listId: string;
@@ -24,8 +25,8 @@ export const AssignComponent: FC<IAssignComponentrops> = ({ listId, taskId, task
 	const { data, isLoading } = useQuery<IList | undefined>([QueryKey.getListById, listId], () => getListByIdAction({ _id: listId }), {
 		enabled: !!listId,
 	});
-	const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 	const { authData } = useContext<AuthContextType>(AuthContext);
+	const { modalType, showModal, hideModal } = useModal();
 
 	const taskAssigment = useCallback(
 		(tasks: ITask[] | undefined, response: HttpResponse<ITask>) =>
@@ -49,22 +50,18 @@ export const AssignComponent: FC<IAssignComponentrops> = ({ listId, taskId, task
 			query.setQueryData<ITask[] | undefined>([QueryKey.tasksList], (tasks: ITask[] | undefined) => taskAssigment(tasks, response));
 
 			toast.success('Zadanie przypisane');
-			setIsModalVisible(false);
+			hideModal();
 		},
 	});
-
-	const onHide = useCallback(() => {
-		setIsModalVisible(false);
-	}, [setIsModalVisible]);
 
 	return (
 		<>
 			{isLoading && <Loader />}
-			{!!data?.members?.length && !taskData?.assigned && <AssignUser onHandleAction={() => setIsModalVisible(true)} />}
+			{!!data?.members?.length && !taskData?.assigned && <AssignUser onHandleAction={() => showModal({ modal: ModalType.assigment })} />}
 			{taskData?.assigned && <RemoveAssignment taskData={taskData} />}
 
-			{isModalVisible && (
-				<Modal title='Przydziel do' onHandleAction={() => setIsModalVisible(false)} isActionButtonHidden onHide={onHide}>
+			{modalType === ModalType.assigment && (
+				<RegularModal title='Przydziel do'>
 					<h3 className='text-darkerGrey text-sm mb-4'>Członkowie listy</h3>
 					{assignLoading && <Loader />}
 					<button className='flex items-center w-full' onClick={() => mutate({ _id: taskId, assigned: authData?._id })}>
@@ -74,12 +71,12 @@ export const AssignComponent: FC<IAssignComponentrops> = ({ listId, taskId, task
 					{data?.members?.map((member, index) => (
 						<button
 							key={index}
-							className='flex flex-row items-center p-1 hover:bg-hoverColor cursor-pointer w-full'
+							className='flex flex-row items-center hover:bg-hoverColor cursor-pointer w-full'
 							onClick={() => mutate({ _id: taskId, assigned: member })}>
 							<DisplayMember member={member} />
 						</button>
 					))}
-				</Modal>
+				</RegularModal>
 			)}
 		</>
 	);

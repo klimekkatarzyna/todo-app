@@ -30,7 +30,7 @@ Default.args = {
 		title: 'Title',
 		themeColor: AppColor.grey,
 		_id: '2',
-		taskStatus: ITaskStatus.inComplete,
+		taskStatus: ITaskStatus.unComplete,
 	},
 };
 
@@ -43,7 +43,7 @@ WithGroup.args = {
 		title: 'Title',
 		themeColor: AppColor.grey,
 		_id: '2',
-		taskStatus: ITaskStatus.inComplete,
+		taskStatus: ITaskStatus.unComplete,
 	},
 };
 
@@ -56,7 +56,7 @@ ImportanceType.args = {
 		title: 'Title',
 		themeColor: AppColor.grey,
 		_id: '2',
-		taskStatus: ITaskStatus.inComplete,
+		taskStatus: ITaskStatus.unComplete,
 	},
 };
 
@@ -82,6 +82,6 @@ WithTheme.args = {
 		title: 'Title',
 		themeColor: AppColor.green,
 		_id: '2',
-		taskStatus: ITaskStatus.inComplete,
+		taskStatus: ITaskStatus.unComplete,
 	},
 };

@@ -4,7 +4,7 @@ import { SideMenu } from '../../enums';
 import { TasksList } from './TasksList';
 import { ITask } from '@kkrawczyk/todo-common';
 
-const InCompletedTasksComponent: FC<{ tasks: ITask[] }> = ({ tasks }) => {
+const UnCompletedTasksComponent: FC<{ tasks: ITask[] }> = ({ tasks }) => {
 	return (
 		<>
 			<SortComponent />
@@ -13,4 +13,4 @@ const InCompletedTasksComponent: FC<{ tasks: ITask[] }> = ({ tasks }) => {
 	);
 };
 
-export const InCompletedTasks = memo(InCompletedTasksComponent);
+export const UnCompletedTasks = memo(UnCompletedTasksComponent);
