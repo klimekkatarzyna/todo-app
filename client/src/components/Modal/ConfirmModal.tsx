@@ -12,12 +12,24 @@ interface IModalComponentProps<T> {
 }
 
 export const ConfirmModal: FC<IModalComponentProps<unknown>> = ({ children, title, onHandleAction, isLoading }) => {
-	const { hideModal, showModal } = useModal();
+	const { hideModal } = useModal();
+
+	useEffect(() => {
+		const listener = (event: KeyboardEvent) => {
+			if (event.code === 'Enter') {
+				onHandleActionAndClose();
+			}
+		};
+		document.addEventListener('keydown', listener);
+		return () => {
+			document.removeEventListener('keydown', listener);
+		};
+	}, []);
 
 	useEffect(() => {
 		const listener = (event: KeyboardEvent) => {
 			if (event.code === 'Escape') {
-				hideModal();
+				hideModal?.();
 			}
 		};
 		document.addEventListener('keydown', listener);
