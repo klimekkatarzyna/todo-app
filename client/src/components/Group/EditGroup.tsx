@@ -51,7 +51,7 @@ export const EditGroup: FC<IEditGroupProps> = ({ title, groupId, isNavClosed }) 
 			setContextMenu(undefined);
 			onBlur();
 		},
-		[groupId, setIsInputVisible, setContextMenu, onBlur]
+		[setIsInputVisible, setContextMenu, onBlur, contextualMenu?.elementId, mutateAsync]
 	);
 
 	useEffect(() => {

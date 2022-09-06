@@ -21,7 +21,7 @@ export const Group: FC<{ group: IGroup; isNavClosed: boolean | undefined }> = ({
 
 	useEffect(() => {
 		setGroupDetails(group);
-	}, [group]);
+	}, [group, setGroupDetails]);
 
 	return (
 		<div ref={elementeReference}>

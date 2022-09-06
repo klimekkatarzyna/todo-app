@@ -32,7 +32,7 @@ const ListsComponents: FC<{ isNavClosed: boolean }> = ({ isNavClosed }) => {
 		onHandleSwitchToFirstListItem();
 	}, [contextualMenu, onHandleSwitchToFirstListItem]);
 
-	const { mutate, isLoading, isError } = useMutation(updateMembersList, {
+	const { mutate } = useMutation(updateMembersList, {
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.getListById]);
 			query.invalidateQueries([QueryKey.lists]);

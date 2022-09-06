@@ -18,7 +18,7 @@ export const SubmenuComponent: FC<ISubmenuComponentProps> = ({ elementItem, cont
 		({ data }) => {
 			mutateAsyncAction?.({ _id: data._id, listId: elementId });
 		},
-		[elementId]
+		[mutateAsyncAction, elementId]
 	);
 
 	return (

@@ -17,7 +17,7 @@ export const Groups: FC<{ isNavClosed: boolean }> = ({ isNavClosed }) => {
 
 	const { isLoading: getGroupsLoading, data } = useQuery<IGroup[] | undefined>(QueryKey.groups, getGroups);
 
-	const { mutateAsync, error, isLoading } = useMutation(deleteGroup, {
+	const { mutateAsync, isLoading } = useMutation(deleteGroup, {
 		onSuccess: async response => {
 			query.setQueryData<IGroup[] | undefined>([QueryKey.groups], (groups: IGroup[] | undefined) =>
 				groups?.filter(group => group._id !== response.body?._id)
@@ -29,7 +29,7 @@ export const Groups: FC<{ isNavClosed: boolean }> = ({ isNavClosed }) => {
 	const onRemoveGroup = useCallback(async () => {
 		if (contextualMenu?.type !== ContextMenuOpion.remove_group) return;
 		await mutateAsync({ _id: contextualMenu?.elementId });
-	}, [contextualMenu]);
+	}, [contextualMenu, mutateAsync]);
 
 	return (
 		<div>
