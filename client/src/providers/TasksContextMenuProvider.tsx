@@ -3,11 +3,10 @@ import { createContext } from 'react';
 import { ContextMenuOpion } from '../enums';
 import { IData, IHandleContextMenuItemClickProps } from '../interfaces/app';
 import { Importance, ITaskStatus } from '@kkrawczyk/todo-common';
-import { useRecoilState } from 'recoil';
-import { modalVisibilityState } from '../atoms/modal';
 import { useTaskImportance } from '../hooks/tasks/useTaskImportance';
 import useTasksStatus from '../hooks/tasks/useTasksStatus';
 import { useTasksInMyDay } from '../hooks/tasks/useTasksInMyDay';
+import { useModal } from '../hooks/useModal';
 
 export interface TasksContextMenuContextType {
 	tasksContextlMenu: IData | undefined;
@@ -19,7 +18,7 @@ export const TasksContextMenuContext = createContext<TasksContextMenuContextType
 
 export const TasksContextMenuProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
 	const [tasksContextlMenu, setTasksContextMenu] = useState<IData | undefined>();
-	const [, setIsVisible] = useRecoilState(modalVisibilityState);
+	const { showModal } = useModal();
 
 	const { taskInMyDayMutation } = useTasksInMyDay();
 	const { changeTaskImportanceMutation } = useTaskImportance();
@@ -55,7 +54,7 @@ export const TasksContextMenuProvider: FC<{ children: React.ReactNode }> = ({ ch
 					setTasksContextMenu(data);
 					break;
 				case ContextMenuOpion.remove_task:
-					setIsVisible(true);
+					showModal({ modal: ContextMenuOpion.remove_task });
 					setTasksContextMenu(data);
 					break;
 				default:
@@ -63,7 +62,7 @@ export const TasksContextMenuProvider: FC<{ children: React.ReactNode }> = ({ ch
 					break;
 			}
 		},
-		[changeTaskImportanceMutation, changeTaskStatusMutation, setIsVisible, taskInMyDayMutation]
+		[changeTaskImportanceMutation, changeTaskStatusMutation, showModal, taskInMyDayMutation]
 	);
 
 	const value = useMemo(() => {

@@ -1,5 +1,5 @@
 import { FC, RefObject, useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { ContextMenuContext } from '../../ContextMenuProvider';
+import { ContextMenuContext } from '../../providers/ContextMenuProvider';
 import { ContextMenuOpion, QueryKey } from '../../enums';
 import { useMutation, useQueryClient } from 'react-query';
 import { editGroup } from '../../actions/groups';

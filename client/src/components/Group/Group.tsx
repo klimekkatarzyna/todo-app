@@ -6,7 +6,7 @@ import { GroupedLists } from './GroupedLists';
 import { useDropdown } from '../../hooks/useDropdown';
 import { ContextMenuComponent } from '../ContextMenu/ContextMenuComponent';
 import { EditGroup } from './EditGroup';
-import { ContextMenuContext } from '../../ContextMenuProvider';
+import { ContextMenuContext } from '../../providers/ContextMenuProvider';
 import { useShowMenuContexify } from '../../hooks/useShowMenuContexify';
 import { useSetRecoilState } from 'recoil';
 import { groupState } from '../../atoms/group';

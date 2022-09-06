@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { AuthProvider } from './AuthProvider';
 import { BrowserRouter } from './Router';
-import { ContextMenuProvider } from './ContextMenuProvider';
+import { ContextMenuProvider } from './providers/ContextMenuProvider';
 import { SocketProvider } from './providers/SocketProvider';
 import { RecoilRoot } from 'recoil';
 import { Toaster } from 'react-hot-toast';

@@ -3,6 +3,13 @@ import { userEmail, userName } from './global';
 
 let browser;
 
+export const shouleLoginToApp = async ({ page }) => {
+	await page.locator('input[name="email"]').fill('user-todo1@yopmail.com');
+	await page.locator('input[name="password"]').fill('Test1234');
+	await page.locator('button:has-text("Zaloguj")').click();
+	await expect(page.locator('a:has-text("To Do")')).toBeVisible();
+};
+
 (async () => {
 	browser = await chromium.launch();
 })();
@@ -31,10 +38,7 @@ test.describe('Register user', () => {
 
 test.describe('Login user', () => {
 	test('should use data for already registered user', async ({ page }) => {
-		await page.locator('input[name="email"]').fill('user-todo1@yopmail.com');
-		await page.locator('input[name="password"]').fill('Test1234');
-		await page.locator('button:has-text("Zaloguj")').click();
-		await expect(page.locator('a:has-text("To Do")')).toBeVisible();
+		await shouleLoginToApp({ page });
 		await page.locator('button:has-text("Logout")').click();
 	});
 });

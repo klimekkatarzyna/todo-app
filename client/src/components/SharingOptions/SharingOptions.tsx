@@ -1,5 +1,5 @@
 import { FC, useCallback, useContext, useEffect, useState } from 'react';
-import { ContextMenuContext } from '../../ContextMenuProvider';
+import { ContextMenuContext } from '../../providers/ContextMenuProvider';
 import { useGenerateInvitationToken } from '../../hooks/useGenerateInvitationToken';
 import { GenerateTokenView } from './GenerateTokenView';
 import { ShareTokenView } from './ShareTokenView';
@@ -10,6 +10,8 @@ import { getListByIdAction } from '../../actions/sharing';
 import { IList } from '@kkrawczyk/todo-common';
 import { QueryKey } from '../../enums';
 import { addInvitationTokenToListAction } from '../../actions/lists';
+import { useParams } from 'react-router-dom';
+import { IUseParams } from '../../interfaces/app';
 
 export const SharingOptions: FC = () => {
 	const query = useQueryClient();
@@ -17,12 +19,11 @@ export const SharingOptions: FC = () => {
 	const { contextualMenu } = useContext(ContextMenuContext);
 	const { invitationToken, onGenerateInvitationToken } = useGenerateInvitationToken();
 	const [step, setStep] = useState<number>(1);
+	const { listId } = useParams<IUseParams>();
 
-	const { data } = useQuery<IList | undefined>(
-		[QueryKey.getListById, contextualMenu?.elementId],
-		() => getListByIdAction({ _id: contextualMenu?.elementId }),
-		{ enabled: !!contextualMenu?.elementId }
-	);
+	const listID = contextualMenu?.elementId || listId;
+
+	const { data } = useQuery<IList | undefined>([QueryKey.getListById, listID], () => getListByIdAction({ _id: listID }), { enabled: !!listID });
 
 	const { mutateAsync: addInvitationTokenToListMutation, isLoading: addInvitationTokenToListLoading } = useMutation(
 		addInvitationTokenToListAction,
@@ -36,9 +37,9 @@ export const SharingOptions: FC = () => {
 	useEffect(() => {
 		(async () => {
 			if (!invitationToken) return;
-			await addInvitationTokenToListMutation({ _id: contextualMenu?.elementId, invitationToken: invitationToken, owner: authData?.email });
+			await addInvitationTokenToListMutation({ _id: listID, invitationToken: invitationToken, owner: authData?.email });
 		})();
-	}, [contextualMenu?.elementId, data?.invitationToken, invitationToken]);
+	}, [listID, data?.invitationToken, invitationToken]);
 
 	const onNextStep = useCallback(() => {
 		setStep(step + 1);

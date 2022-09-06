@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { shouleLoginToApp } from './auth.spec';
 
 const taskName = 'Zadanie 1';
 const createdListLocator = '#list-items div:has-text("Lista 1") >> nth=1';
@@ -21,10 +22,7 @@ const checkAndClickAccordion = async ({ page }) => {
 
 test.beforeEach(async ({ page }) => {
 	await page.goto('http://localhost:8080/login');
-	await page.locator('input[name="email"]').fill('user-todo-1661435506792@yopmail.com');
-	await page.locator('input[name="password"]').fill('Test1234');
-	await page.locator('button:has-text("Zaloguj")').click();
-	await expect(page.locator('a:has-text("To Do")')).toBeVisible();
+	await shouleLoginToApp({ page });
 });
 
 test.afterAll(async ({ page }) => {

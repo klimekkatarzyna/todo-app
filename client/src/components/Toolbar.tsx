@@ -31,7 +31,7 @@ export const Toolbar: FC<IToolbar> = ({ name, colorType, isDateVisible, children
 					{'< Listy'}
 				</button>
 			</div>
-			<div className='flex items-center mb-4'>
+			<div className='flex items-center mt-4 mb-4'>
 				<div
 					className={`flex-row items-center flex p-2 overflow-hidden whitespace-nowrap text-2xl font-semibold text-ellipsis text-${colorType} md:text-xl`}
 					ref={elementRef}

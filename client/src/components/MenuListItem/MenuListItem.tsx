@@ -8,7 +8,7 @@ import { useSharingData } from '../../hooks/useSharingData';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { getTasksOfCurrentListAction } from '../../actions/tasks';
 import { List, Users } from 'react-feather';
-import { ContextMenuContext } from '../../ContextMenuProvider';
+import { ContextMenuContext } from '../../providers/ContextMenuProvider';
 import { buildUrl } from '../../utils/paths';
 import { useShowMenuContexify } from '../../hooks/useShowMenuContexify';
 import { addListToGroupAction, getGroups } from '../../actions/groups';

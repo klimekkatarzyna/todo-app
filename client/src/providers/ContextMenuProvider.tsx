@@ -3,11 +3,10 @@ import React, { FC, useCallback, useMemo, useState } from 'react';
 import { createContext } from 'react';
 import toast from 'react-hot-toast';
 import { useMutation, useQueryClient } from 'react-query';
-import { useRecoilState } from 'recoil';
-import { unGroupeListsAction } from './actions/groups';
-import { modalVisibilityState } from './atoms/modal';
-import { ContextMenuOpion, QueryKey } from './enums';
-import { IData, IHandleContextMenuItemClickProps } from './interfaces/app';
+import { unGroupeListsAction } from '../actions/groups';
+import { ContextMenuOpion, QueryKey } from '../enums';
+import { useModal } from '../hooks/useModal';
+import { IData, IHandleContextMenuItemClickProps } from '../interfaces/app';
 
 export interface ContextMenuType {
 	setContextMenu: React.Dispatch<React.SetStateAction<IData | undefined>>;
@@ -20,7 +19,7 @@ export const ContextMenuContext = createContext<ContextMenuType>({} as ContextMe
 export const ContextMenuProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
 	const query = useQueryClient();
 	const [contextualMenu, setContextMenu] = useState<IData | undefined>();
-	const [, setIsVisible] = useRecoilState(modalVisibilityState);
+	const { showModal } = useModal();
 
 	const { mutateAsync: ungroupListsMutation } = useMutation(unGroupeListsAction, {
 		onSuccess: async response => {
@@ -37,14 +36,14 @@ export const ContextMenuProvider: FC<{ children: React.ReactNode }> = ({ childre
 		switch (data?.type) {
 			case ContextMenuOpion.remove_list:
 				setContextMenu(data);
-				setIsVisible(true);
+				showModal({ modal: ContextMenuOpion.remove_list });
 				break;
 			case ContextMenuOpion.remove_group:
-				setIsVisible(true);
+				showModal({ modal: ContextMenuOpion.remove_group });
 				setContextMenu(data);
 				break;
 			case ContextMenuOpion.ungroup_lists:
-				setIsVisible(true);
+				showModal({ modal: ContextMenuOpion.ungroup_lists });
 				await ungroupListsMutation({ _id: data?.elementId, lists: data?.lists });
 				setContextMenu(data);
 				break;
@@ -52,15 +51,15 @@ export const ContextMenuProvider: FC<{ children: React.ReactNode }> = ({ childre
 				setContextMenu(data);
 				break;
 			case ContextMenuOpion.sharing_options:
-				setIsVisible(true);
+				showModal({ modal: ContextMenuOpion.sharing_options });
 				setContextMenu(data);
 				break;
 			case ContextMenuOpion.move_list_to:
-				setIsVisible(true);
+				showModal({ modal: ContextMenuOpion.move_list_to });
 				setContextMenu(data);
 				break;
 			case ContextMenuOpion.leave_list:
-				setIsVisible(true);
+				showModal({ modal: ContextMenuOpion.leave_list });
 				setContextMenu(data);
 				break;
 			default:

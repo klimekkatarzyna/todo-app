@@ -1,7 +1,6 @@
 import { FC, memo, useCallback, useContext } from 'react';
 import { MenuListItem } from '../../MenuListItem/MenuListItem';
 import { Loader } from 'react-feather';
-import { ContextualModal } from '../../Modal/ContextualModal';
 import { ContextMenuOpion, QueryKey } from '../../../enums';
 import { SharingOptions } from '../../SharingOptions/SharingOptions';
 import { useMutation, useQueryClient } from 'react-query';
@@ -10,16 +9,18 @@ import { useList } from '../../../hooks/useList';
 import { useRecoilValue } from 'recoil';
 import { listsState } from '../../../atoms';
 import { updateMembersList } from '../../../actions/sharing';
-import { ContextMenuContext } from '../../../ContextMenuProvider';
+import { ContextMenuContext } from '../../../providers/ContextMenuProvider';
 import { AuthContext } from '../../../AuthProvider';
 import toast from 'react-hot-toast';
-import { modalVisibilityState } from '../../../atoms/modal';
 import { useSwitchToFirstListItem } from '../../../hooks/useSwitchToFirstListItem';
+import { ConfirmModal } from '../../Modal/ConfirmModal';
+import { useModal } from '../../../hooks/useModal';
+import { RegularModal } from '../../Modal/RegularModal';
 
 const ListsComponents: FC<{ isNavClosed: boolean }> = ({ isNavClosed }) => {
 	const query = useQueryClient();
 	const { onHandleSwitchToFirstListItem } = useSwitchToFirstListItem();
-	const isVisible = useRecoilValue(modalVisibilityState);
+	const { modalType } = useModal();
 	const { getListsLoading, removeListMutation } = useList();
 	const list = useRecoilValue(listsState);
 	const { contextualMenu } = useContext(ContextMenuContext);
@@ -47,19 +48,17 @@ const ListsComponents: FC<{ isNavClosed: boolean }> = ({ isNavClosed }) => {
 					<MenuListItem key={index} listItem={list} isNavClosed={isNavClosed} />
 				))}
 			</div>
-			{isVisible && (
-				<ContextualModal title='Czy chcesz usunąć listę?' onHandleAction={removeList} contextualType={ContextMenuOpion.remove_list} />
-			)}
-			{isVisible && (
-				<ContextualModal title='' onHandleAction={() => {}} contextualType={ContextMenuOpion.sharing_options} isActionButtonHidden>
+
+			{modalType === ContextMenuOpion.remove_list && <ConfirmModal title='Czy chcesz usunąć listę?' onHandleAction={removeList} />}
+			{modalType === ContextMenuOpion.sharing_options && (
+				<RegularModal title='Udostępnij listę'>
 					<SharingOptions />
-				</ContextualModal>
+				</RegularModal>
 			)}
-			{isVisible && (
-				<ContextualModal
+			{modalType === ContextMenuOpion.leave_list && (
+				<ConfirmModal
 					title='Czy chcesz opuścić tę listę?'
 					onHandleAction={() => mutate({ _id: contextualMenu?.elementId, member: authData?._id })}
-					contextualType={ContextMenuOpion.leave_list}
 				/>
 			)}
 		</>

@@ -1,11 +1,9 @@
 import { test, expect } from '@playwright/test';
+import { shouleLoginToApp } from './auth.spec';
 
 test.beforeEach(async ({ page }) => {
 	await page.goto('http://localhost:8080/login');
-	await page.locator('input[name="email"]').fill('user-todo-1661435506792@yopmail.com');
-	await page.locator('input[name="password"]').fill('Test1234');
-	await page.locator('button:has-text("Zaloguj")').click();
-	await expect(page.locator('a:has-text("To Do")')).toBeVisible();
+	await shouleLoginToApp({ page });
 });
 
 test.afterEach(async ({ page }) => {

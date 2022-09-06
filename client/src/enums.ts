@@ -84,3 +84,9 @@ export enum QueryKey {
 	getAssignedTasks = 'getAssignedTasks',
 	tasksList = 'tasksList',
 }
+
+export enum ModalType {
+	confirm = 'confirm',
+	sharing = 'sharing',
+	assigment = 'assigment',
+}
