@@ -31,11 +31,14 @@ export const CreateList: FC = () => {
 		},
 	});
 
-	const onSubmit: SubmitHandler<IList> = useCallback(async (data, e) => {
-		const title = isStringContainsOnlyWhitespace(data.title) ? 'Lista bez tytułu' : data.title;
-		await mutateAsync({ title });
-		e?.target.reset();
-	}, []);
+	const onSubmit: SubmitHandler<IList> = useCallback(
+		async (data, e) => {
+			const title = isStringContainsOnlyWhitespace(data.title) ? 'Lista bez tytułu' : data.title;
+			await mutateAsync({ title });
+			e?.target.reset();
+		},
+		[mutateAsync]
+	);
 
 	return (
 		<div className='flex flex-col bg-light-grey transition ease-in-out delay-150 width w-full'>

@@ -42,7 +42,7 @@ export const CreateTask: FC<{ listTheme: AppColor | undefined }> = ({ listTheme 
 			});
 			e?.target.reset();
 		},
-		[isStringContainsOnlyWhitespace, parentFolderId, listTheme, authData, membersArray]
+		[parentFolderId, listTheme, authData, membersArray, mutateAsync]
 	);
 
 	return (

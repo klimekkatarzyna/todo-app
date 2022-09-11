@@ -15,7 +15,7 @@ export const RemoveMember: FC<{ listDataResponse: IList | undefined; onNextStep:
 	const leaveList = useCallback(() => {
 		updateMembersListMutation({ _id: listDataResponse?._id, member: authData?._id });
 		navigate(buildUrl(ROUTE.home));
-	}, [listDataResponse, authData, navigate]);
+	}, [listDataResponse, authData, navigate, updateMembersListMutation]);
 
 	return (
 		<>

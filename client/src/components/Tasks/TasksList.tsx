@@ -23,7 +23,7 @@ export const TasksList: FC<{ tasks: ITask[] | undefined; redirectUrl: string }> 
 		await removeTaskMutation();
 		hideModal();
 		setIsElementVisible(false);
-	}, [tasksContextlMenu, removeTaskMutation, hideModal]);
+	}, [tasksContextlMenu, removeTaskMutation, hideModal, setIsElementVisible]);
 
 	return (
 		<AutoAnimateWrapper>

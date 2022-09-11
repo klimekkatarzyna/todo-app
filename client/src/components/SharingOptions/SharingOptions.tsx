@@ -39,7 +39,7 @@ export const SharingOptions: FC = () => {
 			if (!invitationToken) return;
 			await addInvitationTokenToListMutation({ _id: listID, invitationToken: invitationToken, owner: authData?.email });
 		})();
-	}, [listID, data?.invitationToken, invitationToken]);
+	}, [listID, data?.invitationToken, invitationToken, authData?.email, addInvitationTokenToListMutation]);
 
 	const onNextStep = useCallback(() => {
 		setStep(step + 1);

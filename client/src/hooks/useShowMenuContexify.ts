@@ -11,7 +11,7 @@ export const useShowMenuContexify = (menuId: string | undefined, isMainMenu?: bo
 			if (isMainMenu) return;
 			show(e);
 		},
-		[isMainMenu]
+		[isMainMenu, show]
 	);
 
 	return {

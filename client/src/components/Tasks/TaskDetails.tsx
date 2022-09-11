@@ -37,12 +37,12 @@ const TaskDetailsComponent: FC<ITaskDetailsProps> = ({ taskData, isTaskDetailsVi
 	const onHandleChange = useCallback(async () => {
 		const taskStatus = taskData?.taskStatus === ITaskStatus.unComplete ? ITaskStatus.complete : ITaskStatus.unComplete;
 		await changeTaskStatusMutation({ _id: taskData?._id, parentFolderId: taskData?.parentFolderId, taskStatus });
-	}, [taskData]);
+	}, [taskData, changeTaskStatusMutation]);
 
 	const onClickImportanceButton = useCallback(async () => {
 		setIsImportanceButtonChecked(!isImportanceButtonChecked);
 		await changeTaskImportanceMutation({ parentFolderId: taskData?.parentFolderId, _id: taskData?._id, importance: importanceType });
-	}, [isImportanceButtonChecked, taskData, importanceType]);
+	}, [isImportanceButtonChecked, taskData, importanceType, changeTaskImportanceMutation]);
 
 	const elementRef: RefObject<HTMLInputElement> = useRef(null);
 	const { isFocused, onClick, onBlur } = useFocusingHandling(elementRef);

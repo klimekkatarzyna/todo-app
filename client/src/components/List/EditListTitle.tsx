@@ -49,7 +49,7 @@ export const EditListTitle: FC<{ title: string; className: string }> = ({ title 
 			await mutateAsync({ _id: listId, title: data.title });
 			setIsFormVisible(false);
 		},
-		[listId, setIsFormVisible]
+		[listId, setIsFormVisible, mutateAsync]
 	);
 
 	return (

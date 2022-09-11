@@ -75,7 +75,19 @@ export const useBuidContextTaskMenu = (task: ITask) => {
 			MoveTaskContextMenuItem,
 			RemoveTaskContextMenuItem,
 		],
-		[task]
+		[
+			task,
+			// AddToMyDayContextMenuItem,
+			// DateTodayContextMenuItem,
+			// DateTomorrowContextMenuItem,
+			// MarkAsCompleteContextMenuItem,
+			// MarkAsImportantContextMenuItem,
+			// MarkAsUncompleteContextMenuItem,
+			// MoveTaskContextMenuItem,
+			// RemoveFromMyDayContextMenuItem,
+			// RemoveImportanceContextMenuItem,
+			// RemoveTaskContextMenuItem,
+		]
 	);
 
 	return {

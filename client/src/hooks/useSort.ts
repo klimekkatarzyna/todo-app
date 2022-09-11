@@ -1,7 +1,7 @@
 export type Direction = 'asc' | 'desc';
 
-export const useSort = <T>() => {
-	type dateType = string | number | Date;
+export const useSort = () => {
+	// type dateType = string | number | Date;
 
 	const sorter = {
 		date: (sortKey: string) => (a: any, b: any) => {

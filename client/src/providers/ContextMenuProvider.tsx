@@ -30,43 +30,46 @@ export const ContextMenuProvider: FC<{ children: React.ReactNode }> = ({ childre
 		},
 	});
 
-	const handleItemClick = useCallback(async ({ triggerEvent, event, props, data }: IHandleContextMenuItemClickProps) => {
-		setContextMenu(data);
+	const handleItemClick = useCallback(
+		async ({ triggerEvent, event, props, data }: IHandleContextMenuItemClickProps) => {
+			setContextMenu(data);
 
-		switch (data?.type) {
-			case ContextMenuOpion.remove_list:
-				setContextMenu(data);
-				showModal({ modal: ContextMenuOpion.remove_list });
-				break;
-			case ContextMenuOpion.remove_group:
-				showModal({ modal: ContextMenuOpion.remove_group });
-				setContextMenu(data);
-				break;
-			case ContextMenuOpion.ungroup_lists:
-				showModal({ modal: ContextMenuOpion.ungroup_lists });
-				await ungroupListsMutation({ _id: data?.elementId, lists: data?.lists });
-				setContextMenu(data);
-				break;
-			case ContextMenuOpion.edit_group_name:
-				setContextMenu(data);
-				break;
-			case ContextMenuOpion.sharing_options:
-				showModal({ modal: ContextMenuOpion.sharing_options });
-				setContextMenu(data);
-				break;
-			case ContextMenuOpion.move_list_to:
-				showModal({ modal: ContextMenuOpion.move_list_to });
-				setContextMenu(data);
-				break;
-			case ContextMenuOpion.leave_list:
-				showModal({ modal: ContextMenuOpion.leave_list });
-				setContextMenu(data);
-				break;
-			default:
-				setContextMenu(undefined);
-				break;
-		}
-	}, []);
+			switch (data?.type) {
+				case ContextMenuOpion.remove_list:
+					setContextMenu(data);
+					showModal({ modal: ContextMenuOpion.remove_list });
+					break;
+				case ContextMenuOpion.remove_group:
+					showModal({ modal: ContextMenuOpion.remove_group });
+					setContextMenu(data);
+					break;
+				case ContextMenuOpion.ungroup_lists:
+					showModal({ modal: ContextMenuOpion.ungroup_lists });
+					await ungroupListsMutation({ _id: data?.elementId, lists: data?.lists });
+					setContextMenu(data);
+					break;
+				case ContextMenuOpion.edit_group_name:
+					setContextMenu(data);
+					break;
+				case ContextMenuOpion.sharing_options:
+					showModal({ modal: ContextMenuOpion.sharing_options });
+					setContextMenu(data);
+					break;
+				case ContextMenuOpion.move_list_to:
+					showModal({ modal: ContextMenuOpion.move_list_to });
+					setContextMenu(data);
+					break;
+				case ContextMenuOpion.leave_list:
+					showModal({ modal: ContextMenuOpion.leave_list });
+					setContextMenu(data);
+					break;
+				default:
+					setContextMenu(undefined);
+					break;
+			}
+		},
+		[showModal, ungroupListsMutation]
+	);
 
 	const value = useMemo(() => {
 		return {

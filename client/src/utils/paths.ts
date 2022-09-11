@@ -1,5 +1,4 @@
 import { ROUTE } from '../enums';
-import { generatePath } from 'react-router-dom';
 
 export type ExtractRouteParams<T> = string extends T
 	? Record<string, string>

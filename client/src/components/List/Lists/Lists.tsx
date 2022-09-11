@@ -30,7 +30,7 @@ const ListsComponents: FC<{ isNavClosed: boolean }> = ({ isNavClosed }) => {
 		if (contextualMenu?.type !== ContextMenuOpion.remove_list) return;
 		await removeListMutation({ _id: contextualMenu?.elementId });
 		onHandleSwitchToFirstListItem();
-	}, [contextualMenu, onHandleSwitchToFirstListItem]);
+	}, [contextualMenu, onHandleSwitchToFirstListItem, removeListMutation]);
 
 	const { mutate } = useMutation(updateMembersList, {
 		onSuccess: () => {

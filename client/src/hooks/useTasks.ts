@@ -1,6 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
 import { QueryKey, SortTaskType } from '../enums';
-import { useSort } from './useSort';
 import { useParams } from 'react-router-dom';
 import { IUseParams } from '../interfaces/app';
 import { useQuery } from 'react-query';
@@ -16,7 +15,7 @@ export type KeyType = 'string' | 'date';
 
 export const useTasks = () => {
 	const { listId } = useParams<IUseParams>();
-	const { sorter } = useSort<ITask>();
+	// const { sorter } = useSort<ITask>();
 
 	const { data: tasksOfCurrentList, isLoading } = useQuery<ITask[] | undefined>(
 		[QueryKey.tasksOfCurrentList, listId],
@@ -24,7 +23,7 @@ export const useTasks = () => {
 		{ enabled: !!listId }
 	);
 
-	const [sort, setSort] = useState<SortType>({ key: SortTaskType.title, keyType: 'string' });
+	const [, setSort] = useState<SortType>({ key: SortTaskType.title, keyType: 'string' });
 
 	const requestSort = useCallback((data: SortTaskType, type: KeyType) => {
 		setSort(state => ({ ...state, key: data, keyType: type }));
@@ -36,7 +35,7 @@ export const useTasks = () => {
 	);
 	const completedTasks = useMemo(() => (tasksOfCurrentList || []).filter(task => task.taskStatus === ITaskStatus.complete), [tasksOfCurrentList]);
 
-	const sortedTasks = useMemo(() => [...(tasksOfCurrentList || []).sort(sorter[sort.keyType](sort.key))], [tasksOfCurrentList, sort]);
+	// const sortedTasks = useMemo(() => [...(tasksOfCurrentList || []).sort(sorter[sort.keyType](sort.key))], [tasksOfCurrentList, sort, sorter]);
 
 	return {
 		requestSort,

@@ -10,7 +10,7 @@ import { buildUrl } from '../utils/paths';
 import { TasksList } from '../components/Tasks/TasksList';
 
 export const Important: FC = () => {
-	const { data, isLoading, isError } = useQuery<ITask[] | undefined>([QueryKey.getImportanceTasks], onGetImportanceTasksAction);
+	const { data, isLoading } = useQuery<ITask[] | undefined>([QueryKey.getImportanceTasks], onGetImportanceTasksAction);
 
 	const filteredTasks = useMemo(() => data?.filter(task => task.importance === Importance.high), [data]);
 

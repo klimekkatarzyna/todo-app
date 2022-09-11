@@ -63,7 +63,7 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({ children }) =>
 				},
 			},
 		});
-	}, []);
+	}, [navigate, query]);
 
 	useEffect(() => {
 		if (data) {
@@ -75,7 +75,7 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({ children }) =>
 			setSessionChecked(false);
 			navigate(location.pathname, { replace: true });
 		}
-	}, [data, sessionChecked]);
+	}, [data, sessionChecked, location.pathname, navigate]);
 
 	const value = useMemo(() => {
 		return {

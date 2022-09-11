@@ -56,7 +56,7 @@ export const SearchInput: FC = () => {
 			setIsVisible(false);
 			setIsLoading(false);
 		},
-		[setIsLoading, setSearchResults, searchWithFuse, navigate]
+		[setIsLoading, setSearchResults, searchWithFuse, navigate, setIsVisible]
 	);
 
 	useEffect(() => {

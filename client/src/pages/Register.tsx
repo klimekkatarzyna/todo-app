@@ -36,11 +36,14 @@ export const Register: FC = () => {
 		},
 	});
 
-	const onSubmit: SubmitHandler<IUserData> = useCallback(async (data, e) => {
-		const { username, email, password } = data;
-		await mutateAsync({ username, email, password });
-		e?.target.reset();
-	}, []);
+	const onSubmit: SubmitHandler<IUserData> = useCallback(
+		async (data, e) => {
+			const { username, email, password } = data;
+			await mutateAsync({ username, email, password });
+			e?.target.reset();
+		},
+		[mutateAsync]
+	);
 
 	return (
 		<div className='bg-light-grey w-full flex items-center justify-center'>

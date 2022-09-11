@@ -18,11 +18,7 @@ export const useTasksInMyDay = () => {
 		[]
 	);
 
-	const {
-		mutate: taskInMyDayMutation,
-		error,
-		isLoading: taskInMyDayLoading,
-	} = useMutation(taskInMyDayAction, {
+	const { mutate: taskInMyDayMutation, isLoading: taskInMyDayLoading } = useMutation(taskInMyDayAction, {
 		onSuccess: async response => {
 			query.setQueryData<ITask[] | undefined>([QueryKey.tasksOfCurrentList, response.data?.parentFolderId], (tasks: ITask[] | undefined) =>
 				taskInMyDay(tasks, response)

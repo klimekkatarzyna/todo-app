@@ -13,7 +13,7 @@ export const JoinToList: FC<{ listDataLoading: boolean; list: IShareLitDetails |
 	const location = useLocation();
 	const { onHandleSwitchToFirstListItem } = useSwitchToFirstListItem(list?.listData._id);
 
-	const { mutate, error, isLoading } = useMutation(addUserToMemberOfListAction, {
+	const { mutate, isLoading } = useMutation(addUserToMemberOfListAction, {
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.checkSession]);
 			query.invalidateQueries([QueryKey.lists]);

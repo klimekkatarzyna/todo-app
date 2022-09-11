@@ -34,7 +34,7 @@ export const EditTaskName: FC<{ taskData: ITask | undefined }> = ({ taskData }) 
 			if (isStringContainsOnlyWhitespace(data.title)) return;
 			await mutateAsync({ _id: taskData?._id, title: data.title, parentFolderId: taskData?.parentFolderId });
 		},
-		[isStringContainsOnlyWhitespace, taskData]
+		[taskData, mutateAsync]
 	);
 
 	return (

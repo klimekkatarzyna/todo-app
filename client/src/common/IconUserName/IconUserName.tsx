@@ -12,7 +12,7 @@ export const IconUserName: FC<{ member: string | undefined; isFullNameVisible?: 
 	userName,
 }) => {
 	const { data, isLoading } = useQuery<IUserData | undefined>([QueryKey.getUser, member], () => getUserAction(member), { enabled: !!member });
-	const name = useMemo(() => getFirstLetters(data?.username || userName), [data?.username]);
+	const name = useMemo(() => getFirstLetters(data?.username || userName), [data?.username, userName]);
 
 	return (
 		<div className='flex items-center p-0 task-details-button-style'>

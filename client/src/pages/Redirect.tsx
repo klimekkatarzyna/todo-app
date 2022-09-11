@@ -9,7 +9,7 @@ export const Redirect = () => {
 
 	useEffect(() => {
 		sessionStorage.setItem('invitationTokenUrl', `${location?.pathname}${location?.search}`);
-	}, []);
+	}, [location?.pathname, location?.search]);
 
 	return (
 		<div>
