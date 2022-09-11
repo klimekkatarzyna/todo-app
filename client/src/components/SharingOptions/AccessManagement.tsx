@@ -3,7 +3,7 @@ import { Button } from '../Button/Button';
 import { IList } from '@kkrawczyk/todo-common';
 import { useMutation, useQueryClient } from 'react-query';
 import { ArrowLeft } from 'react-feather';
-import { removeInvitationAction } from '../../actions/sharing';
+import { removeInvitationAction } from '../../api/sharing';
 import { QueryKey, ROUTE } from '../../enums';
 import toast from 'react-hot-toast';
 

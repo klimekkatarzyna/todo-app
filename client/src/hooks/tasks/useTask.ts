@@ -1,7 +1,7 @@
 import { ITask } from '@kkrawczyk/todo-common';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
-import { getTaskAction } from '../../actions/tasks';
+import { getTaskAction } from '../../api/tasks';
 import { QueryKey } from '../../enums';
 import { IUseParams } from '../../interfaces/app';
 

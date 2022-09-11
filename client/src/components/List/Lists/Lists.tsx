@@ -8,7 +8,7 @@ import { IList } from '@kkrawczyk/todo-common';
 import { useList } from '../../../hooks/useList';
 import { useRecoilValue } from 'recoil';
 import { listsState } from '../../../atoms';
-import { updateMembersList } from '../../../actions/sharing';
+import { updateMembersList } from '../../../api/sharing';
 import { ContextMenuContext } from '../../../providers/ContextMenuProvider';
 import { AuthContext } from '../../../AuthProvider';
 import toast from 'react-hot-toast';

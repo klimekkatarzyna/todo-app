@@ -25,3 +25,5 @@ export interface HttpResponse<T = any> {
 	message?: string;
 	error?: string;
 }
+
+export const apiUrl = process.env.REACT_APP_BACKEND;

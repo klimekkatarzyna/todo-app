@@ -4,7 +4,7 @@ import { IIUserDataResponse } from './interfaces/app';
 import { HttpResponse } from './utils/http';
 import { IUserData } from '@kkrawczyk/todo-common';
 import { QueryKey, ROUTE } from './enums';
-import { checkSessionAction } from './actions/user';
+import { checkSessionAction } from './api/user';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { buildUrl } from './utils/paths';
 import toast from 'react-hot-toast';

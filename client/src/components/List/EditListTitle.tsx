@@ -4,7 +4,7 @@ import { createEditTaskSchema, IList } from '@kkrawczyk/todo-common';
 import { isStringContainsOnlyWhitespace } from '../../utils/utilsFunctions';
 import { QueryKey } from '../../enums';
 import toast from 'react-hot-toast';
-import { editListAction } from '../../actions/lists';
+import { editListAction } from '../../api/lists';
 import { useParams } from 'react-router-dom';
 import { InputType, IUseParams } from '../../interfaces/app';
 import { useRecoilState } from 'recoil';

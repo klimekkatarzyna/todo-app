@@ -1,7 +1,7 @@
 import { FC, useCallback } from 'react';
 import { isStringContainsOnlyWhitespace } from '../../../utils/utilsFunctions';
 import { useMutation, useQueryClient } from 'react-query';
-import { createListAction } from '../../../actions/lists';
+import { createListAction } from '../../../api/lists';
 import { createEditListSchema, IList } from '@kkrawczyk/todo-common';
 import { QueryKey, ROUTE } from '../../../enums';
 import toast from 'react-hot-toast';

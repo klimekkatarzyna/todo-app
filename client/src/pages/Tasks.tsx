@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
-import { getListByIdAction } from '../actions/lists';
+import { getListByIdAction } from '../api/lists';
 import { Board } from '../components/Board';
 import { CreateTask } from '../components/Tasks/CreateTask';
 import { TasksList } from '../components/Tasks/Tasks';

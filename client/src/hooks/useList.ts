@@ -1,15 +1,15 @@
 import { useEffect } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { deleteListAction, editListThemeAction, getListsAction } from '../actions/lists';
+import { deleteListAction, editListThemeAction, getListsAction } from '../api/lists';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { listsState } from '../atoms';
 import { IGroup, IList, ITask } from '@kkrawczyk/todo-common';
 import { QueryKey } from '../enums';
 import toast from 'react-hot-toast';
 import { groupState } from '../atoms/group';
-import { getGroups } from '../actions/groups';
-import { updateMembersList } from '../actions/sharing';
-import { removeUsersFromTasksAction } from '../actions/tasks';
+import { getGroups } from '../api/groups';
+import { updateMembersList } from '../api/sharing';
+import { removeUsersFromTasksAction } from '../api/tasks';
 
 export const useList = () => {
 	const query = useQueryClient();

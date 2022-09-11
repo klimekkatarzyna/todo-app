@@ -3,7 +3,7 @@ import React, { FC, useCallback, useMemo, useState } from 'react';
 import { createContext } from 'react';
 import toast from 'react-hot-toast';
 import { useMutation, useQueryClient } from 'react-query';
-import { unGroupeListsAction } from '../actions/groups';
+import { unGroupeListsAction } from '../api/groups';
 import { ContextMenuOpion, QueryKey } from '../enums';
 import { useModal } from '../hooks/useModal';
 import { IData, IHandleContextMenuItemClickProps } from '../interfaces/app';

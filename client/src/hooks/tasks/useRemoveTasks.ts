@@ -3,7 +3,7 @@ import { useCallback, useContext } from 'react';
 import toast from 'react-hot-toast';
 import { useMutation, useQueryClient } from 'react-query';
 import { useParams } from 'react-router-dom';
-import { deleteTaskAction } from '../../actions/tasks';
+import { deleteTaskAction } from '../../api/tasks';
 import { AuthContext, AuthContextType } from '../../AuthProvider';
 import { QueryKey } from '../../enums';
 import { IUseParams } from '../../interfaces/app';

@@ -1,6 +1,6 @@
 import { FC, useMemo } from 'react';
 import { useQuery } from 'react-query';
-import { getUserAction } from '../../actions/user';
+import { getUserAction } from '../../api/user';
 import { QueryKey } from '../../enums';
 import { Loader } from 'react-feather';
 import { getFirstLetters } from '../../utils/utilsFunctions';

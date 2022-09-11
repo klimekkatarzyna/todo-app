@@ -3,7 +3,7 @@ import Fuse from 'fuse.js';
 import { ROUTE, QueryKey } from '../enums';
 import { useQuery } from 'react-query';
 import { ITask } from '@kkrawczyk/todo-common';
-import { getTasksAction } from '../actions/tasks';
+import { getTasksAction } from '../api/tasks';
 import { InputType } from '../interfaces/app';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { loadingState, searchResultState } from '../atoms/serching';

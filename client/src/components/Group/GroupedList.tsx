@@ -2,7 +2,7 @@ import { IList } from '@kkrawczyk/todo-common';
 import { FC } from 'react';
 import { Loader } from 'react-feather';
 import { useQuery } from 'react-query';
-import { getListByIdAction } from '../../actions/lists';
+import { getListByIdAction } from '../../api/lists';
 import { QueryKey } from '../../enums';
 import { MenuListItem } from '../MenuListItem/MenuListItem';
 

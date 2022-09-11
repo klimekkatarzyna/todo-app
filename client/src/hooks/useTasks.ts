@@ -4,7 +4,7 @@ import { useSort } from './useSort';
 import { useParams } from 'react-router-dom';
 import { IUseParams } from '../interfaces/app';
 import { useQuery } from 'react-query';
-import { getTasksOfCurrentListAction } from '../actions/tasks';
+import { getTasksOfCurrentListAction } from '../api/tasks';
 import { ITask, ITaskStatus } from '@kkrawczyk/todo-common';
 
 interface SortType {

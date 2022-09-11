@@ -4,7 +4,7 @@ import { Button } from '../components/Button/Button';
 import { useMutation } from 'react-query';
 import { InputType } from '../interfaces/app';
 import { IUserData, loginValidationSchema } from '@kkrawczyk/todo-common';
-import { loginAction } from '../actions/user';
+import { loginAction } from '../api/user';
 import { AuthContext, AuthContextType } from '../AuthProvider';
 import { ROUTE } from '../enums';
 import { buildUrl } from '../utils/paths';

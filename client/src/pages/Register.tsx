@@ -4,7 +4,7 @@ import { Button } from '../components/Button/Button';
 import { InputType } from '../interfaces/app';
 import { useMutation } from 'react-query';
 import { IUserData, registerValidationSchema } from '@kkrawczyk/todo-common';
-import { registerAction } from '../actions/user';
+import { registerAction } from '../api/user';
 import { ROUTE } from '../enums';
 import { buildUrl } from '../utils/paths';
 import { useTogglePasswordVisibility } from '../hooks/useTogglePasswordVisibility';

@@ -2,7 +2,7 @@ import { ITask } from '@kkrawczyk/todo-common';
 import { useCallback, useContext } from 'react';
 import toast from 'react-hot-toast';
 import { useMutation, useQueryClient } from 'react-query';
-import { changeTaskStatusAction } from '../../actions/tasks';
+import { changeTaskStatusAction } from '../../api/tasks';
 import { AuthContext, AuthContextType } from '../../AuthProvider';
 import { QueryKey } from '../../enums';
 import { HttpResponse } from '../../utils/http';

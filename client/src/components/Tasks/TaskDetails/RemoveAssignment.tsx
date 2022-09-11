@@ -2,7 +2,7 @@ import { FC, useCallback, useContext } from 'react';
 import { ITask } from '@kkrawczyk/todo-common';
 import { IconUserName } from '../../IconUserName/IconUserName';
 import { useMutation, useQueryClient } from 'react-query';
-import { removenUserFromTaskAction } from '../../../actions/tasks';
+import { removenUserFromTaskAction } from '../../../api/tasks';
 import { QueryKey } from '../../../enums';
 import toast from 'react-hot-toast';
 import { Loader, X } from 'react-feather';

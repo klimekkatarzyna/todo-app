@@ -1,6 +1,6 @@
 import { FC, useCallback, useEffect } from 'react';
 import { useMutation } from 'react-query';
-import { editTaskAction } from '../../actions/tasks';
+import { editTaskAction } from '../../api/tasks';
 import { ITask, createEditTaskSchema } from '@kkrawczyk/todo-common';
 import { isStringContainsOnlyWhitespace } from '../../utils/utilsFunctions';
 import toast from 'react-hot-toast';

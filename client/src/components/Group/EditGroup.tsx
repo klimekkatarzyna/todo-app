@@ -2,7 +2,7 @@ import { FC, RefObject, useCallback, useContext, useEffect, useRef, useState } f
 import { ContextMenuContext } from '../../providers/ContextMenuProvider';
 import { ContextMenuOpion, QueryKey } from '../../enums';
 import { useMutation, useQueryClient } from 'react-query';
-import { editGroup } from '../../actions/groups';
+import { editGroup } from '../../api/groups';
 import { isStringContainsOnlyWhitespace } from '../../utils/utilsFunctions';
 import { createEditGroupSchema, IGroup } from '@kkrawczyk/todo-common';
 import toast from 'react-hot-toast';
