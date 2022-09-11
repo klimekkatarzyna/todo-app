@@ -1,6 +1,6 @@
 import { FC, useCallback } from 'react';
 import { Loader } from 'react-feather';
-import { Button } from '../Button/Button';
+import { Button } from '../../common/Button/Button';
 import { IShareLitDetails } from '../../api/sharing';
 import { useSwitchToFirstListItem } from '../../hooks/useSwitchToFirstListItem';
 

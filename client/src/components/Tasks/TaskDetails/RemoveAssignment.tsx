@@ -1,6 +1,6 @@
 import { FC, useCallback, useContext } from 'react';
 import { ITask } from '@kkrawczyk/todo-common';
-import { IconUserName } from '../../IconUserName/IconUserName';
+import { IconUserName } from '../../../common/IconUserName/IconUserName';
 import { useMutation, useQueryClient } from 'react-query';
 import { removenUserFromTaskAction } from '../../../api/tasks';
 import { QueryKey } from '../../../enums';

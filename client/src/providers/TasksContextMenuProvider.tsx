@@ -4,7 +4,7 @@ import { ContextMenuOpion } from '../enums';
 import { IData, IHandleContextMenuItemClickProps } from '../interfaces/app';
 import { Importance, ITaskStatus } from '@kkrawczyk/todo-common';
 import { useTaskImportance } from '../hooks/tasks/useTaskImportance';
-import useTasksStatus from '../hooks/tasks/useTasksStatus';
+import { useTasksStatus } from '../hooks/tasks/useTasksStatus';
 import { useTasksInMyDay } from '../hooks/tasks/useTasksInMyDay';
 import { useModal } from '../hooks/useModal';
 

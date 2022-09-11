@@ -1,6 +1,6 @@
 import { FC, useCallback, useContext, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button } from '../components/Button/Button';
+import { Button } from '../common/Button/Button';
 import { useMutation } from 'react-query';
 import { InputType } from '../interfaces/app';
 import { IUserData, loginValidationSchema } from '@kkrawczyk/todo-common';

@@ -1,7 +1,7 @@
 import { IList } from '@kkrawczyk/todo-common';
 import React, { FC, RefObject, useCallback, useRef } from 'react';
 import { ROUTE } from '../../enums';
-import { Button } from '../Button/Button';
+import { Button } from '../../common/Button/Button';
 
 export const ShareLink: FC<{ listDataResponse: IList | undefined }> = ({ listDataResponse }) => {
 	const inputRef: RefObject<HTMLInputElement> = useRef(null);

@@ -13,7 +13,6 @@ export const SocketProvider: FC<{ children: React.ReactNode }> = ({ children }) 
 	const { authData } = useContext(AuthContext);
 
 	useEffect(() => {
-		// manage one global socket instance
 		if (authData?._id === undefined) return;
 		const socket = io(process?.env?.REACT_APP_SOCKET_LOCAL_URL || '', { withCredentials: true });
 

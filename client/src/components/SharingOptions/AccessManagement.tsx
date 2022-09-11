@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Button } from '../Button/Button';
+import { Button } from '../../common/Button/Button';
 import { IList } from '@kkrawczyk/todo-common';
 import { useMutation, useQueryClient } from 'react-query';
 import { ArrowLeft } from 'react-feather';

@@ -13,5 +13,4 @@ export const createEditGroupSchema: SchemaOf<IGroup> = object({
   listId: string().optional(),
 });
 
-// A better approach
 export type CreateEditGroupType = InferType<typeof createEditGroupSchema>;

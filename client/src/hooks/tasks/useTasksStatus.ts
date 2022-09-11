@@ -7,7 +7,7 @@ import { AuthContext, AuthContextType } from '../../AuthProvider';
 import { QueryKey } from '../../enums';
 import { HttpResponse } from '../../utils/http';
 
-const useTasksStatus = () => {
+export const useTasksStatus = () => {
 	const query = useQueryClient();
 	const { authData } = useContext<AuthContextType>(AuthContext);
 
@@ -33,5 +33,3 @@ const useTasksStatus = () => {
 		changeTaskStatusMutation,
 	};
 };
-
-export default useTasksStatus;

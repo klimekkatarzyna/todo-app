@@ -2,7 +2,7 @@ import React, { FC, useCallback, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { X } from 'react-feather';
 import { useModal } from '../../hooks/useModal';
-import { Button } from '../Button/Button';
+import { Button } from '../../common/Button/Button';
 
 interface IModalComponentProps {
 	children?: React.ReactNode;

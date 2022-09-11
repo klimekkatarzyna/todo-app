@@ -1,5 +1,5 @@
 import { FC, memo } from 'react';
-import { Accordion } from '../Accordion/Accordion';
+import { Accordion } from '../../common/Accordion/Accordion';
 import { SideMenu } from '../../enums';
 import { TasksList } from './TasksList';
 import { ITask } from '@kkrawczyk/todo-common';

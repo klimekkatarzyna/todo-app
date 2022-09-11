@@ -17,7 +17,6 @@ export interface AuthContextType {
 	setSessionChecked: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-// better do it in separate file because the values return by the context will be use in few files
 export const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export const AuthProvider: FC<{ children: React.ReactNode }> = ({ children }) => {

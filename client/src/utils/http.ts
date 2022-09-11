@@ -7,7 +7,7 @@ export const http = async <T>(url: string, method: HttpMethod, body?: Object): P
 			'Content-type': 'application/json',
 		},
 		body: body ? JSON.stringify(body) : undefined,
-		credentials: 'include', // it's needed to add token to cookie when FE and BE are o different domaines
+		credentials: 'include',
 	});
 
 	const json = await response.json();
