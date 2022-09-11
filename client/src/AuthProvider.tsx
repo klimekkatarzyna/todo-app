@@ -75,7 +75,8 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({ children }) =>
 			setSessionChecked(false);
 			navigate(location.pathname, { replace: true });
 		}
-	}, [data, sessionChecked, location.pathname, navigate]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [data, sessionChecked]);
 
 	const value = useMemo(() => {
 		return {

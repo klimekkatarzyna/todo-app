@@ -75,19 +75,8 @@ export const useBuidContextTaskMenu = (task: ITask) => {
 			MoveTaskContextMenuItem,
 			RemoveTaskContextMenuItem,
 		],
-		[
-			task,
-			// AddToMyDayContextMenuItem,
-			// DateTodayContextMenuItem,
-			// DateTomorrowContextMenuItem,
-			// MarkAsCompleteContextMenuItem,
-			// MarkAsImportantContextMenuItem,
-			// MarkAsUncompleteContextMenuItem,
-			// MoveTaskContextMenuItem,
-			// RemoveFromMyDayContextMenuItem,
-			// RemoveImportanceContextMenuItem,
-			// RemoveTaskContextMenuItem,
-		]
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[task]
 	);
 
 	return {
