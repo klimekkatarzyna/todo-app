@@ -13,7 +13,7 @@ const useTasksStatus = () => {
 
 	const taskStatus = useCallback(
 		(tasks: ITask[] | undefined, response: HttpResponse<ITask>) =>
-			tasks?.map(task => (task._id === response.body?._id ? { ...task, taskStatus: response.body?.taskStatus } : task)),
+			tasks?.map(task => (task._id === response.data?._id ? { ...task, taskStatus: response.data?.taskStatus } : task)),
 		[]
 	);
 

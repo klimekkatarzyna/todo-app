@@ -25,9 +25,9 @@ export const CreateList: FC = () => {
 
 	const { mutateAsync, isLoading } = useMutation(createListAction, {
 		onSuccess: async response => {
-			query.setQueryData<IList[] | undefined>([QueryKey.lists], lists => [...(lists || []), response.body || {}]);
+			query.setQueryData<IList[] | undefined>([QueryKey.lists], lists => [...(lists || []), response.data || {}]);
 			toast.success('Lista dodana');
-			navigate(buildUrl(ROUTE.listsDetails, { listId: response?.body?._id || '' }));
+			navigate(buildUrl(ROUTE.listsDetails, { listId: response?.data?._id || '' }));
 		},
 	});
 

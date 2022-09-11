@@ -24,7 +24,7 @@ export const createTask = async (req: Request, res: Response) => {
 	try {
 		await task.save();
 		res.status(200).json({
-			body: {
+			data: {
 				_id: task._id,
 				title: task.title,
 				parentFolderId: task.parentFolderId,
@@ -50,9 +50,8 @@ export const getTasks = async (req: Request, res: Response) => {
 
 	try {
 		res.status(200).json({
-			body: tasks,
+			data: tasks,
 		});
-		if (!tasks) return res.status(404).json({ message: 'Tasks not found' });
 	} catch (err) {
 		res.status(500).json({
 			err,
@@ -65,9 +64,8 @@ export const getAllTasks = async (req: Request, res: Response) => {
 
 	try {
 		res.status(200).json({
-			body: tasks,
+			data: tasks,
 		});
-		if (!tasks) return res.status(404).json({ message: 'Tasks not found' });
 	} catch (err) {
 		res.status(500).json({
 			err,
@@ -87,7 +85,7 @@ export const editTask = async (req: Request, res: Response) => {
 
 	try {
 		res.status(200).json({
-			body: {
+			data: {
 				_id: req.params._id,
 				title: req.body.title,
 			},
@@ -112,7 +110,7 @@ export const changeTaskStatus = async (req: Request, res: Response) => {
 
 	try {
 		res.status(200).json({
-			body: {
+			data: {
 				_id: req.params._id,
 				taskStatus: req.body.taskStatus,
 				parentFolderId: req.body.parentFolderId,
@@ -135,7 +133,7 @@ export const removeTask = async (req: Request, res: Response) => {
 
 	try {
 		res.status(200).json({
-			body: {
+			data: {
 				_id: req.body?._id,
 				parentFolderId: req.body.parentFolderId,
 				tasks: data,
@@ -153,9 +151,8 @@ export const getTask = async (req: Request, res: Response) => {
 	try {
 		const task = await Task.find({ _id: req.params._id });
 		res.status(200).json({
-			body: task[0],
+			data: task[0],
 		});
-		if (!task) return res.status(404).json({ message: 'Task not found' });
 	} catch (err) {
 		res.status(500).json({
 			err,
@@ -170,7 +167,7 @@ export const changeTaskImportance = async (req: Request, res: Response) => {
 	);
 	try {
 		res.status(200).json({
-			body: {
+			data: {
 				_id: req.params._id,
 				importance: req.body.importance,
 				parentFolderId: req.params.parentFolderId,
@@ -190,7 +187,7 @@ export const taskInMyDay = async (req: Request, res: Response) => {
 
 	try {
 		res.status(200).json({
-			body: {
+			data: {
 				_id: req.params._id,
 				isMyDay: req.body.isMyDay,
 				parentFolderId: req.body.parentFolderId,
@@ -210,9 +207,8 @@ export const getImportanceTasks = async (req: Request, res: Response) => {
 		const userId = getSessionUserId(req);
 		const tasks = await Task.find({ importance: Importance.high, members: { $in: userId } }).sort({ title: 1 });
 		res.status(200).json({
-			body: tasks,
+			data: tasks,
 		});
-		if (!tasks) return res.status(404).json({ message: 'Tasks not found' });
 	} catch (error) {
 		res.status(500).json({
 			error,
@@ -225,9 +221,8 @@ export const getMyDayTasks = async (req: Request, res: Response) => {
 		const userId = getSessionUserId(req);
 		const tasks = await Task.find({ isMyDay: true, members: { $in: userId } }).sort({ title: 1 });
 		res.status(200).json({
-			body: tasks,
+			data: tasks,
 		});
-		if (!tasks) return res.status(404).json({ message: 'Tasks not found' });
 	} catch (error) {
 		res.status(500).json({
 			error,
@@ -249,7 +244,7 @@ export const assignUserToTask = async (req: Request, res: Response) => {
 			res.status(404).json({ message: 'Task not found' });
 		}
 		res.status(200).json({
-			body: {
+			data: {
 				_id: req.body._id,
 				assigned: req.body.assigned,
 			},
@@ -276,7 +271,7 @@ export const removeUserFromTask = async (req: Request, res: Response) => {
 			res.status(404).json({ message: 'Task not found' });
 		}
 		res.status(200).json({
-			body: {
+			data: {
 				_id: req.body._id,
 			},
 			message: 'removed assigment',
@@ -303,7 +298,7 @@ export const removeUsersFromTasks = async (req: Request, res: Response) => {
 			res.status(404).json({ message: 'Tasks not found' });
 		}
 		res.status(200).json({
-			body: {
+			data: {
 				parentFolderId: req.body.parentFolderId,
 			},
 			message: 'removed assigments',
@@ -319,10 +314,7 @@ export const getAssignedTasks = async (req: Request, res: Response) => {
 	try {
 		const userId = getSessionUserId(req);
 		const tasks = await Task.find({ assigned: req.params.assigned, members: { $in: userId } }).sort({ title: 1 });
-		if (!tasks) {
-			res.status(404).json({ message: 'Tasks not found' });
-		}
-		res.status(200).json({ body: tasks });
+		res.status(200).json({ data: tasks });
 	} catch (err) {
 		res.status(500).json({
 			err,

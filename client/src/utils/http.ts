@@ -21,13 +21,7 @@ export const http = async <T>(url: string, method: HttpMethod, body?: Object): P
 };
 
 export interface HttpResponse<T = any> {
-	status?: number;
-	ok: boolean;
-	body?: T;
 	data?: T;
 	message?: string;
-	auth?: boolean;
-	token?: string;
 	error?: string;
-	isSuccess?: boolean;
 }

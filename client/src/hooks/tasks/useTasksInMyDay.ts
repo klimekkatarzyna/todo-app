@@ -14,7 +14,7 @@ export const useTasksInMyDay = () => {
 
 	const taskInMyDay = useCallback(
 		(tasks: ITask[] | undefined, response: HttpResponse<ITask>) =>
-			tasks?.map(task => (task._id === response.body?._id ? { ...task, isMyDay: response.body?.isMyDay } : task)),
+			tasks?.map(task => (task._id === response.data?._id ? { ...task, isMyDay: response.data?.isMyDay } : task)),
 		[]
 	);
 
@@ -24,7 +24,7 @@ export const useTasksInMyDay = () => {
 		isLoading: taskInMyDayLoading,
 	} = useMutation(taskInMyDayAction, {
 		onSuccess: async response => {
-			query.setQueryData<ITask[] | undefined>([QueryKey.tasksOfCurrentList, response.body?.parentFolderId], (tasks: ITask[] | undefined) =>
+			query.setQueryData<ITask[] | undefined>([QueryKey.tasksOfCurrentList, response.data?.parentFolderId], (tasks: ITask[] | undefined) =>
 				taskInMyDay(tasks, response)
 			);
 			query.setQueryData<ITask[] | undefined>([QueryKey.tasksList], (tasks: ITask[] | undefined) => taskInMyDay(tasks, response));
@@ -33,10 +33,10 @@ export const useTasksInMyDay = () => {
 			query.setQueryData<ITask[] | undefined>([QueryKey.getAssignedTasks, authData?._id], (tasks: ITask[] | undefined) =>
 				taskInMyDay(tasks, response)
 			);
-			query.setQueryData<ITask | undefined>([QueryKey.getTask, response.body?._id], (task: ITask | undefined) =>
-				task?._id === response.body?._id ? { ...task, isMyDay: response.body?.isMyDay } : task
+			query.setQueryData<ITask | undefined>([QueryKey.getTask, response.data?._id], (task: ITask | undefined) =>
+				task?._id === response.data?._id ? { ...task, isMyDay: response.data?.isMyDay } : task
 			);
-			toast.success(response.body?.isMyDay ? 'Zadanie dodane do "Mój dzień' : 'Zadanie usunięte z widoku "Mój dzień"');
+			toast.success(response.data?.isMyDay ? 'Zadanie dodane do "Mój dzień' : 'Zadanie usunięte z widoku "Mój dzień"');
 			setIsMyDayTask(!isMyDayTask);
 		},
 	});

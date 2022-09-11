@@ -19,7 +19,6 @@ interface IAllSocketConnections {
 	userId: string;
 }
 
-// connect to mongoDB server
 connect(process.env.MONGODB_CONNECTION!);
 
 validateEnv(['SECRET_KEY', 'PORT', 'FRONTEND', 'FRONTEND_DOMAIN', 'MONGODB_CONNECTION']);
@@ -31,7 +30,7 @@ const httpServer = createServer(app);
 
 app.use(
 	cors({
-		origin: process.env.FRONTEND, // port which will fetch to server <= frontend port
+		origin: process.env.FRONTEND,
 		credentials: true,
 	})
 );
@@ -63,11 +62,9 @@ const io = new Server(httpServer, {
 	},
 });
 
-let allSocketConnections = [] as IAllSocketConnections[]; // TODO: add redisś
+let allSocketConnections = [] as IAllSocketConnections[];
 
 io.on('connection', socket => {
-	console.log('A Connection has been made from: ', socket.id);
-
 	const socketHandShake = socket.handshake.headers.cookie || '';
 
 	if (socketHandShake === '') return;
@@ -80,16 +77,6 @@ io.on('connection', socket => {
 	allSocketConnections.push({
 		socketId: socket.id,
 		userId: connectionToken._id,
-	});
-
-	console.log('======================');
-
-	socket.on('message', message => {
-		console.log(`message from ${socket.id} : ${message}`);
-	});
-
-	socket.on('disconnect', () => {
-		console.log(`socket ${socket.id} disconnected`);
 	});
 });
 

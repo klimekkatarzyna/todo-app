@@ -69,7 +69,7 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({ children }) =>
 	useEffect(() => {
 		if (data) {
 			navigate(location.pathname, { replace: true });
-			setAuthData(data.body?.user);
+			setAuthData(data.data?.user);
 			setSessionChecked(true);
 		} else {
 			setAuthData(undefined);

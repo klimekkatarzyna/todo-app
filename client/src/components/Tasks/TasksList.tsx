@@ -8,17 +8,21 @@ import { AutoAnimateWrapper } from '../../AutoAnimateWrapper';
 import { useMatch } from 'react-router-dom';
 import { ConfirmModal } from '../Modal/ConfirmModal';
 import { useModal } from '../../hooks/useModal';
+import { useRecoilState } from 'recoil';
+import { elementVisibilityState } from '../../atoms/elementVisibility';
 
 export const TasksList: FC<{ tasks: ITask[] | undefined; redirectUrl: string }> = ({ tasks, redirectUrl }) => {
 	const { modalType, hideModal } = useModal();
 	const { removeTaskMutation } = useRemoveTasks();
 	const { tasksContextlMenu } = useContext(TasksContextMenuContext);
 	const match = useMatch(ROUTE.search);
+	const [, setIsElementVisible] = useRecoilState(elementVisibilityState);
 
 	const onRemoveTask = useCallback(async (): Promise<void> => {
 		if (!tasksContextlMenu?.elementId) return;
 		await removeTaskMutation();
 		hideModal();
+		setIsElementVisible(false);
 	}, [tasksContextlMenu, removeTaskMutation, hideModal]);
 
 	return (

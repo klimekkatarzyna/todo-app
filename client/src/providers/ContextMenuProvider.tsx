@@ -24,7 +24,7 @@ export const ContextMenuProvider: FC<{ children: React.ReactNode }> = ({ childre
 	const { mutateAsync: ungroupListsMutation } = useMutation(unGroupeListsAction, {
 		onSuccess: async response => {
 			query.setQueryData<IGroup[] | undefined>([QueryKey.groups], (groups: IGroup[] | undefined) =>
-				groups?.map(group => (group._id === response.body?._id ? { ...group, lists: [] } : group))
+				groups?.map(group => (group._id === response.data?._id ? { ...group, lists: [] } : group))
 			);
 			toast.success('Listy rozgrupowane');
 		},

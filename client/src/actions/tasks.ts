@@ -21,12 +21,12 @@ export const editTaskAction = async ({ _id, title, parentFolderId }: ITask) =>
 
 export const getTasksOfCurrentListAction = async ({ parentFolderId }: ITask) => {
 	const response = await http<ITask[]>(`${api.getTasks}/${parentFolderId}`, 'GET');
-	return response.body;
+	return response.data;
 };
 
 export const getTasksAction = async () => {
 	const response = await http<ITask[]>(api.getAllTasks, 'GET');
-	return response.body;
+	return response.data;
 };
 
 export const changeTaskStatusAction = async ({ _id, taskStatus, parentFolderId }: ITask) =>
@@ -36,7 +36,7 @@ export const deleteTaskAction = async ({ _id, parentFolderId }: ITask) => await 
 
 export const getTaskAction = async ({ _id }: ITask) => {
 	const response = await http<ITask>(`${api.getTask}/${_id}`, 'GET');
-	return response.body;
+	return response.data;
 };
 
 export const changeTaskImportanceAction = async ({ parentFolderId, _id, importance }: ITask) =>
@@ -49,12 +49,12 @@ export const taskInMyDayAction = async ({ _id, isMyDay, parentFolderId }: ITask)
 
 export const onGetImportanceTasksAction = async () => {
 	const response = await http<ITask[]>(`${api.getImportanceTasks}`, 'GET');
-	return response.body;
+	return response.data;
 };
 
 export const onGetMayDayTasksAction = async () => {
 	const response = await http<ITask[]>(`${api.getMyDayTasks}`, 'GET');
-	return response.body;
+	return response.data;
 };
 
 export const assignUserToTaskAction = async ({ _id, assigned }: ITask) => await http<ITask>(`${api.membersTask}`, 'POST', { _id, assigned });
@@ -63,7 +63,7 @@ export const removenUserFromTaskAction = async ({ _id }: ITask) => await http<IT
 
 export const getAssignedTasksAction = async ({ assigned }: ITask) => {
 	const response = await http<ITask[]>(`${api.assignedTasks}/${assigned}`, 'GET');
-	return response.body;
+	return response.data;
 };
 
 export const removeUsersFromTasksAction = async ({ parentFolderId }: ITask) =>

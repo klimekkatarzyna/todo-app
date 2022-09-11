@@ -29,7 +29,7 @@ export const Register: FC = () => {
 	const { mutateAsync, isLoading, data } = useMutation(registerAction, {
 		onSuccess: response => {
 			navigate(buildUrl(ROUTE.home));
-			setAuthData(response?.body);
+			setAuthData(response?.data);
 		},
 		onError: (error: any): any => {
 			toast.error(error?.error);

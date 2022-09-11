@@ -33,11 +33,11 @@ export const EditListTitle: FC<{ title: string; className: string }> = ({ title 
 
 	const { mutateAsync, isLoading } = useMutation(editListAction, {
 		onSuccess: async response => {
-			query.setQueryData<IList | undefined>([QueryKey.getListById, response.body?._id], list =>
-				list?._id === response.body?._id ? { ...list, title: response.body?.title } : list
+			query.setQueryData<IList | undefined>([QueryKey.getListById, response.data?._id], list =>
+				list?._id === response.data?._id ? { ...list, title: response.data?.title } : list
 			);
 			query.setQueryData<IList[] | undefined>(QueryKey.lists, lists =>
-				lists?.map(list => (list._id === response.body?._id ? { ...list, title: response.body?.title } : list))
+				lists?.map(list => (list._id === response.data?._id ? { ...list, title: response.data?.title } : list))
 			);
 			toast.success('Nazwa listy zmieniona');
 		},

@@ -35,7 +35,7 @@ export const Login: FC = () => {
 	const { mutateAsync, isLoading, data } = useMutation(loginAction, {
 		onSuccess: response => {
 			navigate(redirectUrl);
-			setAuthData(response?.body);
+			setAuthData(response?.data);
 		},
 		onError: (error: any): any => {
 			toast.error(error?.error);

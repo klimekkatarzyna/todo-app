@@ -36,7 +36,7 @@ export const EditGroup: FC<IEditGroupProps> = ({ title, groupId, isNavClosed }) 
 	const { mutateAsync, isLoading } = useMutation(editGroup, {
 		onSuccess: async response => {
 			query.setQueryData<IGroup[] | undefined>([QueryKey.groups], groups =>
-				groups?.map(group => (group._id === response.body?._id ? { ...group, title: response.body?.title } : group))
+				groups?.map(group => (group._id === response.data?._id ? { ...group, title: response.data?.title } : group))
 			);
 			toast.success('Nazwa grupy zmieniona');
 		},

@@ -17,12 +17,12 @@ export const updateMembersList = async ({ _id, member }: IList) =>
 
 export const getListByIdAction = async ({ _id }: IList) => {
 	const response = await http<IList | undefined>(`${api.getListById}/${_id}`, 'GET');
-	return response.body;
+	return response.data;
 };
 
 export const getListDatatoShareAction = async ({ invitationToken }: IList) => {
 	const response = await http<IShareLitDetails | undefined>(`${api.getListDatatoShare}/${invitationToken}`, 'GET');
-	return response.body;
+	return response.data;
 };
 
 export const addUserToMemberOfListAction = async (invitationToken: string) =>

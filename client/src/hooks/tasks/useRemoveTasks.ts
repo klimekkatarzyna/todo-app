@@ -17,7 +17,7 @@ export const useRemoveTasks = () => {
 	const { tasksContextlMenu } = useContext(TasksContextMenuContext);
 
 	const removeTask = useCallback(
-		(tasks: ITask[] | undefined, response: HttpResponse<ITask>) => tasks?.filter(task => task?._id !== response.body?._id),
+		(tasks: ITask[] | undefined, response: HttpResponse<ITask>) => tasks?.filter(task => task?._id !== response.data?._id),
 		[]
 	);
 

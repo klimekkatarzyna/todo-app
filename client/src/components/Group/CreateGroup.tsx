@@ -27,7 +27,7 @@ export const CreateGroup: FC = () => {
 
 	const { mutateAsync, isLoading } = useMutation(createGroup, {
 		onSuccess: async response => {
-			query.setQueryData<IGroup[] | undefined>([QueryKey.groups], groups => [...(groups || []), response.body || {}]);
+			query.setQueryData<IGroup[] | undefined>([QueryKey.groups], groups => [...(groups || []), response.data || {}]);
 			toast.success('Grupa utworzona');
 		},
 	});

@@ -15,7 +15,7 @@ export const RemoveAssignment: FC<{ taskData: ITask }> = ({ taskData }) => {
 
 	const taskRemoveAssigment = useCallback(
 		(tasks: ITask[] | undefined, response: HttpResponse<ITask>) =>
-			tasks?.map(task => (task._id === response.body?._id ? { ...task, assigned: undefined } : task)),
+			tasks?.map(task => (task._id === response.data?._id ? { ...task, assigned: undefined } : task)),
 		[]
 	);
 
@@ -27,8 +27,8 @@ export const RemoveAssignment: FC<{ taskData: ITask }> = ({ taskData }) => {
 			query.setQueryData<ITask[] | undefined>([QueryKey.tasksOfCurrentList, taskData?.parentFolderId], (tasks: ITask[] | undefined) =>
 				taskRemoveAssigment(tasks, response)
 			);
-			query.setQueryData<ITask | undefined>([QueryKey.getTask, response.body?._id], (task: ITask | undefined) =>
-				task?._id === response.body?._id ? { ...task, assigned: undefined } : task
+			query.setQueryData<ITask | undefined>([QueryKey.getTask, response.data?._id], (task: ITask | undefined) =>
+				task?._id === response.data?._id ? { ...task, assigned: undefined } : task
 			);
 			query.setQueryData<ITask[] | undefined>([QueryKey.getMyDayTasks], (tasks: ITask[] | undefined) => taskRemoveAssigment(tasks, response));
 			query.setQueryData<ITask[] | undefined>([QueryKey.getAssignedTasks, authData?._id], (tasks: ITask[] | undefined) =>

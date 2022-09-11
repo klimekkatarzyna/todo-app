@@ -20,7 +20,7 @@ export const Groups: FC<{ isNavClosed: boolean }> = ({ isNavClosed }) => {
 	const { mutateAsync, isLoading } = useMutation(deleteGroup, {
 		onSuccess: async response => {
 			query.setQueryData<IGroup[] | undefined>([QueryKey.groups], (groups: IGroup[] | undefined) =>
-				groups?.filter(group => group._id !== response.body?._id)
+				groups?.filter(group => group._id !== response.data?._id)
 			);
 			toast.success('Grupa usunięta');
 		},
