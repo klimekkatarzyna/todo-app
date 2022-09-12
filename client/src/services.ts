@@ -1,56 +1,58 @@
 // declare const CONFIG: Config;
 
+import { apiUrl } from './utils/http';
+
 export interface Config {
 	api: string;
 }
 
-export const register = `${process.env.REACT_APP_LOCAL_BACKEND}/api/register`;
-export const login = `${process.env.REACT_APP_LOCAL_BACKEND}/api/login`;
-export const me = `${process.env.REACT_APP_LOCAL_BACKEND}/api/me`;
-export const logout = `${process.env.REACT_APP_LOCAL_BACKEND}/api/logout`;
-export const user = `${process.env.REACT_APP_LOCAL_BACKEND}/api/user`;
+export const register = `${apiUrl}/api/register`;
+export const login = `${apiUrl}/api/login`;
+export const me = `${apiUrl}/api/me`;
+export const logout = `${apiUrl}/api/logout`;
+export const user = `${apiUrl}/api/user`;
 
 // list
-export const getLists = `${process.env.REACT_APP_LOCAL_BACKEND}/api/lists`;
-export const getListById = `${process.env.REACT_APP_LOCAL_BACKEND}/api/listDetails`;
-export const createList = `${process.env.REACT_APP_LOCAL_BACKEND}/api/lists`;
-export const editList = `${process.env.REACT_APP_LOCAL_BACKEND}/api/lists`;
-export const removeList = `${process.env.REACT_APP_LOCAL_BACKEND}/api/lists`;
-export const listTheme = `${process.env.REACT_APP_LOCAL_BACKEND}/api/listTheme`;
+export const getLists = `${apiUrl}/api/lists`;
+export const getListById = `${apiUrl}/api/listDetails`;
+export const createList = `${apiUrl}/api/lists`;
+export const editList = `${apiUrl}/api/lists`;
+export const removeList = `${apiUrl}/api/lists`;
+export const listTheme = `${apiUrl}/api/listTheme`;
 
 // task
-export const createTask = `${process.env.REACT_APP_LOCAL_BACKEND}/api/tasks`;
-export const editTask = `${process.env.REACT_APP_LOCAL_BACKEND}/api/tasks`;
-export const getTasks = `${process.env.REACT_APP_LOCAL_BACKEND}/api/taskDetails`;
-export const getAllTasks = `${process.env.REACT_APP_LOCAL_BACKEND}/api/tasks`;
-export const getTask = `${process.env.REACT_APP_LOCAL_BACKEND}/api/tasks`;
-export const changeTaskStatus = `${process.env.REACT_APP_LOCAL_BACKEND}/api/taskStatuses`;
-export const removeTask = `${process.env.REACT_APP_LOCAL_BACKEND}/api/tasks`;
-export const changeTaskImportance = `${process.env.REACT_APP_LOCAL_BACKEND}/api/taskImportance`;
-export const taskInMyDay = `${process.env.REACT_APP_LOCAL_BACKEND}/api/myDay`;
+export const createTask = `${apiUrl}/api/tasks`;
+export const editTask = `${apiUrl}/api/tasks`;
+export const getTasks = `${apiUrl}/api/taskDetails`;
+export const getAllTasks = `${apiUrl}/api/tasks`;
+export const getTask = `${apiUrl}/api/tasks`;
+export const changeTaskStatus = `${apiUrl}/api/taskStatuses`;
+export const removeTask = `${apiUrl}/api/tasks`;
+export const changeTaskImportance = `${apiUrl}/api/taskImportance`;
+export const taskInMyDay = `${apiUrl}/api/myDay`;
 
 // group
-export const createGroup = `${process.env.REACT_APP_LOCAL_BACKEND}/api/groups`;
-export const getGroups = `${process.env.REACT_APP_LOCAL_BACKEND}/api/groups`;
-export const removeGroup = `${process.env.REACT_APP_LOCAL_BACKEND}/api/groups`;
-export const editGroup = `${process.env.REACT_APP_LOCAL_BACKEND}/api/groups`;
-export const addListToGroup = `${process.env.REACT_APP_LOCAL_BACKEND}/api/groupsLists`;
-export const unGroupLists = `${process.env.REACT_APP_LOCAL_BACKEND}/api/unGroupLists`;
+export const createGroup = `${apiUrl}/api/groups`;
+export const getGroups = `${apiUrl}/api/groups`;
+export const removeGroup = `${apiUrl}/api/groups`;
+export const editGroup = `${apiUrl}/api/groups`;
+export const addListToGroup = `${apiUrl}/api/groupsLists`;
+export const unGroupLists = `${apiUrl}/api/unGroupLists`;
 
 // sharing
-export const addInvitationTokenToList = `${process.env.REACT_APP_LOCAL_BACKEND}/api/invitationToken`;
-export const addUserToMemberOfList = `${process.env.REACT_APP_LOCAL_BACKEND}/api/members`;
-export const updateMembersList = `${process.env.REACT_APP_LOCAL_BACKEND}/api/members`;
-export const changeInvitation = `${process.env.REACT_APP_LOCAL_BACKEND}/api/invitations`;
-export const getListDatatoShare = `${process.env.REACT_APP_LOCAL_BACKEND}/api/listsDatatoShare`;
+export const addInvitationTokenToList = `${apiUrl}/api/invitationToken`;
+export const addUserToMemberOfList = `${apiUrl}/api/members`;
+export const updateMembersList = `${apiUrl}/api/members`;
+export const changeInvitation = `${apiUrl}/api/invitations`;
+export const getListDatatoShare = `${apiUrl}/api/listsDatatoShare`;
 
 // importance tasks
-export const getImportanceTasks = `${process.env.REACT_APP_LOCAL_BACKEND}/api/importanceTasks`;
+export const getImportanceTasks = `${apiUrl}/api/importanceTasks`;
 
 // my day tasks
-export const getMyDayTasks = `${process.env.REACT_APP_LOCAL_BACKEND}/api/myDayTasks`;
+export const getMyDayTasks = `${apiUrl}/api/myDayTasks`;
 
 // assinged tasks
-export const membersTask = `${process.env.REACT_APP_LOCAL_BACKEND}/api/membersTask`;
-export const assignedTasks = `${process.env.REACT_APP_LOCAL_BACKEND}/api/assignedTasks`;
-export const removeMembersFromTasks = `${process.env.REACT_APP_LOCAL_BACKEND}/api/membersTasks`;
+export const membersTask = `${apiUrl}/api/membersTask`;
+export const assignedTasks = `${apiUrl}/api/assignedTasks`;
+export const removeMembersFromTasks = `${apiUrl}/api/membersTasks`;

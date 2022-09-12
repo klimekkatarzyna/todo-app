@@ -1,10 +1,10 @@
 import { FC, useCallback, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button } from '../components/Button/Button';
+import { Button } from '../common/Button/Button';
 import { InputType } from '../interfaces/app';
 import { useMutation } from 'react-query';
 import { IUserData, registerValidationSchema } from '@kkrawczyk/todo-common';
-import { registerAction } from '../actions/user';
+import { registerAction } from '../api/user';
 import { ROUTE } from '../enums';
 import { buildUrl } from '../utils/paths';
 import { useTogglePasswordVisibility } from '../hooks/useTogglePasswordVisibility';
@@ -29,18 +29,21 @@ export const Register: FC = () => {
 	const { mutateAsync, isLoading, data } = useMutation(registerAction, {
 		onSuccess: response => {
 			navigate(buildUrl(ROUTE.home));
-			setAuthData(response?.body);
+			setAuthData(response?.data);
 		},
 		onError: (error: any): any => {
 			toast.error(error?.error);
 		},
 	});
 
-	const onSubmit: SubmitHandler<IUserData> = useCallback(async (data, e) => {
-		const { username, email, password } = data;
-		await mutateAsync({ username, email, password });
-		e?.target.reset();
-	}, []);
+	const onSubmit: SubmitHandler<IUserData> = useCallback(
+		async (data, e) => {
+			const { username, email, password } = data;
+			await mutateAsync({ username, email, password });
+			e?.target.reset();
+		},
+		[mutateAsync]
+	);
 
 	return (
 		<div className='bg-light-grey w-full flex items-center justify-center'>

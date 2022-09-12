@@ -4,7 +4,7 @@ import { IIUserDataResponse } from './interfaces/app';
 import { HttpResponse } from './utils/http';
 import { IUserData } from '@kkrawczyk/todo-common';
 import { QueryKey, ROUTE } from './enums';
-import { checkSessionAction } from './actions/user';
+import { checkSessionAction } from './api/user';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { buildUrl } from './utils/paths';
 import toast from 'react-hot-toast';
@@ -17,7 +17,6 @@ export interface AuthContextType {
 	setSessionChecked: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-// better do it in separate file because the values return by the context will be use in few files
 export const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export const AuthProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -64,18 +63,19 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({ children }) =>
 				},
 			},
 		});
-	}, []);
+	}, [navigate, query]);
 
 	useEffect(() => {
 		if (data) {
 			navigate(location.pathname, { replace: true });
-			setAuthData(data.body?.user);
+			setAuthData(data.data?.user);
 			setSessionChecked(true);
 		} else {
 			setAuthData(undefined);
 			setSessionChecked(false);
 			navigate(location.pathname, { replace: true });
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [data, sessionChecked]);
 
 	const value = useMemo(() => {

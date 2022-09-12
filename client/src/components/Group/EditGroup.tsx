@@ -2,7 +2,7 @@ import { FC, RefObject, useCallback, useContext, useEffect, useRef, useState } f
 import { ContextMenuContext } from '../../providers/ContextMenuProvider';
 import { ContextMenuOpion, QueryKey } from '../../enums';
 import { useMutation, useQueryClient } from 'react-query';
-import { editGroup } from '../../actions/groups';
+import { editGroup } from '../../api/groups';
 import { isStringContainsOnlyWhitespace } from '../../utils/utilsFunctions';
 import { createEditGroupSchema, IGroup } from '@kkrawczyk/todo-common';
 import toast from 'react-hot-toast';
@@ -36,7 +36,7 @@ export const EditGroup: FC<IEditGroupProps> = ({ title, groupId, isNavClosed }) 
 	const { mutateAsync, isLoading } = useMutation(editGroup, {
 		onSuccess: async response => {
 			query.setQueryData<IGroup[] | undefined>([QueryKey.groups], groups =>
-				groups?.map(group => (group._id === response.body?._id ? { ...group, title: response.body?.title } : group))
+				groups?.map(group => (group._id === response.data?._id ? { ...group, title: response.data?.title } : group))
 			);
 			toast.success('Nazwa grupy zmieniona');
 		},

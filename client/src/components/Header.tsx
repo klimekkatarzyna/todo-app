@@ -1,9 +1,9 @@
 import { FC, useContext, useMemo } from 'react';
 import { Link, useMatch, useNavigate } from 'react-router-dom';
 import { getFirstLetters } from '../utils/utilsFunctions';
-import { Button } from './Button/Button';
+import { Button } from '../common/Button/Button';
 import { AuthContext, AuthContextType } from '../AuthProvider';
-import { logoutUserAction } from '../actions/user';
+import { logoutUserAction } from '../api/user';
 import { useMutation } from 'react-query';
 import { ROUTE } from '../enums';
 import { SearchInput } from './SearchInput';

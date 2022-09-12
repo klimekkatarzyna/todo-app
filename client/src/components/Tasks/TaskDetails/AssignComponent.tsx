@@ -2,12 +2,12 @@ import { FC, useCallback, useContext } from 'react';
 import { Loader } from 'react-feather';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { ModalType, QueryKey } from '../../../enums';
-import { getListByIdAction } from '../../../actions/lists';
+import { getListByIdAction } from '../../../api/lists';
 import { IList, ITask } from '@kkrawczyk/todo-common';
 import { DisplayMember } from '../../SharingOptions/DisplayMember';
 import { AuthContext, AuthContextType } from '../../../AuthProvider';
 import toast from 'react-hot-toast';
-import { assignUserToTaskAction } from '../../../actions/tasks';
+import { assignUserToTaskAction } from '../../../api/tasks';
 import { RemoveAssignment } from './RemoveAssignment';
 import { AssignUser } from './AssignUser';
 import { HttpResponse } from '../../../utils/http';
@@ -30,7 +30,7 @@ export const AssignComponent: FC<IAssignComponentrops> = ({ listId, taskId, task
 
 	const taskAssigment = useCallback(
 		(tasks: ITask[] | undefined, response: HttpResponse<ITask>) =>
-			tasks?.map(task => (task._id === response.body?._id ? { ...task, assigned: response.body?.assigned } : task)),
+			tasks?.map(task => (task._id === response.data?._id ? { ...task, assigned: response.data?.assigned } : task)),
 		[]
 	);
 
@@ -40,8 +40,8 @@ export const AssignComponent: FC<IAssignComponentrops> = ({ listId, taskId, task
 			query.setQueryData<ITask[] | undefined>([QueryKey.tasksOfCurrentList, taskData?.parentFolderId], (tasks: ITask[] | undefined) =>
 				taskAssigment(tasks, response)
 			);
-			query.setQueryData<ITask | undefined>([QueryKey.getTask, response.body?._id], (task: ITask | undefined) =>
-				task?._id === response.body?._id ? { ...task, assigned: response.body?.assigned } : task
+			query.setQueryData<ITask | undefined>([QueryKey.getTask, response.data?._id], (task: ITask | undefined) =>
+				task?._id === response.data?._id ? { ...task, assigned: response.data?.assigned } : task
 			);
 			query.setQueryData<ITask[] | undefined>([QueryKey.getMyDayTasks], (tasks: ITask[] | undefined) => taskAssigment(tasks, response));
 			query.setQueryData<ITask[] | undefined>([QueryKey.getAssignedTasks, authData?._id], (tasks: ITask[] | undefined) =>

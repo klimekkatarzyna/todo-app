@@ -17,7 +17,7 @@ export const createGroup = async (req: Request, res: Response) => {
 	try {
 		const group = await newGroup.save();
 		res.status(200).json({
-			body: {
+			data: {
 				_id: group._id,
 				title: group.title,
 				themeColor: group.themeColor,
@@ -36,13 +36,11 @@ export const createGroup = async (req: Request, res: Response) => {
 export const getGroups = async (req: Request, res: Response) => {
 	const userId = getSessionUserId(req);
 
-	const groups = await Group.find({ userId });
-	if (!groups) {
-		res.status(404).json({ message: 'Groups not found' });
-	}
 	try {
+		const groups = await Group.find({ userId });
+
 		res.status(200).json({
-			body: groups,
+			data: groups,
 		});
 	} catch (err) {
 		res.status(500).json({
@@ -58,7 +56,7 @@ export const removeGroup = async (req: Request, res: Response) => {
 	}
 	try {
 		res.status(200).json({
-			body: { _id: req.body._id },
+			data: { _id: req.body._id },
 		});
 	} catch (err) {
 		res.status(500).json({
@@ -76,7 +74,7 @@ export const editGroup = async (req: Request, res: Response) => {
 
 	try {
 		res.status(200).json({
-			body: { _id: req.body._id, title: req.body.title },
+			data: { _id: req.body._id, title: req.body.title },
 			message: `status changed successfully to ${req.body.title}`,
 		});
 	} catch (err) {
@@ -98,7 +96,7 @@ export const addListToGroup = async (req: Request, res: Response) => {
 		}
 
 		res.status(200).json({
-			body: {
+			data: {
 				_id: req.body._id,
 				listId: req.body.listId,
 			},
@@ -122,7 +120,7 @@ export const unGroupLists = async (req: Request, res: Response) => {
 		}
 
 		res.status(200).json({
-			body: {
+			data: {
 				_id: req.body._id,
 			},
 			message: 'ungrouped lists',

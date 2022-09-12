@@ -4,7 +4,7 @@ import { Board } from '../components/Board';
 import { useQuery } from 'react-query';
 import { AppColor, ITask } from '@kkrawczyk/todo-common';
 import { QueryKey, ROUTE } from '../enums';
-import { getAssignedTasksAction } from '../actions/tasks';
+import { getAssignedTasksAction } from '../api/tasks';
 import { AuthContext, AuthContextType } from '../AuthProvider';
 import { Loader } from 'react-feather';
 import { buildUrl } from '../utils/paths';

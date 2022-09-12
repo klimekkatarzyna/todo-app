@@ -39,10 +39,13 @@ export const ListSettings: FC = () => {
 
 	const [, setIsFormVisible] = useRecoilState(formToEditListTitleVisibilityState);
 
-	const handleContextMenu = useCallback(event => {
-		event.preventDefault();
-		show(event);
-	}, []);
+	const handleContextMenu = useCallback(
+		event => {
+			event.preventDefault();
+			show(event);
+		},
+		[show]
+	);
 
 	const handleItemClick = useCallback(
 		async ({ data }) => {
@@ -74,7 +77,7 @@ export const ListSettings: FC = () => {
 					break;
 			}
 		},
-		[listId, listDetails]
+		[listId, listDetails, editListThemeMutation, onHandleSwitchToFirstListItem, removeListMutation, setIsFormVisible, setTheme]
 	);
 
 	return (

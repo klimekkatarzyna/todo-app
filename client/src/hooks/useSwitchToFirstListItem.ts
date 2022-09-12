@@ -14,7 +14,7 @@ export const useSwitchToFirstListItem = (listId?: string | undefined) => {
 
 	const onHandleSwitchToFirstListItem = useCallback(() => {
 		navigate(list?.length === minListLength ? urlToMyDay : urlToFirstList);
-	}, [navigate, list]);
+	}, [navigate, list, urlToFirstList, urlToMyDay]);
 
 	return {
 		onHandleSwitchToFirstListItem,

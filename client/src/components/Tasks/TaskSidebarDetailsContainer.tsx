@@ -21,17 +21,17 @@ export const TaskSidebarDetails: FC = () => {
 	useEffect(() => {
 		if (!!listId && !!taskId) return;
 		setIsElementVisible(false);
-	}, [listId, taskId]);
+	}, [listId, taskId, setIsElementVisible]);
+
+	const onClose = useCallback((): void => {
+		setIsElementVisible(false);
+	}, [setIsElementVisible]);
 
 	const handleClick = useCallback(async (): Promise<void> => {
 		if (!taskData?._id) return;
 		await removeTaskMutation();
 		onClose();
-	}, [taskData?._id, removeTaskMutation]);
-
-	const onClose = useCallback((): void => {
-		setIsElementVisible(false);
-	}, [setIsElementVisible]);
+	}, [taskData?._id, removeTaskMutation, onClose]);
 
 	return (
 		<div

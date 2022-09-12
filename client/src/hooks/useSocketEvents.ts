@@ -24,7 +24,7 @@ export const useSocketEvents = () => {
 		return () => {
 			socket?.off(WebSocketEvent.addTask, taskListener);
 		};
-	}, [listId, socket]);
+	}, [listId, socket, query]);
 
 	useEffect(() => {
 		const taskListener = (newTask: ITask) =>
@@ -62,7 +62,7 @@ export const useSocketEvents = () => {
 		return () => {
 			socket?.off(WebSocketEvent.editTask, taskListener);
 		};
-	}, [query, listId, socket]);
+	}, [query, listId, socket, updateTaskTitle]);
 
 	useEffect(() => {
 		const taskListener = (newTask: ITask) => {

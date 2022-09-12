@@ -6,10 +6,10 @@ import { ShareTokenView } from './ShareTokenView';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { AuthContext, AuthContextType } from '../../AuthProvider';
 import { AccessManagement } from './AccessManagement';
-import { getListByIdAction } from '../../actions/sharing';
+import { getListByIdAction } from '../../api/sharing';
 import { IList } from '@kkrawczyk/todo-common';
 import { QueryKey } from '../../enums';
-import { addInvitationTokenToListAction } from '../../actions/lists';
+import { addInvitationTokenToListAction } from '../../api/lists';
 import { useParams } from 'react-router-dom';
 import { IUseParams } from '../../interfaces/app';
 
@@ -39,7 +39,7 @@ export const SharingOptions: FC = () => {
 			if (!invitationToken) return;
 			await addInvitationTokenToListMutation({ _id: listID, invitationToken: invitationToken, owner: authData?.email });
 		})();
-	}, [listID, data?.invitationToken, invitationToken]);
+	}, [listID, data?.invitationToken, invitationToken, authData?.email, addInvitationTokenToListMutation]);
 
 	const onNextStep = useCallback(() => {
 		setStep(step + 1);

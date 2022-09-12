@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Button } from '../Button/Button';
+import { Button } from '../../common/Button/Button';
 
 export const GenerateTokenView: FC<{ isLoading: boolean; onGenerateInvitationToken: () => void }> = ({ isLoading, onGenerateInvitationToken }) => {
 	return (

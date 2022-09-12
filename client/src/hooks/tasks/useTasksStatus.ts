@@ -2,18 +2,18 @@ import { ITask } from '@kkrawczyk/todo-common';
 import { useCallback, useContext } from 'react';
 import toast from 'react-hot-toast';
 import { useMutation, useQueryClient } from 'react-query';
-import { changeTaskStatusAction } from '../../actions/tasks';
+import { changeTaskStatusAction } from '../../api/tasks';
 import { AuthContext, AuthContextType } from '../../AuthProvider';
 import { QueryKey } from '../../enums';
 import { HttpResponse } from '../../utils/http';
 
-const useTasksStatus = () => {
+export const useTasksStatus = () => {
 	const query = useQueryClient();
 	const { authData } = useContext<AuthContextType>(AuthContext);
 
 	const taskStatus = useCallback(
 		(tasks: ITask[] | undefined, response: HttpResponse<ITask>) =>
-			tasks?.map(task => (task._id === response.body?._id ? { ...task, taskStatus: response.body?.taskStatus } : task)),
+			tasks?.map(task => (task._id === response.data?._id ? { ...task, taskStatus: response.data?.taskStatus } : task)),
 		[]
 	);
 
@@ -33,5 +33,3 @@ const useTasksStatus = () => {
 		changeTaskStatusMutation,
 	};
 };
-
-export default useTasksStatus;

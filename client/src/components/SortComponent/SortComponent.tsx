@@ -21,10 +21,13 @@ export const SortComponent: FC = () => {
 		id: MENU_ID,
 	});
 
-	const handleContextMenu = useCallback(event => {
-		event.preventDefault();
-		show(event);
-	}, []);
+	const handleContextMenu = useCallback(
+		event => {
+			event.preventDefault();
+			show(event);
+		},
+		[show]
+	);
 
 	return (
 		<div className='w-full h-full flex'>

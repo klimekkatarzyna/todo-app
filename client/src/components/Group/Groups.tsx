@@ -3,7 +3,7 @@ import { ContextMenuOpion, QueryKey } from '../../enums';
 import { IGroup } from '@kkrawczyk/todo-common';
 import { Group } from './Group';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { deleteGroup, getGroups } from '../../actions/groups';
+import { deleteGroup, getGroups } from '../../api/groups';
 import { Loader } from 'react-feather';
 import { ContextMenuContext } from '../../providers/ContextMenuProvider';
 import toast from 'react-hot-toast';
@@ -20,7 +20,7 @@ export const Groups: FC<{ isNavClosed: boolean }> = ({ isNavClosed }) => {
 	const { mutateAsync, isLoading } = useMutation(deleteGroup, {
 		onSuccess: async response => {
 			query.setQueryData<IGroup[] | undefined>([QueryKey.groups], (groups: IGroup[] | undefined) =>
-				groups?.filter(group => group._id !== response.body?._id)
+				groups?.filter(group => group._id !== response.data?._id)
 			);
 			toast.success('Grupa usunięta');
 		},

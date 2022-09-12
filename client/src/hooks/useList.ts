@@ -1,15 +1,15 @@
 import { useEffect } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { deleteListAction, editListThemeAction, getListsAction } from '../actions/lists';
+import { deleteListAction, editListThemeAction, getListsAction } from '../api/lists';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { listsState } from '../atoms';
 import { IGroup, IList, ITask } from '@kkrawczyk/todo-common';
 import { QueryKey } from '../enums';
 import toast from 'react-hot-toast';
 import { groupState } from '../atoms/group';
-import { getGroups } from '../actions/groups';
-import { updateMembersList } from '../actions/sharing';
-import { removeUsersFromTasksAction } from '../actions/tasks';
+import { getGroups } from '../api/groups';
+import { updateMembersList } from '../api/sharing';
+import { removeUsersFromTasksAction } from '../api/tasks';
 
 export const useList = () => {
 	const query = useQueryClient();
@@ -34,7 +34,7 @@ export const useList = () => {
 	const { mutateAsync: removeListMutation } = useMutation(deleteListAction, {
 		onSuccess: async response => {
 			query.setQueryData<IList[] | undefined>([QueryKey.lists], (lists: IList[] | undefined) =>
-				lists?.filter(list => list._id !== response.body?._id)
+				lists?.filter(list => list._id !== response.data?._id)
 			);
 			toast.success('Lista usunięta');
 		},
@@ -42,7 +42,7 @@ export const useList = () => {
 
 	const removenUserFromTasksMutation = useMutation(removeUsersFromTasksAction, {
 		onSuccess: async response => {
-			query.setQueryData<ITask[] | undefined>([QueryKey.tasksOfCurrentList, response.body?.parentFolderId], (tasks: ITask[] | undefined) =>
+			query.setQueryData<ITask[] | undefined>([QueryKey.tasksOfCurrentList, response.data?.parentFolderId], (tasks: ITask[] | undefined) =>
 				tasks?.map(task => {
 					return { ...task, assigned: undefined };
 				})
@@ -53,26 +53,26 @@ export const useList = () => {
 
 	const { mutate: updateMembersListMutation, isLoading: updateMembersListLoading } = useMutation(updateMembersList, {
 		onSuccess: async response => {
-			query.invalidateQueries([QueryKey.getListById, response.body?._id]);
+			query.invalidateQueries([QueryKey.getListById, response.data?._id]);
 			query.invalidateQueries([QueryKey.lists]);
 			toast.success('Użytkownik usunięty z listy');
 
-			if (!!response.body?._id) removenUserFromTasksMutation.mutate({ parentFolderId: response.body?._id });
+			if (!!response.data?._id) removenUserFromTasksMutation.mutate({ parentFolderId: response.data?._id });
 		},
 	});
 
 	const { mutate: editListThemeMutation } = useMutation(editListThemeAction, {
 		onSuccess: async response => {
-			query.setQueryData<IList | undefined>([QueryKey.getListById, response.body?._id], (list: IList | undefined) =>
-				list?._id === response.body?._id ? { ...list, themeColor: response.body?.themeColor } : list
+			query.setQueryData<IList | undefined>([QueryKey.getListById, response.data?._id], (list: IList | undefined) =>
+				list?._id === response.data?._id ? { ...list, themeColor: response.data?.themeColor } : list
 			);
-			query.setQueryData<ITask[] | undefined>([QueryKey.tasksOfCurrentList, response.body?._id], (tasks: ITask[] | undefined) =>
-				tasks?.map(task => (task.parentFolderId === response.body?._id ? { ...task, themeColor: response.body?.themeColor } : task))
+			query.setQueryData<ITask[] | undefined>([QueryKey.tasksOfCurrentList, response.data?._id], (tasks: ITask[] | undefined) =>
+				tasks?.map(task => (task.parentFolderId === response.data?._id ? { ...task, themeColor: response.data?.themeColor } : task))
 			);
 			query.setQueryData<IList[] | undefined>([QueryKey.lists], (lists: IList[] | undefined) =>
-				lists?.map(list => (list._id === response.body?._id ? { ...list, themeColor: response.body?.themeColor } : list))
+				lists?.map(list => (list._id === response.data?._id ? { ...list, themeColor: response.data?.themeColor } : list))
 			);
-			toast.success(`Theme zmieniony na ${response.body?.themeColor}`);
+			toast.success(`Theme zmieniony na ${response.data?.themeColor}`);
 		},
 	});
 

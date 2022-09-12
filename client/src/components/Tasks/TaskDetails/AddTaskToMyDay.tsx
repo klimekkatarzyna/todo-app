@@ -8,7 +8,7 @@ export const AddTaskToMyDay: FC<{ taskData: ITask | undefined }> = ({ taskData }
 
 	const onHandleTaskInMyDay = useCallback(
 		() => taskInMyDayMutation({ _id: taskData?._id, isMyDay: isMyDayTask, parentFolderId: taskData?.parentFolderId }),
-		[taskData, isMyDayTask]
+		[taskData, isMyDayTask, taskInMyDayMutation]
 	);
 
 	return (

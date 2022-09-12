@@ -3,7 +3,7 @@ import { useDropdown } from '../../hooks/useDropdown';
 import { IconButton } from './IconButton';
 import { Folder, Loader } from 'react-feather';
 import { useMutation, useQueryClient } from 'react-query';
-import { createGroup } from '../../actions/groups';
+import { createGroup } from '../../api/groups';
 import { isStringContainsOnlyWhitespace } from '../../utils/utilsFunctions';
 import { createEditGroupSchema, IGroup } from '@kkrawczyk/todo-common';
 import { QueryKey } from '../../enums';
@@ -27,7 +27,7 @@ export const CreateGroup: FC = () => {
 
 	const { mutateAsync, isLoading } = useMutation(createGroup, {
 		onSuccess: async response => {
-			query.setQueryData<IGroup[] | undefined>([QueryKey.groups], groups => [...(groups || []), response.body || {}]);
+			query.setQueryData<IGroup[] | undefined>([QueryKey.groups], groups => [...(groups || []), response.data || {}]);
 			toast.success('Grupa utworzona');
 		},
 	});

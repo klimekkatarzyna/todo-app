@@ -75,6 +75,7 @@ export const useBuidContextTaskMenu = (task: ITask) => {
 			MoveTaskContextMenuItem,
 			RemoveTaskContextMenuItem,
 		],
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[task]
 	);
 

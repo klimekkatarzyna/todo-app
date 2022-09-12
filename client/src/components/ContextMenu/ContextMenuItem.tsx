@@ -23,7 +23,10 @@ export const ContextMenuItem: FC<IContextMenuItem> = ({
 	contextMenuOption,
 	mutateAsyncAction,
 }) => {
-	const onHandleItemClick = useCallback(({ triggerEvent, event, props, data }) => handleItemClick({ triggerEvent, event, props, data }), []);
+	const onHandleItemClick = useCallback(
+		({ triggerEvent, event, props, data }) => handleItemClick({ triggerEvent, event, props, data }),
+		[handleItemClick]
+	);
 
 	return (
 		<>

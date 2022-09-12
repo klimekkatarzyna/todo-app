@@ -10,9 +10,9 @@ interface IModalType {
 export const useModal = () => {
 	const [modalType, setModal] = useRecoilState(modalState);
 
-	const showModal = useCallback(({ modal }: IModalType) => setModal(modal), []);
+	const showModal = useCallback(({ modal }: IModalType) => setModal(modal), [setModal]);
 
-	const hideModal = useCallback(() => setModal(null), []);
+	const hideModal = useCallback(() => setModal(null), [setModal]);
 
 	return {
 		modalType,

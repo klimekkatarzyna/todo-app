@@ -8,12 +8,12 @@ export const editListAction = async ({ _id, title }: IList) => await http<IList>
 
 export const getListsAction = async () => {
 	const response = await http<IList[]>(`${api.getLists}`, 'GET');
-	return response.body;
+	return response.data;
 };
 
 export const getListByIdAction = async ({ _id }: IList) => {
 	const response = await http<IList>(`${api.getListById}/${_id}`, 'GET');
-	return response.body;
+	return response.data;
 };
 
 export const deleteListAction = async ({ _id }: IList) => await http<IList>(api.removeList, 'DELETE', { _id });

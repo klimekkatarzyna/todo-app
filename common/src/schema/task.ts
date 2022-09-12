@@ -46,5 +46,4 @@ export const createEditTaskSchema: SchemaOf<ITask> = object({
   members: array().of(string()),
 });
 
-// A better approach
 export type CreateEditTaskType = InferType<typeof createEditTaskSchema>;

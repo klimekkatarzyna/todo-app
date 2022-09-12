@@ -1,7 +1,7 @@
 import { FC, useCallback } from 'react';
 import { Loader } from 'react-feather';
-import { Button } from '../Button/Button';
-import { IShareLitDetails } from '../../actions/sharing';
+import { Button } from '../../common/Button/Button';
+import { IShareLitDetails } from '../../api/sharing';
 import { useSwitchToFirstListItem } from '../../hooks/useSwitchToFirstListItem';
 
 export const RedirectToList: FC<{ list: IShareLitDetails | undefined; listDataLoading: boolean }> = ({ list, listDataLoading }) => {

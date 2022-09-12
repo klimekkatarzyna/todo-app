@@ -9,24 +9,23 @@ interface IJwtData {
 	exp: number;
 }
 
-// const SECRET = process.env.SECRET_KEY as jwt.Secret; provess.env is undefined but WHY?
 const SECRET = process.env.SECRET_KEY!;
 
 export const signJwt = (_id: string | undefined) => {
 	return jwt.sign({ _id }, SECRET, { expiresIn: '1d' });
 };
 
-export const passwordHash = (pwd: string) => bcrypt.hashSync(pwd, 8);
+export const passwordHash = (pwd: string) => bcrypt.hash(pwd, 8);
 
 interface IDaysNumber {
 	days: number;
 }
 
 const cookieOptions = ({ days }: IDaysNumber): CookieOptions => ({
-	secure: process.env.NODE_ENV === 'production', // on local (cookies on http), on produstion with secure (cookies with https)
-	httpOnly: true, // block reading this cookie from client-side
+	secure: process.env.NODE_ENV === 'production',
+	httpOnly: true,
 	expires: dayjs().add(days, 'days').toDate(),
-	sameSite: 'strict', // is 'strict' required when requests are bettwen differents domains
+	sameSite: 'strict',
 	domain: process.env.FRONTEND_DOMAIN,
 });
 

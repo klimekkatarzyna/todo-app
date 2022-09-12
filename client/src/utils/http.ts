@@ -7,7 +7,7 @@ export const http = async <T>(url: string, method: HttpMethod, body?: Object): P
 			'Content-type': 'application/json',
 		},
 		body: body ? JSON.stringify(body) : undefined,
-		credentials: 'include', // it's needed to add token to cookie when FE and BE are o different domaines
+		credentials: 'include',
 	});
 
 	const json = await response.json();
@@ -21,13 +21,9 @@ export const http = async <T>(url: string, method: HttpMethod, body?: Object): P
 };
 
 export interface HttpResponse<T = any> {
-	status?: number;
-	ok: boolean;
-	body?: T;
 	data?: T;
 	message?: string;
-	auth?: boolean;
-	token?: string;
 	error?: string;
-	isSuccess?: boolean;
 }
+
+export const apiUrl = process.env.REACT_APP_BACKEND;

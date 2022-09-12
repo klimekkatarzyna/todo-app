@@ -1,7 +1,7 @@
 import { FC, useCallback } from 'react';
 import { isStringContainsOnlyWhitespace } from '../../../utils/utilsFunctions';
 import { useMutation, useQueryClient } from 'react-query';
-import { createListAction } from '../../../actions/lists';
+import { createListAction } from '../../../api/lists';
 import { createEditListSchema, IList } from '@kkrawczyk/todo-common';
 import { QueryKey, ROUTE } from '../../../enums';
 import toast from 'react-hot-toast';
@@ -25,17 +25,20 @@ export const CreateList: FC = () => {
 
 	const { mutateAsync, isLoading } = useMutation(createListAction, {
 		onSuccess: async response => {
-			query.setQueryData<IList[] | undefined>([QueryKey.lists], lists => [...(lists || []), response.body || {}]);
+			query.setQueryData<IList[] | undefined>([QueryKey.lists], lists => [...(lists || []), response.data || {}]);
 			toast.success('Lista dodana');
-			navigate(buildUrl(ROUTE.listsDetails, { listId: response?.body?._id || '' }));
+			navigate(buildUrl(ROUTE.listsDetails, { listId: response?.data?._id || '' }));
 		},
 	});
 
-	const onSubmit: SubmitHandler<IList> = useCallback(async (data, e) => {
-		const title = isStringContainsOnlyWhitespace(data.title) ? 'Lista bez tytułu' : data.title;
-		await mutateAsync({ title });
-		e?.target.reset();
-	}, []);
+	const onSubmit: SubmitHandler<IList> = useCallback(
+		async (data, e) => {
+			const title = isStringContainsOnlyWhitespace(data.title) ? 'Lista bez tytułu' : data.title;
+			await mutateAsync({ title });
+			e?.target.reset();
+		},
+		[mutateAsync]
+	);
 
 	return (
 		<div className='flex flex-col bg-light-grey transition ease-in-out delay-150 width w-full'>

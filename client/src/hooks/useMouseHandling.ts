@@ -13,7 +13,7 @@ export const useFocusingHandling = (ref?: RefObject<HTMLInputElement>) => {
 
 		document.addEventListener('click', handleClick);
 		return () => document.removeEventListener('click', handleClick);
-	}, []);
+	}, [ref]);
 
 	const onFocus = useCallback((): void => {
 		setFocused(true);
@@ -21,11 +21,11 @@ export const useFocusingHandling = (ref?: RefObject<HTMLInputElement>) => {
 
 	const onClick = useCallback((): void => {
 		setFocused(true);
-	}, [isFocused]);
+	}, []);
 
 	const onBlur = useCallback((): void => {
 		setFocused(false);
-	}, [isFocused]);
+	}, []);
 
 	return {
 		isFocused,

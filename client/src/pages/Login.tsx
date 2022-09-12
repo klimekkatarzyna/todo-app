@@ -1,10 +1,10 @@
 import { FC, useCallback, useContext, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button } from '../components/Button/Button';
+import { Button } from '../common/Button/Button';
 import { useMutation } from 'react-query';
 import { InputType } from '../interfaces/app';
 import { IUserData, loginValidationSchema } from '@kkrawczyk/todo-common';
-import { loginAction } from '../actions/user';
+import { loginAction } from '../api/user';
 import { AuthContext, AuthContextType } from '../AuthProvider';
 import { ROUTE } from '../enums';
 import { buildUrl } from '../utils/paths';
@@ -35,18 +35,21 @@ export const Login: FC = () => {
 	const { mutateAsync, isLoading, data } = useMutation(loginAction, {
 		onSuccess: response => {
 			navigate(redirectUrl);
-			setAuthData(response?.body);
+			setAuthData(response?.data);
 		},
 		onError: (error: any): any => {
 			toast.error(error?.error);
 		},
 	});
 
-	const onSubmit: SubmitHandler<IUserData> = useCallback(async (data, e) => {
-		const { email, password } = data;
-		await mutateAsync({ email, password });
-		e?.target.reset();
-	}, []);
+	const onSubmit: SubmitHandler<IUserData> = useCallback(
+		async (data, e) => {
+			const { email, password } = data;
+			await mutateAsync({ email, password });
+			e?.target.reset();
+		},
+		[mutateAsync]
+	);
 
 	return (
 		<div className='bg-light-grey w-full flex items-center justify-center'>

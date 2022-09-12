@@ -1,13 +1,13 @@
 import { FC, useCallback, useEffect, useMemo, useState, RefObject, useRef, memo } from 'react';
 import { Link } from 'react-router-dom';
-import { Checkbox } from '../Checkbox/Checkbox';
-import { ImportanceButton } from '../ImportanceButton/ImportanceButton';
+import { Checkbox } from '../../common/Checkbox/Checkbox';
+import { ImportanceButton } from '../../common/ImportanceButton/ImportanceButton';
 import { Importance, ITask, ITaskStatus } from '@kkrawczyk/todo-common';
 import { useFocusingHandling } from '../../hooks/useMouseHandling';
 import { EditTaskName } from './EditTaskName';
 import { Sun } from 'react-feather';
-import { IconUserName } from '../IconUserName/IconUserName';
-import useTasksStatus from '../../hooks/tasks/useTasksStatus';
+import { IconUserName } from '../../common/IconUserName/IconUserName';
+import { useTasksStatus } from '../../hooks/tasks/useTasksStatus';
 import { useTaskImportance } from '../../hooks/tasks/useTaskImportance';
 
 interface ITaskDetailsProps {
@@ -37,12 +37,12 @@ const TaskDetailsComponent: FC<ITaskDetailsProps> = ({ taskData, isTaskDetailsVi
 	const onHandleChange = useCallback(async () => {
 		const taskStatus = taskData?.taskStatus === ITaskStatus.unComplete ? ITaskStatus.complete : ITaskStatus.unComplete;
 		await changeTaskStatusMutation({ _id: taskData?._id, parentFolderId: taskData?.parentFolderId, taskStatus });
-	}, [taskData]);
+	}, [taskData, changeTaskStatusMutation]);
 
 	const onClickImportanceButton = useCallback(async () => {
 		setIsImportanceButtonChecked(!isImportanceButtonChecked);
 		await changeTaskImportanceMutation({ parentFolderId: taskData?.parentFolderId, _id: taskData?._id, importance: importanceType });
-	}, [isImportanceButtonChecked, taskData, importanceType]);
+	}, [isImportanceButtonChecked, taskData, importanceType, changeTaskImportanceMutation]);
 
 	const elementRef: RefObject<HTMLInputElement> = useRef(null);
 	const { isFocused, onClick, onBlur } = useFocusingHandling(elementRef);

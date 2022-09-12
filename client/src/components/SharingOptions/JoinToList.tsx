@@ -2,8 +2,8 @@ import { FC } from 'react';
 import { Loader } from 'react-feather';
 import { useLocation } from 'react-router-dom';
 import { useMutation, useQueryClient } from 'react-query';
-import { addUserToMemberOfListAction, IShareLitDetails } from '../../actions/sharing';
-import { Button } from '../Button/Button';
+import { addUserToMemberOfListAction, IShareLitDetails } from '../../api/sharing';
+import { Button } from '../../common/Button/Button';
 import { getStringAfterCharacter } from '../../utils/utilsFunctions';
 import { QueryKey } from '../../enums';
 import { useSwitchToFirstListItem } from '../../hooks/useSwitchToFirstListItem';
@@ -13,7 +13,7 @@ export const JoinToList: FC<{ listDataLoading: boolean; list: IShareLitDetails |
 	const location = useLocation();
 	const { onHandleSwitchToFirstListItem } = useSwitchToFirstListItem(list?.listData._id);
 
-	const { mutate, error, isLoading } = useMutation(addUserToMemberOfListAction, {
+	const { mutate, isLoading } = useMutation(addUserToMemberOfListAction, {
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.checkSession]);
 			query.invalidateQueries([QueryKey.lists]);

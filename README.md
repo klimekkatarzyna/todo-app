@@ -79,7 +79,7 @@ Short instruction step by step how install and run the app.
    - Create `.env` file in `./client` folder and add environment variables:
    ```sh
    REACT_APP_API_URL_LOCAL=http://localhost:8080
-   REACT_APP_LOCAL_BACKEND=http://localhost:3000
+   REACT_APP_BACKEND=http://localhost:3000
    REACT_APP_SOCKET_LOCAL_URL=http://localhost:3000
    ```
    - Type in terminal:

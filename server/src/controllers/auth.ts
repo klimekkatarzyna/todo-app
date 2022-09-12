@@ -13,7 +13,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
 			const user = new User({
 				username: req.body.username,
 				email: req.body.email,
-				password: passwordHash(req.body.password),
+				password: await passwordHash(req.body.password),
 				_id: req.body._id,
 				createdAt: Date.now(),
 			});
@@ -24,7 +24,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
 
 			user.save();
 			res.json({
-				body: {
+				data: {
 					username: user.username,
 					email: user.email,
 					_id: user._id,
@@ -37,7 +37,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
 		}
 	} catch (err: unknown) {
 		res.status(500).json({
-			success: false,
+			isSuccess: false,
 			errorMessage: `registration failed`,
 		});
 	}
@@ -55,11 +55,11 @@ export const login = async (req: Request, res: Response) => {
 		if (!validPassword) return res.status(401).json({ error: 'Wrong credentials' });
 
 		res.json({
-			body: {
+			data: {
 				_id: user?._id || '',
 				username: user?.username || '',
 				email: user?.email || '',
-				password: passwordHash(req.body.password),
+				password: await passwordHash(req.body.password),
 				createdAt: user?.createdAt || '',
 			},
 			message: `login user with email ${req.body.email}`,
@@ -83,7 +83,7 @@ export const checkSession = async (req: Request, res: Response) => {
 
 		res.status(200).json({
 			message: 'Successful log in',
-			body: {
+			data: {
 				user,
 			},
 			isSuccess: true,
@@ -111,9 +111,8 @@ export const getUser = async (req: Request, res: Response) => {
 	const user = await User.find({ _id: req.params._id });
 	try {
 		res.status(200).json({
-			body: user[0],
+			data: user[0],
 		});
-		if (!user) return res.status(404).json({ message: 'User not found' });
 	} catch (error) {
 		res.status(500).json({
 			error,

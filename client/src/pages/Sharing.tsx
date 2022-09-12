@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useQuery } from 'react-query';
 import { getStringAfterCharacter } from '../utils/utilsFunctions';
-import { getListDatatoShareAction, IShareLitDetails } from '../actions/sharing';
+import { getListDatatoShareAction, IShareLitDetails } from '../api/sharing';
 import { Mail } from 'react-feather';
 import { JoinToList } from '../components/SharingOptions/JoinToList';
 import { RedirectToList } from '../components/SharingOptions/RedirectToList';

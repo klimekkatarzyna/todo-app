@@ -8,7 +8,7 @@ export const editGroup = async ({ _id, title }: IGroup) => await http<IGroup>(ap
 
 export const getGroups = async () => {
 	const resopnse = await http<IGroup[]>(api.getGroups, 'GET');
-	return resopnse.body;
+	return resopnse.data;
 };
 
 export const deleteGroup = async ({ _id }: IGroup) => await http<IGroup>(api.removeGroup, 'DELETE', { _id });

@@ -12,6 +12,11 @@ interface IModalComponentProps {
 export const RegularModal: FC<IModalComponentProps> = ({ children, title, onHandleAction }) => {
 	const { hideModal } = useModal();
 
+	const onHandleActionAndClose = useCallback(() => {
+		onHandleAction?.();
+		hideModal();
+	}, [hideModal, onHandleAction]);
+
 	useEffect(() => {
 		const listener = (event: KeyboardEvent) => {
 			if (event.code === 'Escape') {
@@ -22,12 +27,7 @@ export const RegularModal: FC<IModalComponentProps> = ({ children, title, onHand
 		return () => {
 			document.removeEventListener('keydown', listener);
 		};
-	}, []);
-
-	const onHandleActionAndClose = useCallback(() => {
-		onHandleAction?.();
-		hideModal();
-	}, []);
+	}, [onHandleActionAndClose]);
 
 	return createPortal(
 		<div

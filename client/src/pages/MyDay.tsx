@@ -1,6 +1,6 @@
 import { FC, useMemo } from 'react';
 import { useQuery } from 'react-query';
-import { onGetMayDayTasksAction } from '../actions/tasks';
+import { onGetMayDayTasksAction } from '../api/tasks';
 import { Board } from '../components/Board';
 import { Toolbar } from '../components/Toolbar';
 import { ROUTE, QueryKey } from '../enums';

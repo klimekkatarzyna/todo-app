@@ -20,7 +20,7 @@ export const createList = async (req: Request, res: Response) => {
 	try {
 		const list = await newList.save();
 		res.status(200).json({
-			body: {
+			data: {
 				_id: list._id,
 				title: list.title,
 				themeColor: list.themeColor,
@@ -41,7 +41,7 @@ export const editList = async (req: Request, res: Response) => {
 	const list = await List.updateOne({ _id: req.body._id }, { $set: { title: req.body.title } });
 
 	try {
-		res.status(200).json({ body: { _id: req.body._id, title: req.body.title } });
+		res.status(200).json({ data: { _id: req.body._id, title: req.body.title } });
 		if (!list) return res.status(404).json({ message: 'List not found' });
 	} catch (err) {
 		res.status(500).json({
@@ -59,11 +59,8 @@ export const getLists = async (req: Request, res: Response) => {
 		const membersLists = await List.find({ $and: [{ members: userId }] });
 		const lists = [...new Set([...ownLists, ...membersLists])];
 
-		if (!lists) {
-			res.status(404).json('There are no lists created yet!');
-		}
 		res.status(200).json({
-			body: lists,
+			data: lists,
 		});
 	} catch (error) {
 		res.status(500).json({
@@ -77,12 +74,8 @@ export const getList = async (req: Request, res: Response) => {
 		const list = await List.find({ _id: req.params._id });
 		const members = [...new Set(list[0]?.members)];
 
-		if (!list) {
-			res.status(404).json({ message: 'List not found' });
-		}
-
 		res.status(200).json({
-			body: {
+			data: {
 				_id: list[0]?._id,
 				title: list[0]?.title,
 				themeColor: list[0]?.themeColor,
@@ -109,7 +102,7 @@ export const removeList = async (req: Request, res: Response) => {
 		}
 
 		res.status(200).json({
-			body: { _id: req.body._id },
+			data: { _id: req.body._id },
 			message: 'list has been deleted',
 		});
 	} catch (error) {
@@ -167,7 +160,7 @@ export const getListDatatoShare = async (req: Request, res: Response) => {
 			res.status(404).json({ message: 'List not found' });
 		}
 
-		res.json({ body: { isMemberAddedToList, listData } });
+		res.json({ data: { isMemberAddedToList, listData } });
 	} catch (err) {
 		res.status(500).json({
 			err,
@@ -176,7 +169,6 @@ export const getListDatatoShare = async (req: Request, res: Response) => {
 };
 
 export const addUserToMemberOfList = async (req: Request, res: Response) => {
-	// fix duplicates in members array
 	const userId = getSessionUserId(req);
 
 	try {
@@ -202,7 +194,7 @@ export const updateMembersList = async (req: Request, res: Response) => {
 			res.status(404).json({ message: 'List not found' });
 		}
 
-		res.status(200).json({ body: { _id: req.body._id, member: req.body.member }, message: 'member has been deleted' });
+		res.status(200).json({ data: { _id: req.body._id, member: req.body.member }, message: 'member has been deleted' });
 	} catch (err) {
 		res.status(500).json({
 			err,
@@ -237,7 +229,7 @@ export const listTheme = async (req: Request, res: Response) => {
 		}
 
 		res.status(200).json({
-			body: {
+			data: {
 				_id: req.body._id,
 				themeColor: req.body.themeColor,
 			},

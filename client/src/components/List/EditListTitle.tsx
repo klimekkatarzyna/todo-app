@@ -4,7 +4,7 @@ import { createEditTaskSchema, IList } from '@kkrawczyk/todo-common';
 import { isStringContainsOnlyWhitespace } from '../../utils/utilsFunctions';
 import { QueryKey } from '../../enums';
 import toast from 'react-hot-toast';
-import { editListAction } from '../../actions/lists';
+import { editListAction } from '../../api/lists';
 import { useParams } from 'react-router-dom';
 import { InputType, IUseParams } from '../../interfaces/app';
 import { useRecoilState } from 'recoil';
@@ -33,11 +33,11 @@ export const EditListTitle: FC<{ title: string; className: string }> = ({ title 
 
 	const { mutateAsync, isLoading } = useMutation(editListAction, {
 		onSuccess: async response => {
-			query.setQueryData<IList | undefined>([QueryKey.getListById, response.body?._id], list =>
-				list?._id === response.body?._id ? { ...list, title: response.body?.title } : list
+			query.setQueryData<IList | undefined>([QueryKey.getListById, response.data?._id], list =>
+				list?._id === response.data?._id ? { ...list, title: response.data?.title } : list
 			);
 			query.setQueryData<IList[] | undefined>(QueryKey.lists, lists =>
-				lists?.map(list => (list._id === response.body?._id ? { ...list, title: response.body?.title } : list))
+				lists?.map(list => (list._id === response.data?._id ? { ...list, title: response.data?.title } : list))
 			);
 			toast.success('Nazwa listy zmieniona');
 		},
@@ -49,7 +49,7 @@ export const EditListTitle: FC<{ title: string; className: string }> = ({ title 
 			await mutateAsync({ _id: listId, title: data.title });
 			setIsFormVisible(false);
 		},
-		[listId, setIsFormVisible]
+		[listId, setIsFormVisible, mutateAsync]
 	);
 
 	return (

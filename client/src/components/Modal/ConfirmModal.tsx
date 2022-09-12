@@ -2,7 +2,7 @@ import React, { FC, useCallback, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { X } from 'react-feather';
 import { useModal } from '../../hooks/useModal';
-import { Button } from '../Button/Button';
+import { Button } from '../../common/Button/Button';
 
 interface IModalComponentProps {
 	children?: React.ReactNode;
@@ -14,6 +14,11 @@ interface IModalComponentProps {
 export const ConfirmModal: FC<IModalComponentProps> = ({ children, title, onHandleAction, isLoading }) => {
 	const { hideModal } = useModal();
 
+	const onHandleActionAndClose = useCallback(() => {
+		onHandleAction?.();
+		hideModal();
+	}, [onHandleAction, hideModal]);
+
 	useEffect(() => {
 		const listener = (event: KeyboardEvent) => {
 			if (event.code === 'Enter') {
@@ -24,7 +29,7 @@ export const ConfirmModal: FC<IModalComponentProps> = ({ children, title, onHand
 		return () => {
 			document.removeEventListener('keydown', listener);
 		};
-	}, []);
+	}, [onHandleActionAndClose]);
 
 	useEffect(() => {
 		const listener = (event: KeyboardEvent) => {
@@ -36,12 +41,7 @@ export const ConfirmModal: FC<IModalComponentProps> = ({ children, title, onHand
 		return () => {
 			document.removeEventListener('keydown', listener);
 		};
-	}, []);
-
-	const onHandleActionAndClose = useCallback(() => {
-		onHandleAction?.();
-		hideModal();
-	}, []);
+	}, [hideModal]);
 
 	return createPortal(
 		<div
