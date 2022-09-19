@@ -9,7 +9,8 @@ export const Redirect = () => {
 
 	useEffect(() => {
 		sessionStorage.setItem('invitationTokenUrl', `${location?.pathname}${location?.search}`);
-	}, [location?.pathname, location?.search]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	return (
 		<div>

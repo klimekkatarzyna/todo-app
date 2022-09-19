@@ -1,27 +1,23 @@
 import { FC, memo, useCallback, useContext } from 'react';
 import { MenuListItem } from '../../MenuListItem/MenuListItem';
 import { Loader } from 'react-feather';
-import { ContextMenuOpion, QueryKey } from '../../../enums';
+import { ContextMenuOpion } from '../../../enums';
 import { SharingOptions } from '../../SharingOptions/SharingOptions';
-import { useMutation, useQueryClient } from 'react-query';
 import { IList } from '@kkrawczyk/todo-common';
 import { useList } from '../../../hooks/useList';
 import { useRecoilValue } from 'recoil';
 import { listsState } from '../../../atoms';
-import { updateMembersList } from '../../../api/sharing';
 import { ContextMenuContext } from '../../../providers/ContextMenuProvider';
 import { AuthContext } from '../../../AuthProvider';
-import toast from 'react-hot-toast';
 import { useSwitchToFirstListItem } from '../../../hooks/useSwitchToFirstListItem';
 import { ConfirmModal } from '../../Modal/ConfirmModal';
 import { useModal } from '../../../hooks/useModal';
 import { RegularModal } from '../../Modal/RegularModal';
 
 const ListsComponents: FC<{ isNavClosed: boolean }> = ({ isNavClosed }) => {
-	const query = useQueryClient();
 	const { onHandleSwitchToFirstListItem } = useSwitchToFirstListItem();
 	const { modalType } = useModal();
-	const { getListsLoading, removeListMutation } = useList();
+	const { getListsLoading, removeListMutation, leaveListMutation } = useList();
 	const list = useRecoilValue(listsState);
 	const { contextualMenu } = useContext(ContextMenuContext);
 	const { authData } = useContext(AuthContext);
@@ -31,14 +27,6 @@ const ListsComponents: FC<{ isNavClosed: boolean }> = ({ isNavClosed }) => {
 		await removeListMutation({ _id: contextualMenu?.elementId });
 		onHandleSwitchToFirstListItem();
 	}, [contextualMenu, onHandleSwitchToFirstListItem, removeListMutation]);
-
-	const { mutate } = useMutation(updateMembersList, {
-		onSuccess: () => {
-			query.invalidateQueries([QueryKey.getListById]);
-			query.invalidateQueries([QueryKey.lists]);
-			toast.success('Opuściłeś listę');
-		},
-	});
 
 	return (
 		<>
@@ -58,7 +46,7 @@ const ListsComponents: FC<{ isNavClosed: boolean }> = ({ isNavClosed }) => {
 			{modalType === ContextMenuOpion.leave_list && (
 				<ConfirmModal
 					title='Czy chcesz opuścić tę listę?'
-					onHandleAction={() => mutate({ _id: contextualMenu?.elementId, member: authData?._id })}
+					onHandleAction={() => leaveListMutation({ _id: contextualMenu?.elementId, member: authData?._id })}
 				/>
 			)}
 		</>

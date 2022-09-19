@@ -1,17 +1,12 @@
 import { test, expect } from '@playwright/test';
-import { shouleLoginToApp } from './auth.spec';
+import { goToList, shouleLoginToApp } from './global';
 
 const taskName = 'Zadanie 1';
-const createdListLocator = '#list-items div:has-text("Lista 1") >> nth=1';
 const taskCheckboxLocator = '.tasks-list > div > div > div > div:nth-child(2) > label > input';
 
 const checkIfTaskExist = async ({ page }) => {
 	await expect(page.locator(`.tasks-list > div`)).toHaveCount(1);
 	await expect(page.locator('.tasks-list > div > div > a > div:nth-child(1)')).toHaveText(taskName);
-};
-
-const goToList = async ({ page }) => {
-	await page.locator(createdListLocator).click();
 };
 
 const checkAndClickAccordion = async ({ page }) => {

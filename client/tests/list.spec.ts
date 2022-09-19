@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { shouleLoginToApp } from './auth.spec';
+import { shouleLoginToApp } from './global';
 
 test.beforeEach(async ({ page }) => {
 	await page.goto('http://localhost:8080/login');
@@ -15,6 +15,8 @@ test.describe('list actions', () => {
 		await page.locator('input[placeholder="Nowa lista"]').fill('Lista 1');
 		await page.locator('input[placeholder="Nowa lista"]').press('Enter');
 
+		await expect(page.locator('#list-items')).toHaveText('Lista 1');
+
 		await page.locator('input[placeholder="Nowa lista"]').fill('Lista 2');
 		await page.locator('input[placeholder="Nowa lista"]').press('Enter');
 
@@ -29,8 +31,13 @@ test.describe('list actions', () => {
 		await page.locator('button:has-text(". . .")').click();
 		await page.locator('.list-settings-edit').press('Enter');
 
-		await page.locator('input[value="Lista 1"]').fill('Nowa nazwa');
-		await page.locator('input[value="Lista 1"]').press('Enter');
+		await expect(page.locator('.edit-list-input')).toBeVisible();
+
+		await page.locator('.edit-list-input').fill('Nowa nazwa');
+		await page.locator('.edit-list-input').press('Enter');
+
+		await expect(page.locator('#list-items')).toHaveText('Nowa nazwaLista 2');
+		await expect(page.locator('#list-items > a')).toHaveCount(2);
 	});
 
 	test('should remove lists', async ({ page }) => {

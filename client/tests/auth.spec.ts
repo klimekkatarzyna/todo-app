@@ -1,14 +1,7 @@
 import { test, expect, chromium } from '@playwright/test';
-import { userEmail, userName } from './global';
+import { shouleLoginToApp, userEmail, userName } from './global';
 
 let browser;
-
-export const shouleLoginToApp = async ({ page }) => {
-	await page.locator('input[name="email"]').fill('user-todo1@yopmail.com');
-	await page.locator('input[name="password"]').fill('Test1234');
-	await page.locator('button:has-text("Zaloguj")').click();
-	await expect(page.locator('a:has-text("To Do")')).toBeVisible();
-};
 
 (async () => {
 	browser = await chromium.launch();
