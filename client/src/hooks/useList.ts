@@ -10,11 +10,13 @@ import { groupState } from '../atoms/group';
 import { getGroups } from '../api/groups';
 import { updateMembersList } from '../api/sharing';
 import { removeUsersFromTasksAction } from '../api/tasks';
+import { useSwitchToFirstListItem } from './useSwitchToFirstListItem';
 
 export const useList = () => {
 	const query = useQueryClient();
 	const { isLoading: getListsLoading, data: listsQuery } = useQuery<IList[] | undefined>([QueryKey.lists], getListsAction);
 	const { data: groupsQuery } = useQuery<IGroup[] | undefined>(QueryKey.groups, getGroups);
+	const { onHandleSwitchToFirstListItem } = useSwitchToFirstListItem();
 
 	const setList = useSetRecoilState(listsState);
 	const groupDetails = useRecoilValue<IGroup | undefined>(groupState);
@@ -72,7 +74,16 @@ export const useList = () => {
 			query.setQueryData<IList[] | undefined>([QueryKey.lists], (lists: IList[] | undefined) =>
 				lists?.map(list => (list._id === response.data?._id ? { ...list, themeColor: response.data?.themeColor } : list))
 			);
-			toast.success(`Theme zmieniony na ${response.data?.themeColor}`);
+			toast.success(`Motyw zmieniony na ${response.data?.themeColor}`);
+		},
+	});
+
+	const { mutate: leaveListMutation } = useMutation(updateMembersList, {
+		onSuccess: () => {
+			query.invalidateQueries([QueryKey.getListById]);
+			query.invalidateQueries([QueryKey.lists]);
+			toast.success('Opuściłeś listę');
+			onHandleSwitchToFirstListItem();
 		},
 	});
 
@@ -82,5 +93,6 @@ export const useList = () => {
 		updateMembersListLoading,
 		updateMembersListMutation,
 		editListThemeMutation,
+		leaveListMutation,
 	};
 };

@@ -40,7 +40,7 @@ export const SortComponent: FC = () => {
 					Sortuj
 				</button>
 				{isOwner && (
-					<button className='m-2 ml-4' onClick={() => showModal({ modal: ModalType.sharing })}>
+					<button className='m-2 ml-4' id='share-list-icon' onClick={() => showModal({ modal: ModalType.sharing })}>
 						<UserPlus className='icon-style text-grey' />
 					</button>
 				)}

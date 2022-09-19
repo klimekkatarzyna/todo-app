@@ -5,6 +5,7 @@ import 'react-contexify/dist/ReactContexify.css';
 import { useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { formToEditListTitleVisibilityState } from '../../atoms';
+import { AuthContext } from '../../AuthProvider';
 import { useList } from '../../hooks/useList';
 import { useListDetails } from '../../hooks/useListDetails';
 import { useSharingData } from '../../hooks/useSharingData';
@@ -18,7 +19,7 @@ enum ContextMenuItem {
 	theme_red = 'red',
 	theme_blue = 'blue',
 	theme_green = 'green',
-	theme_grey = 'grey',
+	theme_gray = 'gray-500',
 	change_title = 'change_title',
 	print_list = 'print_list',
 	remove_list = 'remove_list',
@@ -31,11 +32,12 @@ export const ListSettings: FC = () => {
 	});
 	const { onHandleSwitchToFirstListItem } = useSwitchToFirstListItem();
 	const { listId } = useParams<IUseParams>();
-	const { removeListMutation, editListThemeMutation } = useList();
+	const { removeListMutation, editListThemeMutation, leaveListMutation } = useList();
 	const { data: listDetails } = useListDetails();
 	const { isOwner } = useSharingData(listDetails?.userId);
-	const themes = [ContextMenuItem.theme_red, ContextMenuItem.theme_green, ContextMenuItem.theme_blue, ContextMenuItem.theme_grey];
+	const themes = [ContextMenuItem.theme_red, ContextMenuItem.theme_green, ContextMenuItem.theme_blue, ContextMenuItem.theme_gray];
 	const { setTheme } = useContext(ThemeContext);
+	const { authData } = useContext(AuthContext);
 
 	const [, setIsFormVisible] = useRecoilState(formToEditListTitleVisibilityState);
 
@@ -65,7 +67,7 @@ export const ListSettings: FC = () => {
 					setTheme(AppColor.green);
 					await editListThemeMutation({ _id: listId, themeColor: AppColor.green, userId: listDetails?.userId });
 					break;
-				case ContextMenuItem.theme_grey:
+				case ContextMenuItem.theme_gray:
 					setTheme(AppColor.dark);
 					await editListThemeMutation({ _id: listId, themeColor: AppColor.grey, userId: listDetails?.userId });
 					break;
@@ -73,11 +75,25 @@ export const ListSettings: FC = () => {
 					await removeListMutation({ _id: listId });
 					onHandleSwitchToFirstListItem();
 					break;
+				case ContextMenuItem.leave_list:
+					await leaveListMutation({ _id: listId, member: authData?._id });
+					onHandleSwitchToFirstListItem();
+					break;
 				default:
 					break;
 			}
 		},
-		[listId, listDetails, editListThemeMutation, onHandleSwitchToFirstListItem, removeListMutation, setIsFormVisible, setTheme]
+		[
+			listId,
+			listDetails,
+			authData?._id,
+			leaveListMutation,
+			editListThemeMutation,
+			onHandleSwitchToFirstListItem,
+			removeListMutation,
+			setIsFormVisible,
+			setTheme,
+		]
 	);
 
 	return (
@@ -90,7 +106,7 @@ export const ListSettings: FC = () => {
 				{isOwner && (
 					<Submenu label='Zmień motyw'>
 						{themes.map(theme => (
-							<Item key={theme} data={{ elementId: theme }} onClick={handleItemClick}>
+							<Item className='w-[50px] inline-flex' key={theme} data={{ elementId: theme }} onClick={handleItemClick}>
 								<span className={`w-[30px] h-[30px] rounded bg-${theme}`} />
 							</Item>
 						))}

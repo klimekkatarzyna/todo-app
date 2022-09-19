@@ -60,11 +60,14 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed, isMai
 	const [, setIsVisible] = useRecoilState(mobileNavVisibilityState);
 
 	return (
-		<NavLink to={redirectUrl} className={({ isActive }) => (isActive ? 'bg-activeMenuItem' : 'bg-none')}>
+		<NavLink to={redirectUrl} className={({ isActive }) => `list-link ${isActive ? 'bg-activeMenuItem' : 'bg-none'}`}>
 			<div onContextMenu={displayMenu} onClick={() => setIsVisible(false)}>
 				<div className={'flex align-center px-4 py-2 hover:bg-white text-base md:text-sm'}>
 					<div>{icon || <List className={`mr-2 stroke-${listItem?.themeColor} icon-style`} />}</div>
-					<div className={`text-${listItem?.themeColor} ml-2 break-words ${isNavClosed ? 'hidden' : 'flex'} text-base md:text-sm`}>
+					<div
+						className={`list-title text-${listItem?.themeColor} ml-2 break-words ${
+							isNavClosed ? 'hidden' : 'flex'
+						} text-base md:text-sm`}>
 						{listItem?.title}
 					</div>
 					{!!listItem?.members?.length && <Users className='ml-2 icon-style' />}

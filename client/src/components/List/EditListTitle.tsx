@@ -60,7 +60,7 @@ export const EditListTitle: FC<{ title: string; className: string }> = ({ title 
 					<div className='relative flex flex-col w-full'>
 						<input
 							autoFocus
-							className='input-styles'
+							className='input-styles edit-list-input'
 							type={InputType.text}
 							defaultValue={title}
 							{...register('title', { required: true })}
