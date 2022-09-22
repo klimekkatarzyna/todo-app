@@ -110,6 +110,6 @@ test.describe('task actions', () => {
 		await page.locator('button.remove-task').press('Enter');
 
 		await expect(page.locator('.tasks-list > div')).toBeVisible();
-		await expect(page.locator(`.tasks-list > div`)).toHaveCount(0);
+		await expect(page.locator(`.tasks-list > div:has-text("Brak zadań")`)).toBeVisible();
 	});
 });
