@@ -1,5 +1,5 @@
 import { test, chromium, expect } from '@playwright/test';
-import { goToList, shouleLoginToApp } from './global';
+import { goToList, shouldRemoveList, shouleLoginToApp } from './global';
 
 test.beforeEach(async ({ page }) => {
 	await page.goto('http://localhost:8080/login');
@@ -49,6 +49,9 @@ test.describe('list sharing', () => {
 
 		await newPage.locator('button:has-text("Logout")').click();
 		await newPage.close();
-		await page.close();
+	});
+
+	test('should remove lists', async ({ page }) => {
+		await shouldRemoveList({ page });
 	});
 });
