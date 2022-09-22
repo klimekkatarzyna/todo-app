@@ -18,9 +18,9 @@ interface IToolbar {
 export const Toolbar: FC<IToolbar> = ({ name, colorType, isDateVisible, children, isListItem }) => {
 	const date = new Date();
 	const elementRef: RefObject<HTMLInputElement> = useRef(null);
-	const { isFocused, onClick, onBlur } = useFocusingHandling(elementRef);
+	const { onClick, onBlur } = useFocusingHandling(elementRef);
 	const isFormVisible = useRecoilValue(formToEditListTitleVisibilityState);
-	const shouldFormBeVisible = (isFocused && isListItem) || (isFormVisible && isListItem);
+	const shouldFormBeVisible = isFormVisible && isListItem;
 
 	const [, setIsVisible] = useRecoilState(mobileNavVisibilityState);
 
