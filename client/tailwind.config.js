@@ -22,6 +22,9 @@ module.exports = {
 				hoverColor: '#efefef',
 				activeMenuItem: '#d8eefe',
 			},
+			screens: {
+				print: { raw: 'print' },
+			},
 		},
 	},
 	plugins: [require('@tailwindcss/forms')],

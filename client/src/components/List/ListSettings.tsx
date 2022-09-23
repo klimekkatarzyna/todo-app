@@ -79,6 +79,9 @@ export const ListSettings: FC = () => {
 					await leaveListMutation({ _id: listId, member: authData?._id });
 					onHandleSwitchToFirstListItem();
 					break;
+				case ContextMenuItem.print_list:
+					await window.print();
+					break;
 				default:
 					break;
 			}
@@ -97,7 +100,7 @@ export const ListSettings: FC = () => {
 	);
 
 	return (
-		<button className='ml-2 p-2 hover:bg-lightGrey'>
+		<button className='ml-2 p-2 hover:bg-lightGrey print:hidden'>
 			<p onClick={handleContextMenu}>. . .</p>
 			<Menu id={MENU_ID}>
 				<Item className='list-settings-edit' data={{ elementId: ContextMenuItem.change_title }} onClick={handleItemClick}>

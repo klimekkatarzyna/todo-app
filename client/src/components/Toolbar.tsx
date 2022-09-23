@@ -27,7 +27,7 @@ export const Toolbar: FC<IToolbar> = ({ name, colorType, isDateVisible, children
 	return (
 		<>
 			<div className='mt-2 block md:hidden'>
-				<button className='text-base font-semibold mb-4' onClick={() => setIsVisible(true)}>
+				<button className='text-base font-semibold mb-4 print:hidden' onClick={() => setIsVisible(true)}>
 					{'< Listy'}
 				</button>
 			</div>

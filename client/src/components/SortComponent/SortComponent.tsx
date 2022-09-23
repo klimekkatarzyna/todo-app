@@ -30,7 +30,7 @@ export const SortComponent: FC = () => {
 	);
 
 	return (
-		<div className='w-full h-full flex'>
+		<div className='w-full h-full flex print:hidden'>
 			<div className='ml-2 p-2 flex items-center hover:bg-lightGrey absolute right-0 top-10 md:top-2'>
 				<button onClick={handleContextMenu}>
 					<div className='flex'>

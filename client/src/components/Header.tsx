@@ -25,7 +25,7 @@ export const Header: FC<{ userName: string }> = ({ userName }) => {
 	return (
 		<>
 			{!isSharingView && (
-				<header className='flex justify-between items-center pl-4 pr-4 bg-blue h-12'>
+				<header className='flex justify-between items-center pl-4 pr-4 bg-blue h-12 print:hidden'>
 					<Link to={buildUrl(ROUTE.home)} className='no-underline font-semibold text-white'>
 						{'To Do'}
 					</Link>

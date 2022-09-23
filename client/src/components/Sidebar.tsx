@@ -18,7 +18,7 @@ export const Sidebar: FC = () => {
 
 	return (
 		<aside
-			className={`flex bg-white flex-col pt-4 pb-14 px-0 ${isMobileNavVisible ? 'block' : 'hidden md:block'} ${
+			className={`flex print:hidden bg-white flex-col pt-4 pb-14 px-0 ${isMobileNavVisible ? 'block' : 'hidden md:block'} ${
 				isNavClosed ? 'w-14' : 'w-full md:w-72'
 			} transition-width duration-200 ease-in absolute z-10 left-0 bottom-0 top-0 md:relative md:max-h-[95vh]`}>
 			<button className='border-none bg-inherit text-center p-2 ml-2 hidden md:block' onClick={handleClick}>

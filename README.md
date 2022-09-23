@@ -15,8 +15,8 @@ https://todo.houseof.software/login
 - Sharing types between frontend and backend
 - Real-time data update
 - Strong typing
-- Try React Query and Recoill
-- Try TailwindCss
+- React Query and Recoill
+- TailwindCss
 - Offline mode
 - Playwright and Jest
 - Storybook
@@ -46,7 +46,7 @@ v16.0.0
 - [x] Task status (IN PROGRESS / DONE)
 - [x] Global searching
 - [ ] Task sorting
-- [ ] Task printing
+- [x] Task printing
 - [ ] Task reminder
 - [ ] Planned task
 - [ ] Remember / reset password

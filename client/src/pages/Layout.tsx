@@ -7,6 +7,7 @@ import { useSocketEvents } from '../hooks/useSocketEvents';
 
 export const Layout = () => {
 	const { authData } = useContext<AuthContextType>(AuthContext);
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const socketEvents = useSocketEvents();
 
 	return (
