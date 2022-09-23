@@ -11,7 +11,7 @@ import { useRecoilState } from 'recoil';
 import { formToEditListTitleVisibilityState } from '../../atoms';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Loader } from 'react-feather';
+import { Loader, Plus } from 'react-feather';
 
 export const EditListTitle: FC<{ title: string; className: string }> = ({ title }) => {
 	const query = useQueryClient();
@@ -56,7 +56,10 @@ export const EditListTitle: FC<{ title: string; className: string }> = ({ title 
 		<div className='relative'>
 			<div className='flex items-center rounded py-0 cursor-pointer w-full relative'>
 				<form className='w-full mt-2 flex' onSubmit={handleSubmit(onSubmit)}>
-					{isLoading && <Loader />}
+					<button type='submit' className='bg-inherit border-none mr-2 edit-title-button'>
+						<Plus className='icon-style' />
+						{isLoading && <Loader />}
+					</button>
 					<div className='relative flex flex-col w-full'>
 						<input
 							autoFocus

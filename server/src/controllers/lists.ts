@@ -96,6 +96,7 @@ export const getList = async (req: Request, res: Response) => {
 export const removeList = async (req: Request, res: Response) => {
 	try {
 		const list = await List.deleteOne({ _id: req.body._id });
+		await Task.deleteMany({ parentFolderId: req.body._id });
 
 		if (!list) {
 			res.status(404).json({ message: 'List not found' });

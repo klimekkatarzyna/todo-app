@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { goToList, shouleLoginToApp } from './global';
+import { goToList, shouldRemoveList, shouleLoginToApp } from './global';
 
 const taskName = 'Zadanie 1';
 const taskCheckboxLocator = '.tasks-list > div > div > div > div:nth-child(2) > label > input';
@@ -110,6 +110,10 @@ test.describe('task actions', () => {
 		await page.locator('button.remove-task').press('Enter');
 
 		await expect(page.locator('.tasks-list > div')).toBeVisible();
-		await expect(page.locator(`.tasks-list > div`)).toHaveCount(0);
+		await expect(page.locator(`.tasks-list > div:has-text("Brak zadań")`)).toBeVisible();
+	});
+
+	test('should remove lists', async ({ page }) => {
+		await shouldRemoveList({ page });
 	});
 });

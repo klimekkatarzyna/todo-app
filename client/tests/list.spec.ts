@@ -28,21 +28,22 @@ test.describe('list actions', () => {
 		await expect(page.locator('#list-items')).toHaveText('Lista 1Lista 2');
 		await expect(page.locator('#list-items > a')).toHaveCount(2);
 		await page.locator('#list-items div:has-text("Lista 1") >> nth=1').click();
+
 		await page.locator('button:has-text(". . .")').click();
 		await page.locator('.list-settings-edit').press('Enter');
 
 		await expect(page.locator('.edit-list-input')).toBeVisible();
-
-		await page.locator('.edit-list-input').fill('Nowa nazwa');
+		await page.locator('input[name="title"]').nth(2).dblclick();
+		await page.locator('input[name="title"]').nth(2).fill('Nowa lista');
 		await page.locator('.edit-list-input').press('Enter');
 
-		await expect(page.locator('#list-items')).toHaveText('Nowa nazwaLista 2');
+		await expect(page.locator('#list-items')).toHaveText('Nowa listaLista 2');
 		await expect(page.locator('#list-items > a')).toHaveCount(2);
 	});
 
 	test('should remove lists', async ({ page }) => {
 		// remove first list
-		await page.locator('#list-items div:has-text("Nowa nazwa") >> nth=1').click();
+		await page.locator('#list-items div:has-text("Nowa lista") >> nth=1').click();
 		await page.locator('button:has-text(". . .")').click();
 		await page.locator('.list-settings-remove').press('Enter');
 
