@@ -39,6 +39,7 @@ export const CreateTask: FC<{ listTheme: AppColor | undefined }> = ({ listTheme 
 				themeColor: listTheme,
 				createdBy: authData?._id,
 				members: membersArray as string[],
+				sortType: 'title',
 			});
 			e?.target.reset();
 		},

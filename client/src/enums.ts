@@ -53,22 +53,6 @@ export enum SideMenu {
 	search = 'search',
 }
 
-export enum SortType {
-	draggedItem = 0,
-	createdAt = 'createdAt',
-	alphabetically = 2,
-	deadline = 3,
-	importance = 4,
-	addedToDayly = 5,
-}
-
-export enum SortTaskType {
-	createdAt = 'Data utworzenia',
-	title = 'Alfabetycznie',
-	importance = 'Ważność',
-	deadline = 'Data wykonania',
-}
-
 export enum QueryKey {
 	checkSession = 'checkSession',
 	getListById = 'getListById',

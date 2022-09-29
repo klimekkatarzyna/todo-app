@@ -45,7 +45,7 @@ v16.0.0
 - [x] Task importance
 - [x] Task status (IN PROGRESS / DONE)
 - [x] Global searching
-- [ ] Task sorting
+- [x] Task sorting
 - [x] Task printing
 - [ ] Task reminder
 - [ ] Planned task

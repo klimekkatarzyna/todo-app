@@ -1,41 +1,40 @@
-import { useCallback, useMemo, useState } from 'react';
-import { QueryKey, SortTaskType } from '../enums';
+import { useCallback, useMemo } from 'react';
+import { QueryKey } from '../enums';
 import { useParams } from 'react-router-dom';
 import { IUseParams } from '../interfaces/app';
 import { useQuery } from 'react-query';
 import { getTasksOfCurrentListAction } from '../api/tasks';
-import { ITask, ITaskStatus } from '@kkrawczyk/todo-common';
-
-interface SortType {
-	key: SortTaskType;
-	keyType: KeyType;
-}
-
-export type KeyType = 'string' | 'date';
+import { ITask, ITaskStatus, SortTaskString } from '@kkrawczyk/todo-common';
 
 export const useTasks = () => {
 	const { listId } = useParams<IUseParams>();
-	// const { sorter } = useSort<ITask>();
 
-	const { data: tasksOfCurrentList, isLoading } = useQuery<ITask[] | undefined>(
+	const {
+		data: tasksOfCurrentList,
+		isLoading,
+		refetch,
+	} = useQuery<ITask[] | undefined>(
 		[QueryKey.tasksOfCurrentList, listId],
-		() => getTasksOfCurrentListAction({ parentFolderId: listId }),
-		{ enabled: !!listId }
+		() => getTasksOfCurrentListAction({ parentFolderId: listId, sortType: sessionStorage.getItem('taskSortedType') as SortTaskString }),
+		{
+			enabled: !!listId,
+		}
 	);
 
-	const [, setSort] = useState<SortType>({ key: SortTaskType.title, keyType: 'string' });
-
-	const requestSort = useCallback((data: SortTaskType, type: KeyType) => {
-		setSort(state => ({ ...state, key: data, keyType: type }));
-	}, []);
+	const requestSort = useCallback(
+		async (data: SortTaskString) => {
+			sessionStorage.setItem('taskSortedType', data);
+			await refetch();
+		},
+		[refetch]
+	);
 
 	const unCompletedTasks = useMemo(
-		() => (tasksOfCurrentList || []).filter(task => task.taskStatus === ITaskStatus.unComplete),
+		() => (tasksOfCurrentList || [])?.filter(task => task.taskStatus === ITaskStatus.unComplete),
 		[tasksOfCurrentList]
 	);
-	const completedTasks = useMemo(() => (tasksOfCurrentList || []).filter(task => task.taskStatus === ITaskStatus.complete), [tasksOfCurrentList]);
 
-	// const sortedTasks = useMemo(() => [...(tasksOfCurrentList || []).sort(sorter[sort.keyType](sort.key))], [tasksOfCurrentList, sort, sorter]);
+	const completedTasks = useMemo(() => (tasksOfCurrentList || []).filter(task => task.taskStatus === ITaskStatus.complete), [tasksOfCurrentList]);
 
 	return {
 		requestSort,

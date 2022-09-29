@@ -46,7 +46,7 @@ export const createTask = async (req: Request, res: Response) => {
 };
 
 export const getTasks = async (req: Request, res: Response) => {
-	const tasks = await Task.find({ parentFolderId: req.params.parentFolderId }).sort({ title: 1 });
+	const tasks = await Task.find({ parentFolderId: req.params.parentFolderId }).sort(req.query.sortType);
 
 	try {
 		res.status(200).json({
