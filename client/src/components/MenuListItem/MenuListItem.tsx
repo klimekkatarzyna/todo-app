@@ -1,7 +1,7 @@
-import { FC, useMemo, memo, useContext } from 'react';
-import { NavLink } from 'react-router-dom';
+import { FC, useMemo, memo, useContext, useEffect } from 'react';
+import { NavLink, useParams } from 'react-router-dom';
 import { contextualMenuSecountOpion, contextualMenuSecountOpionMembers } from '../../constants';
-import { IGroup, IList, ITask } from '@kkrawczyk/todo-common';
+import { IGroup, IList, ITask, SortTaskString } from '@kkrawczyk/todo-common';
 import { ROUTE, QueryKey, ContextMenuOpion } from '../../enums';
 import { ContextMenuComponent } from '../ContextMenu/ContextMenuComponent';
 import { useSharingData } from '../../hooks/useSharingData';
@@ -16,6 +16,7 @@ import toast from 'react-hot-toast';
 import { useGenerateMenuIcon } from '../../hooks/useGenerateMenuIcon';
 import { useRecoilState } from 'recoil';
 import { mobileNavVisibilityState } from '../../atoms';
+import { IUseParams } from '../../interfaces/app';
 
 interface IMenuListItem {
 	listItem: IList | undefined;
@@ -29,10 +30,15 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed, isMai
 	const { displayMenu } = useShowMenuContexify(listItem?._id, isMainMenu);
 	const { icon } = useGenerateMenuIcon(listItem);
 	const { isOwner } = useSharingData(listItem?.userId);
+	const { listId } = useParams<IUseParams>();
+
+	useEffect(() => {
+		sessionStorage.setItem('taskSortedType', 'title');
+	}, [listId]);
 
 	const { data } = useQuery<ITask[] | undefined>(
 		[QueryKey.tasksOfCurrentList, listItem?._id],
-		() => getTasksOfCurrentListAction({ parentFolderId: listItem?._id }),
+		() => getTasksOfCurrentListAction({ parentFolderId: listItem?._id, sortType: sessionStorage.getItem('taskSortedType') as SortTaskString }),
 		{ enabled: !!listItem?._id }
 	);
 

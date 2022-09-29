@@ -1,18 +1,17 @@
 import { FC, useCallback } from 'react';
-import { ModalType, SortTaskType } from '../../enums';
+import { ModalType } from '../../enums';
 import { Menu, Item, Submenu, useContextMenu } from 'react-contexify';
 import { ArrowDown, ArrowUp, UserPlus } from 'react-feather';
-import { KeyType, useTasks } from '../../hooks/useTasks';
 import { useListDetails } from '../../hooks/useListDetails';
 import { useSharingData } from '../../hooks/useSharingData';
 import { useModal } from '../../hooks/useModal';
 import { SharingOptions } from '../SharingOptions/SharingOptions';
 import { RegularModal } from '../Modal/RegularModal';
+import { SortTaskString, SortTaskType } from '@kkrawczyk/todo-common';
 
 const MENU_ID = 'sotring';
 
-export const SortComponent: FC = () => {
-	const { requestSort } = useTasks();
+export const SortComponent: FC<{ sortFunction: (data: SortTaskString) => void }> = ({ sortFunction }) => {
 	const { data: listDetails } = useListDetails();
 	const { isOwner } = useSharingData(listDetails?.userId);
 	const { modalType, showModal } = useModal();
@@ -30,7 +29,7 @@ export const SortComponent: FC = () => {
 	);
 
 	return (
-		<div className='w-full h-full flex'>
+		<div className='w-full h-full flex print:hidden'>
 			<div className='ml-2 p-2 flex items-center hover:bg-lightGrey absolute right-0 top-10 md:top-2'>
 				<button onClick={handleContextMenu}>
 					<div className='flex'>
@@ -44,16 +43,12 @@ export const SortComponent: FC = () => {
 						<UserPlus className='icon-style text-grey' />
 					</button>
 				)}
+
 				<Menu id={MENU_ID}>
 					<Submenu label='sortuj według'>
 						{Object?.entries(SortTaskType)?.map(([key, value]) => {
-							const sortType =
-								(key === 'createdAt' && 'date') ||
-								(key === 'deadline' && 'date') ||
-								(key === 'title' && 'string') ||
-								(key === 'importance' && 'string');
 							return (
-								<Item key={key} data={{ elementId: key }} onClick={() => requestSort(key as SortTaskType, sortType as KeyType)}>
+								<Item key={key} data={{ elementId: key }} onClick={() => sortFunction(key as SortTaskString)}>
 									{value}
 								</Item>
 							);

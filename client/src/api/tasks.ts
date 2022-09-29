@@ -1,16 +1,15 @@
-import { SortType } from '../enums';
 import { http } from '../utils/http';
 import * as api from '../services';
 import { ITask, Importance, ITaskStatus } from '@kkrawczyk/todo-common';
 
-export const createTaskAction = async ({ title, parentFolderId, importance, themeColor, createdBy, members }: ITask) =>
+export const createTaskAction = async ({ title, parentFolderId, importance, themeColor, createdBy, members, sortType }: ITask) =>
 	await http<ITask>(api.createTask, 'POST', {
 		title,
 		importance: importance || Importance.normal,
 		parentFolderId,
 		themeColor: themeColor,
 		taskStatus: ITaskStatus.unComplete,
-		sortType: SortType.createdAt,
+		sortType,
 		isMyDay: false,
 		createdBy,
 		members,
@@ -19,8 +18,8 @@ export const createTaskAction = async ({ title, parentFolderId, importance, them
 export const editTaskAction = async ({ _id, title, parentFolderId }: ITask) =>
 	await http<ITask>(`${api.editTask}`, 'PUT', { _id, title, parentFolderId });
 
-export const getTasksOfCurrentListAction = async ({ parentFolderId }: ITask) => {
-	const response = await http<ITask[]>(`${api.getTasks}/${parentFolderId}`, 'GET');
+export const getTasksOfCurrentListAction = async ({ parentFolderId, sortType }: ITask) => {
+	const response = await http<ITask[]>(`${api.getTasks}/${parentFolderId}?sortType=${sortType}`, 'GET');
 	return response.data;
 };
 
