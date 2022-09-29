@@ -35,7 +35,7 @@ export const BrowserRouter: FC = () => {
 						</PrivateRoute>
 					}></Route>
 				<Route
-					path={`${ROUTE.myDay}/:listId/:taskId`}
+					path={ROUTE.myDayTaskDetails}
 					element={
 						<PrivateRoute>
 							<MyDay />
@@ -49,7 +49,7 @@ export const BrowserRouter: FC = () => {
 						</PrivateRoute>
 					}></Route>
 				<Route
-					path={`${ROUTE.important}/:listId/:taskId`}
+					path={ROUTE.importantTaskDetails}
 					element={
 						<PrivateRoute>
 							<Important />
@@ -70,7 +70,7 @@ export const BrowserRouter: FC = () => {
 						</PrivateRoute>
 					}></Route>
 				<Route
-					path={`${ROUTE.assigned}/:listId/:taskId`}
+					path={ROUTE.assignedTaskDetails}
 					element={
 						<PrivateRoute>
 							<Assigned />
@@ -112,7 +112,7 @@ export const BrowserRouter: FC = () => {
 						</PrivateRoute>
 					}></Route>
 				<Route
-					path={`${ROUTE.search}/:listId/:taskId`}
+					path={ROUTE.searchTaskDetails}
 					element={
 						<PrivateRoute>
 							<Searching />

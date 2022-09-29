@@ -1,5 +1,5 @@
 import { ITask } from '@kkrawczyk/todo-common';
-import { useCallback, useContext, useState } from 'react';
+import { useCallback, useContext } from 'react';
 import toast from 'react-hot-toast';
 import { useMutation, useQueryClient } from 'react-query';
 import { taskInMyDayAction } from '../../api/tasks';
@@ -9,7 +9,6 @@ import { HttpResponse } from '../../utils/http';
 
 export const useTasksInMyDay = () => {
 	const query = useQueryClient();
-	const [isMyDayTask, setIsMyDayTask] = useState<boolean>(false);
 	const { authData } = useContext<AuthContextType>(AuthContext);
 
 	const taskInMyDay = useCallback(
@@ -33,13 +32,11 @@ export const useTasksInMyDay = () => {
 				task?._id === response.data?._id ? { ...task, isMyDay: response.data?.isMyDay } : task
 			);
 			toast.success(response.data?.isMyDay ? 'Zadanie dodane do "Mój dzień' : 'Zadanie usunięte z widoku "Mój dzień"');
-			setIsMyDayTask(!isMyDayTask);
 		},
 	});
 
 	return {
 		taskInMyDayMutation,
 		taskInMyDayLoading,
-		isMyDayTask,
 	};
 };

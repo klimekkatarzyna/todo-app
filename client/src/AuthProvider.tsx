@@ -13,15 +13,12 @@ export interface AuthContextType {
 	isCheckSessionLoading: boolean;
 	authData: IUserData | undefined;
 	setAuthData: React.Dispatch<React.SetStateAction<IUserData | undefined>>;
-	sessionChecked: boolean;
-	setSessionChecked: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export const AuthProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
 	const [authData, setAuthData] = useState<IUserData | undefined>(undefined);
-	const [sessionChecked, setSessionChecked] = useState<boolean>(false);
 	const navigate = useNavigate();
 	const location = useLocation();
 
@@ -44,7 +41,6 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({ children }) =>
 				onError: (error: any): any => {
 					if (error?.error === 401) {
 						setAuthData(undefined);
-						setSessionChecked(false);
 						navigate(buildUrl(ROUTE.login), { replace: true });
 					}
 					if (error?.error === 401) return;
@@ -55,7 +51,6 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({ children }) =>
 				onError: (error: any): any => {
 					if (error?.error === 401) {
 						setAuthData(undefined);
-						setSessionChecked(false);
 						navigate(buildUrl(ROUTE.login), { replace: true });
 					}
 					if (error?.error === 401) return;
@@ -69,24 +64,20 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({ children }) =>
 		if (data) {
 			navigate(location.pathname, { replace: true });
 			setAuthData(data.data?.user);
-			setSessionChecked(true);
 		} else {
 			setAuthData(undefined);
-			setSessionChecked(false);
 			navigate(location.pathname, { replace: true });
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [data, sessionChecked]);
+	}, [data]);
 
 	const value = useMemo(() => {
 		return {
 			isCheckSessionLoading,
 			authData,
 			setAuthData,
-			sessionChecked,
-			setSessionChecked,
 		};
-	}, [isCheckSessionLoading, authData, setAuthData, sessionChecked, setSessionChecked]);
+	}, [isCheckSessionLoading, authData, setAuthData]);
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

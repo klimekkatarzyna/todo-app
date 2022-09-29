@@ -29,8 +29,8 @@ export const useTasks = () => {
 		[refetch]
 	);
 
-	const unCompletedTasks = useMemo(
-		() => (tasksOfCurrentList || [])?.filter(task => task.taskStatus === ITaskStatus.unComplete),
+	const inCompletedTasks = useMemo(
+		() => (tasksOfCurrentList || [])?.filter(task => task.taskStatus === ITaskStatus.inComplete),
 		[tasksOfCurrentList]
 	);
 
@@ -40,7 +40,7 @@ export const useTasks = () => {
 		requestSort,
 		listId,
 		isLoading,
-		unCompletedTasks,
+		inCompletedTasks,
 		completedTasks,
 	};
 };

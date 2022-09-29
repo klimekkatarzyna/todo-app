@@ -35,7 +35,7 @@ const TaskDetailsComponent: FC<ITaskDetailsProps> = ({ taskData, isTaskDetailsVi
 	}, [taskData, setIsImportanceButtonChecked]);
 
 	const onHandleChange = useCallback(async () => {
-		const taskStatus = taskData?.taskStatus === ITaskStatus.unComplete ? ITaskStatus.complete : ITaskStatus.unComplete;
+		const taskStatus = taskData?.taskStatus === ITaskStatus.inComplete ? ITaskStatus.complete : ITaskStatus.inComplete;
 		await changeTaskStatusMutation({ _id: taskData?._id, parentFolderId: taskData?.parentFolderId, taskStatus });
 	}, [taskData, changeTaskStatusMutation]);
 
