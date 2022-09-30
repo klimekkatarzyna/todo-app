@@ -13,8 +13,10 @@ import { EyeOff, Eye } from 'react-feather';
 import toast from 'react-hot-toast';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useTranslation } from 'react-i18next';
 
 export const Login: FC = () => {
+	const { t } = useTranslation();
 	const navigate = useNavigate();
 	const {
 		register,
@@ -54,11 +56,11 @@ export const Login: FC = () => {
 	return (
 		<div className='bg-light-grey w-full flex items-center justify-center'>
 			<div className='flex items-center flex-col p-8'>
-				<h2 className='text-fontColor mt-6 text-center text-3xl font-extrabold mb-2'>Zaloguj się do TODO app</h2>
+				<h2 className='text-fontColor mt-6 text-center text-3xl font-extrabold mb-2'>{t('login-title')}</h2>
 				<p className='mt-2 text-center text-sm text-gray-600 mb-4'>
-					Nie masz masz konta?{' '}
+					{t('login-subtitle')}{' '}
 					<Link className='text-blue go-to-register' to={buildUrl(ROUTE.register)}>
-						Rejestruj się
+						{t('login-link')}
 					</Link>
 				</p>
 
@@ -66,7 +68,7 @@ export const Login: FC = () => {
 
 				<form className='w-full mt-2' onSubmit={handleSubmit(onSubmit)}>
 					<div className='relative flex flex-col'>
-						<label htmlFor='email'>Email</label>
+						<label htmlFor='email'>{t('email')}</label>
 						<input
 							autoFocus
 							className='input-styles'
@@ -78,7 +80,7 @@ export const Login: FC = () => {
 					</div>
 
 					<div className='relative flex mt-2 flex-col'>
-						<label htmlFor='password'>Hasło</label>
+						<label htmlFor='password'>{t('password')}</label>
 						<input
 							className='input-styles'
 							type={showPassword ? InputType.text : InputType.password}
@@ -94,7 +96,7 @@ export const Login: FC = () => {
 					</div>
 
 					<Button type='submit' isLoading={isLoading} className='w-full mt-6 button-primary'>
-						<span>Zaloguj</span>
+						<span>{t('login')}</span>
 					</Button>
 				</form>
 			</div>
