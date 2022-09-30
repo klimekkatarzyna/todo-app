@@ -8,15 +8,17 @@ import { Loader } from 'react-feather';
 import { ROUTE, QueryKey } from '../enums';
 import { buildUrl } from '../utils/paths';
 import { TasksList } from '../components/Tasks/TasksList';
+import { useTranslation } from 'react-i18next';
 
 export const Important: FC = () => {
+	const { t } = useTranslation();
 	const { data, isLoading } = useQuery<ITask[] | undefined>([QueryKey.getImportanceTasks], onGetImportanceTasksAction);
 
 	const filteredTasks = useMemo(() => data?.filter(task => task.importance === Importance.high), [data]);
 
 	return (
 		<Board>
-			<Toolbar name={'Wazne'} colorType={AppColor.blue} />
+			<Toolbar name={t('important-title')} colorType={AppColor.blue} />
 			{isLoading ? (
 				<Loader className='animate-spin m-auto' />
 			) : (

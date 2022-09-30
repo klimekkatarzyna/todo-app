@@ -4,6 +4,18 @@
 	"login-link": "Zarejestruj się",
 	"email": "Email",
 	"password": "Hasło",
-	"login": "Zaloguj",
+	"login": "Zaloguj się",
+
+	"register-title": "Utwórz konto w TODO app",
+	"have-account": "Masz konto?",
+	"username": "Nazwa użytkownika",
+
+	"assigned-title": "Przypisane do mnie",
+	"important-title": "Ważne",
+	"tasks-title": "Zadania",
+	"page-not-found": "You took a wrong turn, mate...",
+	"planned-title": "Zaplanowane",
+	"redirect-info": "Trwa przekierowanie do widoku logowania...",
+
 	"my-day": "Mój dzień"
 }
