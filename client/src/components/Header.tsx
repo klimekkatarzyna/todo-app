@@ -8,8 +8,10 @@ import { useMutation } from 'react-query';
 import { ROUTE } from '../enums';
 import { SearchInput } from './SearchInput';
 import { buildUrl } from '../utils/paths';
+import { useTranslation } from 'react-i18next';
 
 export const Header: FC<{ userName: string }> = ({ userName }) => {
+	const { t } = useTranslation();
 	const name = useMemo(() => getFirstLetters(userName), [userName]);
 	const navigate = useNavigate();
 	const { setAuthData } = useContext<AuthContextType>(AuthContext);
@@ -35,7 +37,7 @@ export const Header: FC<{ userName: string }> = ({ userName }) => {
 							{name}
 						</div>
 						<Button className='button-outlineWhite' onClick={() => mutate()} isLoading={isLoading}>
-							Logout
+							{t('logout')}
 						</Button>
 					</div>
 				</header>

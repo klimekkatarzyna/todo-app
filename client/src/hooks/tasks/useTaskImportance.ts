@@ -6,8 +6,10 @@ import { changeTaskImportanceAction } from '../../api/tasks';
 import { AuthContext, AuthContextType } from '../../AuthProvider';
 import { QueryKey } from '../../enums';
 import { HttpResponse } from '../../utils/http';
+import { useTranslation } from 'react-i18next';
 
 export const useTaskImportance = () => {
+	const { t } = useTranslation();
 	const query = useQueryClient();
 	const { authData } = useContext<AuthContextType>(AuthContext);
 
@@ -31,7 +33,7 @@ export const useTaskImportance = () => {
 				taskImporgance(tasks, response)
 			);
 			query.setQueryData<ITask[] | undefined>([QueryKey.tasksList], (tasks: ITask[] | undefined) => taskImporgance(tasks, response));
-			toast.success('Ważność zadanie zmieniona');
+			toast.success(t('task-importance-changed'));
 		},
 	});
 

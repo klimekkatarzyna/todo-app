@@ -8,10 +8,12 @@ import { useModal } from '../../hooks/useModal';
 import { SharingOptions } from '../SharingOptions/SharingOptions';
 import { RegularModal } from '../Modal/RegularModal';
 import { SortTaskString, SortTaskType } from '@kkrawczyk/todo-common';
+import { useTranslation } from 'react-i18next';
 
 const MENU_ID = 'sotring';
 
 export const SortComponent: FC<{ sortFunction: (data: SortTaskString) => void }> = ({ sortFunction }) => {
+	const { t } = useTranslation();
 	const { data: listDetails } = useListDetails();
 	const { isOwner } = useSharingData(listDetails?.userId);
 	const { modalType, showModal } = useModal();
@@ -36,7 +38,7 @@ export const SortComponent: FC<{ sortFunction: (data: SortTaskString) => void }>
 						<ArrowUp className='icon-style text-grey' />
 						<ArrowDown className='icon-style text-grey' />
 					</div>
-					Sortuj
+					{t('sort')}
 				</button>
 				{isOwner && (
 					<button className='m-2 ml-4' id='share-list-icon' onClick={() => showModal({ modal: ModalType.sharing })}>
@@ -45,7 +47,7 @@ export const SortComponent: FC<{ sortFunction: (data: SortTaskString) => void }>
 				)}
 
 				<Menu id={MENU_ID}>
-					<Submenu label='sortuj według'>
+					<Submenu label={t('sort-by')}>
 						{Object?.entries(SortTaskType)?.map(([key, value]) => {
 							return (
 								<Item key={key} data={{ elementId: key }} onClick={() => sortFunction(key as SortTaskString)}>
@@ -56,7 +58,7 @@ export const SortComponent: FC<{ sortFunction: (data: SortTaskString) => void }>
 					</Submenu>
 				</Menu>
 				{modalType === ModalType.sharing && (
-					<RegularModal title='Udostępnij listę'>
+					<RegularModal title={t('share-list-modal-title')}>
 						<SharingOptions />
 					</RegularModal>
 				)}

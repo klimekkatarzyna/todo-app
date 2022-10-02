@@ -6,8 +6,10 @@ import { changeTaskStatusAction } from '../../api/tasks';
 import { AuthContext, AuthContextType } from '../../AuthProvider';
 import { QueryKey } from '../../enums';
 import { HttpResponse } from '../../utils/http';
+import { useTranslation } from 'react-i18next';
 
 export const useTasksStatus = () => {
+	const { t } = useTranslation();
 	const query = useQueryClient();
 	const { authData } = useContext<AuthContextType>(AuthContext);
 
@@ -25,7 +27,7 @@ export const useTasksStatus = () => {
 				taskStatus(tasks, response)
 			);
 			query.setQueryData<ITask[] | undefined>([QueryKey.tasksList], (tasks: ITask[] | undefined) => taskStatus(tasks, response));
-			toast.success('Status zadania zmieniony');
+			toast.success(t('task-status-changed'));
 		},
 	});
 

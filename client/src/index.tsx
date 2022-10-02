@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import App from './App';
 import './index.css';
 import { BrowserRouter } from 'react-router-dom';
+import './i18n';
 
 // because of bug in react-scripts
 (window as any).process = {};

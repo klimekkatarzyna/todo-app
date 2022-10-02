@@ -74,7 +74,7 @@ test.describe('task actions', () => {
 		expect(await page.locator(taskCheckboxLocator).isChecked()).toBeTruthy();
 	});
 
-	test('should change task status to uncompleted', async ({ page }) => {
+	test('should change task status to incompleted', async ({ page }) => {
 		await goToList({ page });
 
 		await checkAndClickAccordion({ page });

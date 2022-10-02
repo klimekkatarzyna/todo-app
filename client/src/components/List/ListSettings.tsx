@@ -1,4 +1,5 @@
 import { AppColor } from '@kkrawczyk/todo-common';
+import { useTranslation } from 'react-i18next';
 import { FC, useCallback, useContext } from 'react';
 import { Menu, Item, Separator, Submenu, useContextMenu } from 'react-contexify';
 import 'react-contexify/dist/ReactContexify.css';
@@ -27,6 +28,7 @@ enum ContextMenuItem {
 }
 
 export const ListSettings: FC = () => {
+	const { t } = useTranslation();
 	const { show } = useContextMenu({
 		id: MENU_ID,
 	});
@@ -104,10 +106,10 @@ export const ListSettings: FC = () => {
 			<p onClick={handleContextMenu}>. . .</p>
 			<Menu id={MENU_ID}>
 				<Item className='list-settings-edit' data={{ elementId: ContextMenuItem.change_title }} onClick={handleItemClick}>
-					Zmień nazwę
+					{t('edit-list-title')}
 				</Item>
 				{isOwner && (
-					<Submenu label='Zmień motyw'>
+					<Submenu label={t('edit-theme')}>
 						{themes.map(theme => (
 							<Item className='w-[50px] inline-flex' key={theme} data={{ elementId: theme }} onClick={handleItemClick}>
 								<span className={`w-[30px] h-[30px] rounded bg-${theme}`} />
@@ -116,16 +118,16 @@ export const ListSettings: FC = () => {
 					</Submenu>
 				)}
 				<Item data={{ elementId: ContextMenuItem.print_list }} onClick={handleItemClick}>
-					Drukuj listę
+					{t('print-list')}
 				</Item>
 				<Separator />
 				{isOwner ? (
 					<Item className='list-settings-remove' data={{ elementId: ContextMenuItem.remove_list }} onClick={handleItemClick}>
-						Usuń listę
+						{t('remove-list')}
 					</Item>
 				) : (
 					<Item data={{ elementId: ContextMenuItem.leave_list }} onClick={handleItemClick}>
-						Opuść listę
+						{t('leave-list')}
 					</Item>
 				)}
 			</Menu>

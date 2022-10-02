@@ -4,11 +4,11 @@ import { ITask } from '@kkrawczyk/todo-common';
 import { useTasksInMyDay } from '../../../hooks/tasks/useTasksInMyDay';
 
 export const AddTaskToMyDay: FC<{ taskData: ITask | undefined }> = ({ taskData }) => {
-	const { isMyDayTask, taskInMyDayLoading, taskInMyDayMutation } = useTasksInMyDay();
+	const { taskInMyDayLoading, taskInMyDayMutation } = useTasksInMyDay();
 
 	const onHandleTaskInMyDay = useCallback(
-		() => taskInMyDayMutation({ _id: taskData?._id, isMyDay: isMyDayTask, parentFolderId: taskData?.parentFolderId }),
-		[taskData, isMyDayTask, taskInMyDayMutation]
+		() => taskInMyDayMutation({ _id: taskData?._id, isMyDay: !taskData?.isMyDay, parentFolderId: taskData?.parentFolderId }),
+		[taskData, taskInMyDayMutation]
 	);
 
 	return (

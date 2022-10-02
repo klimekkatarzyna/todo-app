@@ -11,8 +11,10 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router-dom';
 import { buildUrl } from '../../../utils/paths';
+import { useTranslation } from 'react-i18next';
 
 export const CreateList: FC = () => {
+	const { t } = useTranslation();
 	const query = useQueryClient();
 	const navigate = useNavigate();
 	const {
@@ -26,18 +28,18 @@ export const CreateList: FC = () => {
 	const { mutateAsync, isLoading } = useMutation(createListAction, {
 		onSuccess: async response => {
 			query.setQueryData<IList[] | undefined>([QueryKey.lists], lists => [...(lists || []), response.data || {}]);
-			toast.success('Lista dodana');
+			toast.success(t('create-list-success'));
 			navigate(buildUrl(ROUTE.listsDetails, { listId: response?.data?._id || '' }));
 		},
 	});
 
 	const onSubmit: SubmitHandler<IList> = useCallback(
 		async (data, e) => {
-			const title = isStringContainsOnlyWhitespace(data.title) ? 'Lista bez tytułu' : data.title;
+			const title = isStringContainsOnlyWhitespace(data.title) ? t('deault-title-list') : data.title;
 			await mutateAsync({ title });
 			e?.target.reset();
 		},
-		[mutateAsync]
+		[mutateAsync, t]
 	);
 
 	return (
@@ -53,7 +55,7 @@ export const CreateList: FC = () => {
 						autoFocus
 						className='input-styles'
 						type={InputType.text}
-						placeholder={'Nowa lista'}
+						placeholder={t('new-list')}
 						{...register('title', { required: true })}
 					/>
 					{errors.title && <div className='input-error-styles'>{errors.title?.message}</div>}

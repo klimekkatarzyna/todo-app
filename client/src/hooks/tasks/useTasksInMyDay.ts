@@ -1,15 +1,16 @@
 import { ITask } from '@kkrawczyk/todo-common';
-import { useCallback, useContext, useState } from 'react';
+import { useCallback, useContext } from 'react';
 import toast from 'react-hot-toast';
 import { useMutation, useQueryClient } from 'react-query';
 import { taskInMyDayAction } from '../../api/tasks';
 import { AuthContext, AuthContextType } from '../../AuthProvider';
 import { QueryKey } from '../../enums';
 import { HttpResponse } from '../../utils/http';
+import { useTranslation } from 'react-i18next';
 
 export const useTasksInMyDay = () => {
+	const { t } = useTranslation();
 	const query = useQueryClient();
-	const [isMyDayTask, setIsMyDayTask] = useState<boolean>(false);
 	const { authData } = useContext<AuthContextType>(AuthContext);
 
 	const taskInMyDay = useCallback(
@@ -32,14 +33,12 @@ export const useTasksInMyDay = () => {
 			query.setQueryData<ITask | undefined>([QueryKey.getTask, response.data?._id], (task: ITask | undefined) =>
 				task?._id === response.data?._id ? { ...task, isMyDay: response.data?.isMyDay } : task
 			);
-			toast.success(response.data?.isMyDay ? 'Zadanie dodane do "Mój dzień' : 'Zadanie usunięte z widoku "Mój dzień"');
-			setIsMyDayTask(!isMyDayTask);
+			toast.success(response.data?.isMyDay ? t('task-added-to-myday') : t('task-remove-from-myday'));
 		},
 	});
 
 	return {
 		taskInMyDayMutation,
 		taskInMyDayLoading,
-		isMyDayTask,
 	};
 };

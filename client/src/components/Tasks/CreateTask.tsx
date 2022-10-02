@@ -10,8 +10,10 @@ import { Circle, Loader } from 'react-feather';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { InputType } from '../../interfaces/app';
+import { useTranslation } from 'react-i18next';
 
 export const CreateTask: FC<{ listTheme: AppColor | undefined }> = ({ listTheme }) => {
+	const { t } = useTranslation();
 	const { authData } = useContext<AuthContextType>(AuthContext);
 	const { members, parentFolderId } = useListDetails();
 	const membersArray = [authData?._id].concat(members);
@@ -26,7 +28,7 @@ export const CreateTask: FC<{ listTheme: AppColor | undefined }> = ({ listTheme 
 
 	const { mutateAsync, isLoading } = useMutation(createTaskAction, {
 		onSuccess: () => {
-			toast.success('Zadanie dodane');
+			toast.success(t('added-task'));
 		},
 	});
 
@@ -58,7 +60,7 @@ export const CreateTask: FC<{ listTheme: AppColor | undefined }> = ({ listTheme 
 					autoFocus
 					className='input-styles create-task'
 					type={InputType.text}
-					placeholder={'Dodaj zadanie'}
+					placeholder={t('task-created')}
 					{...register('title', { required: true })}
 				/>
 				{errors.title && <div className='input-error-styles'>{errors.title?.message}</div>}

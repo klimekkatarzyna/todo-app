@@ -8,8 +8,10 @@ import { InputType } from '../../interfaces/app';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Loader } from 'react-feather';
+import { useTranslation } from 'react-i18next';
 
 export const EditTaskName: FC<{ taskData: ITask | undefined }> = ({ taskData }) => {
+	const { t } = useTranslation();
 	const {
 		register,
 		handleSubmit,
@@ -21,7 +23,7 @@ export const EditTaskName: FC<{ taskData: ITask | undefined }> = ({ taskData }) 
 
 	const { mutateAsync, isLoading } = useMutation(editTaskAction, {
 		onSuccess: () => {
-			toast.success('Zadanie zmienione');
+			toast.success(t('task-changed'));
 		},
 	});
 

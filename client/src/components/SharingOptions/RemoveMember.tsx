@@ -6,8 +6,10 @@ import { Loader } from 'react-feather';
 import { ROUTE } from '../../enums';
 import { buildUrl } from '../../utils/paths';
 import { useList } from '../../hooks/useList';
+import { useTranslation } from 'react-i18next';
 
 export const RemoveMember: FC<{ listDataResponse: IList | undefined; onNextStep: () => void }> = ({ listDataResponse, onNextStep }) => {
+	const { t } = useTranslation();
 	const navigate = useNavigate();
 	const { isOwner, authData } = useSharingData(listDataResponse?.userId);
 	const { updateMembersListLoading, updateMembersListMutation } = useList();
@@ -24,14 +26,14 @@ export const RemoveMember: FC<{ listDataResponse: IList | undefined; onNextStep:
 					<button
 						onClick={onNextStep}
 						className='flex p4 cursor-pointer bg-inherit text-center border-none border-y-2 mt-4 mx-auto mb-0 text-red hover:bg-white hover:border'>
-						{'Zarządzaj dostępem'}
+						{t('manage-access')}
 					</button>
 				)
 			) : (
 				<button
 					onClick={leaveList}
 					className='flex p4 cursor-pointer text-blue bg-inherit text-center border-y-2 border-solid mt-4 mx-auto mb-0 hover:bg-white'>
-					{'Opuść listę'}
+					{t('leave-list')}
 					{updateMembersListLoading && <Loader />}
 				</button>
 			)}

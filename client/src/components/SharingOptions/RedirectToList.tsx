@@ -3,8 +3,10 @@ import { Loader } from 'react-feather';
 import { Button } from '../../common/Button/Button';
 import { IShareLitDetails } from '../../api/sharing';
 import { useSwitchToFirstListItem } from '../../hooks/useSwitchToFirstListItem';
+import { useTranslation } from 'react-i18next';
 
 export const RedirectToList: FC<{ list: IShareLitDetails | undefined; listDataLoading: boolean }> = ({ list, listDataLoading }) => {
+	const { t } = useTranslation();
 	const { onHandleSwitchToFirstListItem } = useSwitchToFirstListItem(list?.listData._id);
 
 	const redirectToList = useCallback(() => {
@@ -16,12 +18,11 @@ export const RedirectToList: FC<{ list: IShareLitDetails | undefined; listDataLo
 			<h1 className='text-xl font-extralight m-4'>Już dołączono!</h1>
 
 			<p className='font-extralight'>
-				{listDataLoading ? <Loader className='animate-spin m-auto' /> : `Dołączono już do listy`}{' '}
-				<strong>{`${list?.listData?.title}`}</strong>
+				{listDataLoading ? <Loader className='animate-spin m-auto' /> : t('joined-to-list')} <strong>{`${list?.listData?.title}`}</strong>
 			</p>
 
 			<Button onClick={redirectToList} className='button-primary'>
-				{'Otwórz'}
+				{t('open')}
 			</Button>
 		</>
 	);

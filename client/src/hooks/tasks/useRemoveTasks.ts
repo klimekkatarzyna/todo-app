@@ -9,8 +9,10 @@ import { QueryKey } from '../../enums';
 import { IUseParams } from '../../interfaces/app';
 import { TasksContextMenuContext } from '../../providers/TasksContextMenuProvider';
 import { HttpResponse } from '../../utils/http';
+import { useTranslation } from 'react-i18next';
 
 export const useRemoveTasks = () => {
+	const { t } = useTranslation();
 	const query = useQueryClient();
 	const { authData } = useContext<AuthContextType>(AuthContext);
 	const { taskId, listId } = useParams<IUseParams>();
@@ -31,7 +33,7 @@ export const useRemoveTasks = () => {
 					removeTask(tasks, response)
 				);
 				query.setQueryData<ITask[] | undefined>([QueryKey.tasksList], (tasks: ITask[] | undefined) => removeTask(tasks, response));
-				toast.success('Zadanie usunięte');
+				toast.success(t('task-removed'));
 			},
 		}
 	);

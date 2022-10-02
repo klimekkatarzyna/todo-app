@@ -7,6 +7,7 @@ import { unGroupeListsAction } from '../api/groups';
 import { ContextMenuOpion, QueryKey } from '../enums';
 import { useModal } from '../hooks/useModal';
 import { IData, IHandleContextMenuItemClickProps } from '../interfaces/app';
+import { useTranslation } from 'react-i18next';
 
 export interface ContextMenuType {
 	setContextMenu: React.Dispatch<React.SetStateAction<IData | undefined>>;
@@ -17,6 +18,7 @@ export interface ContextMenuType {
 export const ContextMenuContext = createContext<ContextMenuType>({} as ContextMenuType);
 
 export const ContextMenuProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
+	const { t } = useTranslation();
 	const query = useQueryClient();
 	const [contextualMenu, setContextMenu] = useState<IData | undefined>();
 	const { showModal } = useModal();
@@ -26,7 +28,7 @@ export const ContextMenuProvider: FC<{ children: React.ReactNode }> = ({ childre
 			query.setQueryData<IGroup[] | undefined>([QueryKey.groups], (groups: IGroup[] | undefined) =>
 				groups?.map(group => (group._id === response.data?._id ? { ...group, lists: [] } : group))
 			);
-			toast.success('Listy rozgrupowane');
+			toast.success(t('lists-ungrouped'));
 		},
 	});
 

@@ -1,4 +1,5 @@
 {
-	"editor.defaultFormatter": "esbenp.prettier-vscode",
-	"editor.formatOnSave": true
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "i18next.i18nPaths": "/Users/katarzynaklimek/repo/todo-app/client/src/translations"
 }
