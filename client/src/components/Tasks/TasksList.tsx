@@ -10,8 +10,10 @@ import { ConfirmModal } from '../Modal/ConfirmModal';
 import { useModal } from '../../hooks/useModal';
 import { useRecoilState } from 'recoil';
 import { elementVisibilityState } from '../../atoms/elementVisibility';
+import { useTranslation } from 'react-i18next';
 
 export const TasksList: FC<{ tasks: ITask[] | undefined; redirectUrl: string }> = ({ tasks, redirectUrl }) => {
+	const { t } = useTranslation();
 	const { modalType, hideModal } = useModal();
 	const { removeTaskMutation } = useRemoveTasks();
 	const { tasksContextlMenu } = useContext(TasksContextMenuContext);
@@ -31,11 +33,11 @@ export const TasksList: FC<{ tasks: ITask[] | undefined; redirectUrl: string }> 
 				<TaskItem key={index} task={task} index={index} redirectTo={redirectUrl} />
 			))}
 
-			{!tasks?.length && !match?.pattern.end && <div className='p-2'>{'Brak zadań'}</div>}
+			{!tasks?.length && !match?.pattern.end && <div className='p-2'>{t('no-tasks')}</div>}
 
 			{modalType === ContextMenuOpion.remove_task && (
-				<ConfirmModal title='To zadanie zostanie trwale usunięte' onHandleAction={onRemoveTask}>
-					<span>{'Tej akcji nie można cofnąć'}</span>
+				<ConfirmModal title={t('task-remove-modal')} onHandleAction={onRemoveTask}>
+					<span>{t('task-remove-modal-subtitle')}</span>
 				</ConfirmModal>
 			)}
 		</AutoAnimateWrapper>

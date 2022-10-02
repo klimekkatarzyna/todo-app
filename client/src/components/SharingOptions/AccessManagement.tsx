@@ -6,15 +6,17 @@ import { ArrowLeft } from 'react-feather';
 import { removeInvitationAction } from '../../api/sharing';
 import { QueryKey, ROUTE } from '../../enums';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 
 export const AccessManagement: FC<{ listDataResponse: IList | undefined; onPrevStep: () => void }> = ({ listDataResponse, onPrevStep }) => {
+	const { t } = useTranslation();
 	const query = useQueryClient();
 
 	const { mutate, isLoading } = useMutation(removeInvitationAction, {
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.getListById]);
 			query.invalidateQueries([QueryKey.lists]);
-			toast.success('Udostępnianie zatrzymane');
+			toast.success(t('sharing-stopped'));
 		},
 	});
 
@@ -24,12 +26,12 @@ export const AccessManagement: FC<{ listDataResponse: IList | undefined; onPrevS
 				<ArrowLeft size={20} />
 			</button>
 			<h2 className='text-center'>
-				<strong>Zarządzanie dostępem</strong>
+				<strong>{t('access-management')}</strong>
 			</h2>
-			<h3 className='text-sm text-darkerGrey'>{'Link do zapraszania'}</h3>
+			<h3 className='text-sm text-darkerGrey'>{t('sharing-link')}</h3>
 			<div className='w-80 break-all text-center mb-4 font-extralight'>{`${process.env.REACT_APP_API_URL_LOCAL}${ROUTE.sharing}?invitationToken=${listDataResponse?.invitationToken}`}</div>
 			<Button className='button-secondary' onClick={() => mutate({ _id: listDataResponse?._id })} isLoading={isLoading}>
-				{'Zatrzymaj udostępnianie'}
+				{t('stop-sharing')}
 			</Button>
 		</div>
 	);

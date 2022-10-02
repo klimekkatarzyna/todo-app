@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { X } from 'react-feather';
 import { useModal } from '../../hooks/useModal';
 import { Button } from '../../common/Button/Button';
+import { useTranslation } from 'react-i18next';
 
 interface IModalComponentProps {
 	children?: React.ReactNode;
@@ -12,6 +13,7 @@ interface IModalComponentProps {
 }
 
 export const ConfirmModal: FC<IModalComponentProps> = ({ children, title, onHandleAction, isLoading }) => {
+	const { t } = useTranslation();
 	const { hideModal } = useModal();
 
 	const onHandleActionAndClose = useCallback(() => {
@@ -57,10 +59,10 @@ export const ConfirmModal: FC<IModalComponentProps> = ({ children, title, onHand
 
 				<div className='flex justify-end mt-auto'>
 					<Button onClick={hideModal} className='button-outline'>
-						{'Anuluj'}
+						{t('cancel')}
 					</Button>
 					<Button type='button' className='button-secondary' onClick={onHandleActionAndClose} isLoading={isLoading}>
-						{'Usuń'}
+						{t('delete')}
 					</Button>
 				</div>
 			</div>

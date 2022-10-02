@@ -11,8 +11,10 @@ import toast from 'react-hot-toast';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { InputType } from '../../interfaces/app';
+import { useTranslation } from 'react-i18next';
 
 export const CreateGroup: FC = () => {
+	const { t } = useTranslation();
 	const query = useQueryClient();
 	const { elementeReference, toggleDropdown, dropdownOpen } = useDropdown();
 
@@ -28,18 +30,18 @@ export const CreateGroup: FC = () => {
 	const { mutateAsync, isLoading } = useMutation(createGroup, {
 		onSuccess: async response => {
 			query.setQueryData<IGroup[] | undefined>([QueryKey.groups], groups => [...(groups || []), response.data || {}]);
-			toast.success('Grupa utworzona');
+			toast.success(t('create-group-success'));
 		},
 	});
 
 	const onSubmit: SubmitHandler<IGroup> = useCallback(
 		async data => {
-			const title = isStringContainsOnlyWhitespace(data.title) ? 'Nowa grupa' : data.title;
+			const title = isStringContainsOnlyWhitespace(data.title) ? t('new-group') : data.title;
 			await mutateAsync({ title });
 			setValue('title', '');
 			toggleDropdown();
 		},
-		[toggleDropdown, mutateAsync, setValue]
+		[toggleDropdown, mutateAsync, setValue, t]
 	);
 
 	return (
@@ -58,7 +60,7 @@ export const CreateGroup: FC = () => {
 								autoFocus
 								className='input-styles'
 								type={InputType.text}
-								placeholder={'Grupa bez nazwy'}
+								placeholder={t('group-placeholder')}
 								{...register('title', { required: true })}
 							/>
 							{errors.title && <div className='input-error-styles'>{errors.title?.message}</div>}

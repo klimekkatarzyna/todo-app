@@ -9,6 +9,7 @@ import { Sun } from 'react-feather';
 import { IconUserName } from '../../common/IconUserName/IconUserName';
 import { useTasksStatus } from '../../hooks/tasks/useTasksStatus';
 import { useTaskImportance } from '../../hooks/tasks/useTaskImportance';
+import { useTranslation } from 'react-i18next';
 
 interface ITaskDetailsProps {
 	taskData: ITask | undefined;
@@ -17,14 +18,15 @@ interface ITaskDetailsProps {
 }
 
 const TaskDetailsComponent: FC<ITaskDetailsProps> = ({ taskData, isTaskDetailsView, redirectTo }) => {
+	const { t } = useTranslation();
 	const { changeTaskStatusMutation } = useTasksStatus();
 	const { changeTaskImportanceMutation } = useTaskImportance();
 
 	const isCompleted = useMemo(() => taskData?.taskStatus === ITaskStatus.complete, [taskData]);
 
 	const tooltipText = useMemo(
-		() => (taskData?.taskStatus === ITaskStatus.complete ? 'oznacz jako niewykonane' : 'oznacz jako wykonane'),
-		[taskData]
+		() => (taskData?.taskStatus === ITaskStatus.complete ? t('mark-as-incompleted') : t('mark-as-completed')),
+		[taskData, t]
 	);
 
 	const [isImportanceButtonChecked, setIsImportanceButtonChecked] = useState<boolean>(taskData?.importance === Importance.high);
@@ -74,7 +76,7 @@ const TaskDetailsComponent: FC<ITaskDetailsProps> = ({ taskData, isTaskDetailsVi
 
 				{!isTaskDetailsView && taskData?.isMyDay && (
 					<div className='flex flex-row text-xs items-center'>
-						<Sun className='mr-2 icon-style' /> {'Mój dzień'}
+						<Sun className='mr-2 icon-style' /> {t('my-day')}
 					</div>
 				)}
 			</Link>

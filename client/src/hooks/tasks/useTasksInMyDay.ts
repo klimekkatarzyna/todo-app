@@ -6,8 +6,10 @@ import { taskInMyDayAction } from '../../api/tasks';
 import { AuthContext, AuthContextType } from '../../AuthProvider';
 import { QueryKey } from '../../enums';
 import { HttpResponse } from '../../utils/http';
+import { useTranslation } from 'react-i18next';
 
 export const useTasksInMyDay = () => {
+	const { t } = useTranslation();
 	const query = useQueryClient();
 	const { authData } = useContext<AuthContextType>(AuthContext);
 
@@ -31,7 +33,7 @@ export const useTasksInMyDay = () => {
 			query.setQueryData<ITask | undefined>([QueryKey.getTask, response.data?._id], (task: ITask | undefined) =>
 				task?._id === response.data?._id ? { ...task, isMyDay: response.data?.isMyDay } : task
 			);
-			toast.success(response.data?.isMyDay ? 'Zadanie dodane do "Mój dzień' : 'Zadanie usunięte z widoku "Mój dzień"');
+			toast.success(response.data?.isMyDay ? t('task-added-to-myday') : t('task-remove-from-myday'));
 		},
 	});
 

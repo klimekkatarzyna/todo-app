@@ -9,8 +9,10 @@ import { useRecoilState } from 'recoil';
 import { elementVisibilityState } from '../../atoms/elementVisibility';
 import { useTask } from '../../hooks/tasks/useTask';
 import { useRemoveTasks } from '../../hooks/tasks/useRemoveTasks';
+import { useTranslation } from 'react-i18next';
 
 export const TaskSidebarDetails: FC = () => {
+	const { t } = useTranslation();
 	const location = useLocation();
 	const [, setIsElementVisible] = useRecoilState(elementVisibilityState);
 	const { removeTaskMutation } = useRemoveTasks();
@@ -50,19 +52,19 @@ export const TaskSidebarDetails: FC = () => {
 					<div className='task-details-style'>
 						<div className='task-details-button-style'>
 							<Bell className='mr-2 icon-style' />
-							{'Przypomnij'}
+							{t('remind-action')}
 						</div>
 					</div>
 					<div className='task-details-style'>
 						<div className='task-details-button-style'>
 							<Calendar className='mr-2 icon-style' />
-							{'Dodaj termin wykonania'}
+							{t('add-due-date-action')}
 						</div>
 					</div>
 					<div className='task-details-style mb-6'>
 						<div className='task-details-button-style'>
 							<Repeat className='mr-2 icon-style' />
-							{'Powtórz'}
+							{t('repeat-action')}
 						</div>
 					</div>
 
@@ -71,7 +73,7 @@ export const TaskSidebarDetails: FC = () => {
 					<div className='task-details-style mb-3'>
 						<div className='task-details-button-style'>
 							<FilePlus className='mr-2 icon-style' />
-							{'Dodaj plik'}
+							{t('add-file')}
 						</div>
 					</div>
 

@@ -11,8 +11,10 @@ import { getGroups } from '../api/groups';
 import { updateMembersList } from '../api/sharing';
 import { removeUsersFromTasksAction } from '../api/tasks';
 import { useSwitchToFirstListItem } from './useSwitchToFirstListItem';
+import { useTranslation } from 'react-i18next';
 
 export const useList = () => {
+	const { t } = useTranslation();
 	const query = useQueryClient();
 	const { isLoading: getListsLoading, data: listsQuery } = useQuery<IList[] | undefined>([QueryKey.lists], getListsAction);
 	const { data: groupsQuery } = useQuery<IGroup[] | undefined>(QueryKey.groups, getGroups);
@@ -38,7 +40,7 @@ export const useList = () => {
 			query.setQueryData<IList[] | undefined>([QueryKey.lists], (lists: IList[] | undefined) =>
 				lists?.filter(list => list._id !== response.data?._id)
 			);
-			toast.success('Lista usunięta');
+			toast.success(t('list-removed-success'));
 		},
 	});
 
@@ -49,7 +51,7 @@ export const useList = () => {
 					return { ...task, assigned: undefined };
 				})
 			);
-			toast.success('Przypisania usunięte');
+			toast.success(t('list-assigned-removed-success'));
 		},
 	});
 
@@ -57,7 +59,7 @@ export const useList = () => {
 		onSuccess: async response => {
 			query.invalidateQueries([QueryKey.getListById, response.data?._id]);
 			query.invalidateQueries([QueryKey.lists]);
-			toast.success('Użytkownik usunięty z listy');
+			toast.success(t('user-removed-from-list-success'));
 
 			if (!!response.data?._id) removenUserFromTasksMutation.mutate({ parentFolderId: response.data?._id });
 		},
@@ -74,7 +76,7 @@ export const useList = () => {
 			query.setQueryData<IList[] | undefined>([QueryKey.lists], (lists: IList[] | undefined) =>
 				lists?.map(list => (list._id === response.data?._id ? { ...list, themeColor: response.data?.themeColor } : list))
 			);
-			toast.success(`Motyw zmieniony na ${response.data?.themeColor}`);
+			toast.success(t('theme-changed-success', { theme: response.data?.themeColor }));
 		},
 	});
 
@@ -82,7 +84,7 @@ export const useList = () => {
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.getListById]);
 			query.invalidateQueries([QueryKey.lists]);
-			toast.success('Opuściłeś listę');
+			toast.success(t('list-left-success'));
 			onHandleSwitchToFirstListItem();
 		},
 	});

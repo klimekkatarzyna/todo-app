@@ -11,6 +11,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Loader } from 'react-feather';
 import { InputType } from '../../interfaces/app';
+import { useTranslation } from 'react-i18next';
 
 interface IEditGroupProps {
 	title: string | undefined;
@@ -19,6 +20,7 @@ interface IEditGroupProps {
 }
 
 export const EditGroup: FC<IEditGroupProps> = ({ title, groupId, isNavClosed }) => {
+	const { t } = useTranslation();
 	const query = useQueryClient();
 	const [isInputVisible, setIsInputVisible] = useState(false);
 	const { contextualMenu, setContextMenu } = useContext(ContextMenuContext);
@@ -38,7 +40,7 @@ export const EditGroup: FC<IEditGroupProps> = ({ title, groupId, isNavClosed }) 
 			query.setQueryData<IGroup[] | undefined>([QueryKey.groups], groups =>
 				groups?.map(group => (group._id === response.data?._id ? { ...group, title: response.data?.title } : group))
 			);
-			toast.success('Nazwa grupy zmieniona');
+			toast.success(t('edit-group-success'));
 		},
 	});
 
@@ -68,7 +70,7 @@ export const EditGroup: FC<IEditGroupProps> = ({ title, groupId, isNavClosed }) 
 							autoFocus
 							className='input-styles'
 							type={InputType.text}
-							placeholder={'Grupa bez nazwy'}
+							placeholder={t('group-placeholder')}
 							{...register('title', { required: true })}
 							onFocus={onFocus}
 							defaultValue={title}

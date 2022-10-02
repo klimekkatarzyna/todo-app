@@ -16,7 +16,7 @@
     "@formkit/auto-animate": "^1.0.0-beta.1",
     "@hookform/resolvers": "^2.9.7",
     "@kkrawczyk/todo-common": "1.0.0",
-    "@storybook/react": "^6.5.9",
+    "@storybook/react": "^6.5.12",
     "@styled-icons/feather": "^10.34.0",
     "@tailwindcss/forms": "^0.5.0",
     "@tailwindcss/ui": "^0.7.2",

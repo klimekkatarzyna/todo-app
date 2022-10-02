@@ -57,10 +57,10 @@ export const Register: FC = () => {
 						{t('login')}
 					</Link>
 				</p>
-				0{data?.error && <span className='text-red p-2'>{data?.error}</span>}
+				{data?.error && <span className='text-red p-2'>{data?.error}</span>}
 				<form className='w-full mt-2' onSubmit={handleSubmit(onSubmit)}>
 					<div className='relative flex flex-col'>
-						<label htmlFor='username'>Username</label>
+						<label htmlFor='username'>{t('username')}</label>
 						<input
 							autoFocus
 							className='input-styles'
@@ -77,7 +77,7 @@ export const Register: FC = () => {
 					</div>
 
 					<div className='relative flex mt-2 flex-col'>
-						<label htmlFor='password'>Hasło</label>
+						<label htmlFor='password'>{t('password')}</label>
 						<input
 							className='input-styles'
 							type={showPassword ? InputType.text : InputType.password}
@@ -92,7 +92,7 @@ export const Register: FC = () => {
 					</div>
 
 					<Button type='submit' isLoading={isLoading} className='w-full button-primary mt-6'>
-						Utwórz konto
+						{t('create-account')}
 					</Button>
 				</form>
 			</div>

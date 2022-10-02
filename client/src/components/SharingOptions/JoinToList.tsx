@@ -7,8 +7,10 @@ import { Button } from '../../common/Button/Button';
 import { getStringAfterCharacter } from '../../utils/utilsFunctions';
 import { QueryKey } from '../../enums';
 import { useSwitchToFirstListItem } from '../../hooks/useSwitchToFirstListItem';
+import { useTranslation } from 'react-i18next';
 
 export const JoinToList: FC<{ listDataLoading: boolean; list: IShareLitDetails | undefined }> = ({ listDataLoading, list }) => {
+	const { t } = useTranslation();
 	const query = useQueryClient();
 	const location = useLocation();
 	const { onHandleSwitchToFirstListItem } = useSwitchToFirstListItem(list?.listData._id);
@@ -23,15 +25,18 @@ export const JoinToList: FC<{ listDataLoading: boolean; list: IShareLitDetails |
 
 	return (
 		<>
-			<h1 className='text-xl font-extralight m-4'>Dołącz do listy</h1>
+			<h1 className='text-xl font-extralight m-4'>{t('join-to-list')}</h1>
 
 			<p className='font-extralight'>
-				{listDataLoading ? <Loader className='animate-spin m-auto' /> : `Użytkownik`} <strong>{list?.listData?.owner}</strong> udostępnił Ci
-				listę <strong>{`${list?.listData?.title}`}</strong>
+				{listDataLoading ? <Loader className='animate-spin m-auto' /> : `Użytkownik`}{' '}
+				{t('join-to-list-subtitle', {
+					owner: <strong>{list?.listData?.owner}</strong>,
+					listName: <strong>{`${list?.listData?.title}`}</strong>,
+				})}
 			</p>
 
 			<Button className='button-primary' onClick={() => mutate(getStringAfterCharacter(location.search, '='))}>
-				{'Dołącz do listy'}
+				{t('join-to-list-button')}
 				{isLoading && <Loader className='animate-spin ml-2' />}
 			</Button>
 		</>

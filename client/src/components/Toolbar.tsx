@@ -6,6 +6,7 @@ import { useFocusingHandling } from '../hooks/useMouseHandling';
 import { getDay, getDayName, getMonth } from '../utils/date';
 import { EditListTitle } from './List/EditListTitle';
 import { ListSettings } from './List/ListSettings';
+import { useTranslation } from 'react-i18next';
 
 interface IToolbar {
 	name: string;
@@ -16,6 +17,7 @@ interface IToolbar {
 }
 
 export const Toolbar: FC<IToolbar> = ({ name, colorType, isDateVisible, children, isListItem }) => {
+	const { t } = useTranslation();
 	const date = new Date();
 	const elementRef: RefObject<HTMLInputElement> = useRef(null);
 	const { onClick, onBlur } = useFocusingHandling(elementRef);
@@ -28,7 +30,7 @@ export const Toolbar: FC<IToolbar> = ({ name, colorType, isDateVisible, children
 		<>
 			<div className='mt-2 block md:hidden'>
 				<button className='text-base font-semibold mb-4 print:hidden' onClick={() => setIsVisible(true)}>
-					{'< Listy'}
+					{t('lists')}
 				</button>
 			</div>
 

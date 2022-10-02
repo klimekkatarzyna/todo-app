@@ -17,6 +17,7 @@ import { useGenerateMenuIcon } from '../../hooks/useGenerateMenuIcon';
 import { useRecoilState } from 'recoil';
 import { mobileNavVisibilityState } from '../../atoms';
 import { IUseParams } from '../../interfaces/app';
+import { useTranslation } from 'react-i18next';
 
 interface IMenuListItem {
 	listItem: IList | undefined;
@@ -25,6 +26,7 @@ interface IMenuListItem {
 }
 
 const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed, isMainMenu = false }) => {
+	const { t } = useTranslation();
 	const query = useQueryClient();
 	const { handleItemClick } = useContext(ContextMenuContext);
 	const { displayMenu } = useShowMenuContexify(listItem?._id, isMainMenu);
@@ -54,7 +56,7 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed, isMai
 	const { mutateAsync } = useMutation(addListToGroupAction, {
 		onSuccess: () => {
 			query.invalidateQueries([QueryKey.groups]);
-			toast.success('Lista dodana do grupy');
+			toast.success(t('add-list-to-group-success'));
 		},
 	});
 

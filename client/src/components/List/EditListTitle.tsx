@@ -12,8 +12,10 @@ import { formToEditListTitleVisibilityState } from '../../atoms';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Loader, Plus } from 'react-feather';
+import { useTranslation } from 'react-i18next';
 
 export const EditListTitle: FC<{ title: string; className: string }> = ({ title }) => {
+	const { t } = useTranslation();
 	const query = useQueryClient();
 	const { listId } = useParams<IUseParams>();
 	const [, setIsFormVisible] = useRecoilState(formToEditListTitleVisibilityState);
@@ -39,7 +41,7 @@ export const EditListTitle: FC<{ title: string; className: string }> = ({ title 
 			query.setQueryData<IList[] | undefined>(QueryKey.lists, lists =>
 				lists?.map(list => (list._id === response.data?._id ? { ...list, title: response.data?.title } : list))
 			);
-			toast.success('Nazwa listy zmieniona');
+			toast.success(t('edit-list-title-success'));
 		},
 	});
 

@@ -2,8 +2,10 @@ import { IList } from '@kkrawczyk/todo-common';
 import React, { FC, RefObject, useCallback, useRef } from 'react';
 import { ROUTE } from '../../enums';
 import { Button } from '../../common/Button/Button';
+import { useTranslation } from 'react-i18next';
 
 export const ShareLink: FC<{ listDataResponse: IList | undefined }> = ({ listDataResponse }) => {
+	const { t } = useTranslation();
 	const inputRef: RefObject<HTMLInputElement> = useRef(null);
 
 	const copyToClipboard = useCallback(async (e: React.MouseEvent) => {
@@ -37,7 +39,7 @@ export const ShareLink: FC<{ listDataResponse: IList | undefined }> = ({ listDat
 				name='shareLink'
 			/>
 			<Button onClick={copyToClipboard} className='button-primary mt-4'>
-				{'Kopiuj link'}
+				{t('copy-link')}
 			</Button>
 		</div>
 	);
