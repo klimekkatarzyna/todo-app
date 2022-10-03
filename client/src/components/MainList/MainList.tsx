@@ -2,34 +2,35 @@ import { FC, memo } from 'react';
 import { MenuListItem } from '../MenuListItem/MenuListItem';
 import { AppColor, IList } from '@kkrawczyk/todo-common';
 import { ROUTE } from '../../enums';
+import i18next from '../../i18n';
 
 const constantMenuList = [
 	{
-		title: 'Mój dzień',
+		title: i18next.t('my-day'),
 		url: ROUTE.myDay,
 		isMainList: true,
 		themeColor: AppColor.dark,
 	},
 	{
-		title: 'Ważne',
+		title: i18next.t('important-title'),
 		url: ROUTE.important,
 		isMainList: true,
 		themeColor: AppColor.dark,
 	},
 	{
-		title: 'Zaplanowane',
+		title: i18next.t('planned-title'),
 		url: ROUTE.planned,
 		isMainList: true,
 		themeColor: AppColor.blue,
 	},
 	{
-		title: 'Przydzielone dla Ciebie',
+		title: i18next.t('assigned-title'),
 		url: ROUTE.assigned,
 		isMainList: true,
 		themeColor: AppColor.dark,
 	},
 	{
-		title: 'Zadania',
+		title: i18next.t('tasks-title'),
 		url: ROUTE.inbox,
 		isMainList: true,
 		themeColor: AppColor.red,

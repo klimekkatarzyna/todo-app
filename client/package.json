@@ -1,149 +1,149 @@
 {
-  "name": "@kkrawczyk/todo-ui",
-  "version": "1.0.0",
-  "private": true,
-  "main": "",
-  "author": "Katarzyna Krawczyk",
-  "dependencies": {
-    "@babel/core": "^7.15.5",
-    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.14.5",
-    "@babel/plugin-proposal-optional-chaining": "^7.14.5",
-    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
-    "@babel/polyfill": "^7.12.1",
-    "@babel/preset-env": "^7.15.6",
-    "@babel/preset-react": "^7.14.5",
-    "@babel/preset-typescript": "^7.15.0",
-    "@formkit/auto-animate": "^1.0.0-beta.1",
-    "@hookform/resolvers": "^2.9.7",
-    "@kkrawczyk/todo-common": "1.0.0",
-    "@storybook/react": "^6.5.12",
-    "@styled-icons/feather": "^10.34.0",
-    "@tailwindcss/forms": "^0.5.0",
-    "@tailwindcss/ui": "^0.7.2",
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^13.3.0",
-    "@testing-library/user-event": "^12.1.10",
-    "@types/bcryptjs": "^2.4.2",
-    "@types/cookie-parser": "^1.4.2",
-    "@types/cors": "^2.8.12",
-    "@types/jest": "^27.4.1",
-    "@types/jsonwebtoken": "^8.5.8",
-    "@types/mongoose": "^5.11.97",
-    "@types/node": "^17.0.21",
-    "@types/react": "^17.0.0",
-    "@types/react-dom": "^17.0.0",
-    "@types/react-router-dom": "^5.3.3",
-    "@types/socket.io-client": "^3.0.0",
-    "@types/uuid": "^8.3.4",
-    "babel-jest": "26.6.0",
-    "babel-plugin-styled-components": "^1.13.2",
-    "babel-polyfill": "^6.26.0",
-    "bcryptjs": "^2.4.3",
-    "cookie-parser": "^1.4.5",
-    "cors": "^2.8.5",
-    "dayjs": "^1.11.0",
-    "fuse.js": "^6.6.1",
-    "history": "^5.0.1",
-    "husky": "^7.0.4",
-    "i18next": "^21.9.2",
-    "jsonwebtoken": "^8.5.1",
-    "lint-staged": "^12.1.2",
-    "mongoose": "^6.2.6",
-    "nodemon": "^2.0.15",
-    "playwright": "^1.21.1",
-    "rc-dropdown": "^4.0.1",
-    "react": "^17.0.2",
-    "react-contexify": "^5.0.0",
-    "react-docgen-typescript": "^2.1.0",
-    "react-dom": "^17.0.2",
-    "react-feather": "^2.0.9",
-    "react-hook-form": "^7.34.2",
-    "react-hot-toast": "^2.2.0",
-    "react-i18next": "^11.18.6",
-    "react-query": "^3.25.1",
-    "react-router-dom": "^6.3.0",
-    "react-scripts": "^5.0.0",
-    "react-universal-component": "^4.5.0",
-    "recoil": "^0.6.1",
-    "socket.io": "^4.4.1",
-    "socket.io-client": "^4.4.1",
-    "source-map-explorer": "^2.5.2",
-    "tailwindcss": "^3.0.23",
-    "typescript": "^4.5.2",
-    "uuid": "^8.3.2",
-    "web-vitals": "^1.0.1",
-    "yup": "^0.32.11"
-  },
-  "scripts": {
-    "start": "PORT=8080 react-scripts start",
-    "build": "yarn workspace @kkrawczyk/todo-common build && react-scripts build",
-    "test": "react-scripts test",
-    "test:watch": "yarn jest --watch",
-    "eject": "react-scripts eject",
-    "server-run": "PORT=3000 nodemon server/app.js",
-    "worskpace-run": "yarn workspaces run todo-common",
-    "storybook": "start-storybook -p 6007 -s public",
-    "build-storybook": "build-storybook -s public",
-    "analyze": "source-map-explorer 'build/static/js/*.js'"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ],
-    "rules": {
-      "no-useless-escape": "off"
-    },
-    "overrides": [
-      {
-        "files": [
-          "**/*.stories.*"
-        ],
-        "rules": {
-          "import/no-anonymous-default-export": "off"
-        }
-      }
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "devDependencies": {
-    "@playwright/test": "^1.25.1",
-    "@storybook/addon-actions": "^6.5.9",
-    "@storybook/addon-essentials": "^6.5.9",
-    "@storybook/addon-interactions": "^6.5.9",
-    "@storybook/addon-links": "^6.5.9",
-    "@storybook/builder-webpack5": "^6.5.9",
-    "@storybook/manager-webpack5": "^6.5.9",
-    "@storybook/node-logger": "^6.5.9",
-    "@storybook/preset-create-react-app": "^4.1.2",
-    "@storybook/testing-library": "^0.0.13",
-    "@types/express": "^4.17.13",
-    "autoprefixer": "^10.4.2",
-    "babel-plugin-named-exports-order": "^0.0.2",
-    "postcss": "^8.4.8",
-    "prettier": "2.5.0",
-    "prop-types": "^15.8.1",
-    "webpack": "^5.73.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
-      "prettier --write"
-    ]
-  }
+	"name": "@kkrawczyk/todo-ui",
+	"version": "1.0.0",
+	"private": true,
+	"main": "",
+	"author": "Katarzyna Krawczyk",
+	"dependencies": {
+		"@babel/core": "^7.15.5",
+		"@babel/plugin-proposal-nullish-coalescing-operator": "^7.14.5",
+		"@babel/plugin-proposal-optional-chaining": "^7.14.5",
+		"@babel/plugin-syntax-dynamic-import": "^7.8.3",
+		"@babel/polyfill": "^7.12.1",
+		"@babel/preset-env": "^7.15.6",
+		"@babel/preset-react": "^7.14.5",
+		"@babel/preset-typescript": "^7.15.0",
+		"@formkit/auto-animate": "^1.0.0-beta.1",
+		"@hookform/resolvers": "^2.9.7",
+		"@kkrawczyk/todo-common": "1.0.0",
+		"@storybook/react": "^6.5.12",
+		"@styled-icons/feather": "^10.34.0",
+		"@tailwindcss/forms": "^0.5.0",
+		"@tailwindcss/ui": "^0.7.2",
+		"@testing-library/jest-dom": "^5.11.4",
+		"@testing-library/react": "^13.3.0",
+		"@testing-library/user-event": "^12.1.10",
+		"@types/bcryptjs": "^2.4.2",
+		"@types/cookie-parser": "^1.4.2",
+		"@types/cors": "^2.8.12",
+		"@types/jest": "^27.4.1",
+		"@types/jsonwebtoken": "^8.5.8",
+		"@types/mongoose": "^5.11.97",
+		"@types/node": "^17.0.21",
+		"@types/react": "^17.0.0",
+		"@types/react-dom": "^17.0.0",
+		"@types/react-router-dom": "^5.3.3",
+		"@types/socket.io-client": "^3.0.0",
+		"@types/uuid": "^8.3.4",
+		"babel-jest": "26.6.0",
+		"babel-plugin-styled-components": "^1.13.2",
+		"babel-polyfill": "^6.26.0",
+		"bcryptjs": "^2.4.3",
+		"cookie-parser": "^1.4.5",
+		"cors": "^2.8.5",
+		"dayjs": "^1.11.0",
+		"fuse.js": "^6.6.1",
+		"history": "^5.0.1",
+		"husky": "^7.0.4",
+		"i18next": "^21.9.2",
+		"jsonwebtoken": "^8.5.1",
+		"lint-staged": "^12.1.2",
+		"mongoose": "^6.2.6",
+		"nodemon": "^2.0.15",
+		"playwright": "^1.21.1",
+		"rc-dropdown": "^4.0.1",
+		"react": "^17.0.2",
+		"react-contexify": "^5.0.0",
+		"react-docgen-typescript": "^2.1.0",
+		"react-dom": "^17.0.2",
+		"react-feather": "^2.0.9",
+		"react-hook-form": "^7.34.2",
+		"react-hot-toast": "^2.2.0",
+		"react-i18next": "^11.18.6",
+		"react-query": "^3.25.1",
+		"react-router-dom": "^6.3.0",
+		"react-scripts": "^5.0.0",
+		"react-universal-component": "^4.5.0",
+		"recoil": "^0.6.1",
+		"socket.io": "^4.4.1",
+		"socket.io-client": "^4.4.1",
+		"source-map-explorer": "^2.5.2",
+		"tailwindcss": "^3.0.23",
+		"typescript": "^4.5.2",
+		"uuid": "^8.3.2",
+		"web-vitals": "^1.0.1",
+		"yup": "^0.32.11"
+	},
+	"scripts": {
+		"start": "PORT=8080 react-scripts start",
+		"build": "yarn workspace @kkrawczyk/todo-common build && react-scripts build",
+		"test": "react-scripts test",
+		"test:watch": "yarn jest --watch",
+		"eject": "react-scripts eject",
+		"server-run": "PORT=3000 nodemon server/app.js",
+		"worskpace-run": "yarn workspaces run todo-common",
+		"storybook": "start-storybook -p 6007 -s public",
+		"build-storybook": "build-storybook -s public",
+		"analyze": "source-map-explorer 'build/static/js/*.js'"
+	},
+	"eslintConfig": {
+		"extends": [
+			"react-app",
+			"react-app/jest"
+		],
+		"rules": {
+			"no-useless-escape": "off"
+		},
+		"overrides": [
+			{
+				"files": [
+					"**/*.stories.*"
+				],
+				"rules": {
+					"import/no-anonymous-default-export": "off"
+				}
+			}
+		]
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	},
+	"devDependencies": {
+		"@playwright/test": "^1.25.1",
+		"@storybook/addon-actions": "^6.5.9",
+		"@storybook/addon-essentials": "^6.5.9",
+		"@storybook/addon-interactions": "^6.5.9",
+		"@storybook/addon-links": "^6.5.9",
+		"@storybook/builder-webpack5": "^6.5.9",
+		"@storybook/manager-webpack5": "^6.5.9",
+		"@storybook/node-logger": "^6.5.9",
+		"@storybook/preset-create-react-app": "^4.1.2",
+		"@storybook/testing-library": "^0.0.13",
+		"@types/express": "^4.17.13",
+		"autoprefixer": "^10.4.2",
+		"babel-plugin-named-exports-order": "^0.0.2",
+		"postcss": "^8.4.8",
+		"prettier": "2.5.0",
+		"prop-types": "^15.8.1",
+		"webpack": "^5.73.0"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged"
+		}
+	},
+	"lint-staged": {
+		"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+			"prettier --write"
+		]
+	}
 }

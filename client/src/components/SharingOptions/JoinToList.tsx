@@ -30,8 +30,8 @@ export const JoinToList: FC<{ listDataLoading: boolean; list: IShareLitDetails |
 			<p className='font-extralight'>
 				{listDataLoading ? <Loader className='animate-spin m-auto' /> : `Użytkownik`}{' '}
 				{t('join-to-list-subtitle', {
-					owner: <strong>{list?.listData?.owner}</strong>,
-					listName: <strong>{`${list?.listData?.title}`}</strong>,
+					owner: list?.listData?.owner,
+					listName: list?.listData?.title,
 				})}
 			</p>
 

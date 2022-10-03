@@ -1,9 +1,11 @@
-import React, { FC, useMemo } from 'react';
+import { FC, useMemo } from 'react';
 import { Star } from 'react-feather';
 import { Tooltip } from '../Tooltip/Tooltip';
+import { useTranslation } from 'react-i18next';
 
 export const ImportanceButton: FC<{ isChecked: boolean; onClick: () => void }> = ({ isChecked, onClick }) => {
-	const tooltipText = useMemo(() => (!isChecked ? 'Oznacz zadanie jako wazne' : 'Usuń ważność'), [isChecked]);
+	const { t } = useTranslation();
+	const tooltipText = useMemo(() => (!isChecked ? t('mark-as-completed') : t('remove-importance')), [isChecked, t]);
 
 	return (
 		<button onClick={onClick} className='relative border-none bg-inherit'>

@@ -19,7 +19,7 @@ import { NotFound } from './pages/NotFound';
 export const BrowserRouter: FC = () => {
 	return (
 		<Routes>
-			<Route path='/' element={<Layout />}>
+			<Route path={ROUTE.home} element={<Layout />}>
 				<Route
 					path={ROUTE.home}
 					element={
@@ -84,14 +84,14 @@ export const BrowserRouter: FC = () => {
 						</PrivateRoute>
 					}></Route>
 				<Route
-					path={`${ROUTE.listsDetails}`}
+					path={ROUTE.listsDetails}
 					element={
 						<PrivateRoute>
 							<Tasks />
 						</PrivateRoute>
 					}></Route>
 				<Route
-					path={`${ROUTE.tasks}/:listId/:taskId`}
+					path={ROUTE.tasks}
 					element={
 						<PrivateRoute>
 							<Tasks />

@@ -9,6 +9,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { buildUrl } from './utils/paths';
 import toast from 'react-hot-toast';
 
+const errorCode = 401;
+
 export interface AuthContextType {
 	isCheckSessionLoading: boolean;
 	authData: IUserData | undefined;
@@ -21,6 +23,11 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({ children }) =>
 	const [authData, setAuthData] = useState<IUserData | undefined>(undefined);
 	const navigate = useNavigate();
 	const location = useLocation();
+
+	const navigateTo = useMemo(
+		() => (location.pathname === ROUTE.home && authData === undefined ? ROUTE.login : location.pathname),
+		[location.pathname, authData]
+	);
 
 	const query = useQueryClient();
 
@@ -39,21 +46,21 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({ children }) =>
 			queries: {
 				refetchOnWindowFocus: false,
 				onError: (error: any): any => {
-					if (error?.error === 401) {
+					if (error?.error === errorCode) {
 						setAuthData(undefined);
 						navigate(buildUrl(ROUTE.login), { replace: true });
 					}
-					if (error?.error === 401) return;
+					if (error?.error === errorCode) return;
 					toast.error(error?.message);
 				},
 			},
 			mutations: {
 				onError: (error: any): any => {
-					if (error?.error === 401) {
+					if (error?.error === errorCode) {
 						setAuthData(undefined);
 						navigate(buildUrl(ROUTE.login), { replace: true });
 					}
-					if (error?.error === 401) return;
+					if (error?.error === errorCode) return;
 					toast.error(error?.message);
 				},
 			},
@@ -66,7 +73,7 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({ children }) =>
 			setAuthData(data.data?.user);
 		} else {
 			setAuthData(undefined);
-			navigate(location.pathname, { replace: true });
+			navigate(navigateTo, { replace: true });
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [data]);

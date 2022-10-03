@@ -92,6 +92,7 @@
 	"task-changed": "Zadanie zmienione",
 	"mark-as-completed": "oznacz jako wykonane",
 	"mark-as-incompleted": "oznacz jako niewykonane",
+	"remove-importance": "Usuń ważność",
 	"sorted-by": "posortowane według: ",
 	"no-tasks": "Brak zadań",
 	"task-remove-modal": "To zadanie zostanie trwale usunięte",
