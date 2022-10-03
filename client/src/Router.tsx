@@ -19,7 +19,7 @@ import { NotFound } from './pages/NotFound';
 export const BrowserRouter: FC = () => {
 	return (
 		<Routes>
-			<Route path='/' element={<Layout />}>
+			<Route path={ROUTE.home} element={<Layout />}>
 				<Route
 					path={ROUTE.home}
 					element={
