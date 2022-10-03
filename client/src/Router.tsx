@@ -84,14 +84,14 @@ export const BrowserRouter: FC = () => {
 						</PrivateRoute>
 					}></Route>
 				<Route
-					path={`${ROUTE.listsDetails}`}
+					path={ROUTE.listsDetails}
 					element={
 						<PrivateRoute>
 							<Tasks />
 						</PrivateRoute>
 					}></Route>
 				<Route
-					path={`${ROUTE.tasks}/:listId/:taskId`}
+					path={ROUTE.tasks}
 					element={
 						<PrivateRoute>
 							<Tasks />
