@@ -83,8 +83,9 @@
 		"storybook": "start-storybook -p 6007 -s public",
 		"build-storybook": "build-storybook -s public",
 		"analyze": "source-map-explorer 'build/static/js/*.js'",
-		"run-tests": "npx playwright test --workers=1",
-		"lint": "eslint ./src/**/*.ts"
+		"run-tests": "CI=true npx playwright test --workers=1",
+		"lint": "eslint ./src/**/*.ts",
+		"precommit": "lint-staged"
 	},
 	"eslintConfig": {
 		"extends": [
@@ -144,6 +145,7 @@
 	},
 	"lint-staged": {
 		"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+			"run-tests",
 			"prettier --write"
 		]
 	}
