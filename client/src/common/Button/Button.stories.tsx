@@ -1,13 +1,14 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { Button } from './Button';
 import 'tailwindcss/tailwind.css';
+import '../../index.css';
 
 export default {
 	title: 'Example/Button',
 	component: Button,
 } as ComponentMeta<typeof Button>;
 
-const PrimaryTemplate: ComponentStory<typeof Button> = args => <Button {...args} className='button-primary' />;
+const PrimaryTemplate: ComponentStory<typeof Button> = args => <Button {...args} className='button-primary bg-blue' />;
 
 export const Primary = PrimaryTemplate.bind({});
 Primary.args = {
@@ -15,7 +16,7 @@ Primary.args = {
 	children: 'Button',
 };
 
-const SecondaryTemplate: ComponentStory<typeof Button> = args => <Button {...args} className='button-secondary' />;
+const SecondaryTemplate: ComponentStory<typeof Button> = args => <Button {...args} className='button-secondary bg-red' />;
 
 export const Secondary = SecondaryTemplate.bind({});
 Secondary.args = {

@@ -1,6 +1,7 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { RegularModal } from './RegularModal';
 import 'tailwindcss/tailwind.css';
+import { RecoilRoot } from 'recoil';
 
 export default {
 	title: 'Example/Modal',
@@ -8,9 +9,11 @@ export default {
 } as ComponentMeta<typeof RegularModal>;
 
 const Template: ComponentStory<typeof RegularModal> = args => (
-	<div className='mt-10 w-[200px]'>
-		<RegularModal {...args} />
-	</div>
+	<RecoilRoot>
+		<div className='mt-10 w-[200px]'>
+			<RegularModal {...args} />
+		</div>
+	</RecoilRoot>
 );
 
 export const Regular = Template.bind({});

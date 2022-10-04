@@ -1,6 +1,6 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { Checkbox } from './Checkbox';
-import 'tailwindcss/tailwind.css';
+import '../../index.css';
 
 export default {
 	title: 'Example/Checkbox',
