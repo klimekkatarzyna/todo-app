@@ -77,14 +77,15 @@
 	"scripts": {
 		"start": "PORT=8080 react-scripts start",
 		"build": "yarn workspace @kkrawczyk/todo-common build && react-scripts build",
-		"test": "react-scripts test",
-		"test:watch": "yarn jest --watch",
 		"eject": "react-scripts eject",
 		"server-run": "PORT=3000 nodemon server/app.js",
 		"worskpace-run": "yarn workspaces run todo-common",
 		"storybook": "start-storybook -p 6007 -s public",
 		"build-storybook": "build-storybook -s public",
-		"analyze": "source-map-explorer 'build/static/js/*.js'"
+		"analyze": "source-map-explorer 'build/static/js/*.js'",
+		"run-tests": "CI=true npx playwright test --workers=1",
+		"lint": "eslint ./src/**/*.ts",
+		"precommit": "lint-staged"
 	},
 	"eslintConfig": {
 		"extends": [
@@ -138,11 +139,13 @@
 	},
 	"husky": {
 		"hooks": {
-			"pre-commit": "lint-staged"
+			"pre-commit": "lint-staged",
+			"pre-push": "CI=true npx playwright test --workers=1"
 		}
 	},
 	"lint-staged": {
 		"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+			"run-tests",
 			"prettier --write"
 		]
 	}

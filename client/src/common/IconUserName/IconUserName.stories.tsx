@@ -1,6 +1,6 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { IconUserName } from './IconUserName';
-import 'tailwindcss/tailwind.css';
+import '../../index.css';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 const queryClient = new QueryClient();

@@ -35,7 +35,7 @@ const MenuListItemComponent: FC<IMenuListItem> = ({ listItem, isNavClosed, isMai
 	const { listId } = useParams<IUseParams>();
 
 	useEffect(() => {
-		sessionStorage.setItem('taskSortedType', 'title');
+		sessionStorage.setItem('taskSortedType', sessionStorage.getItem('taskSortedType') as SortTaskString);
 	}, [listId]);
 
 	const { data } = useQuery<ITask[] | undefined>(

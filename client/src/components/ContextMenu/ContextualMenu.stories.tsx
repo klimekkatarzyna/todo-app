@@ -1,6 +1,6 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { ContextMenuComponent } from './ContextMenuComponent';
-import 'tailwindcss/tailwind.css';
+import '../../index.css';
 import { contextualMenuSecountOpion } from '../../constants';
 
 export default {

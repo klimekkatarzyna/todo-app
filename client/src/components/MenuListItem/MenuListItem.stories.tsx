@@ -1,10 +1,11 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { MenuListItem } from './MenuListItem';
-import 'tailwindcss/tailwind.css';
+import '../../index.css';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter } from 'react-router-dom';
 import { AppColor } from '@kkrawczyk/todo-common';
 import { SideMenu } from '../../enums';
+import { RecoilRoot } from 'recoil';
 
 const queryClient = new QueryClient();
 
@@ -15,9 +16,11 @@ export default {
 
 const Template: ComponentStory<typeof MenuListItem> = args => (
 	<QueryClientProvider client={queryClient}>
-		<BrowserRouter>
-			<MenuListItem {...args} />
-		</BrowserRouter>
+		<RecoilRoot>
+			<BrowserRouter>
+				<MenuListItem {...args} />
+			</BrowserRouter>
+		</RecoilRoot>
 	</QueryClientProvider>
 );
 

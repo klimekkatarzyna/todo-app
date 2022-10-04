@@ -1,6 +1,6 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { Tooltip } from './Tooltip';
-import 'tailwindcss/tailwind.css';
+import '../../index.css';
 
 export default {
 	title: 'Example/Tooltip',
