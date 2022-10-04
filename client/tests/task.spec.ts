@@ -21,10 +21,6 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.afterAll(async ({ page }) => {
-	await page.locator('#list-items div:has-text("Lista 1") >> nth=1').click();
-	await page.locator('button:has-text(". . .")').click();
-	await page.locator('.list-settings-remove').press('Enter');
-
 	await page.close();
 });
 

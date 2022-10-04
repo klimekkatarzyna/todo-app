@@ -25,13 +25,13 @@ test.describe('Register user', () => {
 		await page.locator('input[name="password"]').fill('Test1234');
 		await page.locator('button:has-text("Utwórz konto")').click();
 		await expect(page.locator('a:has-text("To Do")')).toBeVisible();
-		await page.locator('button:has-text("Logout")').click();
+		await page.locator('button:has-text("Wyloguj")').click();
 	});
 });
 
 test.describe('Login user', () => {
 	test('should use data for already registered user', async ({ page }) => {
 		await shouleLoginToApp({ page });
-		await page.locator('button:has-text("Logout")').click();
+		await page.locator('button:has-text("Wyloguj")').click();
 	});
 });

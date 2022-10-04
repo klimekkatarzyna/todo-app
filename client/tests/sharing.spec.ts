@@ -47,7 +47,7 @@ test.describe('list sharing', () => {
 		await expect(newPage.locator('a:has-text("To Do")')).toBeVisible();
 		await expect(newPage.locator('#list-items > a.list-link > div > div > div.list-title:has-text("Lista 1")')).toContainText(['Lista 1']);
 
-		await newPage.locator('button:has-text("Logout")').click();
+		await newPage.locator('button:has-text("Wyloguj")').click();
 		await newPage.close();
 	});
 
