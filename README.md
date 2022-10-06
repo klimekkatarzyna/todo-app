@@ -2,7 +2,7 @@
 
 Clone of Microsoft todo list.
 
-<img width="1440" alt="Zrzut ekranu 2022-08-19 o 13 40 21" src="[https://github.com/klimekkatarzyna/todo-app/issues/2#issue-1344449923](https://github.com/klimekkatarzyna/todo-app/issues/2#issue-1344449923)">
+![frame_chrome_mac_light](https://user-images.githubusercontent.com/16631618/194290194-a65666e9-28df-4178-aa55-25cbcf26790d.png)
 
 ## Demo version
 
